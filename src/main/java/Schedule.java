@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * This class represents a distinct collection of sessions.
- * Class Scheduler stores sessions in order to keep track of possible schedules.
+ * Class Scheduler stores these in order to keep track of possible schedules.
  */
 
 public class Schedule {
