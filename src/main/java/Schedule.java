@@ -50,10 +50,20 @@ public class Schedule {
     public void addLecture(Session lecture) {
         if (this.lectures.isEmpty()) {
             this.lectures.add(lecture);
+        } else if (this.lectures.size() == 1) {
+            if (this.lectures.get(0).compareTo(lecture) < 0) {
+                this.lectures.add(lecture);
+            } else {
+                this.lectures.add(0, lecture);
+            }
         } else {
             for (int i = 0; i < this.lectures.size() - 1; i ++) {
-
+                // Check the order of the items
+                if (this.lectures.get(i).compareTo(lecture) < 0) {
+                    // swap with after 
+                }
             }
+
         }
     }
 
