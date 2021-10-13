@@ -1,0 +1,3 @@
+The user inputs that they want to take CSC207 and CSC236, and also that they are fine having conflicts in their schedules. This is input through the CLI, which is implemented in our controller class. The controller parses both requested courses & the conflicts allowed criteria, and gives them to Scheduler.
+
+Scheduler uses the APIWorker to query the API for course information, which populates Courses with lecture & tutorial Sessions. and creates all possible courses that meet the criteria. These are then output, and ICS files are created for each. 
