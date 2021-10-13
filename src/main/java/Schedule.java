@@ -60,7 +60,9 @@ public class Schedule {
             for (int i = 0; i < this.lectures.size() - 1; i ++) {
                 // Check the order of the items
                 if (this.lectures.get(i).compareTo(lecture) < 0) {
-                    // swap with after 
+                    
+
+
                 }
             }
 
