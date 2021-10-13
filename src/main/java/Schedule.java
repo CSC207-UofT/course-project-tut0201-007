@@ -43,6 +43,31 @@ public class Schedule {
         return tutorials;
     }
 
+    /**
+     * Mutate the lectures list by adding lecture sessions in chronological order
+     * @param lecture is a lecture session
+     */
+    public void addLecture(Session lecture) {
+        if (this.lectures.isEmpty()) {
+            this.lectures.add(lecture);
+        } else {
+            for (int i = 0; i < this.lectures.size() - 1; i ++) {
+
+            }
+        }
+    }
+
+    /**
+     * Mutate the tutorials list by adding lecture sessions in chronological order
+     * @param tutorial is a tutorial sesstion
+     */
+    public void addTutorial(Session tutorial) {
+        if (this.tutorials.isEmpty()) {
+            this.tutorials.add(tutorial);
+        } else {
+
+        }
+    }
 
     /**
      * String representation of this class.
