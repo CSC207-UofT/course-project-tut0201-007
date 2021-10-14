@@ -18,6 +18,4 @@ public class Scheduler {
     public Schedule generateSchedule() {
         return new Schedule();
     }
-
-
 }

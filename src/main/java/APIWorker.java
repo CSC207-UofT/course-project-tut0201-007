@@ -1,45 +1,28 @@
 import com.google.gson.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.HashMap;
+import java.io.IOException;
 
 public class APIWorker {
-    private final String api_template =
-            "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
+    private final String id;
     String course_JSON;
+    JsonObject info;
 
-    public APIWorker(String new_id) {
-        this.course_JSON = api_template.replace("COURSENAME", new_id);
+    public APIWorker(String new_id) throws IOException {
+        this.id = new_id;
+        this.info = readUrl().getAsJsonObject();
     }
 
-    private static String readUrl(String urlString) throws Exception {
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuffer buffer = new StringBuffer();
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1) buffer.append(chars, 0, read);
+    private JsonElement readUrl() throws IOException {
+        String api_template =
+                "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
 
-            return buffer.toString();
-        } finally {
-            if (reader != null) reader.close();
+        try(java.io.InputStream is = new java.net.URL(api_template.replace("COURSENAME", this.id)).openStream()) {
+            String contents = new String(is.readAllBytes());
+            return JsonParser.parseString(contents);
         }
-    }
-
-    public void main(String[] args) throws Exception {
-        String json = readUrl(this.course_JSON);
-        Gson payload = new Gson();
-        HashMap<String, Object> map = new HashMap<>();
-        map = (HashMap<String, Object>) payload.fromJson(json, map.getClass());
-
-        System.out.println(map);
     }
 
     @Override
     public String toString() {
-        return String.format(this.course_JSON);
+        return this.course_JSON;
     }
 }
