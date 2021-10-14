@@ -7,3 +7,9 @@ The user selects a generated schedule, and the program generates ICS invites tha
 
 Additional Possible Features:
 * Use Distance between class sessions to support Criteria like "Walking distance must be less than 10 minutes between sessions".
+
+Comments:
+- Details about the entire app (as much as possible)
+- Use cases (CLI commands, example, expected behaviour)
+- "Granular"
+- Features + functionality

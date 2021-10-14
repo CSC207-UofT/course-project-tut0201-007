@@ -16,7 +16,7 @@ public class Session implements Comparable<Session> {
 
     /**
      * Constructs a session with an id and location
-     *  @param sessionId        given id
+     * @param sessionId        given id
      * @param assignedRoom     given location (room code)
      * @param sessionStartTime given start time
      * @param sessionEndTime   given end time
