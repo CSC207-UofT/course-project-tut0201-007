@@ -14,6 +14,10 @@ public class Scheduler {
         this.schedules = schedules;
     }
 
+    /**
+     * Returns a generated schedule
+     * @return a Schedule
+     * **/
     public Schedule generateSchedule() {
         return new Schedule();
     }
