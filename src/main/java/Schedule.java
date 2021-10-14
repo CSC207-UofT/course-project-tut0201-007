@@ -7,12 +7,6 @@ import java.util.ArrayList;
 
 public class Schedule {
 
-    //TODO: Make sessions comparable by time and put these in chronological order.
-    /**
-     * This is important as it makes Schedules easily comparable,
-     * and keeps the insertion of new sessions easy.
-     */
-
     private final ArrayList<Session> lectures;
     private final ArrayList<Session> tutorials;
 
@@ -51,21 +45,20 @@ public class Schedule {
         if (this.lectures.isEmpty()) {
             this.lectures.add(lecture);
         } else if (this.lectures.size() == 1) {
+            // if lecture in list is before the lecture to be added
             if (this.lectures.get(0).compareTo(lecture) < 0) {
                 this.lectures.add(lecture);
             } else {
                 this.lectures.add(0, lecture);
             }
         } else {
-            for (int i = 0; i < this.lectures.size() - 1; i ++) {
-                // Check the order of the items
-                if (this.lectures.get(i).compareTo(lecture) < 0) {
-                    
-
-
+            for (int i = 0; i < this.lectures.size(); i ++) {
+                if (this.lectures.get(i).compareTo(lecture) < 0 && i != this.lectures.size() - 1) {
+                    this.lectures.add(i + 1, lecture);
+                    return;
                 }
             }
-
+            this.lectures.add(lecture);
         }
     }
 
@@ -76,8 +69,21 @@ public class Schedule {
     public void addTutorial(Session tutorial) {
         if (this.tutorials.isEmpty()) {
             this.tutorials.add(tutorial);
+        } else if (this.tutorials.size() == 1) {
+            // if tutorial in list is before the tutorial to be added
+            if (this.tutorials.get(0).compareTo(tutorial) < 0) {
+                this.tutorials.add(tutorial);
+            } else {
+                this.tutorials.add(0, tutorial);
+            }
         } else {
-
+            for (int i = 0; i < this.tutorials.size(); i ++) {
+                if (this.tutorials.get(i).compareTo(tutorial) < 0 && i != this.lectures.size() - 1) {
+                    this.tutorials.add(i + 1, tutorial);
+                    return;
+                }
+            }
+            this.tutorials.add(tutorial);
         }
     }
 
