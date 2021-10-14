@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * worker is created for each class, and stores all API data.
  */
 public class APIWorker {
-    private final String id;
     JsonObject info;
     ArrayList<String> semester;
 
@@ -17,8 +16,7 @@ public class APIWorker {
      * @param new_id is the course id passed in, i.e. CSC207
      */
     public APIWorker(String new_id) throws IOException {
-        this.id = new_id;
-        this.info = readUrl().getAsJsonObject();
+        this.info = readUrl(new_id).getAsJsonObject();
         this.semester = new ArrayList<>(this.info.keySet());
     }
 
@@ -27,22 +25,17 @@ public class APIWorker {
      *
      * @return The JsonElement obtained from the API url
      */
-    private JsonElement readUrl() throws IOException {
+    private static JsonElement readUrl(String courseId) throws IOException {
         String api_template =
                 "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
 
         try (java.io.InputStream is =
-                new java.net.URL(api_template.replace("COURSENAME", this.id)).openStream()) {
+                new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
             String contents = new String(is.readAllBytes());
             return JsonParser.parseString(contents);
         }
     }
 
-    /**
-     * String representation of this class.
-     *
-     * @return The string representation of the class.
-     */
     @Override
     public String toString() {
         return this.semester.toString();
