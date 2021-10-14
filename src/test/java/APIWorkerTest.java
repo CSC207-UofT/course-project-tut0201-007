@@ -1,9 +1,8 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class APIWorkerTest {
     APIWorker getter237;

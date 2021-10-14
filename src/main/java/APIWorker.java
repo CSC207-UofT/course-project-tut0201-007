@@ -3,11 +3,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This class represents an API Worker.
- * The class is meant to be used to interact with the API. A worker is created for each class, and stores
- * all API data.
+ * This class represents an API Worker. The class is meant to be used to interact with the API. A
+ * worker is created for each class, and stores all API data.
  */
-
 public class APIWorker {
     private final String id;
     JsonObject info;
@@ -15,6 +13,7 @@ public class APIWorker {
 
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.
+     *
      * @param new_id is the course id passed in, i.e. CSC207
      */
     public APIWorker(String new_id) throws IOException {
@@ -25,6 +24,7 @@ public class APIWorker {
 
     /**
      * Function that reads a valid url and turns it into a java JsonElement.
+     *
      * @return The JsonElement obtained from the API url
      */
     private JsonElement readUrl() throws IOException {
@@ -40,6 +40,7 @@ public class APIWorker {
 
     /**
      * String representation of this class.
+     *
      * @return The string representation of the class.
      */
     @Override
