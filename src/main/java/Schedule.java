@@ -1,30 +1,27 @@
 import java.util.ArrayList;
 
 /**
- * This class represents a distinct collection of sessions.
- * Class Scheduler stores these in order to keep track of possible schedules.
+ * This class represents a distinct collection of sessions. Class Scheduler stores these in order to
+ * keep track of possible schedules.
  */
-
 public class Schedule {
 
     private final ArrayList<Session> lectures;
     private final ArrayList<Session> tutorials;
 
-    /**
-     * No parameter constructor that creates empty ArrayLists of lecture and tutorial
-     * sessions.
-     */
-    public Schedule () {
+    /** No parameter constructor that creates empty ArrayLists of lecture and tutorial sessions. */
+    public Schedule() {
         this.lectures = new ArrayList<>();
         this.tutorials = new ArrayList<>();
     }
 
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.
+     *
      * @param lectures is the set of lecture sessions in this schedule
      * @param tutorials is the set of tutorial sessions in this schedule
      */
-    public Schedule(ArrayList<Session> lectures, ArrayList<Session> tutorials){
+    public Schedule(ArrayList<Session> lectures, ArrayList<Session> tutorials) {
         this.lectures = lectures;
         this.tutorials = tutorials;
     }
@@ -39,6 +36,7 @@ public class Schedule {
 
     /**
      * Mutate the lectures list by adding lecture sessions in chronological order
+     *
      * @param lecture is a lecture session
      */
     public void addLecture(Session lecture) {
@@ -52,7 +50,7 @@ public class Schedule {
                 this.lectures.add(0, lecture);
             }
         } else {
-            for (int i = 0; i < this.lectures.size(); i ++) {
+            for (int i = 0; i < this.lectures.size(); i++) {
                 if (this.lectures.get(i).compareTo(lecture) < 0 && i != this.lectures.size() - 1) {
                     this.lectures.add(i + 1, lecture);
                     return;
@@ -64,6 +62,7 @@ public class Schedule {
 
     /**
      * Mutate the tutorials list by adding lecture sessions in chronological order
+     *
      * @param tutorial is a tutorial sesstion
      */
     public void addTutorial(Session tutorial) {
@@ -77,8 +76,9 @@ public class Schedule {
                 this.tutorials.add(0, tutorial);
             }
         } else {
-            for (int i = 0; i < this.tutorials.size(); i ++) {
-                if (this.tutorials.get(i).compareTo(tutorial) < 0 && i != this.lectures.size() - 1) {
+            for (int i = 0; i < this.tutorials.size(); i++) {
+                if (this.tutorials.get(i).compareTo(tutorial) < 0
+                        && i != this.lectures.size() - 1) {
                     this.tutorials.add(i + 1, tutorial);
                     return;
                 }
@@ -89,27 +89,26 @@ public class Schedule {
 
     /**
      * String representation of this class.
+     *
      * @return The string representation of the class.
      */
     @Override
     public String toString() {
-        return "Schedule{" +
-                "lectures=" + lectures +
-                ", tutorials=" + tutorials +
-                '}';
+        return "Schedule{" + "lectures=" + lectures + ", tutorials=" + tutorials + '}';
     }
 
     /**
      * Returns true if two Schedule objects have the same lecture and tutorial Sessions.
      *
-     * Checks equality of the instances of ArrayList between 'this' and 'o'.
+     * <p>Checks equality of the instances of ArrayList between 'this' and 'o'.
+     *
      * @param o is an arbitrary object
      */
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (o instanceof Schedule) {
-            return this.lectures.equals(((Schedule) o).getLectures()) &&
-                    this.tutorials.equals(((Schedule) o).getTutorials());
+            return this.lectures.equals(((Schedule) o).getLectures())
+                    && this.tutorials.equals(((Schedule) o).getTutorials());
         }
         return false;
     }
