@@ -1,14 +1,10 @@
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-/**
- * This class represents a session, which occupies a timeslot on a schedule
- */
-
-
+/** This class represents a session, which occupies a timeslot on a schedule */
 public class Session implements Comparable<Session> {
 
-    private final String sessionId;
+    private final String sessionType;
     private final String assignedRoom;
     private final LocalTime sessionStartTime;
     private final LocalTime sessionEndTime;
@@ -16,39 +12,49 @@ public class Session implements Comparable<Session> {
 
     /**
      * Constructs a session with an id and location
-     * @param sessionId        given id
-     * @param assignedRoom     given location (room code)
+     *
+     * @param sessionType given Type (lec/tut)
+     * @param assignedRoom given location (room code)
      * @param sessionStartTime given start time
-     * @param sessionEndTime   given end time
-     * @param sessionDay       given day
+     * @param sessionEndTime given end time
+     * @param sessionDay given day
      */
-    public Session(String sessionId, String assignedRoom,
-                   LocalTime sessionStartTime, LocalTime sessionEndTime, DayOfWeek sessionDay) {
-        this.sessionId = sessionId;
+    public Session(
+            String sessionType,
+            String assignedRoom,
+            LocalTime sessionStartTime,
+            LocalTime sessionEndTime,
+            DayOfWeek sessionDay) {
+        this.sessionType = sessionType;
         this.assignedRoom = assignedRoom;
         this.sessionStartTime = sessionStartTime;
         this.sessionEndTime = sessionEndTime;
         this.sessionDay = sessionDay;
     }
 
-    /**
-     * Returns a string representation of the session
-     */
+    /** Returns a string representation of the session */
     @Override
     public String toString() {
-        return this.sessionId + " in " + this.assignedRoom + " from " +
-                this.sessionStartTime.toString() + " to " + this.sessionEndTime.toString();
+        return this.sessionType
+                + " in "
+                + this.assignedRoom
+                + " from "
+                + this.sessionStartTime.toString()
+                + " to "
+                + this.sessionEndTime.toString()
+                + " on "
+                + this.sessionDay;
     }
 
     /**
      * Compares this session with another session for order.
      *
-     * Returns a negative integer, zero, or a positive integer if this
-     * session is before, overlapping, or after than the other session.
+     * <p>Returns a negative integer, zero, or a positive integer if this session is before,
+     * overlapping, or after than the other session.
      *
      * @param other the object to be compared.
-     * @return a negative integer, zero, or a positive integer if this
-     * session is before, overlapping, or after than the other session.
+     * @return a negative integer, zero, or a positive integer if this session is before,
+     *     overlapping, or after than the other session.
      */
     public int compareTo(Session other) {
         if (!this.sessionDay.equals(other.sessionDay)) {
@@ -62,9 +68,7 @@ public class Session implements Comparable<Session> {
         }
     }
     /**
-     * If s1, s2 are sessions, then
-     * s1 < s2 iff s1 is before s2, and they do not conflict
-     * s1 == s2 iff s1 and s2 conflict
-     * s1 > s2 iff s1 is after s2 and they do not conflict.
+     * If s1, s2 are sessions, then s1 < s2 iff s1 is before s2, and they do not conflict s1 == s2
+     * iff s1 and s2 conflict s1 > s2 iff s1 is after s2 and they do not conflict.
      */
 }
