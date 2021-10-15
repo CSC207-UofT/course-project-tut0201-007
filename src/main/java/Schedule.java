@@ -87,23 +87,11 @@ public class Schedule {
         }
     }
 
-    /**
-     * String representation of this class.
-     *
-     * @return The string representation of the class.
-     */
     @Override
     public String toString() {
         return "Schedule{" + "lectures=" + lectures + ", tutorials=" + tutorials + '}';
     }
 
-    /**
-     * Returns true if two Schedule objects have the same lecture and tutorial Sessions.
-     *
-     * <p>Checks equality of the instances of ArrayList between 'this' and 'o'.
-     *
-     * @param o is an arbitrary object
-     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Schedule) {
