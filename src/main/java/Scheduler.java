@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Scheduler {
+
     private final ArrayList courses;
     private final ArrayList schedules;
 
@@ -17,6 +18,4 @@ public class Scheduler {
     public Schedule generateSchedule() {
         return new Schedule();
     }
-
-
 }
