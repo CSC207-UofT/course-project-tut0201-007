@@ -1,3 +1,5 @@
+package web;
+
 import com.google.gson.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,8 +9,8 @@ import java.util.ArrayList;
  * worker is created for each class, and stores all API data.
  */
 public class APIWorker {
-    JsonObject info;
-    ArrayList<String> semester;
+    private JsonObject info;
+    private ArrayList<String> semester;
 
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.
@@ -18,6 +20,22 @@ public class APIWorker {
     public APIWorker(String new_id) throws IOException {
         this.info = readUrl(new_id).getAsJsonObject();
         this.semester = new ArrayList<>(this.info.keySet());
+    }
+
+    /**
+     *
+     * @return API Data for the course
+     */
+    public JsonObject getInfo() {
+        return info;
+    }
+
+    /**
+     *
+     * @return Semester the course is offered in
+     */
+    public ArrayList<String> getSemester() {
+        return semester;
     }
 
     /**

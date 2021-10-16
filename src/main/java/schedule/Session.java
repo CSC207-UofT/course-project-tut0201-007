@@ -1,3 +1,5 @@
+package schedule;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 

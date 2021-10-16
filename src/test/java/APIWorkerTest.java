@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
+import web.APIWorker;
 
 public class APIWorkerTest {
     APIWorker getter237;
@@ -21,14 +22,14 @@ public class APIWorkerTest {
         // Checking that the code is what it should be in the Json object variable info
         assertEquals(
                 expected,
-                getter237.info.get("MAT237Y1-Y-20219").getAsJsonObject().get("code").getAsString());
+                getter237.getInfo().get("MAT237Y1-Y-20219").getAsJsonObject().get("code").getAsString());
     }
 
     @Test(timeout = 50)
     public void testStringRep() {
         String expected = "MAT237Y1-Y-20219";
         // Just checking that the semester key in the JSON is good
-        assertEquals(expected, getter237.semester.get(0));
+        assertEquals(expected, getter237.getSemester().get(0));
     }
 
     @Test(timeout = 50)
@@ -37,6 +38,6 @@ public class APIWorkerTest {
         expected.add("MAT244H1-F-20219");
         expected.add("MAT244H1-S-20219");
         // Just checking that the semester keys in the JSON are good
-        assertEquals(expected, getter244.semester);
+        assertEquals(expected, getter244.getSemester());
     }
 }

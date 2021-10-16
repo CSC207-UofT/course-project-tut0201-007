@@ -1,7 +1,9 @@
+package schedule;
+
 import java.util.ArrayList;
 
 /**
- * This class represents a distinct collection of sessions. Class Scheduler stores these in order to
+ * This class represents a distinct collection of sessions. Class schedule.Scheduler stores these in order to
  * keep track of possible schedules.
  */
 public class Schedule {
@@ -89,7 +91,7 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return "Schedule{" + "lectures=" + lectures + ", tutorials=" + tutorials + '}';
+        return "schedule.Schedule{" + "lectures=" + lectures + ", tutorials=" + tutorials + '}';
     }
 
     @Override

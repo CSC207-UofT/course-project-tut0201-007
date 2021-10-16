@@ -1,11 +1,17 @@
+package commands;
+
 import com.google.gson.*;
+import web.APIWorker;
+
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
+import schedule.Course;
+import schedule.Session;
 
-/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
+/** This class represents a schedule.Course Creator. This class uses web.APIWorker to generate schedule.Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -20,14 +26,14 @@ public class CourseCreator {
      * Generates a course given a courseId.
      *
      * @param courseId the id of the course to be created.
-     * @return a Course object
+     * @return a schedule.Course object
      */
     public Course generateCourse(String courseId) throws IOException {
         APIWorker apiWorker = new APIWorker(courseId);
         String courseCode =
                 apiWorker
-                        .info
-                        .get(apiWorker.semester.get(0))
+                        .getInfo()
+                        .get(apiWorker.getSemester().get(0))
                         .getAsJsonObject()
                         .get("code")
                         .getAsString();
@@ -39,16 +45,16 @@ public class CourseCreator {
     /**
      * Reads through the JSON and returns all the sessions of a given type.
      *
-     * @param apiWorker the APIWorker for the given course
+     * @param apiWorker the web.APIWorker for the given course
      * @param type the type of session, either a lecture or tutorial
-     * @return an ArrayList of Session objects
+     * @return an ArrayList of schedule.Session objects
      */
     private static ArrayList<Session> getSessionsByType(APIWorker apiWorker, String type) {
         ArrayList<Session> specifiedSessions = new ArrayList<>();
         JsonObject meetings =
                 apiWorker
-                        .info
-                        .get(apiWorker.semester.get(0))
+                        .getInfo()
+                        .get(apiWorker.getSemester().get(0))
                         .getAsJsonObject()
                         .get("meetings")
                         .getAsJsonObject();
@@ -71,7 +77,7 @@ public class CourseCreator {
      * @param type the type of session, either a lecture or tutorial
      * @param timeslot the provided timeslot, which is a JsonObject containing information about the
      *     session
-     * @return a Session object
+     * @return a schedule.Session object
      */
     private static Session generateSession(String type, JsonObject timeslot) {
         String room = timeslot.get("assignedRoom1").getAsString();
