@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ScheduleCreatorTest {
-    ScheduleCreator scheduleCreator = new ScheduleCreator();
+public class SchedulerTest {
+    Scheduler scheduleCreator = new Scheduler();
     CourseCreator courseCreator = new CourseCreator();
     ArrayList<String> codes = new ArrayList<>();
     Course course1;
