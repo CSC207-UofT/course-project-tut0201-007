@@ -53,6 +53,7 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
   * Progress Report
 * To Work on:
   * Improving CourseCreator and Course classes to allow for greater user specification
+  * Redesigning Session as an abstract class, and making SyncSession and AsyncSession
   * Creating different user specifications, e.g. timeslot restrictions, conflicts, physical distance etc.
 ## Siddarth
 * Worked On:
