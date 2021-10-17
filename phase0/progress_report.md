@@ -1,7 +1,6 @@
 # Specification Summary
 
 TODO after updated specification
-
 # CRC Model Summary
 * Controller:
   * CommandLine, maps user input to calling commands
@@ -17,20 +16,16 @@ TODO after updated specification
   * CourseCreator: Populates new Course Object using APIWorker
   * Scheduler: Generates Schedules using filters
   * IcsCreator: Create ICS file for a Session
-
 # Scenario Walk-Through Summary
 The program takes User Input of 2 courses, parses the courses with **CommandLine**, and creates a Schedule with Scheduler, and outputs the schedule to the CLI. It also uses CourseCreator to create a Course for one of the courses, and outputs that course to the CLI.
 
 # Open Questions
 * Is there a way we can use our Filters to make the schedule generation more efficient? Right now we plan to get all permutations, and check if they meet our Filter's specifications after.
 * What would be the best way to structure our Session and Course objects to allow for useful user specifications?
-* What optimization methods would work well for this project? Caching? Multi-threading? Run time analysis?
 
 # What's Worked Well so Far
 * The GitHub Projects tool has been especially helpful in organizing tasks and distributing the workload so that everyone is on the same page. It has also been a good place to plan future ideas for the project that can be implemented in later phases.
 * The University of Toronto API has worked well. The API provides a lot of information about courses, which makes the schedule creator program's ability to generate schedules based on user specification far more powerful and flexible.
-* Meeting consistently outside of tutorial time, even over voice calls, has proved to be incredibly useful in terms of getting everybody onto the same page and updating on work.
-
 # Group Member Work Overview
 
 **TODO**: Put "a brief summary of what each group member has been working on and what they plan to work on next.". Make sure formatting matches between different people.
@@ -44,21 +39,19 @@ Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt 
   * Progress Report
 * To Work on:
   * Create UseCase for converting Session (ICSCreator)
-  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc.
+  * Implement TimeFilter
 ## Rory
 * Worked On:
   * Course, Session, CourseCreator
   * Progress Report
 * To Work on:
   * Improving CourseCreator and Course classes to allow for greater user specification
-  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc.
-## Siddarth
+  * Creating different user specifications, e.g. timeslot restrictions, conflicts, physical distance etc.
+## Lorena 
 * Worked On:
-  * APIWorker
-  * Specification, Progress Report
-* To Work on:
-  * Improving run time for permutation generation
-  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc. 
-
-
-
+ * CRC cards
+ * Schedule methods and tests 
+ * Progress Report 
+ * Refactoring
+* To Work On:
+ * 
