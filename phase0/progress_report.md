@@ -47,6 +47,13 @@ Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt 
 * To Work on:
   * Improving CourseCreator and Course classes to allow for greater user specification
   * Creating different user specifications, e.g. timeslot restrictions, conflicts, physical distance etc.
+## Siddarth
+* Worked On:
+  * APIWorker
+  * Specification, Progress Report
+* To Work on:
+  * Improving run time for permutation generation
+  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc. 
 ## Lorena 
 * Worked On:
  * CRC cards
