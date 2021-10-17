@@ -30,6 +30,14 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 
 **TODO**: Put "a brief summary of what each group member has been working on and what they plan to work on next.". Make sure formatting matches between different people.
 
+## Anton
+* Worked On:
+  * Scheduler, Schedule, Session 
+  * Progress Report
+* To Work on:
+  * Making Scheduler generate all permutations.
+  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc.
+  * Grouping sessions for distinct lecture sections for courses.
 ## Kenneth
 * Worked On:
   * CRC Cards
@@ -39,11 +47,25 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 * To Work on:
   * Create UseCase for converting Session (ICSCreator)
   * Implement TimeFilter & other filters
-* ## Rory
+## Rory
 * Worked On:
   * Course, Session, CourseCreator
   * Progress Report
 * To Work on:
   * Improving CourseCreator and Course classes to allow for greater user specification
   * Creating different user specifications, e.g. timeslot restrictions, conflicts, physical distance etc.
-
+## Siddarth
+* Worked On:
+  * APIWorker
+  * Specification, Progress Report
+* To Work on:
+  * Improving run time for permutation generation
+  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc. 
+## Lorena 
+* Worked On:
+ * CRC cards
+ * Schedule methods and tests 
+ * Progress Report 
+ * Refactoring
+* To Work On:
+ * 
