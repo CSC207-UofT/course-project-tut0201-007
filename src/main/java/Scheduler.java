@@ -15,8 +15,8 @@ public class Scheduler {
 
     /**
      * Constructs a Scheduler with the given courses and schedules
-     * @param courses A list of courses
-     * @param schedules A list of schedules
+     * @param courses list of courses
+     * @param schedules list of schedules
      */
     public Scheduler(ArrayList<Course> courses, ArrayList<Schedule> schedules) {
         this.courses = courses;
