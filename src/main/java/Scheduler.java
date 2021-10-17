@@ -41,6 +41,7 @@ public class Scheduler {
                  * the lectures and tutorials within the schedule.
                  */
                 new_course = courseCreator.generateCourse(courseCode);
+                System.out.println(new_course);
                 schedule.addLecture(new_course.getLectures().get(0));
                 schedule.addTutorial(new_course.getTutorials().get(0));
             } catch (IOException exception) {

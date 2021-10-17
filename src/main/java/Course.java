@@ -30,4 +30,19 @@ public class Course {
     public ArrayList<Session> getTutorials() {
         return tutorials;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder ret = new StringBuilder();
+        ret.append(courseId + "\nLectures:\n");
+        String tab = "    ";
+        for (Session lec: lectures) {
+            ret.append(tab + lec.toString() + "\n");
+        }
+        ret.append("Tutorials:\n");
+        for (Session tut: tutorials) {
+            ret.append(tab + tut.toString() + "\n");
+        }
+        return ret.toString();
+    }
 }

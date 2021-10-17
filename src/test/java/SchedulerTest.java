@@ -37,7 +37,7 @@ public class SchedulerTest {
         assertEquals(expected, schedule.toString());
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 1500)
     public void testGenerateMultiCourseSchedule() {
         Schedule schedule = scheduleCreator.createBasicSchedule(codes);
 

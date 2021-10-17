@@ -70,3 +70,10 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 * To Work On:
   * Making `addLecture` and `addTutorial` methods more efficient 
   * Implementing methods for schedule generation based on filters 
+## Baker
+* Worked On:
+  * Progress report
+  * CommandLineInterface class
+* To Work On
+  * Implementing effective scheduling and possibly multithreading
+  * Making CLI more interactive, with the ability to upload txt file of classes
