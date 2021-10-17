@@ -24,11 +24,11 @@ public class Course {
     }
 
     public ArrayList<Session> getLectures() {
-        return this.lectures;
+        return lectures;
     }
 
     public ArrayList<Session> getTutorials() {
-        return this.tutorials;
+        return tutorials;
     }
 
     @Override
