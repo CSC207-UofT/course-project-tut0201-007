@@ -1,9 +1,11 @@
 # Specification Summary
+Our project domain is a Scheduling App for U of T courses which lets you filter schedules by your criteria.
 
-TODO after updated specification
+The project works by taking User Input regarding courses they want, and filters for the schedule through the CLI. We use the U of T Academic Calendar for the Tutorial & Lecture sections for each requested course, and generate Schedules that meet the criteria. The User selects a generated schedule through the CLI, and then generates .ics invites for the sections.
+
 # CRC Model Summary
 * Controller:
-  * CommandLine, maps user input to calling commands
+  * CommandLineInterface, maps user input to calling commands
 * Entities:
   * Schedule: Stores Lectures & Tutorials in schedule, and can add either Lecture or Tutorial
   * Course: Stores Lectures, Sessions, courseID for a course
@@ -17,7 +19,7 @@ TODO after updated specification
   * Scheduler: Generates Schedules using filters
   * IcsCreator: Create ICS file for a Session
 # Scenario Walk-Through Summary
-The program takes User Input of 2 courses, parses the courses with **CommandLine**, and creates a Schedule with Scheduler, and outputs the schedule to the CLI. It also uses CourseCreator to create a Course for one of the courses, and outputs that course to the CLI.
+The program takes User Input through the CLI. It takes the number of courses the User wants to take, and the Course Codes for courses the user wants to take. It parses the courses with **CommandLineInterface**, and creates a **Schedule** containing the desired courses with **Scheduler**, and outputs the **Schedule** to the CLI. **Scheduler** uses **CourseCreator** to instantiate a **Course** for each course, and outputs the courses to the CLI. **CourseCreator** uses info from **APIWorker**, which queries the U of T Academic Calendar API for information for a single course.
 
 # Open Questions
 * Is there a way we can use our Filters to make the schedule generation more efficient? Right now we plan to get all permutations, and check if they meet our Filter's specifications after.
@@ -28,7 +30,6 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 * The University of Toronto API has worked well. The API provides a lot of information about courses, which makes the schedule creator program's ability to generate schedules based on user specification far more powerful and flexible.
 # Group Member Work Overview
 
-**TODO**: Put "a brief summary of what each group member has been working on and what they plan to work on next.". Make sure formatting matches between different people.
 
 ## Anton
 * Worked On:
