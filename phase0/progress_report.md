@@ -21,6 +21,8 @@ The project works by taking User Input regarding courses they want, and filters 
 # Scenario Walk-Through Summary
 The program takes User Input through the CLI. It takes the number of courses the User wants to take, and the Course Codes for courses the user wants to take. It parses the courses with **CommandLineInterface**, and creates a **Schedule** containing the desired courses with **Scheduler**, and outputs the **Schedule** to the CLI. **Scheduler** uses **CourseCreator** to instantiate a **Course** for each course, and outputs the courses to the CLI. **CourseCreator** uses info from **APIWorker**, which queries the U of T Academic Calendar API for information for a single course.
 
+For our walk-through, we used the example of wanting to input 2 courses, and wanting to take CSC258 and MAT237.
+
 # Open Questions
 * Is there a way we can use our Filters to make the schedule generation more efficient? Right now we plan to get all permutations, and check if they meet our Filter's specifications after.
 * What would be the best way to structure our Session and Course objects to allow for useful user specifications?
