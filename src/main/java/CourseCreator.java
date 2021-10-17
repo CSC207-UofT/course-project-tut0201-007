@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 /** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
@@ -53,7 +54,17 @@ public class CourseCreator {
                         .get("meetings")
                         .getAsJsonObject();
         for (String meeting : meetings.keySet()) {
-            if (meeting.contains(type)) {
+            if (meeting.contains(type)
+                    && meetings.get(meeting)
+                            .getAsJsonObject()
+                            .get("cancel")
+                            .getAsString()
+                            .equals("")
+                    && !meetings.get(meeting)
+                            .getAsJsonObject()
+                            .get("deliveryMode")
+                            .getAsString()
+                            .equals("ONLASYNC")) {
                 JsonObject timeslots =
                         meetings.get(meeting).getAsJsonObject().get("schedule").getAsJsonObject();
                 for (String timeslot : timeslots.keySet()) {
@@ -61,6 +72,15 @@ public class CourseCreator {
                             generateSession(type, timeslots.get(timeslot).getAsJsonObject()));
                 }
             }
+        }
+        if (specifiedSessions.isEmpty()) {
+            specifiedSessions.add(
+                    new Session(
+                            type,
+                            "ONLINE",
+                            LocalTime.parse("00:00"),
+                            LocalTime.parse("00:00"),
+                            DayOfWeek.SATURDAY));
         }
         return specifiedSessions;
     }
@@ -75,6 +95,9 @@ public class CourseCreator {
      */
     private static Session generateSession(String type, JsonObject timeslot) {
         String room = timeslot.get("assignedRoom1").getAsString();
+        if (Objects.equals(room, "")) {
+            room = "ONLINE";
+        }
         LocalTime startTime = LocalTime.parse(timeslot.get("meetingStartTime").getAsString());
         LocalTime endTime = LocalTime.parse(timeslot.get("meetingEndTime").getAsString());
         DayOfWeek day = toDay.get(timeslot.get("meetingDay").getAsString());

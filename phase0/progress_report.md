@@ -56,6 +56,7 @@ For our walk-through, we used the example of wanting to input 2 courses, and wan
   * Progress Report
 * To Work on:
   * Improving CourseCreator and Course classes to allow for greater user specification
+  * Redesigning Session as an abstract class, and making SyncSession and AsyncSession
   * Creating different user specifications, e.g. timeslot restrictions, conflicts, physical distance etc.
 ## Siddarth
 * Worked On:
