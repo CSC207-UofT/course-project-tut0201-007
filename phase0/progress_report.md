@@ -40,7 +40,7 @@ Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt 
 * To Work on:
   * Create UseCase for converting Session (ICSCreator)
   * Implement TimeFilter
-* ## Rory
+## Rory
 * Worked On:
   * Course, Session, CourseCreator
   * Progress Report
