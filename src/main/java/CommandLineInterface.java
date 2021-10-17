@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CommandLineInterface {
@@ -15,17 +16,14 @@ public class CommandLineInterface {
                 System.out.println("Please give an integer input");
             }
         }
-        CourseCreator b = new CourseCreator();
+        ArrayList<String> courses = new ArrayList<>();
         for (int a = 0; a < numCourses; a++) {
             System.out.println("Please give the name of one of your courses");
             String course = scanner.nextLine();
-            try {
-                Course c = b.generateCourse(course);
-                System.out.println(c);
-            } catch (Exception IOException) {
-                System.out.println("Please enter a valid course code");
-            }
+            courses.add(course);
         }
+        Scheduler s = new Scheduler();
+        System.out.println(s.createBasicSchedule(courses));
         scanner.close();
     }
 }
