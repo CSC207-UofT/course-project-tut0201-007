@@ -31,6 +31,14 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 **TODO**: Put "a brief summary of what each group member has been working on and what they plan to work on next.". Make sure formatting matches between different people.
 
 Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt they care if work gets shifted around later
+## Anton
+* Worked On:
+  * Scheduler, Schedule, Session 
+  * Progress Report
+* To Work on:
+  * Making Scheduler generate all permutations.
+  * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc.
+  * Grouping sessions for distinct lecture sections for courses.
 ## Kenneth
 * Worked On:
   * CRC Cards
