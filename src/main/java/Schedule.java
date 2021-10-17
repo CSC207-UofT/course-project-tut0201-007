@@ -89,7 +89,16 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return "Schedule{" + "lectures=" + lectures + ", tutorials=" + tutorials + '}';
+        StringBuilder representation = new StringBuilder("Schedule: \n\n");
+        representation.append("Lectures\n");
+        for (Session s : this.lectures) {
+            representation.append(s.toString()).append("\n");
+        }
+        representation.append("\nTutorials\n");
+        for (Session s : this.tutorials) {
+            representation.append(s.toString()).append("\n");
+        }
+        return representation.toString();
     }
 
     @Override
