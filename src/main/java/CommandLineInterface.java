@@ -7,7 +7,7 @@ public class CommandLineInterface {
         Boolean input = false;
         int numCourses = 0;
         while (!input) {
-            System.out.println("How many courses would you like inforamtion for?");
+            System.out.println("How many courses would you like information for?");
             try {
                 numCourses = Integer.parseInt(scanner.nextLine());
                 input = true;
