@@ -11,7 +11,7 @@ public class Session implements Comparable<Session> {
     private final DayOfWeek sessionDay;
 
     /**
-     * Constructs a session with an id and location
+     * Constructs a Session with an id and location
      *
      * @param sessionType given Type (lec/tut)
      * @param assignedRoom given location (room code)
