@@ -30,7 +30,6 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 
 **TODO**: Put "a brief summary of what each group member has been working on and what they plan to work on next.". Make sure formatting matches between different people.
 
-Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt they care if work gets shifted around later
 ## Kenneth
 * Worked On:
   * CRC Cards
@@ -39,7 +38,7 @@ Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt 
   * Progress Report
 * To Work on:
   * Create UseCase for converting Session (ICSCreator)
-  * Implement TimeFilter
+  * Implement TimeFilter & other filters
 * ## Rory
 * Worked On:
   * Course, Session, CourseCreator
