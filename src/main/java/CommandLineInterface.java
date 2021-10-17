@@ -18,7 +18,7 @@ public class CommandLineInterface {
         }
         ArrayList<String> courses = new ArrayList<>();
         for (int a = 0; a < numCourses; a++) {
-            System.out.println("Please give the name of one of your courses");
+            System.out.println("Please give the course code of one of your courses");
             String course = scanner.nextLine();
             courses.add(course);
         }
