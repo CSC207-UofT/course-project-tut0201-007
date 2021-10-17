@@ -24,6 +24,7 @@ Creates a schedule object, populated with permutations from the course objects.
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
 ### CLI Commands:
+```schedule```
 
 
 ### Potential Additions for Future Phases:
