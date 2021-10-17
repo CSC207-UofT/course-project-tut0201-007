@@ -25,6 +25,7 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
 
 # What's Worked Well so Far
 * The GitHub Projects tool has been especially helpful in organizing tasks and distributing the workload so that everyone is on the same page. It has also been a good place to plan future ideas for the project that can be implemented in later phases.
+* The University of Toronto API has worked well. The API provides a lot of information about courses, which makes the schedule creator program's ability to generate schedules based on user specification far more powerful and flexible.
 # Group Member Work Overview
 
 **TODO**: Put "a brief summary of what each group member has been working on and what they plan to work on next.". Make sure formatting matches between different people.
@@ -39,7 +40,6 @@ Also, like you can BS the "To Work on" as long as it sounds reasonable. I doubt 
 * To Work on:
   * Create UseCase for converting Session (ICSCreator)
   * Implement TimeFilter
-  * 
 * ## Rory
 * Worked On:
   * Course, Session, CourseCreator
