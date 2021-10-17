@@ -42,8 +42,12 @@ public class Scheduler {
                  */
                 new_course = courseCreator.generateCourse(courseCode);
                 System.out.println(new_course);
-                schedule.addLecture(new_course.getLectures().get(0));
-                schedule.addTutorial(new_course.getTutorials().get(0));
+                if(!new_course.getLectures().isEmpty()){
+                    schedule.addLecture(new_course.getLectures().get(0));
+                }
+                else if(!new_course.getTutorials().isEmpty()){
+                    schedule.addTutorial(new_course.getTutorials().get(0));
+                }
             } catch (IOException exception) {
                 /**
                  * In case something goes wrong with the API for a specific course code, we print the code
