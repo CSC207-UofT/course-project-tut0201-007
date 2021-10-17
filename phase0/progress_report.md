@@ -63,9 +63,10 @@ The program takes User Input of 2 courses, parses the courses with **CommandLine
   * Creating different filters, e.g. timeslot restrictions, conflicts, physical distance etc. 
 ## Lorena 
 * Worked On:
- * CRC cards
- * Schedule methods and tests 
- * Progress Report 
- * Refactoring
+  * CRC cards
+  * Schedule methods and tests 
+  * Progress Report 
+  * Refactoring
 * To Work On:
- * 
+  * Making `addLecture` and `addTutorial` methods more efficient 
+  * Implementing methods for schedule generation based on filters 
