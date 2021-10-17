@@ -40,10 +40,14 @@ Classes that verify schedules based on user requested specifications, i.e. dista
 
 
 ### CLI Commands/Controller class:
-```schedule```
 
+#### CommandLineInterface ->
+Main class for the project, prompts user to input each of their classes, then uses the Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
 
 ### Potential Additions for Future Phases:
+
+Schedule Generation ->
+* Recursively creating schedules, ensuring that there are no overlapping courses. This is the main feature of the project, and the groundwork for it has been laid in phase 0
 
 Improved Parameters ->
 * Use Distance between class sessions to support Filters like "Walking distance must be less than 10 minutes between sessions".
