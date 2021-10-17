@@ -10,7 +10,18 @@ The project domain of our group is a Scheduling App that allows Students to spec
 Which is why we decided to make our own. 
 
 ## The Project
-A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM" through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS invites that can be used with most calendar apps.
+A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS invites that can be used with most calendar apps.
+
+### Entities:
+
+#### Schedule ->
+A class that represents a possible schedule consisting of distinct lecture and tutorial sessions for each course.
+
+#### Course ->
+A class that stores possible lecture and tutorial sections for each course.
+
+### Session ->
+A class that represents a distinct time slot for some class. It is used by course, and stored in schedule.
 
 ### Use Cases:
 
@@ -18,12 +29,17 @@ A user specifies which courses they want to take, and also specify filters, like
 Creates a course object, populated with information from the API information retrieved through APIWorker.
 
 #### Scheduler ->
-Creates a schedule object, populated with permutations from the course objects.
+Creates permutations of all possible schedules, and then passes them through filter classes that remove schedules.
 
 #### ICSCreator ->
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
-### CLI Commands:
+#### Filter Subclasses ->
+Classes that verify schedules based on user requested specifications, i.e. distances.
+
+
+
+### CLI Commands/Controller class:
 ```schedule```
 
 
