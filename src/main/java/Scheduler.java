@@ -5,11 +5,19 @@ public class Scheduler {
     private final ArrayList courses;
     private final ArrayList schedules;
 
+    /**
+     * Constructs a Scheduler with empty courses and schedules
+     */
     public Scheduler() {
         this.courses = new ArrayList<>();
         this.schedules = new ArrayList<>();
     }
 
+    /**
+     * Constructs a Scheduler with the given courses and schedules
+     * @param courses A list of courses
+     * @param schedules A list of schedules
+     */
     public Scheduler(ArrayList<Course> courses, ArrayList<Schedule> schedules) {
         this.courses = courses;
         this.schedules = schedules;
