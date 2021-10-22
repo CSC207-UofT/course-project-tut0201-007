@@ -3,8 +3,10 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
@@ -53,13 +55,12 @@ public class CourseCreator {
                         .getAsJsonObject()
                         .get("meetings")
                         .getAsJsonObject();
-        for (String meeting : meetings.keySet()) {
-            if (meeting.contains(type)
-                    && meetings.get(meeting)
-                            .getAsJsonObject()
-                            .get("cancel")
-                            .getAsString()
-                            .equals("")
+        List<String> meetingsOfType =
+                meetings.keySet().stream()
+                        .filter(a -> a.contains(type))
+                        .collect(Collectors.toList());
+        for (String meeting : meetingsOfType) {
+            if (meetings.get(meeting).getAsJsonObject().get("cancel").getAsString().equals("")
                     && !meetings.get(meeting)
                             .getAsJsonObject()
                             .get("deliveryMode")
@@ -73,7 +74,8 @@ public class CourseCreator {
                 }
             }
         }
-        if (specifiedSessions.isEmpty()) {
+
+        if (specifiedSessions.isEmpty() && !meetingsOfType.isEmpty()) {
             specifiedSessions.add(
                     new Session(
                             type,
