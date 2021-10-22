@@ -60,12 +60,7 @@ public class CourseCreator {
                         .filter(a -> a.contains(type))
                         .collect(Collectors.toList());
         for (String meeting : meetingsOfType) {
-            if (meetings.get(meeting).getAsJsonObject().get("cancel").getAsString().equals("")
-                    && !meetings.get(meeting)
-                            .getAsJsonObject()
-                            .get("deliveryMode")
-                            .getAsString()
-                            .equals("ONLASYNC")) {
+            if (!isCancelled(meetings, meeting) && !isAsynchronous(meetings, meeting)) {
                 JsonObject timeslots =
                         meetings.get(meeting).getAsJsonObject().get("schedule").getAsJsonObject();
                 for (String timeslot : timeslots.keySet()) {
@@ -76,13 +71,7 @@ public class CourseCreator {
         }
 
         if (specifiedSessions.isEmpty() && !meetingsOfType.isEmpty()) {
-            specifiedSessions.add(
-                    new Session(
-                            type,
-                            "ONLINE",
-                            LocalTime.parse("00:00"),
-                            LocalTime.parse("00:00"),
-                            DayOfWeek.SATURDAY));
+            specifiedSessions.add(new Session.Builder(type).inRoom("ONLINE").build());
         }
         return specifiedSessions;
     }
@@ -97,12 +86,37 @@ public class CourseCreator {
      */
     private static Session generateSession(String type, JsonObject timeslot) {
         String room = timeslot.get("assignedRoom1").getAsString();
-        if (Objects.equals(room, "")) {
-            room = "ONLINE";
-        }
-        LocalTime startTime = LocalTime.parse(timeslot.get("meetingStartTime").getAsString());
-        LocalTime endTime = LocalTime.parse(timeslot.get("meetingEndTime").getAsString());
-        DayOfWeek day = toDay.get(timeslot.get("meetingDay").getAsString());
-        return new Session(type, room, startTime, endTime, day);
+        return new Session.Builder(type)
+                .inRoom(Objects.equals(room, "") ? "ONLINE" : room)
+                .startsAt(LocalTime.parse(timeslot.get("meetingStartTime").getAsString()))
+                .endsAt(LocalTime.parse(timeslot.get("meetingEndTime").getAsString()))
+                .onDay(toDay.get(timeslot.get("meetingDay").getAsString()))
+                .build();
+    }
+
+    /**
+     * Checks if a session is cancelled
+     *
+     * @param meetings a jsonObject of meetings that contains the session
+     * @param meeting the session in question
+     * @return true if the session is cancelled, otherwise false
+     */
+    private static boolean isCancelled(JsonObject meetings, String meeting) {
+        return !meetings.get(meeting).getAsJsonObject().get("cancel").getAsString().equals("");
+    }
+
+    /**
+     * Checks if a session is asynchronous
+     *
+     * @param meetings a jsonObject of meetings that contains the session
+     * @param meeting the session in question
+     * @return true if the session is asynchronous, otherwise false
+     */
+    private static boolean isAsynchronous(JsonObject meetings, String meeting) {
+        return meetings.get(meeting)
+                .getAsJsonObject()
+                .get("deliveryMode")
+                .getAsString()
+                .equals("ONLASYNC");
     }
 }

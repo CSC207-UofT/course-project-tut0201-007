@@ -30,13 +30,13 @@ public class ScheduleTest {
 
         day = DayOfWeek.MONDAY;
 
-        lec1 = new Session("LEC-0101", "SS 2135", startTime1, endTime1, day);
-        lec2 = new Session("LEC-0201", "SS 2135", startTime2, endTime2, day);
-        lec3 = new Session("LEC-0301", "SS 2135", startTime3, endTime3, day);
+        lec1 = new Session.Builder("LEC-0101").inRoom("SS 2135").startsAt(startTime1).endsAt(endTime1).onDay(day).build();
+        lec2 = new Session.Builder("LEC-0201").inRoom("SS 2135").startsAt(startTime2).endsAt(endTime2).onDay(day).build();
+        lec3 = new Session.Builder("LEC-0301").inRoom("SS 2135").startsAt(startTime3).endsAt(endTime3).onDay(day).build();
 
-        tut1 = new Session("TUT-0101", "MP203", startTime1, endTime1, day);
-        tut2 = new Session("TUT-0201", "MP203", startTime2, endTime2, day);
-        tut3 = new Session("TUT-0301", "MP203", startTime3, endTime3, day);
+        tut1 = new Session.Builder("TUT-0101").inRoom("MP203").startsAt(startTime1).endsAt(endTime1).onDay(day).build();
+        tut2 = new Session.Builder("TUT-0201").inRoom("MP203").startsAt(startTime2).endsAt(endTime2).onDay(day).build();
+        tut3 = new Session.Builder("TUT-0301").inRoom("MP203").startsAt(startTime3).endsAt(endTime3).onDay(day).build();
 
         lecsToAdd = new ArrayList<>(List.of(lec1, lec2, lec3));
         tutsToAdd = new ArrayList<>(List.of(tut1, tut2, tut3));
