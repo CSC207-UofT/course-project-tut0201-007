@@ -13,10 +13,10 @@ public class APIWorker {
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.
      *
-     * @param new_id is the course id passed in, i.e. CSC207
+     * @param newId is the course id passed in, i.e. CSC207
      */
-    public APIWorker(String new_id) throws IOException {
-        this.info = readUrl(new_id).getAsJsonObject();
+    public APIWorker(String newId) throws IOException {
+        this.info = readUrl(newId).getAsJsonObject();
         this.semester = new ArrayList<>(this.info.keySet());
     }
 
