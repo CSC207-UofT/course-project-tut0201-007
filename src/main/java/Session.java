@@ -8,6 +8,8 @@ public class Session implements Comparable<Session> {
     private final String assignedRoom;
     private final LocalTime sessionStartTime;
     private final LocalTime sessionEndTime;
+
+
     private final DayOfWeek sessionDay;
 
     /**
@@ -32,6 +34,25 @@ public class Session implements Comparable<Session> {
         this.sessionDay = sessionDay;
     }
 
+    public String getSessionType() {
+        return sessionType;
+    }
+
+    public String getAssignedRoom() {
+        return assignedRoom;
+    }
+
+    public LocalTime getSessionStartTime() {
+        return sessionStartTime;
+    }
+
+    public LocalTime getSessionEndTime() {
+        return sessionEndTime;
+    }
+
+    public DayOfWeek getSessionDay() {
+        return sessionDay;
+    }
     /** Returns a string representation of the session */
     @Override
     public String toString() {
