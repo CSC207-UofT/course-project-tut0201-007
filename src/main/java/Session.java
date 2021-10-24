@@ -1,69 +1,99 @@
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-/** This class represents a session, which occupies a timeslot on a schedule */
+/** This class represents a session, such as a single lecture or tutorial */
 public class Session implements Comparable<Session> {
 
-    private final String sessionType;
-    private final String assignedRoom;
-    private final LocalTime sessionStartTime;
-    private final LocalTime sessionEndTime;
-
-    private final DayOfWeek sessionDay;
+    private String type;
+    private String room;
+    private LocalTime start;
+    private LocalTime end;
+    private DayOfWeek day;
 
     /**
-     * Constructs a Session with an id and location
-     *
-     * @param sessionType given Type (lec/tut)
-     * @param assignedRoom given location (room code)
-     * @param sessionStartTime given start time
-     * @param sessionEndTime given end time
-     * @param sessionDay given day
+     * This Builder class allows different kinds of sessions to be built, to allow for flexibility
      */
-    public Session(
-            String sessionType,
-            String assignedRoom,
-            LocalTime sessionStartTime,
-            LocalTime sessionEndTime,
-            DayOfWeek sessionDay) {
-        this.sessionType = sessionType;
-        this.assignedRoom = assignedRoom;
-        this.sessionStartTime = sessionStartTime;
-        this.sessionEndTime = sessionEndTime;
-        this.sessionDay = sessionDay;
+    public static class Builder {
+
+        private final String type;
+        private String room = "";
+        private LocalTime start = LocalTime.MIN;
+        private LocalTime end = LocalTime.MIN;
+        private DayOfWeek day = DayOfWeek.SATURDAY;
+
+        public Builder(String type) {
+            this.type = type;
+        }
+
+        public Builder inRoom(String room) {
+            this.room = room;
+            return this;
+        }
+
+        public Builder startsAt(LocalTime start) {
+            this.start = start;
+            return this;
+        }
+
+        public Builder endsAt(LocalTime end) {
+            this.end = end;
+            return this;
+        }
+
+        public Builder onDay(DayOfWeek day) {
+            this.day = day;
+            return this;
+        }
+
+        public Session build() {
+            return new Session(this);
+        }
+    }
+
+    /**
+     * Constructs a Session
+     *
+     * @param builder a session builder
+     */
+    public Session(Builder builder) {
+        type = builder.type;
+        room = builder.room;
+        start = builder.start;
+        end = builder.end;
+        day = builder.day;
     }
 
     public String getSessionType() {
-        return sessionType;
+        return type;
     }
 
     public String getAssignedRoom() {
-        return assignedRoom;
+        return room;
     }
 
     public LocalTime getSessionStartTime() {
-        return sessionStartTime;
+        return start;
     }
 
     public LocalTime getSessionEndTime() {
-        return sessionEndTime;
+        return end;
     }
 
     public DayOfWeek getSessionDay() {
-        return sessionDay;
+        return day;
     }
     /** Returns a string representation of the session */
     @Override
     public String toString() {
-        return this.sessionType
+        return this.type
                 + " in "
-                + this.assignedRoom
+                + this.room
                 + " from "
-                + this.sessionStartTime.toString()
+                + this.start.toString()
                 + " to "
-                + this.sessionEndTime.toString()
+                + this.end.toString()
                 + " on "
-                + this.sessionDay;
+                + this.day;
     }
 
     /**
@@ -77,11 +107,11 @@ public class Session implements Comparable<Session> {
      *     overlapping, or after than the other session.
      */
     public int compareTo(Session other) {
-        if (!this.sessionDay.equals(other.sessionDay)) {
-            return this.sessionDay.compareTo(other.sessionDay);
-        } else if (this.sessionEndTime.isBefore(other.sessionStartTime)) {
+        if (!this.day.equals(other.day)) {
+            return this.day.compareTo(other.day);
+        } else if (this.end.isBefore(other.start)) {
             return -1;
-        } else if (this.sessionStartTime.isAfter(other.sessionEndTime)) {
+        } else if (this.start.isAfter(other.end)) {
             return 1;
         } else {
             return 0;

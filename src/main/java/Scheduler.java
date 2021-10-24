@@ -31,7 +31,7 @@ public class Scheduler {
     public Schedule createBasicSchedule(ArrayList<String> courseCodes) {
         Schedule schedule = new Schedule();
         CourseCreator courseCreator = new CourseCreator();
-        Course new_course;
+        Course newCourse;
 
         for (String courseCode : courseCodes) {
             try {
@@ -39,13 +39,13 @@ public class Scheduler {
                  * For every course code, generate the course from CourseCreator, add first lec/tut
                  * session to the lectures and tutorials within the schedule.
                  */
-                new_course = courseCreator.generateCourse(courseCode);
-                System.out.println(new_course);
-                if (!new_course.getLectures().isEmpty()) {
-                    schedule.addLecture(new_course.getLectures().get(0));
+                newCourse = courseCreator.generateCourse(courseCode);
+                System.out.println(newCourse);
+                if (!newCourse.getLectures().isEmpty()) {
+                    schedule.addLecture(newCourse.getLectures().get(0));
                 }
-                if (!new_course.getTutorials().isEmpty()) {
-                    schedule.addTutorial(new_course.getTutorials().get(0));
+                if (!newCourse.getTutorials().isEmpty()) {
+                    schedule.addTutorial(newCourse.getTutorials().get(0));
                 }
             } catch (IOException exception) {
                 /**
