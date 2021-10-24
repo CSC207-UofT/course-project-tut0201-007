@@ -33,6 +33,9 @@ public class ScheduleExporter {
     public ScheduleExporter() {
         String baseDir = new File("").getAbsolutePath();
         outputDirectory = new File(baseDir.concat("/output"));
+        if (!outputDirectory.exists()){
+            outputDirectory.mkdir();
+        }
     }
 
     /**
