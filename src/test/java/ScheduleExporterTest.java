@@ -1,32 +1,34 @@
+import java.io.IOException;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class ScheduleExporterTest {
 
     ScheduleExporter exporter;
-    Session inPersonSession, onlineSession;
-
+    Schedule inPersonSchedule, onlineSchedule;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         // TODO: if we mock api, get course for mocked course. If not, hardcode in a session
-        try{
-            inPersonSession = new CourseCreator().generateCourse("MAT237").getLectures().get(0);
-            onlineSession = new CourseCreator().generateCourse("STA247").getLectures().get(0);
-        }
-        catch (IOException e){
-            //idk what to do here? like it'll just fail all the tests, which i guess is correct
-        }
+        ArrayList<String> inPerson = new ArrayList<>();
+        ArrayList<String> online = new ArrayList<>();
+        inPerson.add("MAT237");
+        online.add("STA247");
+        Scheduler scheduler = new Scheduler();
+        inPersonSchedule = scheduler.createBasicSchedule(inPerson);
+        onlineSchedule = scheduler.createBasicSchedule(online);
+
+        exporter = new ScheduleExporter();
     }
 
-    @Test(timeout=100)
-    public void testSessionExportInPerson(){
-    }
-    @Test(timeout=100)
-    public void testSessionExportOnline(){
-
+    @Test(timeout = 100)
+    public void testSessionExportInPerson() {
+        // TODO: Fill this in later
     }
 
+    @Test(timeout = 100)
+    public void testSessionExportOnline() {
+        // TODO: fill this in later.
+    }
 }

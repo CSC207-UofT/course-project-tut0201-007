@@ -9,7 +9,6 @@ public class Session implements Comparable<Session> {
     private final LocalTime sessionStartTime;
     private final LocalTime sessionEndTime;
 
-
     private final DayOfWeek sessionDay;
 
     /**

@@ -1,3 +1,12 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -7,134 +16,143 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
+import net.fortuna.ical4j.validate.ValidationException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.time.*;
-import java.util.ArrayList;
-
-/**
- * Use Case class for exporting all sessions in a schedule into an ICS file
- */
+/** Use Case class for exporting all sessions in a schedule into an ICS file */
 public class ScheduleExporter {
 
     private LocalDate now = LocalDate.now();
     private int startYear = getStartYear(now.getYear(), now.getMonthValue());
-    private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9,9);
-    private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12,10);
-    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear+1, 1,10);
-    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear+1, 4,11);
+    private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
+    private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
+    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
+    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
+
+    private File outputDirectory;
+
+    public ScheduleExporter() {
+        String baseDir = new File("").getAbsolutePath();
+        outputDirectory = new File(baseDir.concat("/output"));
+    }
+
     /**
-     *
      * @param year current year
      * @param month current month
      * @return The year in which the current Academic Year started
      */
-    private int getStartYear(int year, int month){
-       if (month < 9){
-           return year - 1;
-       }
-       else {
-          return year;
-       }
+    // TODO: I don't know how to communicate what this does by function name better
+    private int getStartYear(int year, int month) {
+        if (month < 9) {
+            return year - 1;
+        } else {
+            return year;
+        }
     }
 
-
-    File outputDirectory;
-    public ScheduleExporter(){
-        String baseDir = new File("").getAbsolutePath();
-        outputDirectory = new File(baseDir.concat("/output"));
-
-    }
-
+    /**
+     * {@code writer} defaults to {@link FileWriter}
+     *
+     * @see ScheduleExporter#outputScheduleICS(Schedule, Writer)
+     */
     public void outputScheduleICS(Schedule schedule) {
-        //based on https://www.tutorialsbuddy.com/create-ics-calendar-file-in-java
+        try {
+            Writer writer = new FileWriter(outputDirectory.getAbsolutePath().concat("/temp.ics"));
+            outputScheduleICS(schedule, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Converts all Sessions within a Schedule into Events in .ics format, for use in a Calendar.
+     * Allows for use of any Writer to allow exporting as a file, or storing as a string for
+     * testing.
+     *
+     * @param schedule The Schedule object to output as ICS
+     * @param writer The Writer object used to output the ICS, such as FileWriter or StringWriter
+     */
+    public void outputScheduleICS(Schedule schedule, Writer writer) {
         Calendar calendar = new Calendar();
-        calendar.getProperties().add(new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
+        calendar.getProperties().add(new ProdId("-//CSC207 Team 007//iCal4j 1.0//EN"));
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
-        Session tutorial = schedule.getTutorials().get(0);
 
-            addSessionToCalendar(tutorial,calendar);
-
-        FileWriter writer = null;
-
+        for (Session tutorial : schedule.getTutorials()) {
+            addSessionToCalendar(tutorial, calendar);
+        }
+        for (Session lecture : schedule.getLectures()) {
+            addSessionToCalendar(lecture, calendar);
+        }
         try {
-            writer = new FileWriter(outputDirectory.getAbsolutePath().concat("/temp.ics"));
             CalendarOutputter outputter = new CalendarOutputter();
             outputter.output(calendar, writer);
-        } catch (IOException e){
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ValidationException e) {
             e.printStackTrace();
         } finally {
             if (writer != null) {
                 try {
                     writer.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    public void outputScheduleICS(Schedule schedule, Writer writer){
-
-    }
-
-    private void addSessionToCalendar(Session session, Calendar calendar){
-        //TODO:
-        /*
-        How to convert to Date? maybe use recurrence relation like so https://stackoverflow.com/questions/44924292/how-to-create-recurring-event-ics-file-using-ical4j-in-java (DONE)
-            - will need a bounds for the recurrence relation. Sessions need to know which term they are (F, S, Y) to create accurate ICS file
-        Figure out what happens if you try and overwrite something that already exists (DONE)
-        how to include location
-        Unique name for schedule
-        do Tests on output by using Writer
-
-         */
-        Date finalDay = new Date(java.util.Date.from(FALL_SEMESTER_END_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    private void addSessionToCalendar(Session session, Calendar calendar) {
+        Date finalDay =
+                new Date(
+                        java.util.Date.from(
+                                FALL_SEMESTER_END_DATE
+                                        .atStartOfDay(ZoneId.systemDefault())
+                                        .toInstant()));
 
         UidGenerator ug = new RandomUidGenerator();
         Uid uid = ug.generateUid();
         Recur recur = new Recur(Recur.Frequency.WEEKLY, finalDay);
         RRule recurrenceRule = new RRule(recur);
 
-        //TODO: have Sessions store their semester, use that to decide which start date & end date to use
+        // TODO: have Sessions store their semester, use that to decide which start date & end date
+        // to use
+        // TODO: Also have sessions store their course IDs & section IDs
         LocalDate startDay = getStartingWeekDate(FALL_SEMESTER_START_DATE, session.getSessionDay());
         LocalDateTime start = startDay.atTime(session.getSessionStartTime());
-        Date sessionStart = new DateTime(java.util.Date.from(start.atZone(ZoneId.systemDefault()).toInstant()));
+        Date sessionStart =
+                new DateTime(java.util.Date.from(start.atZone(ZoneId.systemDefault()).toInstant()));
 
         LocalDateTime end = startDay.atTime(session.getSessionEndTime());
-        Date sessionEnd = new DateTime(java.util.Date.from(end.atZone(ZoneId.systemDefault()).toInstant()));
+        Date sessionEnd =
+                new DateTime(java.util.Date.from(end.atZone(ZoneId.systemDefault()).toInstant()));
 
-        VEvent test = new VEvent(sessionStart, sessionEnd, session.getAssignedRoom());
-        test.getProperties().add(recurrenceRule);
-        test.getProperties().add(uid);
+        Location location = new Location(session.getAssignedRoom());
 
-        calendar.getComponents().add(test);
+        VEvent event = new VEvent(sessionStart, sessionEnd, session.getAssignedRoom());
+        event.getProperties().add(recurrenceRule);
+        event.getProperties().add(uid);
+        event.getProperties().add(location);
 
+        calendar.getComponents().add(event);
     }
-    public static LocalDate getStartingWeekDate(LocalDate start, DayOfWeek dow) {
+
+    private LocalDate getStartingWeekDate(LocalDate start, DayOfWeek dow) {
         LocalDate res = (LocalDate) dow.adjustInto(start);
-        System.out.println(res);
-        if (res.isBefore(start)){
+        if (res.isBefore(start)) {
             return res.plusWeeks(1);
-        }
-        else{
+        } else {
             return res;
         }
     }
 
     public static void main(String[] args) {
+        // temp for testing
         ScheduleExporter exporter = new ScheduleExporter();
         Scheduler s = new Scheduler();
         ArrayList<String> courses = new ArrayList<>();
         courses.add("MAT237");
         Schedule schedule = s.createBasicSchedule(courses);
+        System.out.println(schedule);
         exporter.outputScheduleICS(schedule);
-
-
     }
-
 }
