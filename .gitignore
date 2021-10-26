@@ -90,3 +90,4 @@ fabric.properties
 .classpath
 .project
 bin/
+output/
