@@ -1,7 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /** This class represents a course, which consists of lecture and tutorial sessions */
 public class Course {
@@ -40,9 +38,9 @@ public class Course {
             type = s.getType();
             section = s.getSection();
 
-            if (type == LEC) {
+            if (type.equals(LEC)) {
                 values = this.lectures;
-            } else if (type == TUT) {
+            } else if (type.equals(TUT)) {
                 values = this.tutorials;
             } else {
                 continue;
@@ -80,7 +78,7 @@ public class Course {
      * @param section the section code
      * @return all lecture sessions in this section
      */
-    public ArrayList<Session> getLectures(String section) {
+    public List<Session> getLectures(String section) {
         if(lectures.containsKey(section)) {
             return (ArrayList<Session>) lectures.get(section).clone();
         } else {
@@ -93,7 +91,7 @@ public class Course {
      *
      * @return lecture sessions with the first section key in hashmap
      */
-    public ArrayList<Session> getLectures() {
+    public List<Session> getLectures() {
         if (this.lectures.isEmpty()) {
             return new ArrayList<Session>();
         } else {
@@ -102,7 +100,7 @@ public class Course {
         }
     }
 
-    public ArrayList<Session> getTutorials(String section) {
+    public List<Session> getTutorials(String section) {
         if(tutorials.containsKey(section)) {
             return (ArrayList<Session>) tutorials.get(section).clone();
         } else {
@@ -115,7 +113,7 @@ public class Course {
      *
      * @return tutorial sessions with the first section key in map
      */
-    public ArrayList<Session> getTutorials() {
+    public List<Session> getTutorials() {
         if (this.tutorials.isEmpty()) {
             return new ArrayList<Session>();
         } else {
