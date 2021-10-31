@@ -53,9 +53,8 @@ public class Course {
                 temp.add(s);
                 values.put(section, temp);
             }
-
-            return;
         }
+        return;
     }
 
 
