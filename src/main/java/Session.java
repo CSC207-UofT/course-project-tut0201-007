@@ -1,19 +1,40 @@
-import java.time.DayOfWeek;
-import java.time.LocalTime;
+import java.util.ArrayList;
 
 /** This class represents a session, such as a single lecture or tutorial */
 public class Session implements Comparable<Session> {
 
     private String type;
-    private String room;
+    private ArrayList<Timeslot> times;
+
+    public Session(String type) {
+        this.type = type;
+        times = new ArrayList<Timeslot>();
+    }
+
+    public Session(String type, ArrayList<Timeslot> times) {
+        this.type = type;
+        this.times = times;
+    }
+
+    /**
+     * adds a timeslot to a session's list of times
+     *
+     * @param t a timeslot to be added to a lec/tut
+     */
+    public void addTime(Timeslot t) {
+        times.add(t);
+    }
+
+
+    /* private String room;
     private LocalTime start;
     private LocalTime end;
-    private DayOfWeek day;
+    private DayOfWeek day; */
 
     /**
      * This Builder class allows different kinds of sessions to be built, to allow for flexibility
      */
-    public static class Builder {
+    /* public static class Builder {
 
         private final String type;
         private String room = "";
@@ -48,23 +69,23 @@ public class Session implements Comparable<Session> {
         public Session build() {
             return new Session(this);
         }
-    }
+    } */
 
     /**
      * Constructs a Session
      *
      * @param builder a session builder
      */
-    public Session(Builder builder) {
+    /* public Session(Builder builder) {
         type = builder.type;
         room = builder.room;
         start = builder.start;
         end = builder.end;
         day = builder.day;
-    }
+    } */
 
     /** Returns a string representation of the session */
-    @Override
+    /* @Override
     public String toString() {
         return this.type
                 + " in "
@@ -75,7 +96,7 @@ public class Session implements Comparable<Session> {
                 + this.end.toString()
                 + " on "
                 + this.day;
-    }
+    } */
 
     /**
      * Compares this session with another session for order.
@@ -88,7 +109,7 @@ public class Session implements Comparable<Session> {
      *     overlapping, or after than the other session.
      */
     public int compareTo(Session other) {
-        if (!this.day.equals(other.day)) {
+        /* if (!this.day.equals(other.day)) {
             return this.day.compareTo(other.day);
         } else if (this.end.isBefore(other.start)) {
             return -1;
@@ -96,7 +117,8 @@ public class Session implements Comparable<Session> {
             return 1;
         } else {
             return 0;
-        }
+        } */
+        return 0;
     }
     /**
      * If s1, s2 are sessions, then s1 < s2 iff s1 is before s2, and they do not conflict s1 == s2
