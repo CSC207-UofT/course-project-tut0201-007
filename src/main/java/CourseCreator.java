@@ -34,19 +34,20 @@ public class CourseCreator {
                         .getAsJsonObject()
                         .get("code")
                         .getAsString();
-        ArrayList<Session> lectures = getSessionsByType(apiWorker, "LEC");
-        ArrayList<Session> tutorials = getSessionsByType(apiWorker, "TUT");
-        return new Course(courseCode, lectures, tutorials);
+//        ArrayList<Session> lectures = getSessions(apiWorker, "LEC");
+//        ArrayList<Session> tutorials = getSessions(apiWorker, "TUT");
+        Course newCourse = new Course(courseCode);
+        newCourse.addSessions(getSessions(apiWorker));
+        return newCourse;
     }
 
     /**
      * Reads through the JSON and returns all the sessions of a given type.
      *
      * @param apiWorker the APIWorker for the given course
-     * @param type the type of session, either a lecture or tutorial
      * @return an ArrayList of Session objects
      */
-    private static ArrayList<Session> getSessionsByType(APIWorker apiWorker, String type) {
+    private static ArrayList<Session> getSessions(APIWorker apiWorker) {
         ArrayList<Session> specifiedSessions = new ArrayList<>();
         JsonObject meetings =
                 apiWorker
@@ -56,13 +57,12 @@ public class CourseCreator {
                         .get("meetings")
                         .getAsJsonObject();
         List<String> meetingsOfType =
-                meetings.keySet().stream()
-                        .filter(a -> a.contains(type))
-                        .collect(Collectors.toList());
+                new ArrayList<>(meetings.keySet());
         for (String meeting : meetingsOfType) {
             if (!isCancelled(meetings, meeting) && !isAsynchronous(meetings, meeting)) {
                 JsonObject timeslots =
                         meetings.get(meeting).getAsJsonObject().get("schedule").getAsJsonObject();
+                String type = meetings.get(meeting).getAsJsonObject().get("teachingMethod").getAsString();
                 for (String timeslot : timeslots.keySet()) {
                     specifiedSessions.add(
                             generateSession(type, timeslots.get(timeslot).getAsJsonObject()));
@@ -71,7 +71,7 @@ public class CourseCreator {
         }
 
         if (specifiedSessions.isEmpty() && !meetingsOfType.isEmpty()) {
-            specifiedSessions.add(new Session.Builder(type).inRoom("ONLINE").build());
+            specifiedSessions.add(new Session.Builder("LEC").inRoom("ONLINE").build());
         }
         return specifiedSessions;
     }
