@@ -6,6 +6,7 @@ public class Session implements Comparable<Session> {
 
     private String type;
     private String room;
+    private String section;
     private LocalTime start;
     private LocalTime end;
     private DayOfWeek day;
@@ -17,6 +18,7 @@ public class Session implements Comparable<Session> {
 
         private final String type;
         private String room = "";
+        private String section = "";
         private LocalTime start = LocalTime.MIN;
         private LocalTime end = LocalTime.MIN;
         private DayOfWeek day = DayOfWeek.SATURDAY;
@@ -27,6 +29,11 @@ public class Session implements Comparable<Session> {
 
         public Builder inRoom(String room) {
             this.room = room;
+            return this;
+        }
+
+        public Builder inSection(String section) {
+            this.section = section;
             return this;
         }
 
@@ -58,15 +65,32 @@ public class Session implements Comparable<Session> {
     public Session(Builder builder) {
         type = builder.type;
         room = builder.room;
+        section = builder.section;
         start = builder.start;
         end = builder.end;
         day = builder.day;
+    }
+
+    /**
+     * Gets the type of the session.
+     */
+    public String getType() {
+        return this.type;
+    }
+
+    /**
+     * Gets the section of the session.
+     */
+    public String getSection() {
+        return this.type;
     }
 
     /** Returns a string representation of the session */
     @Override
     public String toString() {
         return this.type
+                + " section "
+                + this.section
                 + " in "
                 + this.room
                 + " from "

@@ -42,10 +42,10 @@ public class Scheduler {
                 newCourse = courseCreator.generateCourse(courseCode);
                 System.out.println(newCourse);
                 if (!newCourse.getLectures().isEmpty()) {
-                    schedule.addLecture(newCourse.getLectures().get(0));
+                    schedule.addMultipleLectures(newCourse.getLectures());
                 }
                 if (!newCourse.getTutorials().isEmpty()) {
-                    schedule.addTutorial(newCourse.getTutorials().get(0));
+                    schedule.addMultipleTutorials(newCourse.getTutorials());
                 }
             } catch (IOException exception) {
                 /**

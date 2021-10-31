@@ -27,11 +27,11 @@ public class Schedule {
     }
 
     public ArrayList<Session> getLectures() {
-        return lectures;
+        return (ArrayList<Session>) lectures.clone();
     }
 
     public ArrayList<Session> getTutorials() {
-        return tutorials;
+        return (ArrayList<Session>) tutorials.clone();
     }
 
     /**
@@ -60,6 +60,12 @@ public class Schedule {
         }
     }
 
+    public void addMultipleLectures(ArrayList<Session> newLectures) {
+        for(Session s : newLectures) {
+            this.addLecture(s);
+        }
+    }
+
     /**
      * Mutate the tutorials list by adding lecture sessions in chronological order
      *
@@ -84,6 +90,12 @@ public class Schedule {
                 }
             }
             this.tutorials.add(tutorial);
+        }
+    }
+
+    public void addMultipleTutorials(ArrayList<Session> newTutorials) {
+        for(Session s : newTutorials) {
+            this.addTutorial(s);
         }
     }
 
