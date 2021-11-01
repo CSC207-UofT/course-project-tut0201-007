@@ -66,16 +66,10 @@ public class Session implements Comparable<Session> {
     /** Returns a string representation of the session */
     @Override
     public String toString() {
+        String contact_message = "";
         if (this.room.equals("Contact DEPT")) {
-            return this.type
-                    + " in "
-                    + "Unknown Location"
-                    + " from "
-                    + this.start.toString()
-                    + " to "
-                    + this.end.toString()
-                    + " on "
-                    + this.day + " (Contact Department for location)";
+            this.room = "Unknown Location";
+            contact_message = " (Contact department for location)";
         }
         return this.type
                 + " in "
@@ -85,7 +79,7 @@ public class Session implements Comparable<Session> {
                 + " to "
                 + this.end.toString()
                 + " on "
-                + this.day;
+                + this.day + contact_message;
     }
 
     /**
