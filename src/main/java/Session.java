@@ -1,6 +1,5 @@
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Objects;
 
 /** This class represents a session, such as a single lecture or tutorial */
 public class Session implements Comparable<Session> {
