@@ -1,5 +1,6 @@
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Objects;
 
 /** This class represents a session, such as a single lecture or tutorial */
 public class Session implements Comparable<Session> {
@@ -66,6 +67,17 @@ public class Session implements Comparable<Session> {
     /** Returns a string representation of the session */
     @Override
     public String toString() {
+        if (this.room.equals("Contact DEPT")) {
+            return this.type
+                    + " in "
+                    + "Unknown Location"
+                    + " from "
+                    + this.start.toString()
+                    + " to "
+                    + this.end.toString()
+                    + " on "
+                    + this.day + " (Contact Department for location)";
+        }
         return this.type
                 + " in "
                 + this.room
