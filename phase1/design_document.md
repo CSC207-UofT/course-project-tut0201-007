@@ -141,4 +141,7 @@ Sessions represent a collection of time slots with a room and code. These are ta
 ### Strategy
 i think we can use this in scheduler based on user criteria
 
+### Decorator
+For the filters
+
 ## Progress Report
