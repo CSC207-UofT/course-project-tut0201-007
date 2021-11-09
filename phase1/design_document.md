@@ -74,14 +74,17 @@ Session uses the **Builder** design pattern. The Builder design pattern was chos
 
 Session was originally intended to represent a time during which a particular lecture or tutorial would occur. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store sessions in a map from section ID to an ArrayList of sessions, but this was not a good use of object oriented programming, since the collection of sessions could be stored in a new class. We decided to make Session this class, and made a new entity named TimeSlot in orded to represent the various times. Multiple TimeSlot objects are stored in Session. While performing these changes, we noticed that there was a significant degree of coupling between classes since the SkeletonCode. 
 
-Data Serialization: ICS management (export for Phase 1) -> import for 2?
+### Data Serialization
+For our data serialization functionality, we decided to use ICS files for our Data serialization because ICS files are the standard for storing online calendars. Since we use ICS files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. We created two classes, one for importing schedules from ICS files (**ScheduleImporter**) and one for exporting schedules (**ScheduleExporter**) to ICS files.
+
+We chose to use ICS files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial 
 
 ## Clean Architecture
 
 ### **User I/O**: CommandLineInterface, Calendar exporting 
 The user interacts with out CLI input class. At the moment, the CLI class and controller class are closely related. The user gives input to the CommandLineInterface which is used to control scheduling in the Main method. These two classes are the same since there is high cohesion between the user input and the data the controller works with.
 
-The calendar export class returns .ics files that contain times for a specific schedule. 
+The calendar export class creates .ics files that contain times for a specific schedule. The user can also choose which generated schedule to export to an .ics file through the CLI. In addition, the user can also specify ICS files to import into the program via the CLI.
 
 (**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controller and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
 
