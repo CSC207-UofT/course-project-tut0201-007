@@ -72,6 +72,8 @@ Comments:
 ### Session
 Session uses the **Builder** design pattern. The Builder design pattern was chosen to reduce the complexity of Session constructor calls. For example, some sessions take place in a classroom, some are online, some have start and end times, some are asynchronous. Using Builder allows a Session to be 'built' piece-by-piece, using only information relevant to that specific lecture or tutorial.
 
+Session was originally intended to represent a time during which a particular lecture or tutorial would occur. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store sessions in a map from section ID to an ArrayList of sessions, but this was not a good use of object oriented programming, since the collection of sessions could be stored in a new class. We decided to make Session this class, and made a new entity named TimeSlot in orded to represent the various times. Multiple TimeSlot objects are stored in Session. While performing these changes, we noticed that there was a significant degree of coupling between classes since the SkeletonCode. 
+
 Data Serialization: ICS management (export for Phase 1) -> import for 2?
 
 ## Clean Architecture
