@@ -5,52 +5,38 @@ import org.junit.Test;
 
 public class CourseCreatorTest {
     CourseCreator creator = new CourseCreator();
-    Course course1;
-    Course course2;
-    Course course3;
-    Course course4;
+    Course mockCourse;
 
     @Before
     public void setUp() throws Exception {
-        course1 = creator.generateCourse("MAT237");
-        course2 = creator.generateCourse("MAT157");
-        course3 = creator.generateCourse("COG250");
-        course4 = creator.generateCourse("test");
+        mockCourse = creator.generateCourse("test");
     }
 
-    @Test(timeout = 500)
-    public void testGenerateCourse() {
-        String expected = "MAT237Y1";
-        // Checking that the course has the correct code
-        assertEquals(expected, course1.getCourseId());
-    }
-
-    @Test(timeout = 500)
+    @Test(timeout = 1000)
     public void testGenerateMockCourse() {
         String expected = "TST100";
         // Checking that the course has the correct code
-        assertEquals(expected, course4.getCourseId());
+        assertEquals(expected, mockCourse.getCourseId());
     }
 
-    @Test(timeout = 100)
-    public void testLectureSessions() {
-        String expected = "LEC in MP 203 from 09:00 to 10:00 on MONDAY";
+    @Test(timeout = 1000)
+    public void testMockLectureSessions() {
+        String expected = "LEC in ROOM 01 from 09:00 to 10:00 on MONDAY";
         // Checking that the course has the correct lectures
-        assertEquals(expected, course1.getLectures().get(0).toString());
+        assertEquals(expected, mockCourse.getLectures().get(0).toString());
     }
 
-    @Test(timeout = 100)
-    public void testTutorialSessions() {
-        String expected = "TUT in MY 380 from 10:00 to 11:00 on TUESDAY";
+    @Test(timeout = 1000)
+    public void testMockTutorialSessions() {
+        String expected = "TUT in ROOM 05 from 10:00 to 11:00 on TUESDAY";
         // Checking that the course has the correct tutorials
-        System.out.println(course1.getTutorials());
-        assertEquals(expected, course1.getTutorials().get(0).toString());
+        assertEquals(expected, mockCourse.getTutorials().get(0).toString());
     }
 
-    @Test(timeout = 500)
-    public void testLectureSessionsAsync() {
-        String expected = "LEC in ONLINE from 00:00 to 00:00 on SATURDAY";
+    @Test(timeout = 1000)
+    public void testMockTutorialSessionsSync() {
+        String expected = "TUT in ONLINE from 10:00 to 11:00 on TUESDAY";
         // Checking that the course has no scheduled lectures
-        assertEquals(expected, course3.getLectures().get(0).toString());
+        assertEquals(expected, mockCourse.getTutorials().get(1).toString());
     }
 }
