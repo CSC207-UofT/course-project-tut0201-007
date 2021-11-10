@@ -7,13 +7,11 @@ import org.junit.Test;
 public class APIWorkerTest {
     APIWorker getter237;
     APIWorker getter244;
-    APIWorker getterTest;
 
     @Before
     public void setUp() throws Exception {
-        getter237 = new APIWorker("MAT237", false);
-        getter244 = new APIWorker("MAT244", false);
-        getterTest = new APIWorker("test100", true);
+        getter237 = new APIWorker("MAT237");
+        getter244 = new APIWorker("MAT244");
     }
 
     @Test(timeout = 50)
@@ -24,12 +22,6 @@ public class APIWorkerTest {
         assertEquals(
                 expected,
                 getter237.info.get("MAT237Y1-Y-20219").getAsJsonObject().get("code").getAsString());
-    }
-
-    @Test(timeout = 50)
-    public void testDummyJSONReturn() {
-        String expected = "TST100";
-        assertEquals(expected, getterTest.info.getAsJsonObject().get("code").getAsString());
     }
 
     @Test(timeout = 50)

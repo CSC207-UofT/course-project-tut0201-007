@@ -26,7 +26,7 @@ public class CourseCreator {
      * @return a Course object
      */
     public Course generateCourse(String courseId) throws IOException {
-        APIWorker apiWorker = new APIWorker(courseId, false);
+        APIWorker apiWorker = new APIWorker(courseId);
         String courseCode =
                 apiWorker
                         .info

@@ -8,19 +8,28 @@ public class CourseCreatorTest {
     Course course1;
     Course course2;
     Course course3;
+    Course course4;
 
     @Before
     public void setUp() throws Exception {
         course1 = creator.generateCourse("MAT237");
         course2 = creator.generateCourse("MAT157");
         course3 = creator.generateCourse("COG250");
+        course4 = creator.generateCourse("test");
     }
 
-    @Test(timeout = 100)
+    @Test(timeout = 500)
     public void testGenerateCourse() {
         String expected = "MAT237Y1";
         // Checking that the course has the correct code
         assertEquals(expected, course1.getCourseId());
+    }
+
+    @Test(timeout = 500)
+    public void testGenerateMockCourse() {
+        String expected = "TST100";
+        // Checking that the course has the correct code
+        assertEquals(expected, course4.getCourseId());
     }
 
     @Test(timeout = 100)
@@ -38,7 +47,7 @@ public class CourseCreatorTest {
         assertEquals(expected, course1.getTutorials().get(0).toString());
     }
 
-    @Test(timeout = 100)
+    @Test(timeout = 500)
     public void testLectureSessionsAsync() {
         String expected = "LEC in ONLINE from 00:00 to 00:00 on SATURDAY";
         // Checking that the course has no scheduled lectures

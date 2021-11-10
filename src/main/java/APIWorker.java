@@ -1,6 +1,7 @@
 import com.google.gson.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This class represents an API Worker. The class is meant to be used to interact with the API. A
@@ -15,11 +16,11 @@ public class APIWorker {
      *
      * @param newId is the course id passed in, i.e. CSC207
      */
-    public APIWorker(String newId, boolean mock) throws IOException {
-        if (!mock) {
-            this.info = readUrl(newId, false).getAsJsonObject();
+    public APIWorker(String newId) throws IOException {
+        if (!Objects.equals(newId, "test")) {
+            this.info = readUrl(newId).getAsJsonObject();
         } else {
-            this.info = readUrl(newId, true).getAsJsonArray().get(0).getAsJsonObject();
+            this.info = readUrl(newId).getAsJsonArray().get(0).getAsJsonObject();
         }
         this.semester = new ArrayList<>(this.info.keySet());
     }
@@ -29,9 +30,9 @@ public class APIWorker {
      *
      * @return The JsonElement obtained from the API url
      */
-    private static JsonElement readUrl(String courseId, boolean mock) throws IOException {
+    private static JsonElement readUrl(String courseId) throws IOException {
         String api_template;
-        if (!mock) {
+        if (!Objects.equals(courseId, "test")) {
             api_template =
                     "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
         } else {
