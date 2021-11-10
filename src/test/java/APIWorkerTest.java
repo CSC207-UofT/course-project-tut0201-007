@@ -27,6 +27,12 @@ public class APIWorkerTest {
     }
 
     @Test(timeout = 50)
+    public void testDummyJSONReturn() {
+        String expected = "TST100";
+        assertEquals(expected, getterTest.info.getAsJsonObject().get("code").getAsString());
+    }
+
+    @Test(timeout = 50)
     public void testStringRep() {
         String expected = "MAT237Y1-Y-20219";
         // Just checking that the semester key in the JSON is good

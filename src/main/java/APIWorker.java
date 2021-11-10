@@ -38,7 +38,7 @@ public class APIWorker {
             api_template = "https://618bfe3bded7fb0017bb935e.mockapi.io/COURSENAME";
         }
         try (java.io.InputStream is =
-                     new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
+                new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
             String contents = new String(is.readAllBytes());
             return JsonParser.parseString(contents);
         }
