@@ -26,7 +26,7 @@ public class CourseCreator {
      * @return a Course object
      */
     public Course generateCourse(String courseId) throws IOException {
-        APIWorker apiWorker = new APIWorker(courseId);
+        APIWorker apiWorker = new APIWorker(courseId, false);
         String courseCode =
                 apiWorker
                         .info
@@ -63,9 +63,10 @@ public class CourseCreator {
                 JsonObject timeslots =
                         meetings.get(meeting).getAsJsonObject().get("schedule").getAsJsonObject();
                 String type = meetings.get(meeting).getAsJsonObject().get("teachingMethod").getAsString();
+                String code = meeting.substring(4, 8);
                 for (String timeslot : timeslots.keySet()) {
                     specifiedSessions.add(
-                            generateSession(type, timeslots.get(timeslot).getAsJsonObject()));
+                            generateSession(type, code, timeslots.get(timeslot).getAsJsonObject()));
                 }
             }
         }
@@ -84,10 +85,11 @@ public class CourseCreator {
      *     session
      * @return a Session object
      */
-    private static Session generateSession(String type, JsonObject timeslot) {
+    private static Session generateSession(String type, String code, JsonObject timeslot) {
         String room = timeslot.get("assignedRoom1").getAsString();
         return new Session.Builder(type)
                 .inRoom(Objects.equals(room, "") ? "ONLINE" : room)
+                .inSection(code)
                 .startsAt(LocalTime.parse(timeslot.get("meetingStartTime").getAsString()))
                 .endsAt(LocalTime.parse(timeslot.get("meetingEndTime").getAsString()))
                 .onDay(toDay.get(timeslot.get("meetingDay").getAsString()))
