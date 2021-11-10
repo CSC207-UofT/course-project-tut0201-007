@@ -10,8 +10,8 @@ public class APIWorkerTest {
 
     @Before
     public void setUp() throws Exception {
-        getter237 = new APIWorker("MAT237");
-        getter244 = new APIWorker("MAT244");
+        getter237 = new APIWorker("MAT237", false);
+        getter244 = new APIWorker("MAT244", false);
     }
 
     @Test(timeout = 50)

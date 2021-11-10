@@ -15,22 +15,26 @@ public class APIWorker {
      *
      * @param newId is the course id passed in, i.e. CSC207
      */
-    public APIWorker(String newId) throws IOException {
-        this.info = readUrl(newId).getAsJsonObject();
+    public APIWorker(String newId, boolean mock) throws IOException {
+        this.info = readUrl(newId, mock).getAsJsonObject();
         this.semester = new ArrayList<>(this.info.keySet());
     }
 
     /**
-     * Function that reads a valid url and turns it into a java JsonElement.
+     * Function that reads a valid mock url and turns it into a java JsonElement.
      *
-     * @return The JsonElement obtained from the API url
+     * @return The JsonElement obtained from the mock API url
      */
-    private static JsonElement readUrl(String courseId) throws IOException {
-        String api_template =
-                "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
-
+    private static JsonElement readUrl(String courseId, boolean mock) throws IOException {
+        String api_template;
+        if (!mock) {
+            api_template =
+                    "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
+        } else {
+            api_template = "https://618bfe3bded7fb0017bb935e.mockapi.io/COURSENAME";
+        }
         try (java.io.InputStream is =
-                new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
+                     new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
             String contents = new String(is.readAllBytes());
             return JsonParser.parseString(contents);
         }
