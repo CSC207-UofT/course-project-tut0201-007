@@ -16,14 +16,18 @@ public class APIWorker {
      * @param newId is the course id passed in, i.e. CSC207
      */
     public APIWorker(String newId, boolean mock) throws IOException {
-        this.info = readUrl(newId, mock).getAsJsonObject();
+        if (!mock) {
+            this.info = readUrl(newId, false).getAsJsonObject();
+        } else {
+            this.info = readUrl(newId, true).getAsJsonArray().get(0).getAsJsonObject();
+        }
         this.semester = new ArrayList<>(this.info.keySet());
     }
 
     /**
-     * Function that reads a valid mock url and turns it into a java JsonElement.
+     * Function that reads a valid url and turns it into a java JsonElement.
      *
-     * @return The JsonElement obtained from the mock API url
+     * @return The JsonElement obtained from the API url
      */
     private static JsonElement readUrl(String courseId, boolean mock) throws IOException {
         String api_template;

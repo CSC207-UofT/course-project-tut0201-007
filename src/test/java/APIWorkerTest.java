@@ -7,11 +7,13 @@ import org.junit.Test;
 public class APIWorkerTest {
     APIWorker getter237;
     APIWorker getter244;
+    APIWorker getterTest;
 
     @Before
     public void setUp() throws Exception {
         getter237 = new APIWorker("MAT237", false);
         getter244 = new APIWorker("MAT244", false);
+        getterTest = new APIWorker("test100", true);
     }
 
     @Test(timeout = 50)
