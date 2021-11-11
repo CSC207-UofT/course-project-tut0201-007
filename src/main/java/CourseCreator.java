@@ -27,7 +27,7 @@ public class CourseCreator {
      * @param courseId the identifier for hte course
      * @param session the semester that the course takes place ie S, F, Y
      * @return a Course object
-     * @throws IOException i dont know what exception this throws lol
+     * @throws IOException if there is an issue with retrieving the course from the API
      */
     public static Course generateCourse(String courseId, char session) throws IOException {
         APIWorker apiWorker = new APIWorker(courseId);
