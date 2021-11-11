@@ -1,6 +1,6 @@
-## entities.Course workers.Scheduler App
+## Course Scheduler App
 
-This is a entities.Course workers.Scheduler app in Java, for CSC207, Tutorial 0201 Group 007.
+This is a Course Scheduler app in Java, for CSC207, Tutorial 0201 Group 007.
 - Lorena Buciu
 - Siddarth Dagar
 - Rory Hofland

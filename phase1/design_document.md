@@ -136,6 +136,8 @@ Sessions represent a collection of time slots with a room and code. These are ta
 
 ## Packaging Strategies
 
+We packaged our code using the packaging by layers. This way we organized each clean architecture 
+
 ## Design Pattern Summary
 
 ### Builder
