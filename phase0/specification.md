@@ -14,39 +14,39 @@ A user specifies which courses they want to take, and also specify filters, like
 
 ### Entities:
 
-#### entities.Schedule ->
+#### Schedule ->
 A class that represents a possible schedule consisting of distinct lecture and tutorial sessions for each course.
 
-#### entities.Course ->
+#### Course ->
 A class that stores possible lecture and tutorial sections for each course.
 
-### entities.Session ->
+### Session ->
 A class that represents a distinct time slot for some class. It is used by course, and stored in schedule.
 
 ### Use Cases:
 
-#### workers.CourseCreator ->
-Creates a course object, populated with information from the API information retrieved through workers.APIWorker.
+#### CourseCreator ->
+Creates a course object, populated with information from the API information retrieved through APIWorker.
 
-#### workers.Scheduler ->
+#### Scheduler ->
 Creates permutations of all possible schedules, and then passes them through filter classes that remove schedules.
 
 #### ICSCreator ->
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
-#### filters.Filter Subclasses ->
+#### Filter Subclasses ->
 Classes that verify schedules based on user requested specifications, i.e. distances.
 
 
 
 ### CLI Commands/Controller class:
 
-#### controllers.CommandLineInterface ->
-Main class for the project, prompts user to input each of their classes, then uses the workers.Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
+#### CommandLineInterface ->
+Main class for the project, prompts user to input each of their classes, then uses the Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
 
 ### Potential Additions for Future Phases:
 
-entities.Schedule Generation ->
+Schedule Generation ->
 * Recursively creating schedules, ensuring that there are no overlapping courses. This is the main feature of the project, and the groundwork for it has been laid in phase 0
 
 Improved Parameters ->
@@ -54,7 +54,7 @@ Improved Parameters ->
 
 Optimization ->
 * Use multithreading to improve the time taken to genererate schedule permutations
-* Use caching in the cli + workers.APIWorker to prevent repetitive API calls
+* Use caching in the cli + APIWorker to prevent repetitive API calls
 
 Comments:
 - Details about the entire app (as much as possible)
