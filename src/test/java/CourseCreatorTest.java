@@ -9,7 +9,7 @@ public class CourseCreatorTest {
 
     @Before
     public void setUp() throws Exception {
-        mockCourse = creator.generateCourse("test");
+        mockCourse = creator.generateCourse("TST100");
     }
 
     @Test(timeout = 1000)
@@ -21,7 +21,7 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testMockLectureSessions() {
-        String expected = "LEC in ROOM 01 from 09:00 to 10:00 on MONDAY";
+        String expected = "LEC in ROOM 01 from 09:00 to 10:00 on WEDNESDAY";
         // Checking that the course has the correct lecture
         assertEquals(expected, mockCourse.getLectures().get(0).toString());
     }

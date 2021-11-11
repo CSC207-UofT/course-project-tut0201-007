@@ -1,7 +1,6 @@
 import com.google.gson.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * This class represents an API Worker. The class is meant to be used to interact with the API. A
