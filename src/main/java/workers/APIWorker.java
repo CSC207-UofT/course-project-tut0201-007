@@ -1,3 +1,5 @@
+package workers;
+
 import com.google.gson.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,8 +9,8 @@ import java.util.ArrayList;
  * worker is created for each class, and stores all API data.
  */
 public class APIWorker {
-    JsonObject info;
-    ArrayList<String> semester;
+    public JsonObject info;
+    public ArrayList<String> semester;
 
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.

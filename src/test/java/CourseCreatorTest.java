@@ -1,7 +1,9 @@
 import static org.junit.Assert.*;
 
+import entities.Course;
 import org.junit.Before;
 import org.junit.Test;
+import workers.CourseCreator;
 
 public class CourseCreatorTest {
     CourseCreator creator = new CourseCreator();

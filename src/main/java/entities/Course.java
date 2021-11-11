@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.ArrayList;
 
 /** This class represents a course, which consists of lecture and tutorial sessions */

@@ -4,6 +4,9 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import entities.Schedule;
+import entities.Session;
 import org.junit.Before;
 import org.junit.Test;
 

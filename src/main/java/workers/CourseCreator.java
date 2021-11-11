@@ -1,4 +1,10 @@
+package workers;
+
 import com.google.gson.*;
+import entities.Course;
+import entities.Session;
+import workers.APIWorker;
+
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -8,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
+/** This class represents a entities.Course Creator. This class uses workers.APIWorker to generate entities.Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -23,7 +29,7 @@ public class CourseCreator {
      * Generates a course given a courseId.
      *
      * @param courseId the id of the course to be created.
-     * @return a Course object
+     * @return a entities.Course object
      */
     public Course generateCourse(String courseId) throws IOException {
         APIWorker apiWorker = new APIWorker(courseId);
@@ -42,9 +48,9 @@ public class CourseCreator {
     /**
      * Reads through the JSON and returns all the sessions of a given type.
      *
-     * @param apiWorker the APIWorker for the given course
+     * @param apiWorker the workers.APIWorker for the given course
      * @param type the type of session, either a lecture or tutorial
-     * @return an ArrayList of Session objects
+     * @return an ArrayList of entities.Session objects
      */
     private static ArrayList<Session> getSessionsByType(APIWorker apiWorker, String type) {
         ArrayList<Session> specifiedSessions = new ArrayList<>();
@@ -82,7 +88,7 @@ public class CourseCreator {
      * @param type the type of session, either a lecture or tutorial
      * @param timeslot the provided timeslot, which is a JsonObject containing information about the
      *     session
-     * @return a Session object
+     * @return a entities.Session object
      */
     private static Session generateSession(String type, JsonObject timeslot) {
         String room = timeslot.get("assignedRoom1").getAsString();

@@ -1,3 +1,5 @@
+package entities;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
@@ -51,7 +53,7 @@ public class Session implements Comparable<Session> {
     }
 
     /**
-     * Constructs a Session
+     * Constructs a entities.Session
      *
      * @param builder a session builder
      */
