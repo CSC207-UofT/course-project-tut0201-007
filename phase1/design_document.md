@@ -136,7 +136,16 @@ Sessions represent a collection of time slots with a room and code. These are ta
 
 ## Packaging Strategies
 
-We packaged our code using the packaging by layers. This way we organized each clean architecture 
+We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its 
+own package, such as controllers, entities, filters, and workers. Controllers contains our command line interface, entities
+contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers 
+contains all of our use cases. 
+
+Since we don't have many classes for each layer, the code is well organized and simple to navigate through. We 
+put filters into its own package because we have a filter interface and its subclasses which should be grouped together. 
+
+Expansion of the program will be easy, as we can add each new clean architecture component into its associated package. 
+
 
 ## Design Pattern Summary
 
