@@ -5,7 +5,7 @@ The project works by taking User Input regarding courses they want, and filters 
 
 # CRC Model Summary
 * Controller:
-  * controller.CommandLineInterface, maps user input to calling commands
+  * controllers.CommandLineInterface, maps user input to calling commands
 * Entities:
   * entities.Schedule: Stores Lectures & Tutorials in schedule, and can add either Lecture or Tutorial
   * entities.Course: Stores Lectures, Sessions, courseID for a course
@@ -19,7 +19,7 @@ The project works by taking User Input regarding courses they want, and filters 
   * workers.Scheduler: Generates Schedules using filters
   * IcsCreator: Create ICS file for a entities.Session
 # Scenario Walk-Through Summary
-The program takes User Input through the CLI. It takes the number of courses the User wants to take, and the entities.Course Codes for courses the user wants to take. It parses the courses with **controller.CommandLineInterface**, and creates a **entities.Schedule** containing the desired courses with **workers.Scheduler**, and outputs the **entities.Schedule** to the CLI. **workers.Scheduler** uses **workers.CourseCreator** to instantiate a **entities.Course** for each course, and outputs the courses to the CLI. **workers.CourseCreator** uses info from **workers.APIWorker**, which queries the U of T Academic Calendar API for information for a single course.
+The program takes User Input through the CLI. It takes the number of courses the User wants to take, and the entities.Course Codes for courses the user wants to take. It parses the courses with **controllers.CommandLineInterface**, and creates a **entities.Schedule** containing the desired courses with **workers.Scheduler**, and outputs the **entities.Schedule** to the CLI. **workers.Scheduler** uses **workers.CourseCreator** to instantiate a **entities.Course** for each course, and outputs the courses to the CLI. **workers.CourseCreator** uses info from **workers.APIWorker**, which queries the U of T Academic Calendar API for information for a single course.
 
 For our walk-through, we used the example of wanting to input 2 courses, and wanting to take CSC258 and MAT237.
 
@@ -77,7 +77,7 @@ For our walk-through, we used the example of wanting to input 2 courses, and wan
 ## Baker
 * Worked On:
   * Progress report
-  * controller.CommandLineInterface class
+  * controllers.CommandLineInterface class
 * To Work On
   * Implementing effective scheduling and possibly multithreading
   * Making CLI more interactive, with the ability to upload txt file of classes
