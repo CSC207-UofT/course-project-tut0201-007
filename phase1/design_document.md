@@ -144,8 +144,7 @@ contains all of our use cases.
 Since we don't have many classes for each layer, the code is well organized and simple to navigate through. We 
 put filters into its own package because we have a filter interface and its subclasses which should be grouped together. 
 
-Expansion of the program will be easy, as we can add each new clean architecture component into its associated package. 
-
+Expansion of the program will be easy, as we can add each new clean architecture component into its associated package.
 
 ## Design Pattern Summary
 
