@@ -6,17 +6,13 @@ import org.junit.Test;
 
 public class SchedulerTest {
     Scheduler scheduleCreator = new Scheduler();
-    CourseCreator courseCreator = new CourseCreator();
-    ArrayList<String> codes = new ArrayList<>();
     Course course1;
     Course course2;
 
     @Before
     public void setUp() throws Exception {
-        codes.add("TST101");
-        codes.add("TST102");
-        course1 = courseCreator.generateCourse(codes.get(0));
-        course2 = courseCreator.generateCourse(codes.get(1));
+        course1 = CourseCreator.generateCourse("TST101", 'Y');
+        course2 = CourseCreator.generateCourse("TST102", 'Y');
     }
 
     @Test(timeout = 1000)
@@ -29,26 +25,39 @@ public class SchedulerTest {
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC in ROOM 07 from 12:00 to 13:00 on MONDAY\n"
-                        + "\nTutorials\n"
-                        + "TUT in ROOM 05 from 18:00 to 21:00 on FRIDAY\n";
+                        + "LEC-0101 meets at:\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07\n"
+                        + "\n\nTutorials\n"
+                        + "TUT-0101 meets at:\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05\n\n";
         // Checking that the course has the correct code
         assertEquals(expected, schedule.toString());
     }
 
     @Test(timeout = 1500)
     public void testGenerateMultiCourseSchedule() {
-        Schedule schedule = scheduleCreator.createBasicSchedule(codes);
+        ArrayList<String> multi = new ArrayList<>();
+        multi.add("TST101");
+        multi.add("TST102");
+        Schedule schedule = scheduleCreator.createBasicSchedule(multi);
 
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC in NF 003 from 12:00 to 13:00 on MONDAY\n"
-                        + "LEC in ROOM 07 from 12:00 to 13:00 on MONDAY\n"
-                        + "\nTutorials\n"
-                        + "TUT in ROOM 05 from 10:00 to 11:00 on TUESDAY\n"
-                        + "TUT in ROOM 05 from 18:00 to 21:00 on FRIDAY\n";
+                        + "LEC-0101 meets at:\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07\n"
+                        + "\n"
+                        + "LEC-0101 meets at:\n"
+                        + "MONDAY from 12:00-13:00 at NF 003\n"
+                        + "TUESDAY from 12:00-13:00 at NF 003\n"
+                        + "FRIDAY from 13:00-14:00 at NF 003\n"
+                        + "\n\nTutorials\n"
+                        + "TUT-0101 meets at:\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05\n"
+                        + "\n"
+                        + "TUT-0101 meets at:\n"
+                        + "TUESDAY from 10:00-11:00 at ROOM 05\n\n";
         assertEquals(expected, schedule.toString());
     }
 
@@ -61,8 +70,11 @@ public class SchedulerTest {
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC in ROOM 01 from 09:00 to 10:00 on WEDNESDAY\n"
-                        + "\nTutorials\n";
+                        + "LEC-0101 meets at:\n"
+                        + "WEDNESDAY from 09:00-10:00 at ROOM 01\n"
+                        + "\n"
+                        + "\n"
+                        + "Tutorials\n";
         assertEquals(expected, schedule.toString());
     }
 }
