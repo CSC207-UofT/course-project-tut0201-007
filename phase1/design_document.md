@@ -50,7 +50,7 @@ Main class for the project, prompts user to input each of their classes, then us
 
 ### Potential Additions for Future Phases:
 
-entities.Schedule Generation ->
+Schedule Generation ->
 * Recursively creating schedules, ensuring that there are no overlapping courses. This is the main feature of the project, and the groundwork for it has been laid in phase 0
 
 Improved Parameters ->
@@ -73,9 +73,9 @@ Comments:
 `TODO: Talk about the way we refactored the code`
 
 ### entities.Session
-entities.Session uses the **Builder** design pattern. The Builder design pattern was chosen to reduce the complexity of entities.Session constructor calls. For example, some sessions take place in a classroom, some are online, some have start and end times, some are asynchronous. Using Builder allows a entities.Session to be 'built' piece-by-piece, using only information relevant to that specific lecture or tutorial.
+Session uses the **Builder** design pattern. The Builder design pattern was chosen to reduce the complexity of entities.Session constructor calls. For example, some sessions take place in a classroom, some are online, some have start and end times, some are asynchronous. Using Builder allows a entities.Session to be 'built' piece-by-piece, using only information relevant to that specific lecture or tutorial.
 
-entities.Session was originally intended to represent a time during which a particular lecture or tutorial would occur. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store sessions in a map from section ID to an ArrayList of sessions, but this was not a good use of object oriented programming, since the collection of sessions could be stored in a new class. We decided to make entities.Session this class, and made a new entity named TimeSlot in orded to represent the various times. Multiple TimeSlot objects are stored in entities.Session. While performing these changes, we noticed that there was a significant degree of coupling between classes since the SkeletonCode. 
+Session was originally intended to represent a time during which a particular lecture or tutorial would occur. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store sessions in a map from section ID to an ArrayList of sessions, but this was not a good use of object oriented programming, since the collection of sessions could be stored in a new class. We decided to make entities.Session this class, and made a new entity named TimeSlot in orded to represent the various times. Multiple TimeSlot objects are stored in entities.Session. While performing these changes, we noticed that there was a significant degree of coupling between classes since the SkeletonCode. 
 
 ### Data Serialization
 For our data serialization functionality, we decided to use ICS files for our Data serialization because ICS files are the standard for storing online calendars. Since we use ICS files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. We created two classes, one for importing schedules from ICS files (**ScheduleImporter**) and one for exporting schedules (**ScheduleExporter**) to ICS files.
@@ -94,17 +94,17 @@ The calendar export class creates .ics files that contain times for a specific s
 
 ### **Controller**: controllers.CommandLineInterface
 
-The main method of our program lies in the controllers.CommandLineInterface class. User input is collected, and calls to workers.Scheduler are made based on this input. workers.Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
+The main method of our program lies in the controllers.CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
 
 ### **Use Case**: workers.Scheduler, CourseGenerator, workers.APIWorker, filters.Filter Interface
 
-workers.Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. workers.Scheduler calls filters.Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
+Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
 
-CourseGenerator is called by workers.Scheduler/(**our future controllers**) and instantiates entities.Course objects representing the user's courses. It does so by calling workers.APIWorker to retrieve data from the U of T API. The CourseGenerator then creates Sessions and TimeSlots (ok this seems like it's doing too much), adding these Objects to the list of Sessions each course has.
+CourseGenerator is called by Scheduler/(**our future controllers**) and instantiates entities.Course objects representing the user's courses. It does so by calling APIWorker to retrieve data from the U of T API. The CourseGenerator then creates Sessions and TimeSlots (ok this seems like it's doing too much), adding these Objects to the list of Sessions each course has.
 
 Different filters.Filter objects are instantiated based on the criteria a user provides for their scheduler. The filters are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
 
-workers.APIWorker takes course codes and gets their information from the U of T API. This allows workers.CourseCreator to create representations of the courses that is useful to our software.
+APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
 (**Note for ourselves** We REALLY need to consider how we actually implement this. There are a few obvious questions:
 
@@ -117,13 +117,13 @@ workers.APIWorker takes course codes and gets their information from the U of T 
 7. Are we blurring the lines between 'scheduler' and our controllers? We should create a distinct controllers class. 
 )
 
-### **Entity**: entities.Schedule, entities.Course, entities.Session, Timeslot
+### **Entity**: Schedule, Course, Session, Timeslot
 
-entities.Schedule represents a particular scheduler, with specific lecutre and tutorial sessions for a course. It is manipulated by the above use case classes, notably workers.Scheduler, and its representation is eventually returned by the controllers to the user.
+Schedule represents a particular scheduler, with specific lecture and tutorial sessions for a course. It is manipulated by the above use case classes, notably Scheduler, and its representation is eventually returned by the controllers to the user.
 
-entities.Course represents a particular course with various sessions. The sessions of courses are added to different schedules during schedule generation. Filters check the timeslots of sessions to satisfy certain criteria.
+Course represents a particular course with various sessions. The sessions of courses are added to different schedules during schedule generation. Filters check the timeslots of sessions to satisfy certain criteria.
 
-Sessions represent a collection of time slots with a room and code. These are taken from their respective courses and stored in entities.Schedule during schedule generation.
+Sessions represent a collection of time slots with a room and code. These are taken from their respective courses and stored in Schedule during schedule generation.
 
 (**Note for ourselves** Comparisons of sessions should be clean. Again, we need to consider the implementation since it seems there is a lot of unnecessary intertwining of classes. We should also encapsulate the return of times in the session so we do not need to get the list of slots and do operations or something.)
 
@@ -137,7 +137,7 @@ Sessions represent a collection of time slots with a room and code. These are ta
 ## Packaging Strategies
 
 We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its 
-own package, such as controllers, entities, filters, and workers. Controllers contains our command line interface, entities
+own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
 contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers 
 contains all of our use cases. 
 
