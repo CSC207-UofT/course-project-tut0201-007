@@ -17,7 +17,7 @@ public class APIWorker {
      * @param newId is the course id passed in, i.e. CSC207
      */
     public APIWorker(String newId) throws IOException {
-        if (!Objects.equals(newId, "test")) {
+        if (!newId.contains("TST")) {
             this.info = readUrl(newId).getAsJsonObject();
         } else {
             this.info = readUrl(newId).getAsJsonArray().get(0).getAsJsonObject();
@@ -32,7 +32,7 @@ public class APIWorker {
      */
     private static JsonElement readUrl(String courseId) throws IOException {
         String api_template;
-        if (!Objects.equals(courseId, "test")) {
+        if (!courseId.contains("TST")) {
             api_template =
                     "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
         } else {
