@@ -91,3 +91,4 @@ fabric.properties
 .project
 bin/
 output/
+.DS_Store
