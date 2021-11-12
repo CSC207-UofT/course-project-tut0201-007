@@ -82,7 +82,7 @@ public class CourseCreator {
      * @return an ArrayList of course names
      */
     public static ArrayList<String> getCourseExclusions(String value) {
-        return new ArrayList<>(List.of(value.split(",")));
+        return new ArrayList<>(List.of(value.replace(".", "").split("\\s*,\\s*")));
     }
 
     /**

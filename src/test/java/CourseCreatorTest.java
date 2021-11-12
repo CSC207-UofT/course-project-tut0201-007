@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CourseCreatorTest {
     Course mockCourse;
 
@@ -33,6 +36,16 @@ public class CourseCreatorTest {
         // Checking that the course has the correct tutorial
         assertEquals(expected, mockCourse.getTutorials().get(0).toString());
     }
+
+    @Test(timeout = 1000)
+    public void testMockExclusion() {
+        ArrayList<String> expected = new ArrayList<>(List.of("MAT137Y1", "MATA37H3", "MAT137Y5", "MAT157Y5", "MAT197H1", "ESC195H1"));
+        // Checking that the course has the correct exclusions
+        assertEquals(expected, mockCourse.getExclusions());
+    }
+
+
+
 
     //    @Test(timeout = 1000)
     //    public void testMockTutorialSessionsSync() {
