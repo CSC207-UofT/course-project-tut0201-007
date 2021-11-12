@@ -11,7 +11,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -27,8 +26,9 @@ import util.InvalidSessionException;
 /** Use Case class for exporting a Schedule into an ICS file */
 public class ScheduleExporter {
 
+    private static int numFiles = 0;
     private LocalDate now = LocalDate.now();
-    private int startYear = getStartYear(now.getYear(), now.getMonthValue());
+    private int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
     private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
     private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
     private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
@@ -45,27 +45,19 @@ public class ScheduleExporter {
     }
 
     /**
-     * @param year current year
-     * @param month current month
-     * @return The year in which the current Academic Year started
-     */
-    private int getStartYear(int year, int month) {
-        if (month < 9) {
-            return year - 1;
-        } else {
-            return year;
-        }
-    }
-
-    /**
      * {@code writer} defaults to {@link FileWriter}
      *
      * @see ScheduleExporter#outputScheduleICS(Schedule, Writer)
      */
     public void outputScheduleICS(Schedule schedule) {
         try {
-            Writer writer = new FileWriter(outputDirectory.getAbsolutePath().concat("/temp.ics"));
+            Writer writer =
+                    new FileWriter(
+                            outputDirectory
+                                    .getAbsolutePath()
+                                    .concat("/schedule" + numFiles + ".ics"));
             outputScheduleICS(schedule, writer);
+            numFiles += 1;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +90,8 @@ public class ScheduleExporter {
         for (Section lecture : schedule.getLectures()) {
             for (Timeslot timeslot : lecture.getTimeslots()) {
                 try {
-                    addTimeslotToCalendar(lecture.getName(), lecture.getSession(), timeslot, calendar);
+                    addTimeslotToCalendar(
+                            lecture.getName(), lecture.getSession(), timeslot, calendar);
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -131,7 +124,8 @@ public class ScheduleExporter {
      * @param calendar Calendar holding all VEvents
      */
     private void addTimeslotToCalendar(
-            String name, String session, Timeslot timeslot, Calendar calendar) throws InvalidSessionException {
+            String name, String session, Timeslot timeslot, Calendar calendar)
+            throws InvalidSessionException {
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
         LocalDate termEndDate = FALL_SEMESTER_END_DATE;
         switch (session) {
@@ -148,7 +142,10 @@ public class ScheduleExporter {
                 termEndDate = WINTER_SEMESTER_END_DATE;
                 break;
             default:
-                throw new InvalidSessionException(String.format("%s has invalid session %s. It should be either F, Y, or S", name, session));
+                throw new InvalidSessionException(
+                        String.format(
+                                "%s has invalid session %s. It should be either F, Y, or S",
+                                name, session));
         }
         Date finalDay =
                 new Date(
@@ -193,15 +190,5 @@ public class ScheduleExporter {
         } else {
             return res;
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        ScheduleExporter exporter = new ScheduleExporter();
-        Scheduler s = new Scheduler();
-        ArrayList<String> courses = new ArrayList<>();
-        courses.add("MAT237");
-        Schedule schedule = s.createBasicSchedule(courses);
-        System.out.println(schedule);
-        exporter.outputScheduleICS(schedule);
     }
 }

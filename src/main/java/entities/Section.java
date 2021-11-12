@@ -62,4 +62,15 @@ public class Section {
         }
         return ret.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Section) {
+            Section other = (Section) o;
+            return this.name.equals(other.getName())
+                    && this.session.equals(other.getSession())
+                    && this.getTimeslots().equals(other.getTimeslots());
+        }
+        return false;
+    }
 }

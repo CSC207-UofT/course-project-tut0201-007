@@ -1,37 +1,35 @@
 import entities.Schedule;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.ScheduleExporter;
+import workers.ScheduleImporter;
 import workers.Scheduler;
 
 public class ScheduleExporterTest {
 
     ScheduleExporter exporter;
-    Schedule inPersonSchedule, onlineSchedule;
+    Schedule coursesSchedule;
 
     @Before
     public void setUp() throws IOException {
-        // TODO: if we mock api, get course for mocked course. If not, hardcode in a session
-        ArrayList<String> inPerson = new ArrayList<>();
-        ArrayList<String> online = new ArrayList<>();
-        inPerson.add("MAT237");
-        online.add("STA247");
+
+        ArrayList<String> courses = new ArrayList<>();
+        courses.add("TST101");
         Scheduler scheduler = new Scheduler();
-        inPersonSchedule = scheduler.createBasicSchedule(inPerson);
-        onlineSchedule = scheduler.createBasicSchedule(online);
+        coursesSchedule = scheduler.createBasicSchedule(courses);
 
         exporter = new ScheduleExporter();
     }
 
-    @Test(timeout = 100)
-    public void testSessionExportInPerson() {
-        // TODO: Fill this in later
-    }
-
-    @Test(timeout = 100)
-    public void testSessionExportOnline() {
-        // TODO: fill this in later.
+    @Test(timeout = 1000)
+    public void testInvertability() {
+        StringWriter writer = new StringWriter();
+        exporter.outputScheduleICS(coursesSchedule, writer);
+        Schedule output = ScheduleImporter.importSchedule(new StringReader(writer.toString()));
+        assert (output.equals(coursesSchedule));
     }
 }
