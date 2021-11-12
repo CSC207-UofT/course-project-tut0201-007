@@ -2,8 +2,8 @@ package workers;
 
 import com.google.gson.*;
 import entities.Course;
-import entities.Session;
-import workers.APIWorker;
+import entities.Section;
+import entities.Timeslot;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
