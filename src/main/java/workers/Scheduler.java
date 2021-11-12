@@ -152,7 +152,7 @@ public class Scheduler {
      */
     private boolean checkFilters(Schedule s) {
         for (Filter f : this.filters) {
-            if (f.checkSchedule(s) == null) {
+            if (!f.checkSchedule(s)) {
                 return false;
             }
         }
