@@ -75,7 +75,7 @@ public class ScheduleExporter {
         calendar.getProperties().add(CalScale.GREGORIAN);
 
         for (Section tutorial : schedule.getTutorials()) {
-            for (Timeslot timeslot : tutorial.getTimeslots()) {
+            for (Timeslot timeslot : tutorial.getTimes()) {
                 try {
                     addTimeslotToCalendar(
                             tutorial.getName(), tutorial.getSession(), timeslot, calendar);
@@ -85,7 +85,7 @@ public class ScheduleExporter {
             }
         }
         for (Section lecture : schedule.getLectures()) {
-            for (Timeslot timeslot : lecture.getTimeslots()) {
+            for (Timeslot timeslot : lecture.getTimes()) {
                 try {
                     addTimeslotToCalendar(
                             lecture.getName(), lecture.getSession(), timeslot, calendar);

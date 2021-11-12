@@ -29,7 +29,7 @@ public class Section {
         times.add(t);
     }
 
-    public List<Timeslot> getTimeslots() {
+    public List<Timeslot> getTimes() {
         return (List<Timeslot>) times.clone();
     }
 
@@ -69,7 +69,7 @@ public class Section {
             Section other = (Section) o;
             return this.name.equals(other.getName())
                     && this.session.equals(other.getSession())
-                    && this.getTimeslots().equals(other.getTimeslots());
+                    && this.getTimes().equals(other.getTimes());
         }
         return false;
     }
