@@ -1,14 +1,12 @@
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import entities.Schedule;
 import filters.InPersonFilter;
-import filters.SpaceFilter;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class InPersonFilterTest {
     InPersonFilter filterInPerson;

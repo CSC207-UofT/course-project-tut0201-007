@@ -6,8 +6,8 @@ import entities.Timeslot;
 import java.util.ArrayList;
 
 /**
- * This class represents a filter. It works by checking a given schedule for the given criteria, in this case
- * whether a schedule is in-person or not.
+ * This class represents a filter. It works by checking a given schedule for the given criteria, in
+ * this case whether a schedule is in-person or not.
  */
 public class InPersonFilter implements Filter {
     private final boolean inPerson;
@@ -22,7 +22,8 @@ public class InPersonFilter implements Filter {
     }
 
     /**
-     * Returns true if the schedule only contains timeslots with the given delivery method, otherwise false
+     * Returns true if the schedule only contains timeslots with the given delivery method,
+     * otherwise false
      *
      * @param s the checked schedule
      */
