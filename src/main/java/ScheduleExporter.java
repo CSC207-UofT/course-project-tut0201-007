@@ -43,7 +43,6 @@ public class ScheduleExporter {
      * @param month current month
      * @return The year in which the current Academic Year started
      */
-    // TODO: I don't know how to communicate what this does by function name better
     private int getStartYear(int year, int month) {
         if (month < 9) {
             return year - 1;
@@ -82,12 +81,12 @@ public class ScheduleExporter {
 
         for (Section tutorial : schedule.getTutorials()) {
             for (Timeslot timeslot: tutorial.getTimeslots()){
-                addTimeslotToCalendar(tutorial.getName(), timeslot, calendar);
+                addTimeslotToCalendar(tutorial.getName(), tutorial.getSession(), timeslot, calendar);
             }
         }
         for (Section lecture : schedule.getLectures()) {
             for (Timeslot timeslot: lecture.getTimeslots()){
-                addTimeslotToCalendar(lecture.getName(), timeslot, calendar);
+                addTimeslotToCalendar(lecture.getName(), lecture.getSession(), timeslot, calendar);
             }
         }
         try {
@@ -108,13 +107,29 @@ public class ScheduleExporter {
         }
     }
 
-    private void addTimeslotToCalendar(String name, Timeslot timeslot, Calendar calendar){
-        // TODO: have Sections store their semester, use that to decide which start date & end date
-        // TODO: Also have sections store their course IDs & section IDs
+    private void addTimeslotToCalendar(String name, String session, Timeslot timeslot, Calendar calendar){
+        LocalDate termStartDate = FALL_SEMESTER_START_DATE;
+        LocalDate termEndDate = FALL_SEMESTER_END_DATE;
+        switch(session){
+            case "F":
+                termStartDate = FALL_SEMESTER_START_DATE;
+                termEndDate = FALL_SEMESTER_END_DATE;
+                break;
+            case "S":
+                termStartDate = WINTER_SEMESTER_START_DATE;
+                termEndDate = WINTER_SEMESTER_END_DATE;
+                break;
+            case "Y":
+                termStartDate = FALL_SEMESTER_START_DATE;
+                termEndDate = WINTER_SEMESTER_END_DATE;
+                break;
+            default:
+                break;
+        }
         Date finalDay =
                 new Date(
                         java.util.Date.from(
-                                FALL_SEMESTER_END_DATE
+                                termEndDate
                                         .atStartOfDay(ZoneId.systemDefault())
                                         .toInstant()));
 

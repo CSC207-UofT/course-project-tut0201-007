@@ -5,15 +5,16 @@ import java.util.List;
 public class Section {
 
     private String name;
+    private String session;
     private ArrayList<Timeslot> times;
 
     public Section(String name) {
-        this.name = name;
-        times = new ArrayList<Timeslot>();
+        this(name, new ArrayList<Timeslot>());
     }
 
-    public Section(String type, ArrayList<Timeslot> times) {
-        this.name = type;
+    public Section(String name, ArrayList<Timeslot> times) {
+        this.name = name;
+        this.session = name.split(" ")[2];
         this.times = times;
     }
 
@@ -28,6 +29,10 @@ public class Section {
 
     public List<Timeslot> getTimeslots(){
         return (List<Timeslot>) times.clone();
+    }
+
+    public String getSession(){
+        return session;
     }
 
     public String getName(){

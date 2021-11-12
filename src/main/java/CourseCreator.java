@@ -40,8 +40,8 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-        ArrayList<Section> lectures = getSessionsByType(meetings, "LEC");
-        ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT");
+        ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
+        ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
         return new Course(courseId, lectures, tutorials, session);
     }
 
@@ -52,11 +52,11 @@ public class CourseCreator {
      * @param type LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
-    private static ArrayList<Section> getSessionsByType(JsonObject meetings, String type) {
+    private static ArrayList<Section> getSessionsByType(JsonObject meetings, String type, String courseId, char session) {
         ArrayList<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
-                specifiedSessions.add(createSection(meetings.getAsJsonObject(meeting), meeting));
+                specifiedSessions.add(createSection(meetings.getAsJsonObject(meeting), meeting, courseId, session));
             }
         }
         return specifiedSessions;
@@ -69,8 +69,9 @@ public class CourseCreator {
      * @param name the name of the section
      * @return a Section object representing the JsonObject
      */
-    private static Section createSection(JsonObject meeting, String name) {
-        Section ret = new Section(name);
+    private static Section createSection(JsonObject meeting, String name, String courseId, char session) {
+        String fullName = String.format("%s %s %c", courseId, name, session);
+        Section ret = new Section(fullName);
         JsonObject schedule = meeting.getAsJsonObject("schedule");
         for (String time : schedule.keySet()) {
             if (time.equals("-")) continue;
