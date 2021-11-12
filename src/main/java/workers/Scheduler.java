@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Scheduler {
-    private final ArrayList courses;
-    private final ArrayList schedules;
+    private final ArrayList<Course> courses;
+    private final ArrayList<Schedule> schedules;
 
     /** Constructs a workers.Scheduler with empty courses and schedules */
     public Scheduler() {
-        this.courses = new ArrayList<>();
-        this.schedules = new ArrayList<>();
+        this.courses = new ArrayList<Course>();
+        this.schedules = new ArrayList<Schedule>();
     }
 
     /**
@@ -36,7 +36,6 @@ public class Scheduler {
      */
     public Schedule createBasicSchedule(ArrayList<String> courseCodes) {
         Schedule schedule = new Schedule();
-        CourseCreator courseCreator = new CourseCreator();
         Course newCourse;
 
         for (String courseCode : courseCodes) {
@@ -45,7 +44,7 @@ public class Scheduler {
                  * For every course code, generate the course from workers.CourseCreator, add first lec/tut
                  * session to the lectures and tutorials within the schedule.
                  */
-                newCourse = courseCreator.generateCourse(courseCode);
+                newCourse = CourseCreator.generateCourse(courseCode, 'F');
                 System.out.println(newCourse);
                 if (!newCourse.getLectures().isEmpty()) {
                     schedule.addLecture(newCourse.getLectures().get(0));
