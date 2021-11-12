@@ -91,7 +91,7 @@ public class Schedule {
 
     @Override
     public String toString() {
-        StringBuilder representation = new StringBuilder("entities.Schedule: \n\n");
+        StringBuilder representation = new StringBuilder("Schedule: \n\n");
         representation.append("Lectures\n");
         for (Session s : this.lectures) {
             representation.append(s.toString()).append("\n");
