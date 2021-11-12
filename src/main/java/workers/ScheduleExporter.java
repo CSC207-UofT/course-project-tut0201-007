@@ -22,6 +22,7 @@ import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 import net.fortuna.ical4j.validate.ValidationException;
+import util.InvalidSessionException;
 
 /** Use Case class for exporting a Schedule into an ICS file */
 public class ScheduleExporter {
@@ -79,7 +80,6 @@ public class ScheduleExporter {
      * @param writer The Writer object used to output the ICS, such as FileWriter or StringWriter
      */
     public void outputScheduleICS(Schedule schedule, Writer writer) {
-        // I was going to try and use this to test, by using a StringWriter, but I don't think that works.
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId("-//CSC207 Team 007//iCal4j 1.0//EN"));
         calendar.getProperties().add(Version.VERSION_2_0);
@@ -87,13 +87,21 @@ public class ScheduleExporter {
 
         for (Section tutorial : schedule.getTutorials()) {
             for (Timeslot timeslot : tutorial.getTimeslots()) {
-                addTimeslotToCalendar(
-                        tutorial.getName(), tutorial.getSession(), timeslot, calendar);
+                try {
+                    addTimeslotToCalendar(
+                            tutorial.getName(), tutorial.getSession(), timeslot, calendar);
+                } catch (InvalidSessionException e) {
+                    e.printStackTrace();
+                }
             }
         }
         for (Section lecture : schedule.getLectures()) {
             for (Timeslot timeslot : lecture.getTimeslots()) {
-                addTimeslotToCalendar(lecture.getName(), lecture.getSession(), timeslot, calendar);
+                try {
+                    addTimeslotToCalendar(lecture.getName(), lecture.getSession(), timeslot, calendar);
+                } catch (InvalidSessionException e) {
+                    e.printStackTrace();
+                }
             }
         }
         try {
@@ -114,7 +122,8 @@ public class ScheduleExporter {
         }
     }
 
-    /** Create VEvent corresponding to Timeslot, and add to Calendar
+    /**
+     * Create VEvent corresponding to Timeslot, and add to Calendar
      *
      * @param name Timeslot's corresponding Course code, section, and session. Ex (MAT237 LEC0101 Y)
      * @param session The session the Timeslot occurs in (F/S/Y)
@@ -122,7 +131,7 @@ public class ScheduleExporter {
      * @param calendar Calendar holding all VEvents
      */
     private void addTimeslotToCalendar(
-            String name, String session, Timeslot timeslot, Calendar calendar) {
+            String name, String session, Timeslot timeslot, Calendar calendar) throws InvalidSessionException {
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
         LocalDate termEndDate = FALL_SEMESTER_END_DATE;
         switch (session) {
@@ -139,7 +148,7 @@ public class ScheduleExporter {
                 termEndDate = WINTER_SEMESTER_END_DATE;
                 break;
             default:
-                break;
+                throw new InvalidSessionException(String.format("%s has invalid session %s. It should be either F, Y, or S", name, session));
         }
         Date finalDay =
                 new Date(
@@ -170,7 +179,8 @@ public class ScheduleExporter {
         calendar.getComponents().add(event);
     }
 
-    /** Get the specific date that a course will start
+    /**
+     * Get the specific date that a course will start
      *
      * @param termStart The start of the term for this course
      * @param dow The day of the week that the Timeslot is
