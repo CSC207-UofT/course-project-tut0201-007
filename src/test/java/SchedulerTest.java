@@ -6,63 +6,75 @@ import org.junit.Test;
 
 public class SchedulerTest {
     Scheduler scheduleCreator = new Scheduler();
-    CourseCreator courseCreator = new CourseCreator();
-    ArrayList<String> codes = new ArrayList<>();
     Course course1;
     Course course2;
 
     @Before
     public void setUp() throws Exception {
-        codes.add("MAT237");
-        codes.add("MAT244");
-        course1 = courseCreator.generateCourse(codes.get(0));
-        course2 = courseCreator.generateCourse(codes.get(1));
+        course1 = CourseCreator.generateCourse("TST101", 'Y');
+        course2 = CourseCreator.generateCourse("TST102", 'Y');
     }
 
     @Test(timeout = 1000)
-    public void testGenerateMAT237Schedule() {
-        ArrayList<String> mat237 = new ArrayList<>();
-        mat237.add("MAT237");
-        Schedule schedule = scheduleCreator.createBasicSchedule(mat237);
+    public void testGenerateTST101Schedule() {
+        ArrayList<String> tst101 = new ArrayList<>();
+        tst101.add("TST101");
+        Schedule schedule = scheduleCreator.createBasicSchedule(tst101);
 
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC in MP 203 from 09:00 to 10:00 on MONDAY\n"
-                        + "\nTutorials\n"
-                        + "TUT in MY 380 from 10:00 to 11:00 on TUESDAY\n";
+                        + "LEC-0101 meets at:\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07\n"
+                        + "\n\nTutorials\n"
+                        + "TUT-0101 meets at:\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05\n\n";
         // Checking that the course has the correct code
         assertEquals(expected, schedule.toString());
     }
 
     @Test(timeout = 1500)
     public void testGenerateMultiCourseSchedule() {
-        Schedule schedule = scheduleCreator.createBasicSchedule(codes);
+        ArrayList<String> multi = new ArrayList<>();
+        multi.add("TST101");
+        multi.add("TST102");
+        Schedule schedule = scheduleCreator.createBasicSchedule(multi);
 
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC in BA 1160 from 10:00 to 11:00 on MONDAY\n"
-                        + "LEC in MP 203 from 09:00 to 10:00 on MONDAY\n"
-                        + "\nTutorials\n"
-                        + "TUT in SS 1069 from 09:00 to 10:00 on MONDAY\n"
-                        + "TUT in MY 380 from 10:00 to 11:00 on TUESDAY\n";
+                        + "LEC-0101 meets at:\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07\n"
+                        + "\n"
+                        + "LEC-0101 meets at:\n"
+                        + "MONDAY from 12:00-13:00 at NF 003\n"
+                        + "TUESDAY from 12:00-13:00 at NF 003\n"
+                        + "FRIDAY from 13:00-14:00 at NF 003\n"
+                        + "\n\nTutorials\n"
+                        + "TUT-0101 meets at:\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05\n"
+                        + "\n"
+                        + "TUT-0101 meets at:\n"
+                        + "TUESDAY from 10:00-11:00 at ROOM 05\n\n";
         assertEquals(expected, schedule.toString());
     }
 
     @Test(timeout = 1500)
     public void testGenerateNoTutorialSchedule() {
-        ArrayList<String> csc236 = new ArrayList<>();
-        csc236.add("CSC236");
-        Schedule schedule = scheduleCreator.createBasicSchedule(csc236);
+        ArrayList<String> tst104 = new ArrayList<>();
+        tst104.add("TST104");
+        Schedule schedule = scheduleCreator.createBasicSchedule(tst104);
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC in ES 1050 from 11:00 to 12:00 on MONDAY\n"
-                        + "\nTutorials\n";
+                        + "LEC-0101 meets at:\n"
+                        + "WEDNESDAY from 09:00-10:00 at ROOM 01\n"
+                        + "\n"
+                        + "\n"
+                        + "Tutorials\n";
         assertEquals(expected, schedule.toString());
     }
 }
