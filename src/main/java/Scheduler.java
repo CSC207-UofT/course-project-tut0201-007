@@ -38,7 +38,7 @@ public class Scheduler {
                  * For every course code, generate the course from CourseCreator, add first lec/tut
                  * session to the lectures and tutorials within the schedule.
                  */
-                newCourse = CourseCreator.generateCourse(courseCode, 'S');
+                newCourse = CourseCreator.generateCourse(courseCode, 'F');
                 System.out.println(newCourse);
                 if (!newCourse.getLectures().isEmpty()) {
                     schedule.addLecture(newCourse.getLectures().get(0));
