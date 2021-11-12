@@ -57,7 +57,7 @@ Improved Parameters ->
 * Use Distance between class sessions to support Filters like "Walking distance must be less than 10 minutes between sessions".
 
 Optimization ->
-* Use multithreading to improve the time taken to genererate schedule permutations
+* Use multithreading to improve the time taken to generate schedule permutations
 * Use caching in the cli + APIWorker to prevent repetitive API calls
 
 Comments:
@@ -85,22 +85,22 @@ We chose to use ICS files over a database because we don't expect to be storing 
 ## Clean Architecture
 
 ### **User I/O**: CommandLineInterface, Calendar exporting 
-The user interacts with out CLI input class. At the moment, the CLI class and controller class are closely related. The user gives input to the CommandLineInterface which is used to control scheduling in the Main method. These two classes are the same since there is high cohesion between the user input and the data the controller works with.
+The user interacts with out CLI input class. At the moment, the CLI class and controllers class are closely related. The user gives input to the CommandLineInterface which is used to control scheduling in the Main method. These two classes are the same since there is high cohesion between the user input and the data the controllers works with.
 
 The calendar export class creates .ics files that contain times for a specific schedule. The user can also choose which generated schedule to export to an .ics file through the CLI. In addition, the user can also specify ICS files to import into the program via the CLI.
 
-(**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controller and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
+(**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
 
 
 ### **Controller**: CommandLineInterface
 
-The main method of our program lies in the CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controller.
+The main method of our program lies in the CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
 
 ### **Use Case**: Scheduler, CourseGenerator, APIWorker, Filter Interface
 
 Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
 
-CourseGenerator is called by Scheduler/(**our future controller**) and instantiates Course objects representing the user's courses. It does so by calling APIWorker to retrieve data from the U of T API. The CourseGenerator then creates Sessions and TimeSlots (ok this seems like it's doing too much), adding these Objects to the list of Sessions each course has.
+CourseGenerator is called by Scheduler/(**our future controllers**) and instantiates Course objects representing the user's courses. It does so by calling APIWorker to retrieve data from the U of T API. The CourseGenerator then creates Sessions and TimeSlots (ok this seems like it's doing too much), adding these Objects to the list of Sessions each course has.
 
 Different Filter objects are instantiated based on the criteria a user provides for their scheduler. The filters are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
 
@@ -110,16 +110,16 @@ APIWorker takes course codes and gets their information from the U of T API. Thi
 
 1. Making all permutations is extremely inefficient. We need to come up with a way to check filters for schedules while they are being generated.
 2. We should make 'ScheduleGenerator' or something for the specific implementation.
-3. How does the user 'pass in' filters? We should consider how we implement the controller and encode user input instead of using text.
+3. How does the user 'pass in' filters? We should consider how we implement the controllers and encode user input instead of using text.
 4. How do we ensure user priority for schedules are satisfied during generation? How do we make sure we return the least amount of 'useless' schedules? We need to make a decision about what is truly 'useless' and not consider those cases.
 5. We should consider making the collection of courses passed into schedule cleaner. Course object instantiation should occur outside of scheduler, or else scheduler has too many responsibilities.
 6. What is the **single responsibility** of scheduler? What is the single responsibility of each of our classes? Honestly not many of ours follow the S principle.
-7. Are we blurring the lines between 'scheduler' and our controller? We should create a distinct controller class. 
+7. Are we blurring the lines between 'scheduler' and our controllers? We should create a distinct controllers class. 
 )
 
 ### **Entity**: Schedule, Course, Session, Timeslot
 
-Schedule represents a particular scheduler, with specific lecutre and tutorial sessions for a course. It is manipulated by the above use case classes, notably Scheduler, and its representation is eventually returned by the controller to the user.
+Schedule represents a particular scheduler, with specific lecture and tutorial sessions for a course. It is manipulated by the above use case classes, notably Scheduler, and its representation is eventually returned by the controllers to the user.
 
 Course represents a particular course with various sessions. The sessions of courses are added to different schedules during schedule generation. Filters check the timeslots of sessions to satisfy certain criteria.
 
@@ -135,6 +135,16 @@ Sessions represent a collection of time slots with a room and code. These are ta
 ## SOLID Design Principles
 
 ## Packaging Strategies
+
+We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its 
+own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
+contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers 
+contains all of our use cases. 
+
+Since we don't have many classes for each layer, the code is well organized and simple to navigate through. We 
+put filters into its own package because we have a filter interface and its subclasses which should be grouped together. 
+
+Expansion of the program will be easy, as we can add each new clean architecture component into its associated package.
 
 ## Design Pattern Summary
 
