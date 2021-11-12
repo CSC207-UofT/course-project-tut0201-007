@@ -50,9 +50,13 @@ public class CourseCreator {
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC");
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT");
 
-       // String exclusionsValue = apiWorker.info.getAsJsonObject("exclusion").getAsString();
-        String testvalue = "MAT137Y1, MATA37H3, MAT137Y5, MAT157Y5, MAT197H1, ESC195H1.";
-        ArrayList<String> exclusions = getCourseExclusions(testvalue);
+        String exclusionsValue =
+                apiWorker
+                        .info
+                        .getAsJsonObject(apiWorker.semester.get(w))
+                        .get("exclusion").toString();
+        System.out.println(exclusionsValue);
+        ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
     }
@@ -82,7 +86,8 @@ public class CourseCreator {
      * @return an ArrayList of course names
      */
     public static ArrayList<String> getCourseExclusions(String value) {
-        return new ArrayList<>(List.of(value.replace(".", "").split("\\s*,\\s*")));
+        String cleanedValue = value.replace("\"", "").replace(".", "");
+        return new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
     }
 
     /**

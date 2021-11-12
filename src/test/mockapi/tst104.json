@@ -4,8 +4,8 @@
     "org": "TST",
     "orgName": "Test",
     "courseTitle": "Test Json",
-    "code": "TST100",
-    "exclusion": "",
+    "code": "TST104",
+    "exclusion": "TST100, TST101, TST105.",
     "section": "Y",
     "meetings": {
       "LEC-0101": {
