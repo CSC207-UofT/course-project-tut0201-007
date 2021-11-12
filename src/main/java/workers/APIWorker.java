@@ -18,7 +18,11 @@ public class APIWorker {
      * @param newId is the course id passed in, i.e. CSC207
      */
     public APIWorker(String newId) throws IOException {
-        this.info = readUrl(newId).getAsJsonObject();
+        if (!newId.contains("TST")) {
+            this.info = readUrl(newId).getAsJsonObject();
+        } else {
+            this.info = readUrl(newId).getAsJsonArray().get(0).getAsJsonObject();
+        }
         this.semester = new ArrayList<>(this.info.keySet());
     }
 
@@ -28,9 +32,13 @@ public class APIWorker {
      * @return The JsonElement obtained from the API url
      */
     private static JsonElement readUrl(String courseId) throws IOException {
-        String api_template =
-                "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
-
+        String api_template;
+        if (!courseId.contains("TST")) {
+            api_template =
+                    "https://timetable.iit.artsci.utoronto.ca/api/20219/courses?org=&code=COURSENAME&section=&studyyear=&daytime=&weekday=&prof=&breadth=&deliverymode=&online=&waitlist=&available=&fyfcourse=&title=";
+        } else {
+            api_template = "https://618bfe3bded7fb0017bb935e.mockapi.io/COURSENAME";
+        }
         try (java.io.InputStream is =
                 new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
             String contents = new String(is.readAllBytes());
