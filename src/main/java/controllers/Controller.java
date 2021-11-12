@@ -1,22 +1,21 @@
 package controllers;
 
+import entities.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import entities.*;
 import workers.*;
 
 /**
- * The main class of the program. Manages user input, scheduling, adds filters, and negotiates output.
+ * The main class of the program. Manages user input, scheduling, adds filters, and negotiates
+ * output.
  */
-
 public class Controller {
 
     public static void main(String[] args) {
         /**
-         * We create the input getter, and scheduler. Note that scheduler has addFilters() method, which we use
-         * according to User Input later in this method
+         * We create the input getter, and scheduler. Note that scheduler has addFilters() method,
+         * which we use according to User Input later in this method
          */
         Scheduler scheduler = new Scheduler();
 
@@ -26,14 +25,14 @@ public class Controller {
 
         List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
 
-        for(Schedule sch : schedules) {
+        for (Schedule sch : schedules) {
             System.out.println(sch);
         }
     }
 
     /**
-     * This method instantiates all courses with the courseCodes as their ID. Courses should be sorted in terms of
-     * user priority
+     * This method instantiates all courses with the courseCodes as their ID. Courses should be
+     * sorted in terms of user priority
      *
      * @param courseCodes the coursecodes of the courses to be instantiated
      * @return Course objects matching the passed in CourseCodes
@@ -63,5 +62,3 @@ public class Controller {
         return courses;
     }
 }
-
-

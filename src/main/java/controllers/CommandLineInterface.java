@@ -3,17 +3,14 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * The user interface of the program.
- */
-
+/** The user interface of the program. */
 public class CommandLineInterface {
 
     public CommandLineInterface() {}
 
     /**
-     * Method that prompts user for input, eventually returning a List of course IDs that they will be taking. The
-     * list should be sorted from greatest to least priority.
+     * Method that prompts user for input, eventually returning a List of course IDs that they will
+     * be taking. The list should be sorted from greatest to least priority.
      *
      * @return a list of desired course codes from greatest to least priority.
      */
@@ -40,5 +37,4 @@ public class CommandLineInterface {
         scanner.close();
         return courses;
     }
-
 }

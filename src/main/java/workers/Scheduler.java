@@ -1,20 +1,16 @@
 package workers;
 
+import entities.*;
 import entities.Course;
 import entities.Schedule;
-import workers.CourseCreator;
-
-import java.io.IOException;
+import filters.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import filters.*;
-import entities.*;
 
 /**
  * Class responsible for scheduling courses with different criteria.
  *
- * Key method is permutationScheduler() which creates all permutations passing filters.
+ * <p>Key method is permutationScheduler() which creates all permutations passing filters.
  */
 public class Scheduler {
     private final List<Course> courses;
@@ -43,8 +39,9 @@ public class Scheduler {
     }
 
     /**
-     * Scheduler used to create courses all course permutations recursively. During generation, schedulers not passing
-     * filters are removed in the populatePermutations and extendPermutations().
+     * Scheduler used to create courses all course permutations recursively. During generation,
+     * schedulers not passing filters are removed in the populatePermutations and
+     * extendPermutations().
      *
      * @param newCourses courses sorted by priority to be scheduled.
      * @return a list of all possible Schedules passing the given filters
@@ -60,8 +57,8 @@ public class Scheduler {
             List<Schedule> newSchedules = populatePermutations(newCourse);
             return newSchedules;
         } else {
-            Course newCourse = newCourses.get(numOfCourses-1);
-            newCourses.remove(numOfCourses-1);
+            Course newCourse = newCourses.get(numOfCourses - 1);
+            newCourses.remove(numOfCourses - 1);
             List<Schedule> savedSchedules = permutationScheduler(newCourses);
             List<Schedule> newSchedules = new ArrayList<>();
 
@@ -75,8 +72,8 @@ public class Scheduler {
     }
 
     /**
-     * Takes a list of courses and outputs a schedule that takes the first lecture section and
-     * first tutorial section in each course. Mainly used for testing purposes.
+     * Takes a list of courses and outputs a schedule that takes the first lecture section and first
+     * tutorial section in each course. Mainly used for testing purposes.
      *
      * @param courses an ArrayList of courses from which a schedule will be generated.
      * @return a schedule that takes the first lecture and first tutorial section in each course.
@@ -95,7 +92,8 @@ public class Scheduler {
         return schedule;
     }
 
-    /** Creates all lecture/tutorial section permutations that pass all filters for one course.
+    /**
+     * Creates all lecture/tutorial section permutations that pass all filters for one course.
      *
      * @param c course that we take lec/tut permutations of
      * @return all filtered schedules with these lec/tut permutations
@@ -106,7 +104,7 @@ public class Scheduler {
         List<Section> courseTutorials = c.getTutorials();
 
         for (Section lec : courseLectures) {
-            for(Section tut : courseTutorials) {
+            for (Section tut : courseTutorials) {
                 Schedule tempSchedule = new Schedule();
                 tempSchedule.addLecture(lec);
                 tempSchedule.addTutorial(tut);
@@ -120,8 +118,9 @@ public class Scheduler {
         return populatedSchedules;
     }
 
-    /** Returns permutations of lectures and tutorials of course c, passing filters, together
-     * with all sections already present in schedule s.
+    /**
+     * Returns permutations of lectures and tutorials of course c, passing filters, together with
+     * all sections already present in schedule s.
      *
      * @param c the course whose lecs/tuts will be permuted
      * @param s the schedule to which the permutations will be added
@@ -133,7 +132,7 @@ public class Scheduler {
         List<Section> courseTutorials = c.getTutorials();
 
         for (Section lec : courseLectures) {
-            for(Section tut : courseTutorials) {
+            for (Section tut : courseTutorials) {
                 Schedule tempSchedule = s.clone();
                 tempSchedule.addLecture(lec);
                 tempSchedule.addTutorial(tut);
@@ -146,8 +145,8 @@ public class Scheduler {
         return populatedSchedules;
     }
 
-
-    /** Checks filters for this scheduler
+    /**
+     * Checks filters for this scheduler
      *
      * @return true if all filters pass for Schedule given to the method
      */
@@ -159,5 +158,4 @@ public class Scheduler {
         }
         return true;
     }
-
 }

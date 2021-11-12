@@ -1,9 +1,8 @@
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import entities.Course;
 import entities.Schedule;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;

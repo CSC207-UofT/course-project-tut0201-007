@@ -3,10 +3,10 @@ package entities;
 import java.util.ArrayList;
 
 /**
- * This class represents a distinct collection of sessions. Class workers.Scheduler stores these in order to
- * keep track of possible schedules.
+ * This class represents a distinct collection of sessions. Class workers.Scheduler stores these in
+ * order to keep track of possible schedules.
  */
-public class Schedule implements Cloneable{
+public class Schedule implements Cloneable {
 
     private final ArrayList<Section> lectures;
     private final ArrayList<Section> tutorials;
@@ -27,6 +27,7 @@ public class Schedule implements Cloneable{
         this.lectures = lectures;
         this.tutorials = tutorials;
     }
+
     public ArrayList<Section> getLectures() {
         return lectures;
     }
@@ -75,8 +76,11 @@ public class Schedule implements Cloneable{
         }
         return false;
     }
+
     @Override
     public Schedule clone() {
-        return new Schedule((ArrayList<Section>) this.lectures.clone(), (ArrayList<Section>) this.tutorials.clone());
+        return new Schedule(
+                (ArrayList<Section>) this.lectures.clone(),
+                (ArrayList<Section>) this.tutorials.clone());
     }
 }
