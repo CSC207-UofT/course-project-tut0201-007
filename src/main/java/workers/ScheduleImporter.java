@@ -7,6 +7,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
@@ -27,7 +28,8 @@ public class ScheduleImporter {
     public static Schedule importSchedule(Reader reader) {
         Schedule schedule = new Schedule();
         Map<String, Section> sectionsByName = new HashMap<>();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
+        DateTimeFormatter dateFormatter =
+                DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss", Locale.CANADA);
 
         // Disable feature we don't need
         System.setProperty(

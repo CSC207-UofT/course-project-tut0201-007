@@ -29,7 +29,9 @@ public class ScheduleExporterTest {
     public void testInvertability() {
         StringWriter writer = new StringWriter();
         ScheduleExporter.outputScheduleICS(coursesSchedule, writer);
-        Schedule output = ScheduleImporter.importSchedule(new StringReader(writer.toString()));
-//        assert (output.equals(coursesSchedule));
+        String writtenICS = writer.toString();
+        System.out.println(writtenICS);
+        Schedule output = ScheduleImporter.importSchedule(new StringReader(writtenICS));
+        assert (output.equals(coursesSchedule));
     }
 }
