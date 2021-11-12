@@ -46,7 +46,7 @@ public class Schedule {
     /**
      * Mutate the tutorials list by adding lecture sessions in chronological order
      *
-     * @param tutorial is a tutorial sesstion
+     * @param tutorial is a tutorial session
      */
     public void addTutorial(Section tutorial) {
         tutorials.add(tutorial);

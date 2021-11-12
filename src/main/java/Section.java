@@ -8,7 +8,7 @@ public class Section {
 
     public Section(String name) {
         this.name = name;
-        times = new ArrayList<Timeslot>();
+        times = new ArrayList<>();
     }
 
     public Section(String type, ArrayList<Timeslot> times) {
@@ -24,6 +24,8 @@ public class Section {
     public void addTime(Timeslot t) {
         times.add(t);
     }
+
+    public ArrayList<Timeslot> getTimes() { return times; }
 
     public boolean checkConflict(Section other) {
         for (Timeslot t : times) {

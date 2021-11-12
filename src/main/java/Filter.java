@@ -3,5 +3,5 @@
  * based on given specifications.
  */
 public interface Filter {
-    public Schedule checkSchedule(Schedule s);
+    Schedule checkSchedule(Schedule s);
 }

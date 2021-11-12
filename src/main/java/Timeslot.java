@@ -1,5 +1,7 @@
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalTime;
+import java.lang.Math;
 
 public class Timeslot {
     private DayOfWeek day;
@@ -59,6 +61,15 @@ public class Timeslot {
     public Boolean conflictsWith(Timeslot other) {
         return this.day == other.day
                 && !(this.start.isAfter(other.end) || other.start.isAfter(this.end));
+    }
+
+    public int subtract(Timeslot other) {
+        if (this.day == other.day) {
+            return (int) Math.max(Duration.between(this.end, other.start).toHours(),
+                    Duration.between(this.start, other.end).toHours());
+        }
+        // might be a no no, idk
+        return -1;
     }
 
     @Override

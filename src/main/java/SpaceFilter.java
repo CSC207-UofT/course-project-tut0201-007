@@ -28,14 +28,22 @@ public class SpaceFilter implements Filter {
             return null;
         }
 
+        // only need timeslots for the checking
         ArrayList<Timeslot> timeslots = new ArrayList();
 
-        timeslots.addAll(s.getLectures());
-        timeslots.addAll(s.getTutorials());
+        for (Section lec:s.getLectures()) {
+            timeslots.addAll(lec.getTimes());
+        }
 
+        for (Section tut:s.getTutorials()) {
+            timeslots.addAll(tut.getTimes());
+        }
+
+        // check each timeslot for worst case O(n^2), but early null means this is optimal?
         for (int i = 0; i < timeslots.size(); i++) {
             for (int j = i+1; j < timeslots.size(); j++) {
-                if (timeslots.get(i).end - timeslots.get(j).start < this.interval) {
+                if (timeslots.get(i).getDay() == timeslots.get(j).getDay() &&
+                        timeslots.get(i).subtract(timeslots.get(j)) < 1 ) {
                     return null;
                 }
             }
