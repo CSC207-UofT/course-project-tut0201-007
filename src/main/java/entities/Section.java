@@ -27,7 +27,9 @@ public class Section {
         times.add(t);
     }
 
-    public ArrayList<Timeslot> getTimes() { return times; }
+    public ArrayList<Timeslot> getTimes() {
+        return times;
+    }
 
     public boolean checkConflict(Section other) {
         for (Timeslot t : times) {

@@ -1,8 +1,11 @@
 import static org.junit.Assert.*;
 
+import entities.Schedule;
+import filters.SpaceFilter;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
+import workers.Scheduler;
 
 public class SpaceFilterTest {
     SpaceFilter filter;
@@ -19,7 +22,7 @@ public class SpaceFilterTest {
         multi.add("TST101");
         multi.add("TST102");
         Schedule schedule = scheduleCreator.createBasicSchedule(multi);
-        assertNull(filter.checkSchedule(schedule));
+        assertFalse(filter.checkSchedule(schedule));
     }
 
     @Test(timeout = 1000)
@@ -28,6 +31,6 @@ public class SpaceFilterTest {
         multi.add("TST101");
         multi.add("TST104");
         Schedule schedule = scheduleCreator.createBasicSchedule(multi);
-        assertEquals(filter.checkSchedule(schedule), schedule);
+        assertTrue(filter.checkSchedule(schedule));
     }
 }
