@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * The main class of the program. Manages user input, scheduling, adds filters, and negotiates output.
@@ -14,10 +13,9 @@ public class Controller {
          * We create the input getter, and scheduler. Note that scheduler has addFilters() method, which we use
          * according to User Input later in this method
          */
-        CommandLineInterface inputGetter = new CommandLineInterface();
         Scheduler scheduler = new Scheduler();
 
-        List<String> courses = inputGetter.promptUser();
+        List<String> courses = CommandLineInterface.promptUser();
 
         List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
 

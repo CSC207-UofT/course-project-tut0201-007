@@ -1,6 +1,4 @@
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,7 +15,7 @@ public class CommandLineInterface {
      *
      * @return a list of desired course codes from greatest to least priority.
      */
-    public ArrayList<String> promptUser() {
+    public static ArrayList<String> promptUser() {
         Scanner scanner = new Scanner(System.in);
         Boolean input = false;
         int numCourses = 0;

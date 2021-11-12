@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +37,7 @@ public class Scheduler {
      * filters are removed in the populatePermutations and extendPermutations().
      *
      * @param newCourses courses sorted by priority to be scheduled.
+     * @return a list of all possible Schedules passing the given filters
      */
     public List<Schedule> permutationScheduler(List<Course> newCourses) {
         if (newCourses.isEmpty()) {
@@ -69,6 +69,7 @@ public class Scheduler {
      * first tutorial section in each course. Mainly used for testing purposes.
      *
      * @param courses an ArrayList of courses from which a schedule will be generated.
+     * @return a schedule that takes the first lecture and first tutorial section in each course.
      */
     public Schedule createBasicSchedule(ArrayList<Course> courses) {
         Schedule schedule = new Schedule();
