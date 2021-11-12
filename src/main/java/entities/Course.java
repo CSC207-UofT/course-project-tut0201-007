@@ -8,6 +8,7 @@ public class Course {
     private final char session;
     private final ArrayList<Section> lectures;
     private final ArrayList<Section> tutorials;
+    private final ArrayList<String> exclusions;
 
     /**
      * Constructs a course with an id and list of lecture and tutorial sessions
@@ -15,16 +16,20 @@ public class Course {
      * @param courseId given id
      * @param lectures given lectures
      * @param tutorials given tutorials
+     * @param session given session
+     * @param exclusions given course exclusions
      */
     public Course(
             String courseId,
             ArrayList<Section> lectures,
             ArrayList<Section> tutorials,
-            char session) {
+            char session,
+            ArrayList<String> exclusions) {
         this.courseId = courseId;
         this.lectures = lectures;
         this.tutorials = tutorials;
         this.session = session;
+        this.exclusions = exclusions;
     }
 
     public String getCourseId() {
@@ -37,6 +42,10 @@ public class Course {
 
     public ArrayList<Section> getTutorials() {
         return tutorials;
+    }
+
+    public ArrayList<String> getExclusions() {
+        return exclusions;
     }
 
     @Override
