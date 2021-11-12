@@ -3,33 +3,36 @@ package filters;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
+
+import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a filter. It works by checking a given schedule for the given criteria. It
  * is made "stackable" by returning the schedule if it works, and then that can be used for further
  * calls.
+ *
+ * This filter excludes schedules with classes running in specified blocks of time.
  */
-public class SpaceFilter implements Filter {
-    private final int interval;
+public class IncludeTimeFilter implements Filter {
+    private final List<Timeslot> timeInclusions;
 
     /**
-     * Constructor that assigns int for hours as the interval
+     * Constructor that takes Timeslots during which there should be no class in a schedule.
      *
-     * @param hours is the hour(s) of "buffer" you would like between classes
+     * @param inclusions the time slots during which classes should take place
      */
-    public SpaceFilter(int hours) {
-        this.interval = hours;
+    public IncludeTimeFilter(List<Timeslot> inclusions) {
+        this.timeInclusions = inclusions;
     }
     /**
-     * Essentially, we are returning nothing if the schedule does not pass the filter, otherwise
-     * return the schedule, so we can layer
+     * Returns schedules with all classes occuring during the specified times
      *
-     * @param s is a schedule we want to check follows the "interval" rule
+     * @param s is a schedule we want to check if all classes occur during the specified timeslots
      */
     @Override
     public boolean checkSchedule(Schedule s) {
-        // quick null type check
         if (s == null) {
             return false;
         }
@@ -45,15 +48,15 @@ public class SpaceFilter implements Filter {
             timeslots.addAll(tut.getTimes());
         }
 
-        // check each timeslot for worst case O(n^2), but early null means this is optimal?
-        for (int i = 0; i < timeslots.size(); i++) {
-            for (int j = i + 1; j < timeslots.size(); j++) {
-                if (timeslots.get(i).getDay() == timeslots.get(j).getDay()
-                        && timeslots.get(i).getMaxDistance(timeslots.get(j)) < this.interval) {
+        for (Timeslot include : timeInclusions) {
+            DayOfWeek inclusionDay = include.getDay();
+            for (Timeslot t : timeslots) {
+                if (t.getDay().equals(inclusionDay) || !include.conflictsWith(t)) {
                     return false;
                 }
             }
         }
         return true;
     }
+
 }
