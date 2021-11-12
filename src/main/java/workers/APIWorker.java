@@ -19,11 +19,7 @@ public class APIWorker {
      * @param newId is the course id passed in, i.e. CSC207
      */
     public APIWorker(String newId) throws IOException {
-        if (!newId.contains("TST")) {
-            this.info = readUrl(newId).getAsJsonObject();
-        } else {
-            this.info = readUrl(newId).getAsJsonObject();
-        }
+        this.info = readUrl(newId).getAsJsonObject();
         this.semester = new ArrayList<>(this.info.keySet());
     }
 
