@@ -29,45 +29,6 @@ public class Scheduler {
     }
 
     /**
-     * Takes a list of course codes and outputs a schedule that takes the first lecture session and
-     * first tutorial session in each lecture.
-     *
-     * @param courseCodes an ArrayList of course codes from which a schedule will be generated.
-     */
-    public Schedule createBasicSchedule(ArrayList<String> courseCodes) {
-        Schedule schedule = new Schedule();
-        Course newCourse;
-
-        for (String courseCode : courseCodes) {
-            try {
-                /**
-                 * For every course code, generate the course from CourseCreator, add first lec/tut
-                 * session to the lectures and tutorials within the schedule.
-                 */
-                newCourse = CourseCreator.generateCourse(courseCode, 'F');
-                if (!newCourse.getLectures().isEmpty()) {
-                    schedule.addLecture(newCourse.getLectures().get(0));
-                }
-                if (!newCourse.getTutorials().isEmpty()) {
-                    schedule.addTutorial(newCourse.getTutorials().get(0));
-                }
-            } catch (IOException exception) {
-                /**
-                 * In case something goes wrong with the API for a specific course code, we print
-                 * the code and the exception that is thrown.
-                 */
-                System.out.println(
-                        "Exception occured for course "
-                                + courseCode
-                                + " with the following message: \n"
-                                + exception.toString());
-            }
-        }
-
-        return schedule;
-    }
-
-    /**
      * Scheduler used to create courses non recursively by permutation.
      * Courses should be passed so that they are sorted in terms of priority.
      */
@@ -96,6 +57,26 @@ public class Scheduler {
         }
     }
 
+    /**
+     * Takes a list of courses and outputs a schedule that takes the first lecture section and
+     * first tutorial section in each course. Mainly used for testing purposes.
+     *
+     * @param courses an ArrayList of courses from which a schedule will be generated.
+     */
+    public Schedule createBasicSchedule(ArrayList<Course> courses) {
+        Schedule schedule = new Schedule();
+
+        for (Course newCourse : courses) {
+            if (!newCourse.getLectures().isEmpty()) {
+                schedule.addLecture(newCourse.getLectures().get(0));
+            }
+            if (!newCourse.getTutorials().isEmpty()) {
+                schedule.addTutorial(newCourse.getTutorials().get(0));
+            }
+        }
+        return schedule;
+    }
+
     /** Creates all lecture/tutorial section permutations that pass all filters for one course.
      *
      * @param c course that we take lec/tut permutations of
@@ -121,6 +102,12 @@ public class Scheduler {
         return populatedSchedules;
     }
 
+    /** Adds creates all permutations of lectures and tutorials that pass filters from a schedule s.
+     *
+     * @param c the course whose lecs/tuts will be permuted
+     * @param s the schedule to which the permutations will be added
+     * @return all added permutations to this schedule
+     */
     private List<Schedule> extendPermutations(Course c, Schedule s) {
         List<Schedule> populatedSchedules = new ArrayList<>();
         List<Section> courseLectures = c.getLectures();
@@ -137,10 +124,8 @@ public class Scheduler {
                 }
             }
         }
-
         return populatedSchedules;
     }
-
 
 
     /**
@@ -155,4 +140,5 @@ public class Scheduler {
         }
         return true;
     }
+
 }
