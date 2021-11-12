@@ -22,13 +22,12 @@ public class ScheduleExporterTest {
         Scheduler scheduler = new Scheduler();
         coursesSchedule = scheduler.createBasicSchedule(courses);
 
-        exporter = new ScheduleExporter();
     }
 
     @Test(timeout = 1000)
     public void testInvertability() {
         StringWriter writer = new StringWriter();
-        exporter.outputScheduleICS(coursesSchedule, writer);
+        ScheduleExporter.outputScheduleICS(coursesSchedule, writer);
         Schedule output = ScheduleImporter.importSchedule(new StringReader(writer.toString()));
         assert (output.equals(coursesSchedule));
     }

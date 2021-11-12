@@ -27,21 +27,15 @@ import util.InvalidSessionException;
 public class ScheduleExporter {
 
     private static int numFiles = 0;
-    private LocalDate now = LocalDate.now();
-    private int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
-    private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
-    private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
-    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
-    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
+    private static LocalDate now = LocalDate.now();
+    private static int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
+    private static final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
+    private static final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
+    private static final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
+    private static final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
 
-    private File outputDirectory;
 
     public ScheduleExporter() {
-        String baseDir = new File("").getAbsolutePath();
-        outputDirectory = new File(baseDir.concat("/output"));
-        if (!outputDirectory.exists()) {
-            outputDirectory.mkdir();
-        }
     }
 
     /**
@@ -49,7 +43,12 @@ public class ScheduleExporter {
      *
      * @see ScheduleExporter#outputScheduleICS(Schedule, Writer)
      */
-    public void outputScheduleICS(Schedule schedule) {
+    public static void outputScheduleICS(Schedule schedule) {
+        String baseDir = new File("").getAbsolutePath();
+        File outputDirectory = new File(baseDir.concat("/output"));
+        if (!outputDirectory.exists()) {
+            outputDirectory.mkdir();
+        }
         try {
             Writer writer =
                     new FileWriter(
@@ -71,7 +70,7 @@ public class ScheduleExporter {
      * @param schedule The Schedule object to output as ICS
      * @param writer The Writer object used to output the ICS, such as FileWriter or StringWriter
      */
-    public void outputScheduleICS(Schedule schedule, Writer writer) {
+    public static void outputScheduleICS(Schedule schedule, Writer writer) {
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId("-//CSC207 Team 007//iCal4j 1.0//EN"));
         calendar.getProperties().add(Version.VERSION_2_0);
@@ -123,7 +122,7 @@ public class ScheduleExporter {
      * @param timeslot Timeslot to create VEvent from
      * @param calendar Calendar holding all VEvents
      */
-    private void addTimeslotToCalendar(
+    private static void addTimeslotToCalendar(
             String name, String session, Timeslot timeslot, Calendar calendar)
             throws InvalidSessionException {
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
@@ -183,7 +182,7 @@ public class ScheduleExporter {
      * @param dow The day of the week that the Timeslot is
      * @return The Date that the course wills tart
      */
-    private LocalDate getStartingWeekDate(LocalDate termStart, DayOfWeek dow) {
+    private static LocalDate getStartingWeekDate(LocalDate termStart, DayOfWeek dow) {
         LocalDate res = (LocalDate) dow.adjustInto(termStart);
         if (res.isBefore(termStart)) {
             return res.plusWeeks(1);
