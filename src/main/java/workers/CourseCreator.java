@@ -46,23 +46,23 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-        ArrayList<Section> lectures = getSessionsByType(meetings, "LEC");
-        ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT");
+        ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", session);
+        ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", session);
         return new Course(courseId, lectures, tutorials, session);
     }
 
     /**
-     * Reads through a JSON object for a course and returns all of the sessions of a given type
+     * Reads through a JSON object for a course and returns all of the sections of a given type
      *
      * @param meetings a JsonObject that corresponds to all of the meetings for a course
      * @param type LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
-    private static ArrayList<Section> getSessionsByType(JsonObject meetings, String type) {
+    private static ArrayList<Section> getSessionsByType(JsonObject meetings, String type, char session) {
         ArrayList<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
-                specifiedSessions.add(createSection(meetings.getAsJsonObject(meeting), meeting));
+                specifiedSessions.add(createSection(meetings.getAsJsonObject(meeting), meeting, session));
             }
         }
         return specifiedSessions;
@@ -75,7 +75,8 @@ public class CourseCreator {
      * @param name the name of the section
      * @return a Section object representing the JsonObject
      */
-    private static Section createSection(JsonObject meeting, String name) {
+    private static Section createSection(JsonObject meeting, String name, char session) {
+        String roomKey = session == 'S' ? "assignedRoom2" : "assignedRoom1";
         Section ret = new Section(name);
         JsonObject schedule = meeting.getAsJsonObject("schedule");
         for (String time : schedule.keySet()) {
@@ -84,7 +85,7 @@ public class CourseCreator {
             DayOfWeek day = toDay.get(slot.get("meetingDay").getAsString());
             LocalTime start = LocalTime.parse(slot.get("meetingStartTime").getAsString());
             LocalTime end = LocalTime.parse(slot.get("meetingEndTime").getAsString());
-            String room = slot.get("assignedRoom1").getAsString();
+            String room = slot.get(roomKey).getAsString();
             if (room.equals("")) room = "ONLINE";
             ret.addTime(new Timeslot(start, end, day, room));
         }
