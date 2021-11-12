@@ -1,18 +1,19 @@
 import static org.junit.Assert.*;
 
 import entities.Course;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
 
-import java.io.IOException;
-
 public class CourseCreatorTest {
-    Course mockCourse;
+    Course mockCourse, sCourse, fCourse;
 
     @Before
     public void setUp() throws Exception {
         mockCourse = CourseCreator.generateCourse("TST101", 'Y');
+        fCourse = CourseCreator.generateCourse("TST105", 'F');
+        sCourse = CourseCreator.generateCourse("TST105", 'S');
     }
 
     @Test(timeout = 1000)
@@ -38,17 +39,15 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testGenerateFCourse() throws IOException {
-        Course fCourse = CourseCreator.generateCourse("CSC258", 'F');
-        String expected = "CSC258";
+        String expected = "TST105";
         assertEquals(expected, fCourse.getCourseId());
     }
+
     @Test(timeout = 1000)
     public void testGenerateSCourse() throws IOException {
-        Course sCourse = CourseCreator.generateCourse("CSC258", 'S');
-        String expected = "CSC258";
+        String expected = "TST105";
         assertEquals(expected, sCourse.getCourseId());
     }
-
 
     //    @Test(timeout = 1000)
     //    public void testMockTutorialSessionsSync() {

@@ -4,14 +4,16 @@ import com.google.gson.*;
 import entities.Course;
 import entities.Section;
 import entities.Timeslot;
-
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
 
-/** This class represents a entities.Course Creator. This class uses workers.APIWorker to generate entities.Course objects. */
+/**
+ * This class represents a entities.Course Creator. This class uses workers.APIWorker to generate
+ * entities.Course objects.
+ */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -58,11 +60,13 @@ public class CourseCreator {
      * @param type LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
-    private static ArrayList<Section> getSessionsByType(JsonObject meetings, String type, char session) {
+    private static ArrayList<Section> getSessionsByType(
+            JsonObject meetings, String type, char session) {
         ArrayList<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
-                specifiedSessions.add(createSection(meetings.getAsJsonObject(meeting), meeting, session));
+                specifiedSessions.add(
+                        createSection(meetings.getAsJsonObject(meeting), meeting, session));
             }
         }
         return specifiedSessions;
