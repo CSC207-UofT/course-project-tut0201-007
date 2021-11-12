@@ -34,7 +34,7 @@ public class Scheduler {
     }
 
     /**
-     * Scheduler used to create courses non recursively by permutation. During generation, schedulers not passing
+     * Scheduler used to create courses all course permutations recursively. During generation, schedulers not passing
      * filters are removed in the populatePermutations and extendPermutations().
      *
      * @param newCourses courses sorted by priority to be scheduled.

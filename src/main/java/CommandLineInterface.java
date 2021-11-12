@@ -11,6 +11,12 @@ public class CommandLineInterface {
 
     public CommandLineInterface() {}
 
+    /**
+     * Method that prompts user for input, eventually returning a List of course IDs that they will be taking. The
+     * list should be sorted from greatest to least priority.
+     *
+     * @return a list of desired course codes from greatest to least priority.
+     */
     public ArrayList<String> promptUser() {
         Scanner scanner = new Scanner(System.in);
         Boolean input = false;
@@ -33,12 +39,6 @@ public class CommandLineInterface {
         }
         scanner.close();
         return courses;
-        /**
-        Scheduler s = new Scheduler();
-        List<Course> instantiatedCourses = CommandLineInterface.courseInstantiator(courses);
-        List<Schedule> schedules = s.permutationScheduler(instantiatedCourses);
-        //System.out.println(s.createBasicSchedule(courses));
-         */
     }
 
 }

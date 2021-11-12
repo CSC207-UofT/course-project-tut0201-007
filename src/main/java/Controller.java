@@ -28,6 +28,13 @@ public class Controller {
         }
     }
 
+    /**
+     * This method instantiates all courses with the courseCodes as their ID. Courses should be sorted in terms of
+     * user priority
+     *
+     * @param courseCodes the coursecodes of the courses to be instantiated
+     * @return Course objects matching the passed in CourseCodes
+     */
     private static List<Course> courseInstantiator(List<String> courseCodes) {
         ArrayList<Course> courses = new ArrayList<>();
         for (String courseCode : courseCodes) {
