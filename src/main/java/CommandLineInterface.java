@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The user interface of the program.
+ */
+
 public class CommandLineInterface {
 
     public CommandLineInterface() {}

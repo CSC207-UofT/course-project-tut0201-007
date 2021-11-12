@@ -2,6 +2,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class responsible for scheduling courses with different criteria.
+ *
+ * Key method is permutationScheduler() which creates all permutations passing filters.
+ */
 public class Scheduler {
     private final List<Course> courses;
     private final List<Schedule> schedules;
@@ -24,13 +29,15 @@ public class Scheduler {
         this.schedules = schedules;
     }
 
-    public void addFilters(List<Filter> f) {
-        this.filters.addAll(f);
+    public void addFilters(List<Filter> filters) {
+        this.filters.addAll(filters);
     }
 
     /**
-     * Scheduler used to create courses non recursively by permutation.
-     * Courses should be passed so that they are sorted in terms of priority.
+     * Scheduler used to create courses non recursively by permutation. During generation, schedulers not passing
+     * filters are removed in the populatePermutations and extendPermutations().
+     *
+     * @param newCourses courses sorted by priority to be scheduled.
      */
     public List<Schedule> permutationScheduler(List<Course> newCourses) {
         if (newCourses.isEmpty()) {
@@ -102,7 +109,8 @@ public class Scheduler {
         return populatedSchedules;
     }
 
-    /** Adds creates all permutations of lectures and tutorials that pass filters from a schedule s.
+    /** Returns permutations of lectures and tutorials of course c, passing filters, together
+     * with all sections already present in schedule s.
      *
      * @param c the course whose lecs/tuts will be permuted
      * @param s the schedule to which the permutations will be added
@@ -128,7 +136,7 @@ public class Scheduler {
     }
 
 
-    /**
+    /** Checks filters for this scheduler
      *
      * @return true if all filters pass for Schedule given to the method
      */
