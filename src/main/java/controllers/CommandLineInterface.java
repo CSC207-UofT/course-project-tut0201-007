@@ -1,5 +1,8 @@
+package controllers;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+import workers.Scheduler;
 
 public class CommandLineInterface {
     public static void main(String[] args) {
