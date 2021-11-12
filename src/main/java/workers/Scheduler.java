@@ -1,3 +1,9 @@
+package workers;
+
+import entities.Course;
+import entities.Schedule;
+import workers.CourseCreator;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -5,14 +11,14 @@ public class Scheduler {
     private final ArrayList<Course> courses;
     private final ArrayList<Schedule> schedules;
 
-    /** Constructs a Scheduler with empty courses and schedules */
+    /** Constructs a workers.Scheduler with empty courses and schedules */
     public Scheduler() {
         this.courses = new ArrayList<Course>();
         this.schedules = new ArrayList<Schedule>();
     }
 
     /**
-     * Constructs a Scheduler with the given courses and schedules
+     * Constructs a workers.Scheduler with the given courses and schedules
      *
      * @param courses list of courses
      * @param schedules list of schedules
@@ -35,7 +41,7 @@ public class Scheduler {
         for (String courseCode : courseCodes) {
             try {
                 /**
-                 * For every course code, generate the course from CourseCreator, add first lec/tut
+                 * For every course code, generate the course from workers.CourseCreator, add first lec/tut
                  * session to the lectures and tutorials within the schedule.
                  */
                 newCourse = CourseCreator.generateCourse(courseCode, 'F');

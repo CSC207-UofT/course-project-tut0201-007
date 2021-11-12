@@ -1,11 +1,17 @@
+package workers;
+
 import com.google.gson.*;
+import entities.Course;
+import entities.Session;
+import workers.APIWorker;
+
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Map;
 
-/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
+/** This class represents a entities.Course Creator. This class uses workers.APIWorker to generate entities.Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
