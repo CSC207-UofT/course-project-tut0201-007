@@ -33,7 +33,7 @@ public class Controller {
      * @param courseCodes the coursecodes of the courses to be instantiated
      * @return Course objects matching the passed in CourseCodes
      */
-    private static List<Course> courseInstantiator(List<String> courseCodes) {
+    public static List<Course> courseInstantiator(List<String> courseCodes) {
         ArrayList<Course> courses = new ArrayList<>();
         for (String courseCode : courseCodes) {
             try {
