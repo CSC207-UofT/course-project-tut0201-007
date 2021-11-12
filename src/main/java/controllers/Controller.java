@@ -19,9 +19,9 @@ public class Controller {
          */
         Scheduler scheduler = new Scheduler();
 
-        List<String> courses = CommandLineInterface.promptUser();
+        ArrayList<ArrayList<String>> courses = CommandLineInterface.promptUser();
 
-        List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
+        List<Course> instantiatedCourses = Controller.courseInstantiator(courses.get(0));
 
         List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
 
