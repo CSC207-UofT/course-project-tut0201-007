@@ -1,0 +1,75 @@
+{
+  "TEST": {
+    "courseId": "00001",
+    "org": "TST",
+    "orgName": "Test",
+    "courseTitle": "Test Json",
+    "code": "TST101",
+    "section": "Y",
+    "meetings": {
+      "LEC-0101": {
+        "schedule": {
+          "MO-280119": {
+            "meetingDay": "MO",
+            "meetingStartTime": "12:00",
+            "meetingEndTime": "13:00",
+            "assignedRoom1": "ROOM 07",
+            "assignedRoom2": "ROOM 08"
+          }
+        },
+        "teachingMethod": "LEC",
+        "sectionNumber": "0101",
+        "cancel": "",
+        "deliveryMode": "CLASS"
+      },
+      "LEC-0201": {
+        "schedule": {
+          "TH-280121": {
+            "meetingDay": "TH",
+            "meetingStartTime": "09:00",
+            "meetingEndTime": "10:00",
+            "meetingScheduleId": "280121",
+            "assignedRoom1": "ROOM 03",
+            "assignedRoom2": "ROOM 04"
+          }
+        },
+        "teachingMethod": "LEC",
+        "sectionNumber": "0101",
+        "cancel": "",
+        "deliveryMode": "CLASS"
+      },
+      "TUT-0101": {
+        "schedule": {
+          "TU-280123": {
+            "meetingDay": "FR",
+            "meetingStartTime": "18:00",
+            "meetingEndTime": "21:00",
+            "meetingScheduleId": "280123",
+            "assignedRoom1": "ROOM 05",
+            "assignedRoom2": "ROOM 06"
+          }
+        },
+        "teachingMethod": "TUT",
+        "sectionNumber": "0101",
+        "cancel": "",
+        "deliveryMode": "CLASS"
+      },
+      "TUT-0201": {
+        "schedule": {
+          "TU-280123": {
+            "meetingDay": "TU",
+            "meetingStartTime": "10:00",
+            "meetingEndTime": "11:00",
+            "meetingScheduleId": "280123",
+            "assignedRoom1": "",
+            "assignedRoom2": "ROOM 06"
+          }
+        },
+        "teachingMethod": "TUT",
+        "sectionNumber": "0101",
+        "cancel": "",
+        "deliveryMode": "ONLSYNC"
+      }
+    }
+  }
+}
