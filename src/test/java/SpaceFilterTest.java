@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import controllers.Controller;
+import entities.Course;
 import entities.Schedule;
 import filters.SpaceFilter;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public class SpaceFilterTest {
         ArrayList<String> multi = new ArrayList<>();
         multi.add("TST101");
         multi.add("TST102");
-        Schedule schedule = scheduleCreator.createBasicSchedule(multi);
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filter.checkSchedule(schedule));
     }
 
@@ -30,7 +33,8 @@ public class SpaceFilterTest {
         ArrayList<String> multi = new ArrayList<>();
         multi.add("TST101");
         multi.add("TST104");
-        Schedule schedule = scheduleCreator.createBasicSchedule(multi);
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filter.checkSchedule(schedule));
     }
 }

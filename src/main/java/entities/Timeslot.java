@@ -64,7 +64,13 @@ public class Timeslot {
                 && !(this.start.isAfter(other.end) || other.start.isAfter(this.end));
     }
 
-    public int subtract(Timeslot other) {
+    /**
+     * method that finds the maximum distance between two timeslots
+     *
+     * @param other timeslot to compare with this
+     * @return int which is the hours between the two timeslots
+     */
+    public int getMaxDistance(Timeslot other) {
         if (this.day == other.day) {
             return (int)
                     Math.max(

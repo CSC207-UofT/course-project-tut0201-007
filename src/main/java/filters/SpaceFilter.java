@@ -49,7 +49,7 @@ public class SpaceFilter implements Filter {
         for (int i = 0; i < timeslots.size(); i++) {
             for (int j = i + 1; j < timeslots.size(); j++) {
                 if (timeslots.get(i).getDay() == timeslots.get(j).getDay()
-                        && timeslots.get(i).subtract(timeslots.get(j)) < 1) {
+                        && timeslots.get(i).getMaxDistance(timeslots.get(j)) < this.interval) {
                     return false;
                 }
             }
