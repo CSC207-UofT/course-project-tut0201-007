@@ -1,3 +1,5 @@
+import controllers.Controller;
+import entities.Course;
 import entities.Schedule;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -62,8 +64,9 @@ public class ScheduleImporterTest {
         Schedule res = ScheduleImporter.importSchedule(stringReader);
 
         Scheduler s = new Scheduler();
-        ArrayList<String> courses = new ArrayList<>();
-        courses.add("MAT237");
+        ArrayList<String> courseCodes = new ArrayList<>();
+        courseCodes.add("MAT237");
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
         Schedule expected = s.createBasicSchedule(courses);
 
         assert (res.equals(expected));

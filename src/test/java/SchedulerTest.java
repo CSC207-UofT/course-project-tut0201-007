@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 
+import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public class SchedulerTest {
     public void testGenerateTST101Schedule() {
         ArrayList<String> tst101 = new ArrayList<>();
         tst101.add("TST101");
-        Schedule schedule = scheduleCreator.createBasicSchedule(tst101);
+        ArrayList<Course> tst101_c = (ArrayList<Course>) Controller.courseInstantiator(tst101);
+        Schedule schedule = scheduleCreator.createBasicSchedule(tst101_c);
 
         String expected =
                 "Schedule: \n"
@@ -43,7 +45,9 @@ public class SchedulerTest {
         ArrayList<String> multi = new ArrayList<>();
         multi.add("TST101");
         multi.add("TST102");
-        Schedule schedule = scheduleCreator.createBasicSchedule(multi);
+        ArrayList<Course> mutli_c = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        Schedule schedule = scheduleCreator.createBasicSchedule(mutli_c);
+
         String expected =
                 "Schedule: \n"
                         + "\n"
@@ -68,7 +72,8 @@ public class SchedulerTest {
     public void testGenerateNoTutorialSchedule() {
         ArrayList<String> tst104 = new ArrayList<>();
         tst104.add("TST104");
-        Schedule schedule = scheduleCreator.createBasicSchedule(tst104);
+        ArrayList<Course> tst104_c = (ArrayList<Course>) Controller.courseInstantiator(tst104);
+        Schedule schedule = scheduleCreator.createBasicSchedule(tst104_c);
         String expected =
                 "Schedule: \n"
                         + "\n"
