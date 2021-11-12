@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 
+import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
 import java.util.ArrayList;
