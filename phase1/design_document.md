@@ -20,43 +20,43 @@ A user specifies which courses they want to take, and also specify filters, like
 
 ### Entities:
 
-#### Schedule ->
+#### Schedule 
 A class that represents a possible schedule consisting of distinct lecture and tutorial sessions for each course.
 
-#### Course ->
+#### Course 
 A class that stores possible lecture and tutorial sections for each course.
 
-#### Session ->
+#### Session 
 A class that represents a distinct time slot for some class. It is used by course, and stored in schedule.
 
 ### Use Cases:
 
-#### CourseCreator ->
+#### CourseCreator 
 Creates a course object, populated with information from the API information retrieved through APIWorker.
 
-#### Scheduler ->
+#### Scheduler 
 Creates permutations of all possible schedules, and then passes them through filter classes that remove schedules.
 
-#### ICSCreator ->
+#### ICSCreator 
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
-#### Filter Subclasses ->
+#### Filter Subclasses 
 Classes that verify schedules based on user requested specifications, i.e. distances.
 
 ### CLI Commands/Controller class:
 
-#### CommandLineInterface ->
+#### CommandLineInterface 
 Main class for the project, prompts user to input each of their classes, then uses the Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
 
 ### Potential Additions for Future Phases:
 
-Schedule Generation ->
+Schedule Generation 
 * Recursively creating schedules, ensuring that there are no overlapping courses. This is the main feature of the project, and the groundwork for it has been laid in phase 0
 
-Improved Parameters ->
+Improved Parameters 
 * Use Distance between class sessions to support Filters like "Walking distance must be less than 10 minutes between sessions".
 
-Optimization ->
+Optimization 
 * Use multithreading to improve the time taken to generate schedule permutations
 * Use caching in the cli + APIWorker to prevent repetitive API calls
 
@@ -76,6 +76,10 @@ Comments:
 Session uses the **Builder** design pattern. The Builder design pattern was chosen to reduce the complexity of Session constructor calls. For example, some sessions take place in a classroom, some are online, some have start and end times, some are asynchronous. Using Builder allows a Session to be 'built' piece-by-piece, using only information relevant to that specific lecture or tutorial.
 
 Session was originally intended to represent a time during which a particular lecture or tutorial would occur. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store sessions in a map from section ID to an ArrayList of sessions, but this was not a good use of object oriented programming, since the collection of sessions could be stored in a new class. We decided to make Session this class, and made a new entity named TimeSlot in orded to represent the various times. Multiple TimeSlot objects are stored in Session. While performing these changes, we noticed that there was a significant degree of coupling between classes since the SkeletonCode. 
+
+### Controller
+
+Our CommandLineInterface class initially violated the single responsibility principle since it took on too many tasks; it would take user input, call Scheduler, and handles output. As well, we noticed that our Scheduler class was responsible for the instantiation of course objects. It became evident that our Controler functionality was split between the CommandLineInterface and Scheduler classes. In order to adhere to the single responsibility and open/closed principles of software design, we created the Controller class. This class now holds the main method, calls the CommandLineInterface to prompt for user input, and then instantiates Course objects for Scheduler. Scheduler was changed so that it accepts only Course objects as paramaters to avoid instantiation of Courses from String course ID within scheduling methods. Overall, this will allow for greater flexibility with extension of our program's UI, control flow, and output.
 
 ### Data Serialization
 For our data serialization functionality, we decided to use ICS files for our Data serialization because ICS files are the standard for storing online calendars. Since we use ICS files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. We created two classes, one for importing schedules from ICS files (**ScheduleImporter**) and one for exporting schedules (**ScheduleExporter**) to ICS files.
