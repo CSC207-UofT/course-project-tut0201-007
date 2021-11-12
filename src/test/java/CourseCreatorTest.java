@@ -13,21 +13,21 @@ public class CourseCreatorTest {
         mockCourse = CourseCreator.generateCourse("TST101", 'Y');
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 2000)
     public void testGenerateMockCourse() {
         String expected = "TST101";
         // Checking that the mock course has the correct code
         assertEquals(expected, mockCourse.getCourseId());
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 2000)
     public void testMockLectureSessions() {
         String expected = "LEC-0101 meets at:\n" + "MONDAY from 12:00-13:00 at ROOM 07\n";
         // Checking that the course has the correct lecture
         assertEquals(expected, mockCourse.getLectures().get(0).toString());
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 2000)
     public void testMockTutorialSessions() {
         String expected = "TUT-0101 meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
         // Checking that the course has the correct tutorial
