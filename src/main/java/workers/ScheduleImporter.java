@@ -50,7 +50,8 @@ public class ScheduleImporter {
             String title = event.getProperty("SUMMARY").getValue();
             String startTimeString = event.getProperty("DTSTART").getValue();
             String endTimeString = event.getProperty("DTEND").getValue();
-
+            System.out.println(startTimeString);
+            System.out.println(endTimeString);
             LocalDateTime start = LocalDateTime.parse(startTimeString, dateFormatter);
             LocalDateTime end = LocalDateTime.parse(endTimeString, dateFormatter);
 
