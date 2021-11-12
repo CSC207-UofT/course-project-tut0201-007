@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /** This class represents a entities.Course Creator. This class uses workers.APIWorker to generate entities.Course objects. */
@@ -49,7 +50,9 @@ public class CourseCreator {
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC");
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT");
 
-        ArrayList<String> exclusions = new ArrayList<>();
+       // String exclusionsValue = apiWorker.info.getAsJsonObject("exclusion").getAsString();
+        String testvalue = "MAT137Y1, MATA37H3, MAT137Y5, MAT157Y5, MAT197H1, ESC195H1.";
+        ArrayList<String> exclusions = getCourseExclusions(testvalue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
     }
@@ -69,6 +72,17 @@ public class CourseCreator {
             }
         }
         return specifiedSessions;
+    }
+
+    /**
+     * Extracts all course names from a string containing the course exclusions and puts it into an
+     * ArrayList
+     *
+     * @param value a String that corresponds to all of the exclusions for a course
+     * @return an ArrayList of course names
+     */
+    public static ArrayList<String> getCourseExclusions(String value) {
+        return new ArrayList<>(List.of(value.split(",")));
     }
 
     /**
