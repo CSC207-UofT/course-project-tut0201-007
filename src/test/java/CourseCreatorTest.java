@@ -12,7 +12,6 @@ public class CourseCreatorTest {
     @Before
     public void setUp() throws Exception {
         mockCourse = CourseCreator.generateCourse("TST101", 'Y');
-        mockCourseEX = CourseCreator.generateCourse("MAT137", 'Y');
     }
 
     @Test(timeout = 1000)

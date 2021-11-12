@@ -17,7 +17,7 @@ public class Course {
      * @param lectures given lectures
      * @param tutorials given tutorials
      * @param session given session
-     *
+     * @param exclusions given course exclusions
      */
     public Course(
             String courseId,
@@ -42,6 +42,10 @@ public class Course {
 
     public ArrayList<Section> getTutorials() {
         return tutorials;
+    }
+
+    public ArrayList<String> getExclusions() {
+        return exclusions;
     }
 
     @Override
