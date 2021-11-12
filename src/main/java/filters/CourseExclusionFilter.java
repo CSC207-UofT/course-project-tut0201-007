@@ -6,13 +6,13 @@ import entities.Schedule;
  * This class represents a filter. It works by checking a given schedule for the given criteria, in this case
  * whether a schedule contains course exclusions or not
  */
-public class ExclusionFilter implements Filter {
+public class CourseExclusionFilter implements Filter {
 
     /**
-     * Constructs a filter
+     * Constructs a CourseExclusionFilter
      *
      */
-    public ExclusionFilter() {
+    public CourseExclusionFilter() {
 
     }
 
