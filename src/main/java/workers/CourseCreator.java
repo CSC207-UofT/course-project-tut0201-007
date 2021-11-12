@@ -48,13 +48,7 @@ public class CourseCreator {
                         .getAsJsonObject("meetings");
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC");
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT");
-
-        JsonObject exclusionsString =
-                apiWorker.info.getAsJsonObject("exclusion");
-
-        ArrayList<String> exclusions = getExclusions(exclusionsString);
-
-        return new Course(courseId, lectures, tutorials, session, exclusions);
+        return new Course(courseId, lectures, tutorials, session);
     }
 
     /**
@@ -72,20 +66,6 @@ public class CourseCreator {
             }
         }
         return specifiedSessions;
-    }
-
-    /**
-     * Reads through a JSON object for exclusions and tokenizes the string,
-     * returning an array list of all the exclusions
-     *
-     * @param exclusions a JSON object that corresponds to a string containing all the exclusions of a course
-     */
-    private static ArrayList<String> getExclusions(JsonObject exclusions) {
-        ArrayList<String> exclusionsList = new ArrayList<>();
-        String splitString = exclusions.toString();
-        exclusionsList.add(splitString);
-        //FIX
-        return exclusionsList;
     }
 
     /**
