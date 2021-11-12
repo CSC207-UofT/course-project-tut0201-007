@@ -7,5 +7,5 @@ import entities.Schedule;
  * based on given specifications.
  */
 public interface Filter {
-    Schedule  checkSchedule(Schedule s);
+    Boolean checkSchedule(Schedule s);
 }

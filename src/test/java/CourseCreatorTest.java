@@ -7,10 +7,12 @@ import workers.CourseCreator;
 
 public class CourseCreatorTest {
     Course mockCourse;
+    Course mockCourseEX;
 
     @Before
     public void setUp() throws Exception {
         mockCourse = CourseCreator.generateCourse("TST101", 'Y');
+        mockCourseEX = CourseCreator.generateCourse("MAT137", 'Y');
     }
 
     @Test(timeout = 1000)
@@ -32,6 +34,12 @@ public class CourseCreatorTest {
         String expected = "TUT-0101 meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
         // Checking that the course has the correct tutorial
         assertEquals(expected, mockCourse.getTutorials().get(0).toString());
+    }
+
+    @Test(timeout = 1000)
+    public void testCourseExclusions() {
+        String expected = "";
+        //FINISH
     }
 
     //    @Test(timeout = 1000)

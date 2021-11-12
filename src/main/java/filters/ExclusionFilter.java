@@ -9,7 +9,13 @@ public class ExclusionFilter implements Filter {
     }
 
     @Override
-    public Schedule checkSchedule(Schedule s) {
-        return null;
+    public Boolean checkSchedule(Schedule s) {
+
+        if (s == null) {
+            return false;
+        }
+
+        return true;
+
     }
 }
