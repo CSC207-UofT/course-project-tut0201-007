@@ -14,48 +14,30 @@ public class ScheduleImporterTest {
 
     @Before
     public void setUp() {
-        dummyICS =
-                "BEGIN:VCALENDAR\n"
-                        + "PRODID:-//CSC207 Team 007//iCal4j 1.0//EN\n"
-                        + "VERSION:2.0\n"
-                        + "CALSCALE:GREGORIAN\n"
-                        + "BEGIN:VEVENT\n"
-                        + "DTSTAMP:20211112T183502Z\n"
-                        + "DTSTART:20210914T100000\n"
-                        + "DTEND:20210914T110000\n"
-                        + "SUMMARY:MAT237 TUT-0101 F\n"
-                        + "RRULE:FREQ=WEEKLY;UNTIL=20211210\n"
-                        + "UID:205ae425-a5e5-44a9-a51a-1ca4c3a0f8ba\n"
-                        + "LOCATION:MY 380\n"
-                        + "END:VEVENT\n"
-                        + "BEGIN:VEVENT\n"
-                        + "DTSTAMP:20211112T183502Z\n"
-                        + "DTSTART:20210913T090000\n"
-                        + "DTEND:20210913T100000\n"
-                        + "SUMMARY:MAT237 LEC-0101 F\n"
-                        + "RRULE:FREQ=WEEKLY;UNTIL=20211210\n"
-                        + "UID:f52089d7-d35a-4207-90ef-9934ebd8aeb8\n"
-                        + "LOCATION:MP 203\n"
-                        + "END:VEVENT\n"
-                        + "BEGIN:VEVENT\n"
-                        + "DTSTAMP:20211112T183502Z\n"
-                        + "DTSTART:20210914T090000\n"
-                        + "DTEND:20210914T100000\n"
-                        + "SUMMARY:MAT237 LEC-0101 F\n"
-                        + "RRULE:FREQ=WEEKLY;UNTIL=20211210\n"
-                        + "UID:d3e97506-56e8-48f7-9342-400b8d770d73\n"
-                        + "LOCATION:MP 103\n"
-                        + "END:VEVENT\n"
-                        + "BEGIN:VEVENT\n"
-                        + "DTSTAMP:20211112T183502Z\n"
-                        + "DTSTART:20210909T090000\n"
-                        + "DTEND:20210909T100000\n"
-                        + "SUMMARY:MAT237 LEC-0101 F\n"
-                        + "RRULE:FREQ=WEEKLY;UNTIL=20211210\n"
-                        + "UID:df91ef8d-da98-4649-b884-16fbb7b96e75\n"
-                        + "LOCATION:MP 203\n"
-                        + "END:VEVENT\n"
-                        + "END:VCALENDAR";
+        dummyICS ="BEGIN:VCALENDAR\n" +
+                "PRODID:-//CSC207 Team 007//iCal4j 1.0//EN\n" +
+                "VERSION:2.0\n" +
+                "CALSCALE:GREGORIAN\n" +
+                "BEGIN:VEVENT\n" +
+                "DTSTAMP:20211112T222307Z\n" +
+                "DTSTART:20210910T180000\n" +
+                "DTEND:20210910T210000\n" +
+                "SUMMARY:TST101 TUT-0101 F\n" +
+                "RRULE:FREQ=WEEKLY;UNTIL=20211210\n" +
+                "UID:8e14863e-5731-4333-ab83-1f92eabdcad4\n" +
+                "LOCATION:ROOM 05\n" +
+                "END:VEVENT\n" +
+                "BEGIN:VEVENT\n" +
+                "DTSTAMP:20211112T222307Z\n" +
+                "DTSTART:20210913T120000\n" +
+                "DTEND:20210913T130000\n" +
+                "SUMMARY:TST101 LEC-0101 F\n" +
+                "RRULE:FREQ=WEEKLY;UNTIL=20211210\n" +
+                "UID:005e6401-a512-465d-9767-3d4397ec0dd1\n" +
+                "LOCATION:ROOM 07\n" +
+                "END:VEVENT\n" +
+                "END:VCALENDAR";
+
     }
 
     @Test(timeout = 1000)
@@ -65,7 +47,7 @@ public class ScheduleImporterTest {
 
         Scheduler s = new Scheduler();
         ArrayList<String> courseCodes = new ArrayList<>();
-        courseCodes.add("MAT237");
+        courseCodes.add("TST101");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
         Schedule expected = s.createBasicSchedule(courses);
 
