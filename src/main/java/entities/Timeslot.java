@@ -1,6 +1,7 @@
 package entities;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class Timeslot {
@@ -61,6 +62,23 @@ public class Timeslot {
     public Boolean conflictsWith(Timeslot other) {
         return this.day == other.day
                 && !(this.start.isAfter(other.end) || other.start.isAfter(this.end));
+    }
+
+    /**
+     * method that finds the maximum distance between two timeslots
+     *
+     * @param other timeslot to compare with this
+     * @return int which is the hours between the two timeslots
+     */
+    public int getMaxDistance(Timeslot other) {
+        if (this.day == other.day) {
+            return (int)
+                    Math.max(
+                            Duration.between(this.end, other.start).toHours(),
+                            Duration.between(this.start, other.end).toHours());
+        }
+        // might be a no no, idk
+        return -1;
     }
 
     @Override
