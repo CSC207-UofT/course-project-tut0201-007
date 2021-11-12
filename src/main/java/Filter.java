@@ -3,5 +3,5 @@
  * based on given specifications.
  */
 public interface Filter {
-    public boolean checkSchedule(Schedule s);
+    public Schedule checkSchedule(Schedule s);
 }
