@@ -15,10 +15,10 @@ public class InPersonFilter implements Filter {
     /**
      * Constructs a filter with the desired delivery method
      *
-     * @param deliveryMethod the preference for in-person or online sections
+     * @param inPerson the preference for in-person or online sections
      */
-    public InPersonFilter(String deliveryMethod) {
-        this.inPerson = !deliveryMethod.equals("ONLINE");
+    public InPersonFilter(boolean inPerson) {
+        this.inPerson = inPerson;
     }
 
     /**
