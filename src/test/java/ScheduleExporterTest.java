@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
+import workers.ScheduleExporter;
 import workers.Scheduler;
 
 public class ScheduleExporterTest {

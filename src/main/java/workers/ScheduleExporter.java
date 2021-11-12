@@ -1,3 +1,5 @@
+package workers;
+
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
@@ -20,9 +22,8 @@ import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 import net.fortuna.ical4j.validate.ValidationException;
-import workers.Scheduler;
 
-/** Use Case class for exporting all sessions in a schedule into an ICS file */
+/** Use Case class for exporting a Schedule into an ICS file */
 public class ScheduleExporter {
 
     private LocalDate now = LocalDate.now();
@@ -70,7 +71,7 @@ public class ScheduleExporter {
     }
 
     /**
-     * Converts all Sessions within a Schedule into Events in .ics format, for use in a Calendar.
+     * Converts all Timeslots within a Schedule into Events in .ics format, for use in a Calendar.
      * Allows for use of any Writer to allow exporting as a file, or storing as a string for
      * testing.
      *
@@ -78,6 +79,7 @@ public class ScheduleExporter {
      * @param writer The Writer object used to output the ICS, such as FileWriter or StringWriter
      */
     public void outputScheduleICS(Schedule schedule, Writer writer) {
+        // I was going to try and use this to test, by using a StringWriter, but I don't think that works.
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId("-//CSC207 Team 007//iCal4j 1.0//EN"));
         calendar.getProperties().add(Version.VERSION_2_0);
@@ -112,6 +114,13 @@ public class ScheduleExporter {
         }
     }
 
+    /** Create VEvent corresponding to Timeslot, and add to Calendar
+     *
+     * @param name Timeslot's corresponding Course code, section, and session. Ex (MAT237 LEC0101 Y)
+     * @param session The session the Timeslot occurs in (F/S/Y)
+     * @param timeslot Timeslot to create VEvent from
+     * @param calendar Calendar holding all VEvents
+     */
     private void addTimeslotToCalendar(
             String name, String session, Timeslot timeslot, Calendar calendar) {
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
@@ -142,7 +151,7 @@ public class ScheduleExporter {
         Recur recur = new Recur(Recur.Frequency.WEEKLY, finalDay);
         RRule recurrenceRule = new RRule(recur);
 
-        LocalDate startDay = getStartingWeekDate(FALL_SEMESTER_START_DATE, timeslot.getDay());
+        LocalDate startDay = getStartingWeekDate(termStartDate, timeslot.getDay());
         LocalDateTime start = startDay.atTime(timeslot.getStart());
         Date timeslotStart =
                 new DateTime(java.util.Date.from(start.atZone(ZoneId.systemDefault()).toInstant()));
@@ -161,9 +170,15 @@ public class ScheduleExporter {
         calendar.getComponents().add(event);
     }
 
-    private LocalDate getStartingWeekDate(LocalDate start, DayOfWeek dow) {
-        LocalDate res = (LocalDate) dow.adjustInto(start);
-        if (res.isBefore(start)) {
+    /** Get the specific date that a course will start
+     *
+     * @param termStart The start of the term for this course
+     * @param dow The day of the week that the Timeslot is
+     * @return The Date that the course wills tart
+     */
+    private LocalDate getStartingWeekDate(LocalDate termStart, DayOfWeek dow) {
+        LocalDate res = (LocalDate) dow.adjustInto(termStart);
+        if (res.isBefore(termStart)) {
             return res.plusWeeks(1);
         } else {
             return res;
