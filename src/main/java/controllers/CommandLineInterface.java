@@ -2,10 +2,19 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import workers.Scheduler;
 
+/** The user interface of the program. */
 public class CommandLineInterface {
-    public static void main(String[] args) {
+
+    public CommandLineInterface() {}
+
+    /**
+     * Method that prompts user for input, eventually returning a List of course IDs that they will
+     * be taking. The list should be sorted from greatest to least priority.
+     *
+     * @return a list of desired course codes from greatest to least priority.
+     */
+    public static ArrayList<String> promptUser() {
         Scanner scanner = new Scanner(System.in);
         Boolean input = false;
         int numCourses = 0;
@@ -25,8 +34,7 @@ public class CommandLineInterface {
             String course = scanner.nextLine();
             courses.add(course);
         }
-        Scheduler s = new Scheduler();
-        System.out.println(s.createBasicSchedule(courses));
         scanner.close();
+        return courses;
     }
 }
