@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -127,6 +126,7 @@ public class ScheduleExporter {
     private static void addTimeslotToCalendar(
             String name, String session, Timeslot timeslot, Calendar calendar)
             throws InvalidSessionException {
+        ZoneId zoneId = ZoneId.of("-4");
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
         LocalDate termEndDate = FALL_SEMESTER_END_DATE;
         switch (session) {
@@ -148,10 +148,7 @@ public class ScheduleExporter {
                                 "%s has invalid session %s. It should be either F, Y, or S",
                                 name, session));
         }
-        Date finalDay =
-                new Date(
-                        java.util.Date.from(
-                                termEndDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        Date finalDay = new Date(java.util.Date.from(termEndDate.atStartOfDay(zoneId).toInstant()));
 
         UidGenerator ug = new RandomUidGenerator();
         Uid uid = ug.generateUid();
@@ -160,12 +157,10 @@ public class ScheduleExporter {
 
         LocalDate startDay = getStartingWeekDate(termStartDate, timeslot.getDay());
         LocalDateTime start = startDay.atTime(timeslot.getStart());
-        Date timeslotStart =
-                new DateTime(java.util.Date.from(start.atZone(ZoneId.systemDefault()).toInstant()));
+        Date timeslotStart = new DateTime(java.util.Date.from(start.atZone(zoneId).toInstant()));
 
         LocalDateTime end = startDay.atTime(timeslot.getEnd());
-        Date timeslotEnd =
-                new DateTime(java.util.Date.from(end.atZone(ZoneId.systemDefault()).toInstant()));
+        Date timeslotEnd = new DateTime(java.util.Date.from(end.atZone(zoneId).toInstant()));
 
         Location location = new Location(timeslot.getRoom());
 
@@ -197,7 +192,7 @@ public class ScheduleExporter {
         ScheduleExporter exporter = new ScheduleExporter();
         Scheduler s = new Scheduler();
         ArrayList<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101");
+        courseIDs.add("MAT237");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
         Schedule schedule = s.createBasicSchedule(courses);
         System.out.println(schedule);

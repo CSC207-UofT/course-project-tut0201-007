@@ -25,12 +25,11 @@ public class ScheduleExporterTest {
         coursesSchedule = scheduler.createBasicSchedule((ArrayList<Course>) courses);
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 2000)
     public void testInvertability() {
         StringWriter writer = new StringWriter();
         ScheduleExporter.outputScheduleICS(coursesSchedule, writer);
         String writtenICS = writer.toString();
-        System.out.println(writtenICS);
         Schedule output = ScheduleImporter.importSchedule(new StringReader(writtenICS));
         assert (output.equals(coursesSchedule));
     }
