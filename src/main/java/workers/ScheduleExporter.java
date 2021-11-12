@@ -34,9 +34,7 @@ public class ScheduleExporter {
     private static final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
     private static final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
 
-
-    public ScheduleExporter() {
-    }
+    public ScheduleExporter() {}
 
     /**
      * {@code writer} defaults to {@link FileWriter}

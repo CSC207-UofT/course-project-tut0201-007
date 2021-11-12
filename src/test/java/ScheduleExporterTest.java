@@ -11,7 +11,6 @@ import workers.Scheduler;
 
 public class ScheduleExporterTest {
 
-    ScheduleExporter exporter;
     Schedule coursesSchedule;
 
     @Before
@@ -21,7 +20,6 @@ public class ScheduleExporterTest {
         courses.add("TST101");
         Scheduler scheduler = new Scheduler();
         coursesSchedule = scheduler.createBasicSchedule(courses);
-
     }
 
     @Test(timeout = 1000)
