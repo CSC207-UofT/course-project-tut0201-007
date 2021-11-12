@@ -80,11 +80,15 @@ public class ScheduleExporter {
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
 
-        for (Session tutorial : schedule.getTutorials()) {
-            addSessionToCalendar(tutorial, calendar);
+        for (Section tutorial : schedule.getTutorials()) {
+            for (Timeslot timeslot: tutorial.getTimeslots()){
+                addTimeslotToCalendar(tutorial.getName(), timeslot, calendar);
+            }
         }
-        for (Session lecture : schedule.getLectures()) {
-            addSessionToCalendar(lecture, calendar);
+        for (Section lecture : schedule.getLectures()) {
+            for (Timeslot timeslot: lecture.getTimeslots()){
+                addTimeslotToCalendar(lecture.getName(), timeslot, calendar);
+            }
         }
         try {
             CalendarOutputter outputter = new CalendarOutputter();
@@ -104,7 +108,9 @@ public class ScheduleExporter {
         }
     }
 
-    private void addSessionToCalendar(Session session, Calendar calendar) {
+    private void addTimeslotToCalendar(String name, Timeslot timeslot, Calendar calendar){
+        // TODO: have Sections store their semester, use that to decide which start date & end date
+        // TODO: Also have sections store their course IDs & section IDs
         Date finalDay =
                 new Date(
                         java.util.Date.from(
@@ -117,21 +123,18 @@ public class ScheduleExporter {
         Recur recur = new Recur(Recur.Frequency.WEEKLY, finalDay);
         RRule recurrenceRule = new RRule(recur);
 
-        // TODO: have Sessions store their semester, use that to decide which start date & end date
-        // to use
-        // TODO: Also have sessions store their course IDs & section IDs
-        LocalDate startDay = getStartingWeekDate(FALL_SEMESTER_START_DATE, session.getSessionDay());
-        LocalDateTime start = startDay.atTime(session.getSessionStartTime());
-        Date sessionStart =
+        LocalDate startDay = getStartingWeekDate(FALL_SEMESTER_START_DATE, timeslot.getDay());
+        LocalDateTime start = startDay.atTime(timeslot.getStart());
+        Date timeslotStart =
                 new DateTime(java.util.Date.from(start.atZone(ZoneId.systemDefault()).toInstant()));
 
-        LocalDateTime end = startDay.atTime(session.getSessionEndTime());
-        Date sessionEnd =
+        LocalDateTime end = startDay.atTime(timeslot.getEnd());
+        Date timeslotEnd =
                 new DateTime(java.util.Date.from(end.atZone(ZoneId.systemDefault()).toInstant()));
 
-        Location location = new Location(session.getAssignedRoom());
+        Location location = new Location(timeslot.getRoom());
 
-        VEvent event = new VEvent(sessionStart, sessionEnd, session.getAssignedRoom());
+        VEvent event = new VEvent(timeslotStart, timeslotEnd, name);
         event.getProperties().add(recurrenceRule);
         event.getProperties().add(uid);
         event.getProperties().add(location);
@@ -148,8 +151,7 @@ public class ScheduleExporter {
         }
     }
 
-    public static void main(String[] args) {
-        // temp for testing
+    public static void main(String[] args) throws IOException {
         ScheduleExporter exporter = new ScheduleExporter();
         Scheduler s = new Scheduler();
         ArrayList<String> courses = new ArrayList<>();

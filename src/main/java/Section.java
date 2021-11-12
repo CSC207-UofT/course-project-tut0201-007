@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /** This class represents a session, such as a single lecture or tutorial */
 public class Section {
@@ -23,6 +24,14 @@ public class Section {
      */
     public void addTime(Timeslot t) {
         times.add(t);
+    }
+
+    public List<Timeslot> getTimeslots(){
+        return (List<Timeslot>) times.clone();
+    }
+
+    public String getName(){
+        return name;
     }
 
     public boolean checkConflict(Section other) {
