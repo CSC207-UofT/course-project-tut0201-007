@@ -1,6 +1,11 @@
+package controllers;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import entities.*;
+import workers.*;
 
 /**
  * The main class of the program. Manages user input, scheduling, adds filters, and negotiates output.
