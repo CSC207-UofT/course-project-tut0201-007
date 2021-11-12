@@ -29,15 +29,15 @@ public class Section {
         times.add(t);
     }
 
-    public List<Timeslot> getTimeslots(){
+    public List<Timeslot> getTimeslots() {
         return (List<Timeslot>) times.clone();
     }
 
-    public String getSession(){
+    public String getSession() {
         return session;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 

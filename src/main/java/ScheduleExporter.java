@@ -1,3 +1,6 @@
+import entities.Schedule;
+import entities.Section;
+import entities.Timeslot;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 import net.fortuna.ical4j.validate.ValidationException;
+import workers.Scheduler;
 
 /** Use Case class for exporting all sessions in a schedule into an ICS file */
 public class ScheduleExporter {
@@ -33,7 +37,7 @@ public class ScheduleExporter {
     public ScheduleExporter() {
         String baseDir = new File("").getAbsolutePath();
         outputDirectory = new File(baseDir.concat("/output"));
-        if (!outputDirectory.exists()){
+        if (!outputDirectory.exists()) {
             outputDirectory.mkdir();
         }
     }
@@ -80,12 +84,13 @@ public class ScheduleExporter {
         calendar.getProperties().add(CalScale.GREGORIAN);
 
         for (Section tutorial : schedule.getTutorials()) {
-            for (Timeslot timeslot: tutorial.getTimeslots()){
-                addTimeslotToCalendar(tutorial.getName(), tutorial.getSession(), timeslot, calendar);
+            for (Timeslot timeslot : tutorial.getTimeslots()) {
+                addTimeslotToCalendar(
+                        tutorial.getName(), tutorial.getSession(), timeslot, calendar);
             }
         }
         for (Section lecture : schedule.getLectures()) {
-            for (Timeslot timeslot: lecture.getTimeslots()){
+            for (Timeslot timeslot : lecture.getTimeslots()) {
                 addTimeslotToCalendar(lecture.getName(), lecture.getSession(), timeslot, calendar);
             }
         }
@@ -107,10 +112,11 @@ public class ScheduleExporter {
         }
     }
 
-    private void addTimeslotToCalendar(String name, String session, Timeslot timeslot, Calendar calendar){
+    private void addTimeslotToCalendar(
+            String name, String session, Timeslot timeslot, Calendar calendar) {
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
         LocalDate termEndDate = FALL_SEMESTER_END_DATE;
-        switch(session){
+        switch (session) {
             case "F":
                 termStartDate = FALL_SEMESTER_START_DATE;
                 termEndDate = FALL_SEMESTER_END_DATE;
@@ -129,9 +135,7 @@ public class ScheduleExporter {
         Date finalDay =
                 new Date(
                         java.util.Date.from(
-                                termEndDate
-                                        .atStartOfDay(ZoneId.systemDefault())
-                                        .toInstant()));
+                                termEndDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         UidGenerator ug = new RandomUidGenerator();
         Uid uid = ug.generateUid();

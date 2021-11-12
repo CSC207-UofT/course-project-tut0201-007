@@ -22,14 +22,14 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testMockLectureSessions() {
-        String expected = "LEC-0101 meets at:\n" + "MONDAY from 12:00-13:00 at ROOM 07\n";
+        String expected = "TST101 LEC-0101 Y meets at:\n" + "MONDAY from 12:00-13:00 at ROOM 07\n";
         // Checking that the course has the correct lecture
         assertEquals(expected, mockCourse.getLectures().get(0).toString());
     }
 
     @Test(timeout = 1000)
     public void testMockTutorialSessions() {
-        String expected = "TUT-0101 meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
+        String expected = "TST101 TUT-0101 Y meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
         // Checking that the course has the correct tutorial
         assertEquals(expected, mockCourse.getTutorials().get(0).toString());
     }
