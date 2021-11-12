@@ -48,7 +48,10 @@ public class CourseCreator {
                         .getAsJsonObject("meetings");
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC");
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT");
-        return new Course(courseId, lectures, tutorials, session);
+
+        ArrayList<String> exclusions = new ArrayList<>();
+
+        return new Course(courseId, lectures, tutorials, session, exclusions);
     }
 
     /**
