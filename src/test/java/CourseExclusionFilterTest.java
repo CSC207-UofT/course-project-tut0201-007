@@ -11,12 +11,15 @@ import workers.Scheduler;
 
 
 public class CourseExclusionFilterTest {
-    CourseExclusionFilter filter;
-    Scheduler scheduleCreator = new Scheduler();
+    CourseExclusionFilter filter1;
+    CourseExclusionFilter filter2;
+    Scheduler scheduleCreator;
+    ArrayList<Course> courses;
 
     @Before
     public void setUp() {
-        filter = new CourseExclusionFilter();
+        scheduleCreator = new Scheduler();
+        courses = new ArrayList<>();
     }
 
     @Test(timeout = 1000)
@@ -26,9 +29,9 @@ public class CourseExclusionFilterTest {
         multi.add("TST101");
         multi.add("TST104");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        filter1 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        System.out.println(schedule.getCourses());
-        assertFalse(filter.checkSchedule(schedule));
+        assertFalse(filter1.checkSchedule(schedule));
     }
 
     @Test(timeout = 1000)
@@ -38,8 +41,9 @@ public class CourseExclusionFilterTest {
         multi.add("TST101");
         multi.add("TST102");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        filter2 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertTrue(filter.checkSchedule(schedule));
+        assertTrue(filter2.checkSchedule(schedule));
     }
 
 }

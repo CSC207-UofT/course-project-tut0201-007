@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a entities.Course Creator. This class uses workers.APIWorker to generate
+ * This class represents an entities.Course Creator. This class uses workers.APIWorker to generate
  * entities.Course objects.
  */
 public class CourseCreator {
@@ -33,7 +33,7 @@ public class CourseCreator {
     /**
      * Generates a course given a courseID and the session of the course
      *
-     * @param courseId the identifier for hte course
+     * @param courseId the identifier for the course
      * @param session the semester that the course takes place ie S, F, Y
      * @return a Course object
      * @throws IOException if there is an issue with retrieving the course from the API
@@ -58,7 +58,6 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("exclusion").toString();
-        System.out.println(exclusionsValue);
         ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
@@ -94,7 +93,12 @@ public class CourseCreator {
      */
     public static ArrayList<String> getCourseExclusions(String value) {
         String cleanedValue = value.replace("\"", "").replace(".", "");
-        return new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+        ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+        ArrayList<String> shortenedCodes = new ArrayList<>();
+        for (String s: values) {
+            shortenedCodes.add(s.substring(0, 6));
+        }
+        return shortenedCodes;
     }
 
     /**

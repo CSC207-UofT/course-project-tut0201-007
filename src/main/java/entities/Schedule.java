@@ -10,11 +10,13 @@ public class Schedule implements Cloneable {
 
     private final ArrayList<Section> lectures;
     private final ArrayList<Section> tutorials;
+    private final ArrayList<String> courses;
 
     /** No parameter constructor that creates empty ArrayLists of lecture and tutorial sessions. */
     public Schedule() {
         this.lectures = new ArrayList<>();
         this.tutorials = new ArrayList<>();
+        this.courses = new ArrayList<>();
     }
 
     /**
@@ -26,6 +28,14 @@ public class Schedule implements Cloneable {
     public Schedule(ArrayList<Section> lectures, ArrayList<Section> tutorials) {
         this.lectures = lectures;
         this.tutorials = tutorials;
+        this.courses = new ArrayList<>();
+
+        for (Section sec : this.lectures) {
+            String courseCode = sec.getName().substring(0,6);
+            if (!this.courses.contains(courseCode)) {
+                courses.add(courseCode);
+            }
+        }
     }
 
     public ArrayList<Section> getLectures() {
@@ -36,6 +46,10 @@ public class Schedule implements Cloneable {
         return tutorials;
     }
 
+    public ArrayList<String> getCourses() {
+        return courses;
+    }
+
     /**
      * Mutate the lectures list by adding lecture sessions in chronological order
      *
@@ -43,6 +57,11 @@ public class Schedule implements Cloneable {
      */
     public void addLecture(Section lecture) {
         lectures.add(lecture);
+
+        String courseCode = lecture.getName().substring(0,6);
+        if (!this.courses.contains(courseCode)) {
+            this.courses.add(courseCode);
+        }
     }
 
     /**
@@ -81,6 +100,7 @@ public class Schedule implements Cloneable {
     public Schedule clone() {
         return new Schedule(
                 (ArrayList<Section>) this.lectures.clone(),
-                (ArrayList<Section>) this.tutorials.clone());
+                (ArrayList<Section>) this.tutorials.clone()
+        );
     }
 }

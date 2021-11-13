@@ -3,20 +3,22 @@ package filters;
 import entities.Course;
 import entities.Schedule;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a filter. It works by checking a given schedule for the given criteria, in this case
  * whether a schedule contains course exclusions or not
  */
 public class CourseExclusionFilter implements Filter {
+    private List<Course> courses;
 
     /**
      * Constructs a CourseExclusionFilter
      *
+     * @param courses the courses given by the user on startup
      */
-    public CourseExclusionFilter() {
-
+    public CourseExclusionFilter(List<Course> courses) {
+        this.courses = courses;
     }
 
     /**
@@ -31,14 +33,15 @@ public class CourseExclusionFilter implements Filter {
             return false;
         }
 
-        for (Course course1: s.getCourses()) {
+        for (Course course: this.courses) {
             // check if the given course has its exclusion in the schedule
-            for (Course course2: s.getCourses()) {
-
+            List<String> exclusions = course.getExclusions();
+            for (String courseId: s.getCourses()) {
+                if (exclusions.contains(courseId)) {
+                    return true;
+                }
             }
-            return true;
         }
-
         return false;
 
     }
