@@ -62,6 +62,7 @@ public class CourseCreator {
         ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
+
     }
 
     /**
