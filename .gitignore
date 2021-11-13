@@ -90,4 +90,5 @@ fabric.properties
 .classpath
 .project
 bin/
+output/
 .DS_Store

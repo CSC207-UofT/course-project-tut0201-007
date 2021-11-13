@@ -1,20 +1,22 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /** This class represents a session, such as a single lecture or tutorial */
 public class Section {
 
     private String name;
+    private String session;
     private ArrayList<Timeslot> times;
 
     public Section(String name) {
-        this.name = name;
-        times = new ArrayList<>();
+        this(name, new ArrayList<Timeslot>());
     }
 
-    public Section(String type, ArrayList<Timeslot> times) {
-        this.name = type;
+    public Section(String name, ArrayList<Timeslot> times) {
+        this.name = name;
+        this.session = name.split(" ")[2];
         this.times = times;
     }
 
@@ -27,8 +29,16 @@ public class Section {
         times.add(t);
     }
 
-    public ArrayList<Timeslot> getTimes() {
-        return times;
+    public List<Timeslot> getTimes() {
+        return (List<Timeslot>) times.clone();
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public boolean checkConflict(Section other) {
@@ -51,5 +61,16 @@ public class Section {
             ret.append(s.toString() + "\n");
         }
         return ret.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Section) {
+            Section other = (Section) o;
+            return this.name.equals(other.getName())
+                    && this.session.equals(other.getSession())
+                    && this.getTimes().equals(other.getTimes());
+        }
+        return false;
     }
 }
