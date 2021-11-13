@@ -70,12 +70,8 @@ Comments:
 
 ## Major Design Decisons
 
-`TODO: Talk about the way we refactored the code`
-
-### Session
-Session uses the **Builder** design pattern. The Builder design pattern was chosen to reduce the complexity of Session constructor calls. For example, some sessions take place in a classroom, some are online, some have start and end times, some are asynchronous. Using Builder allows a Session to be 'built' piece-by-piece, using only information relevant to that specific lecture or tutorial.
-
-Session was originally intended to represent a time during which a particular lecture or tutorial would occur. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store sessions in a map from section ID to an ArrayList of sessions, but this was not a good use of object oriented programming, since the collection of sessions could be stored in a new class. We decided to make Session this class, and made a new entity named TimeSlot in orded to represent the various times. Multiple TimeSlot objects are stored in Session. While performing these changes, we noticed that there was a significant degree of coupling between classes since the SkeletonCode. 
+### Changes to Session
+`Session` was originally intended to represent a time during which a particular lecture or tutorial would occur. However, as we worked on the project, we found that it would be much more convenient to group the different times a lecture would meet, rather than represent them seperately. We considered multiple implementations to account for multiple lecture sections. Our first idea was to store `Session` entites in a map from section ID to an ArrayList of `Session` classes, but we instead elected to go with a solution that better followed the structure of the rest of our project, and avoided too much object coupling. We decided to make `Session` a class that stored lower-level entities, and made a new entity named `Timeslot` in order to represent the various times. Multiple `Timeslot` objects are stored in `Session`. `Session` was also renamed to `Section`, simply because the changes we made more closely resembled what U of T and it's students call lecture and tutorial sections.
 
 ### Controller
 
@@ -95,12 +91,11 @@ The calendar export class creates .ics files that contain times for a specific s
 
 (**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
 
-
 ### **Controller**: CommandLineInterface
 
 The main method of our program lies in the CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
 
-### **Use Case**: Scheduler, CourseGenerator, APIWorker, Filter Interface
+### **Use Case**: Scheduler, CourseGenerator, APIWorker, Filter Interface & various Filters
 
 Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
 
@@ -131,12 +126,19 @@ Sessions represent a collection of time slots with a room and code. These are ta
 
 (**Note for ourselves** Comparisons of sessions should be clean. Again, we need to consider the implementation since it seems there is a lot of unnecessary intertwining of classes. We should also encapsulate the return of times in the session so we do not need to get the list of slots and do operations or something.)
 
-
-
-
-
-
 ## SOLID Design Principles
+
+### Single-responsibility principle
+
+The workers package exemplifies the use of the Single-responsibility principle in our program. Many of our entity classes are comprised of a collection of other entity classes (i.e. a `Section` is a collection of `Timeslot` classes). We wanted to avoid having an entity class be responsible for both representing itself and for constructing itself from other entities, as this would violate the SRP. To solve this problem we created classes that have the sole responsibility of creating these entities. For example, instead of creating a `Course` object by instantiating a course with a collection of `Section` classes, the `CourseCreator` class bears this responsibility. 
+
+### Open-closed principle
+
+### Liskov substitution principle
+
+### Interface segregation principle
+
+### Dependency inversion principle
 
 ## Packaging Strategies
 
@@ -160,5 +162,8 @@ i think we can use this in scheduler based on user criteria
 
 ### Decorator
 For the filters
+
+### Command
+CLI
 
 ## Progress Report
