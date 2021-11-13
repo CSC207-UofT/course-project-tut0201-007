@@ -85,4 +85,16 @@ public class Timeslot {
     public String toString() {
         return day.toString() + " from " + start.toString() + "-" + end.toString() + " at " + room;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Timeslot) {
+            Timeslot other = (Timeslot) o;
+            return this.getDay().equals(other.getDay())
+                    && this.getRoom().equals(other.getRoom())
+                    && this.getStart().equals(other.getStart())
+                    && this.getEnd().equals(other.getEnd());
+        }
+        return false;
+    }
 }
