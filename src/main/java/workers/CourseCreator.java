@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents an entities.Course Creator. This class uses workers.APIWorker to generate
- * entities.Course objects.
+ * This class represents a Course Creator. This class uses APIWorker to generate
+ * Course objects.
  */
 public class CourseCreator {
 

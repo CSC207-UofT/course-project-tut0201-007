@@ -8,7 +8,7 @@ public class Course {
     private final char session;
     private final ArrayList<Section> lectures;
     private final ArrayList<Section> tutorials;
-    private final ArrayList<String> exclusions;
+    private final ArrayList<String> courseExclusionIds;
 
     /**
      * Constructs a course with an id and list of lecture and tutorial sessions as well as course exclusions.
@@ -29,7 +29,7 @@ public class Course {
         this.lectures = lectures;
         this.tutorials = tutorials;
         this.session = session;
-        this.exclusions = exclusions;
+        this.courseExclusionIds = exclusions;
     }
 
     public String getCourseId() {
@@ -45,7 +45,7 @@ public class Course {
     }
 
     public ArrayList<String> getExclusions() {
-        return exclusions;
+        return courseExclusionIds;
     }
 
     @Override
