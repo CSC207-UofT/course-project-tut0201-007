@@ -95,12 +95,11 @@ The calendar export class creates .ics files that contain times for a specific s
 
 (**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
 
-
 ### **Controller**: CommandLineInterface
 
 The main method of our program lies in the CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
 
-### **Use Case**: Scheduler, CourseGenerator, APIWorker, Filter Interface
+### **Use Case**: Scheduler, CourseGenerator, APIWorker, Filter Interface & various Filters
 
 Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
 
@@ -131,12 +130,19 @@ Sessions represent a collection of time slots with a room and code. These are ta
 
 (**Note for ourselves** Comparisons of sessions should be clean. Again, we need to consider the implementation since it seems there is a lot of unnecessary intertwining of classes. We should also encapsulate the return of times in the session so we do not need to get the list of slots and do operations or something.)
 
-
-
-
-
-
 ## SOLID Design Principles
+
+### Single-responsibility principle
+
+The workers package exemplifies the use of the Single-responsibility principle in our program. Many of our entity classes are comprised of a collection of other entity classes (i.e. a `Section` is a collection of `Timeslot` classes). We wanted to avoid having an entity class be responsible for both representing itself and for constructing itself from other entities, as this would violate the SRP. To solve this problem we created classes that have the sole responsibility of creating these entities. For example, instead of creating a `Course` object by instantiating a course with a collection of `Section` classes, the `CourseCreator` class bears this responsibility. 
+
+### open-closed principle
+
+### Liskov substitution principle
+
+### interface segregation principle
+
+### dependency inversion principle
 
 ## Packaging Strategies
 
@@ -160,5 +166,8 @@ i think we can use this in scheduler based on user criteria
 
 ### Decorator
 For the filters
+
+### Command
+CLI
 
 ## Progress Report
