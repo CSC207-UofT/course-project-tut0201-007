@@ -30,7 +30,8 @@ import util.InvalidSessionException;
 public class ScheduleExporter {
 
     private static int numFiles = 0;
-    private static LocalDate now = LocalDate.now();
+    private static ZoneId zoneId = ZoneId.of("-4");
+    private static LocalDate now = LocalDate.now(zoneId);
     private static int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
     private static final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
     private static final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
@@ -126,7 +127,6 @@ public class ScheduleExporter {
     private static void addTimeslotToCalendar(
             String name, String session, Timeslot timeslot, Calendar calendar)
             throws InvalidSessionException {
-        ZoneId zoneId = ZoneId.of("-4");
         LocalDate termStartDate = FALL_SEMESTER_START_DATE;
         LocalDate termEndDate = FALL_SEMESTER_END_DATE;
         switch (session) {
