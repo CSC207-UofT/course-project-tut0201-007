@@ -11,7 +11,7 @@ public class Course {
     private final ArrayList<String> exclusions;
 
     /**
-     * Constructs a course with an id and list of lecture and tutorial sessions
+     * Constructs a course with an id and list of lecture and tutorial sessions as well as course exclusions.
      *
      * @param courseId given id
      * @param lectures given lectures

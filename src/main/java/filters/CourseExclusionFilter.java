@@ -1,6 +1,9 @@
 package filters;
 
+import entities.Course;
 import entities.Schedule;
+
+import java.util.ArrayList;
 
 /**
  * This class represents a filter. It works by checking a given schedule for the given criteria, in this case
@@ -28,7 +31,15 @@ public class CourseExclusionFilter implements Filter {
             return false;
         }
 
-        return true;
+        for (Course course1: s.getCourses()) {
+            // check if the given course has its exclusion in the schedule
+            for (Course course2: s.getCourses()) {
+
+            }
+            return true;
+        }
+
+        return false;
 
     }
 }

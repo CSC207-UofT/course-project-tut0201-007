@@ -48,7 +48,7 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testMockExclusion2() {
-        ArrayList<String> expected = new ArrayList<>(List.of("TST100", "TST101", "TST105"));
+        ArrayList<String> expected = new ArrayList<>(List.of("TST100", "TST106", "TST105"));
         // Checking that the course has the correct exclusions
         assertEquals(expected, mockCourse2.getExclusions());
     }
