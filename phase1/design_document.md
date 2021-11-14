@@ -172,3 +172,10 @@ For the filters
 CLI
 
 ## Progress Report
+
+### Open questions
+
+### What has worked well so far
+
+### Group member contributions & plans
+
