@@ -35,12 +35,15 @@ A class that stores the time, day, and location of a lecture or tutorial.
 ### Use Cases:
 
 #### CourseCreator 
-Creates a course object, populated with information from the API information retrieved through APIWorker.
+Creates a Course object, populated with information from the API information retrieved through APIWorker.
 
 #### Scheduler 
-Creates permutations of all possible schedules, and then passes them through filter classes that remove schedules.
+Creates permutations of all possible schedules, and then passes them through Filter classes that remove schedules.
 
-#### ICSCreator 
+#### ScheduleImporter 
+Parses information written in an ICS file and converts it into a Schedule object.
+
+#### ScheduleExporter 
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
 #### Filter Subclasses 
