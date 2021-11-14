@@ -8,7 +8,7 @@ class PromptHelpers {
         ArrayList<String> ret = new ArrayList<>();
         for (int a = 0; a < num; a++) {
             ret.add(promptUserString(question));
-        } 
+        }
         return ret;
     }
 
