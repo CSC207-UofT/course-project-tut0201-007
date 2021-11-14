@@ -92,11 +92,15 @@ public class CourseCreator {
      * @return an ArrayList of course names
      */
     public static ArrayList<String> getCourseExclusions(String value) {
-        String cleanedValue = value.replace("\"", "").replace(".", "");
-        ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
         ArrayList<String> shortenedCodes = new ArrayList<>();
-        for (String s: values) {
-            shortenedCodes.add(s.substring(0, 6));
+        try {
+            String cleanedValue = value.replace("\"", "").replace(".", "");
+            ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+            for (String s: values) {
+                shortenedCodes.add(s.substring(0, 6));
+            }
+        } catch (Exception IndexOutOfBoundsException){
+            System.out.println("The course has no exclusions (empty string)");
         }
         return shortenedCodes;
     }
