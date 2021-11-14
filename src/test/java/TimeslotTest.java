@@ -16,9 +16,9 @@ public class TimeslotTest {
         DayOfWeek today = DayOfWeek.MONDAY;
         String location = "The Office";
 
-        timeslotA = new Timeslot(now, end, today, location);
-        timeslotB = new Timeslot(now, end, today, location);
-        different = new Timeslot(now, now.plusHours(2), today, location);
+        timeslotA = new Timeslot(now, end, today, location, 'F');
+        timeslotB = new Timeslot(now, end, today, location, 'F');
+        different = new Timeslot(now, now.plusHours(2), today, location, 'F');
     }
 
     @Test(timeout = 1000)

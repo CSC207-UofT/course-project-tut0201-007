@@ -32,10 +32,12 @@ public class SchedulerTest {
                         + "\n"
                         + "Lectures\n"
                         + "TST101 LEC-0101 F meets at:\n"
-                        + "MONDAY from 12:00-13:00 at ROOM 07\n"
-                        + "\n\nTutorials\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
+                        + "\n"
+                        + "\n"
+                        + "Tutorials\n"
                         + "TST101 TUT-0101 F meets at:\n"
-                        + "FRIDAY from 18:00-21:00 at ROOM 05\n\n";
+                        + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n\n";
         // Checking that the course has the correct code
         assertEquals(expected, schedule.toString());
     }
@@ -53,18 +55,20 @@ public class SchedulerTest {
                         + "\n"
                         + "Lectures\n"
                         + "TST101 LEC-0101 F meets at:\n"
-                        + "MONDAY from 12:00-13:00 at ROOM 07\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
                         + "\n"
                         + "TST102 LEC-0101 F meets at:\n"
-                        + "MONDAY from 12:00-13:00 at NF 003\n"
-                        + "TUESDAY from 12:00-13:00 at NF 003\n"
-                        + "FRIDAY from 13:00-14:00 at NF 003\n"
-                        + "\n\nTutorials\n"
+                        + "MONDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "TUESDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "THURSDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "\n"
+                        + "\n"
+                        + "Tutorials\n"
                         + "TST101 TUT-0101 F meets at:\n"
-                        + "FRIDAY from 18:00-21:00 at ROOM 05\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n"
                         + "\n"
                         + "TST102 TUT-0101 F meets at:\n"
-                        + "TUESDAY from 10:00-11:00 at ROOM 05\n\n";
+                        + "TUESDAY from 13:00-14:00 at WB 119 in session F\n\n";
         assertEquals(expected, schedule.toString());
     }
 
@@ -79,7 +83,7 @@ public class SchedulerTest {
                         + "\n"
                         + "Lectures\n"
                         + "TST104 LEC-0101 F meets at:\n"
-                        + "WEDNESDAY from 09:00-10:00 at ROOM 01\n"
+                        + "WEDNESDAY from 09:00-10:00 at ROOM 01 in session F\n"
                         + "\n"
                         + "\n"
                         + "Tutorials\n";

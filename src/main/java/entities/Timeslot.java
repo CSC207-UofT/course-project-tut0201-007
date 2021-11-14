@@ -9,12 +9,24 @@ public class Timeslot {
     private String room;
     private LocalTime start;
     private LocalTime end;
+    private char session;
 
-    public Timeslot(LocalTime start, LocalTime end, DayOfWeek day, String room) {
+    /**
+     *
+     * @param start Start of the timeslot
+     * @param end End of the timeslot
+     * @param day Day the timeslot occurs
+     * @param room Room the room of the timeslot
+     * @param session The session this timeslot occurs in (F/S). Note that this is different from a course's session,
+     *                as the timeslot can only represent one "half" of a Y course's timeslot
+     */
+    public Timeslot(LocalTime start, LocalTime end, DayOfWeek day, String room, char session) {
         this.start = start;
         this.end = end;
         this.day = day;
         this.room = room;
+        this.session = session;
+        //TODO: Kind of weird that this session means something else from the Section's session. Not sure how to resolve. Better naming?
     }
 
     /**
@@ -54,6 +66,14 @@ public class Timeslot {
     }
 
     /**
+     * @return The session this timeslot is for (F/S). If the timeslot is from a Y course, session
+     *     will be either F or S depending on which "half" of a section this timeslot represents
+     */
+    public char getSession() {
+        return this.session;
+    }
+
+    /**
      * method that checks if two timeslots overlap
      *
      * @param other timeslot to compare with this
@@ -83,7 +103,15 @@ public class Timeslot {
 
     @Override
     public String toString() {
-        return day.toString() + " from " + start.toString() + "-" + end.toString() + " at " + room;
+        return day.toString()
+                + " from "
+                + start.toString()
+                + "-"
+                + end.toString()
+                + " at "
+                + room
+                + " in session "
+                + session;
     }
 
     @Override
@@ -93,7 +121,8 @@ public class Timeslot {
             return this.getDay().equals(other.getDay())
                     && this.getRoom().equals(other.getRoom())
                     && this.getStart().equals(other.getStart())
-                    && this.getEnd().equals(other.getEnd());
+                    && this.getEnd().equals(other.getEnd())
+                    && this.getSession() == other.getSession();
         }
         return false;
     }
