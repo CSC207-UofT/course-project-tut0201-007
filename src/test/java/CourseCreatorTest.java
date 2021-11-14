@@ -6,12 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CourseCreatorTest {
-    Course mockCourse, sCourse, fCourse;
+    Course mockCourse1, mockCourse2, sCourse, fCourse;
 
     @Before
     public void setUp() throws Exception {
-        mockCourse = CourseCreator.generateCourse("TST101", 'Y');
+        mockCourse1 = CourseCreator.generateCourse("TST101", 'Y');
+        mockCourse2 = CourseCreator.generateCourse("TST104", 'Y');
         fCourse = CourseCreator.generateCourse("TST105", 'F');
         sCourse = CourseCreator.generateCourse("TST105", 'S');
     }
@@ -20,21 +24,35 @@ public class CourseCreatorTest {
     public void testGenerateMockCourse() {
         String expected = "TST101";
         // Checking that the mock course has the correct code
-        assertEquals(expected, mockCourse.getCourseId());
+        assertEquals(expected, mockCourse1.getCourseId());
     }
 
     @Test(timeout = 1000)
     public void testMockLectureSessions() {
         String expected = "TST101 LEC-0101 Y meets at:\n" + "MONDAY from 12:00-13:00 at ROOM 07\n";
         // Checking that the course has the correct lecture
-        assertEquals(expected, mockCourse.getLectures().get(0).toString());
+        assertEquals(expected, mockCourse1.getLectures().get(0).toString());
     }
 
     @Test(timeout = 1000)
     public void testMockTutorialSessions() {
         String expected = "TST101 TUT-0101 Y meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
         // Checking that the course has the correct tutorial
-        assertEquals(expected, mockCourse.getTutorials().get(0).toString());
+        assertEquals(expected, mockCourse1.getTutorials().get(0).toString());
+    }
+
+    @Test(timeout = 1000)
+    public void testMockExclusion1() {
+        ArrayList<String> expected = new ArrayList<>(List.of("TST102"));
+        // Checking that the course has the correct exclusions
+        assertEquals(expected, mockCourse1.getExclusions());
+    }
+
+    @Test(timeout = 1000)
+    public void testMockExclusion2() {
+        ArrayList<String> expected = new ArrayList<>(List.of("TST100", "TST106", "TST105"));
+        // Checking that the course has the correct exclusions
+        assertEquals(expected, mockCourse2.getExclusions());
     }
 
     @Test(timeout = 1000)
