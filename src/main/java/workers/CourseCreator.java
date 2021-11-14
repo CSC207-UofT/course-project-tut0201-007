@@ -65,7 +65,7 @@ public class CourseCreator {
     }
 
     /**
-     * Reads through a JSON object for a course and returns all of the sessions of a given type
+     * Reads through a JSON object for a course and returns all of the sections of a given type
      *
      * @param meetings a JsonObject that corresponds to all of the meetings for a course
      * @param type LEC or TUT
@@ -116,6 +116,7 @@ public class CourseCreator {
             JsonObject meeting, String name, String courseId, char session) {
         String fullName = String.format("%s %s %c", courseId, name, session);
         Section ret = new Section(fullName);
+        String roomKey = session == 'S' ? "assignedRoom2" : "assignedRoom1";
         JsonObject schedule = meeting.getAsJsonObject("schedule");
         for (String time : schedule.keySet()) {
             if (time.equals("-")) continue;
@@ -123,7 +124,7 @@ public class CourseCreator {
             DayOfWeek day = toDay.get(slot.get("meetingDay").getAsString());
             LocalTime start = LocalTime.parse(slot.get("meetingStartTime").getAsString());
             LocalTime end = LocalTime.parse(slot.get("meetingEndTime").getAsString());
-            String room = slot.get("assignedRoom1").getAsString();
+            String room = slot.get(roomKey).getAsString();
             if (room.equals("")) room = "ONLINE";
             ret.addTime(new Timeslot(start, end, day, room));
         }

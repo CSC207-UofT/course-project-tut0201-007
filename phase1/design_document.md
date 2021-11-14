@@ -95,13 +95,11 @@ The calendar export class creates .ics files that contain times for a specific s
 
 The main method of our program lies in the CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
 
-### **Use Case**: Scheduler, CourseGenerator, APIWorker, Filter Interface & various Filters
+### **Use Case**: Scheduler, CourseGenerator, APIWorker
 
 Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
 
 CourseGenerator is called by Scheduler/(**our future controllers**) and instantiates Course objects representing the user's courses. It does so by calling APIWorker to retrieve data from the U of T API. The CourseGenerator then creates Sessions and TimeSlots (ok this seems like it's doing too much), adding these Objects to the list of Sessions each course has.
-
-Different Filter objects are instantiated based on the criteria a user provides for their scheduler. The filters are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
 
 APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
@@ -126,7 +124,13 @@ Sessions represent a collection of time slots with a room and code. These are ta
 
 (**Note for ourselves** Comparisons of sessions should be clean. Again, we need to consider the implementation since it seems there is a lot of unnecessary intertwining of classes. We should also encapsulate the return of times in the session so we do not need to get the list of slots and do operations or something.)
 
+### Filter & implementations
+
+Different Filter objects are instantiated based on the criteria a user provides for their scheduler. The filters are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
+
 ## SOLID Design Principles
+
+`TODO: Include parts of the code that DON'T adhere to SOLID, and talk about how it can be fixed`
 
 ### Single-responsibility principle
 
@@ -134,9 +138,13 @@ The workers package exemplifies the use of the Single-responsibility principle i
 
 ### Open-closed principle
 
+The Open-closed principle is demonstrated by the `Filter` interface. Along with choosing classes to be scheduled, the user is given the option to filter out unwanted schedules based on certain criteria. If the user wanted to have a schedule with no class on a Friday, the `ExcludeTimeFilter` class is used, which implements `Filter`. Because `Filter` is an interface, it is open for extension when creating a new kind of filter, but closed for modification.
+
 ### Liskov substitution principle
 
 ### Interface segregation principle
+
+The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the critera or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle. 
 
 ### Dependency inversion principle
 
@@ -153,9 +161,6 @@ put filters into its own package because we have a filter interface and its subc
 Expansion of the program will be easy, as we can add each new clean architecture component into its associated package.
 
 ## Design Pattern Summary
-
-### Builder
-(Rory)
 
 ### Strategy
 i think we can use this in scheduler based on user criteria

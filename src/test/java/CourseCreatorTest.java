@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import entities.Course;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
@@ -9,13 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseCreatorTest {
-    Course mockCourse1;
-    Course mockCourse2;
+    Course mockCourse1, mockCourse2, sCourse, fCourse;
 
     @Before
     public void setUp() throws Exception {
         mockCourse1 = CourseCreator.generateCourse("TST101", 'Y');
         mockCourse2 = CourseCreator.generateCourse("TST104", 'Y');
+        fCourse = CourseCreator.generateCourse("TST105", 'F');
+        sCourse = CourseCreator.generateCourse("TST105", 'S');
     }
 
     @Test(timeout = 1000)
@@ -51,6 +53,18 @@ public class CourseCreatorTest {
         ArrayList<String> expected = new ArrayList<>(List.of("TST100", "TST106", "TST105"));
         // Checking that the course has the correct exclusions
         assertEquals(expected, mockCourse2.getExclusions());
+    }
+
+    @Test(timeout = 1000)
+    public void testGenerateFCourse() throws IOException {
+        String expected = "TST105";
+        assertEquals(expected, fCourse.getCourseId());
+    }
+
+    @Test(timeout = 1000)
+    public void testGenerateSCourse() throws IOException {
+        String expected = "TST105";
+        assertEquals(expected, sCourse.getCourseId());
     }
 
     //    @Test(timeout = 1000)
