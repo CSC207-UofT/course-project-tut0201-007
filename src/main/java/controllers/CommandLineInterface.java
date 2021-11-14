@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -20,6 +19,7 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         boolean input = false;
         int numCourses = 0;
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
 
         while (!input) {
             System.out.println("How many courses would you like information for?");
@@ -41,11 +41,16 @@ public class CommandLineInterface {
         System.out.println("1. Interval (Enforce space between courses)");
         System.out.println("2. In person (Enforce in person vs online delivery methods)");
         String filters = scanner.nextLine();
+        ArrayList<String> parsed = parseString(filters);
+        if (parsed.contains("1")){
+            System.out.println("How long of an interval would you like to enforce between courses?");
+            String interval = scanner.nextLine();
+            output.add(new ArrayList<>(Collections.singleton(interval)));
+        }
         scanner.close();
 
-        ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
         output.add(courses);
-        output.add(parseString(filters));
+        output.add(parsed);
         return output;
     }
 
