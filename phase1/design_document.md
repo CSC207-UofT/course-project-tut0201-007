@@ -144,6 +144,8 @@ The Open-closed principle is demonstrated by the `Filter` interface. Along with 
 
 ### Interface segregation principle
 
+The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the critera or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle. 
+
 ### Dependency inversion principle
 
 ## Packaging Strategies
