@@ -16,7 +16,7 @@ public class ConflictFilterTest {
 
     @Before
     public void setUp() throws Exception {
-        conflictFilter = new ConflictFilter(false);
+        conflictFilter = new ConflictFilter();
         scheduler = new Scheduler();
     }
 

@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ConflictFilter implements Filter {
-    private boolean allowConflicts;
-
-    public ConflictFilter(boolean allowConflicts) {
-        this.allowConflicts = allowConflicts;
-    }
 
     @Override
     public boolean checkSchedule(Schedule s) {
