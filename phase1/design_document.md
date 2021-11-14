@@ -203,6 +203,7 @@ CourseCreator
 
 ### What has worked well so far
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
+- Pull Request reviews have been an efficient and concise way to communicate each group member's thoughts on design decisions, code formatting, and any other miscellaneous questions about the commits.
 
 ### Group member contributions & plans
 
