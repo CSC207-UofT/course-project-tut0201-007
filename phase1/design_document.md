@@ -177,6 +177,9 @@ For the filters
 ### Command
 CLI
 
+### Chain of Responsibility
+CourseCreator
+
 ## Progress Report
 
 ### Open questions
