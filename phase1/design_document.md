@@ -26,8 +26,10 @@ A class that represents a possible schedule consisting of distinct lecture and t
 #### Course 
 A class that stores possible lecture and tutorial sections for each course.
 
-#### Session 
+#### Section 
 A class that represents a distinct time slot for some class. It is used by course, and stored in schedule.
+
+#### Timeslot 
 
 ### Use Cases:
 
@@ -44,6 +46,8 @@ Export schedule as a .ics file, that can be interpreted by the vast majority of 
 Classes that verify schedules based on user requested specifications, i.e. distances.
 
 ### CLI Commands/Controller class:
+
+#### Controller 
 
 #### CommandLineInterface 
 Main class for the project, prompts user to input each of their classes, then uses the Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
