@@ -4,7 +4,7 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 
-public class Timeslot {
+public class Timeslot implements Comparable<Timeslot> {
     private DayOfWeek day;
     private String room;
     private LocalTime start;
@@ -96,5 +96,10 @@ public class Timeslot {
                     && this.getEnd().equals(other.getEnd());
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(Timeslot that) {
+        return this.start.compareTo(that.getStart());
     }
 }
