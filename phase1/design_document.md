@@ -84,6 +84,8 @@ We chose to use ICS files over a database because we don't expect to be storing 
 
 ## Clean Architecture
 
+`TODO: Describe a scenario walk-through and highlight how it demonstrates Clean Architecture`
+
 ### **User I/O**: CommandLineInterface, Calendar exporting 
 The user interacts with out CLI input class. At the moment, the CLI class and controllers class are closely related. The user gives input to the CommandLineInterface which is used to control scheduling in the Main method. These two classes are the same since there is high cohesion between the user input and the data the controllers works with.
 
