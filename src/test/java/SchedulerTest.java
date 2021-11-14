@@ -31,10 +31,10 @@ public class SchedulerTest {
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC-0101 meets at:\n"
+                        + "TST101 LEC-0101 F meets at:\n"
                         + "MONDAY from 12:00-13:00 at ROOM 07\n"
                         + "\n\nTutorials\n"
-                        + "TUT-0101 meets at:\n"
+                        + "TST101 TUT-0101 F meets at:\n"
                         + "FRIDAY from 18:00-21:00 at ROOM 05\n\n";
         // Checking that the course has the correct code
         assertEquals(expected, schedule.toString());
@@ -52,18 +52,18 @@ public class SchedulerTest {
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC-0101 meets at:\n"
+                        + "TST101 LEC-0101 F meets at:\n"
                         + "MONDAY from 12:00-13:00 at ROOM 07\n"
                         + "\n"
-                        + "LEC-0101 meets at:\n"
+                        + "TST102 LEC-0101 F meets at:\n"
                         + "MONDAY from 12:00-13:00 at NF 003\n"
                         + "TUESDAY from 12:00-13:00 at NF 003\n"
                         + "FRIDAY from 13:00-14:00 at NF 003\n"
                         + "\n\nTutorials\n"
-                        + "TUT-0101 meets at:\n"
+                        + "TST101 TUT-0101 F meets at:\n"
                         + "FRIDAY from 18:00-21:00 at ROOM 05\n"
                         + "\n"
-                        + "TUT-0101 meets at:\n"
+                        + "TST102 TUT-0101 F meets at:\n"
                         + "TUESDAY from 10:00-11:00 at ROOM 05\n\n";
         assertEquals(expected, schedule.toString());
     }
@@ -78,7 +78,7 @@ public class SchedulerTest {
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "LEC-0101 meets at:\n"
+                        + "TST104 LEC-0101 F meets at:\n"
                         + "WEDNESDAY from 09:00-10:00 at ROOM 01\n"
                         + "\n"
                         + "\n"

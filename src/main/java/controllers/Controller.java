@@ -53,7 +53,7 @@ public class Controller {
                  * the code and the exception that is thrown.
                  */
                 System.out.println(
-                        "Exception occured for course "
+                        "Exception occurred for course "
                                 + courseCode
                                 + " with the following message: \n"
                                 + exception.toString());

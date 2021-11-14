@@ -1,0 +1,44 @@
+{
+  "TEST": {
+    "courseId": "00000",
+    "org": "TST",
+    "orgName": "Test",
+    "courseTitle": "Test Json",
+    "code": "TST104",
+    "exclusion": "TST100, TST106, TST105.",
+    "section": "Y",
+    "meetings": {
+      "LEC-0101": {
+        "schedule": {
+          "MO-280119": {
+            "meetingDay": "WE",
+            "meetingStartTime": "09:00",
+            "meetingEndTime": "10:00",
+            "assignedRoom1": "ROOM 01",
+            "assignedRoom2": "ROOM 02"
+          }
+        },
+        "teachingMethod": "LEC",
+        "sectionNumber": "0101",
+        "cancel": "",
+        "deliveryMode": "CLASS"
+      },
+      "LEC-0201": {
+        "schedule": {
+          "TH-280121": {
+            "meetingDay": "TH",
+            "meetingStartTime": "09:00",
+            "meetingEndTime": "10:00",
+            "meetingScheduleId": "280121",
+            "assignedRoom1": "ROOM 03",
+            "assignedRoom2": "ROOM 04"
+          }
+        },
+        "teachingMethod": "LEC",
+        "sectionNumber": "0101",
+        "cancel": "Cancelled",
+        "deliveryMode": "CLASS"
+      }
+    }
+  }
+}

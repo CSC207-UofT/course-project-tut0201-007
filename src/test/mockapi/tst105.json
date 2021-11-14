@@ -1,0 +1,431 @@
+{
+    "TEST-F": {
+        "courseId": "51828",
+        "org": "TST",
+        "orgName": "Test",
+        "courseTitle": "TestTitle",
+        "code": "TST105",
+        "corequisite": "",
+        "exclusion": "",
+        "recommendedPreparation": "",
+        "section": "F",
+        "meetings": {
+            "LEC-0101": {
+                "schedule": {
+                    "MO-299012": {
+                        "meetingDay": "MO",
+                        "meetingStartTime": "10:00",
+                        "meetingEndTime": "11:00",
+                        "meetingScheduleId": "299012",
+                        "assignedRoom1": "WI 1016",
+                        "assignedRoom2": null
+                    },
+                    "TU-299013": {
+                        "meetingDay": "TU",
+                        "meetingStartTime": "18:00",
+                        "meetingEndTime": "21:00",
+                        "meetingScheduleId": "299013",
+                        "assignedRoom1": "Contact DEPT",
+                        "assignedRoom2": null
+                    },
+                    "WE-299014": {
+                        "meetingDay": "WE",
+                        "meetingStartTime": "10:00",
+                        "meetingEndTime": "11:00",
+                        "meetingScheduleId": "299014",
+                        "assignedRoom1": "WI 1016",
+                        "assignedRoom2": null
+                    },
+                    "FR-299015": {
+                        "meetingDay": "FR",
+                        "meetingStartTime": "10:00",
+                        "meetingEndTime": "11:00",
+                        "meetingScheduleId": "299015",
+                        "assignedRoom1": "WI 1016",
+                        "assignedRoom2": null
+                    }
+                },
+                "instructors": {
+                    "7852101": {
+                        "instructorId": "7852101",
+                        "firstName": "S",
+                        "lastName": "Engels"
+                    }
+                },
+                "meetingId": "194275",
+                "teachingMethod": "LEC",
+                "sectionNumber": "0101",
+                "subtitle": "",
+                "cancel": "",
+                "waitlist": "Y",
+                "deliveryMode": "CLASS",
+                "online": "In Person",
+                "enrollmentCapacity": "150",
+                "actualEnrolment": "135",
+                "actualWaitlist": "0",
+                "enrollmentIndicator": "P",
+                "meetingStatusNotes": "",
+                "enrollmentControls": [
+                    {
+                        "postId": null,
+                        "postCode": null,
+                        "postName": null,
+                        "subjectId": "1",
+                        "subjectCode": "*",
+                        "subjectName": "",
+                        "designationId": "1",
+                        "designationCode": "*",
+                        "designationName": "",
+                        "yearOfStudy": "*",
+                        "typeOfProgramId": null,
+                        "typeOfProgramCode": null,
+                        "typeOfProgramName": null,
+                        "primaryOrgId": "6",
+                        "primaryOrgCode": "ARTSC",
+                        "primaryOrgName": "Faculty of Arts and Science",
+                        "secondaryOrgId": "1",
+                        "secondaryOrgCode": "*",
+                        "secondaryOrgName": "",
+                        "assocOrgId": "1",
+                        "assocOrgCode": "*",
+                        "assocOrgName": "",
+                        "adminOrgId": "23",
+                        "adminOrgCode": "CSC",
+                        "adminOrgName": "Department of Computer Science"
+                    }
+                ]
+            },
+            "LEC-0201": {
+                "schedule": {
+                    "MO-299602": {
+                        "meetingDay": "MO",
+                        "meetingStartTime": "11:00",
+                        "meetingEndTime": "12:00",
+                        "meetingScheduleId": "299602",
+                        "assignedRoom1": "SS 2117",
+                        "assignedRoom2": null
+                    },
+                    "WE-299603": {
+                        "meetingDay": "WE",
+                        "meetingStartTime": "11:00",
+                        "meetingEndTime": "12:00",
+                        "meetingScheduleId": "299603",
+                        "assignedRoom1": "WI 1016",
+                        "assignedRoom2": null
+                    },
+                    "WE-299604": {
+                        "meetingDay": "WE",
+                        "meetingStartTime": "18:00",
+                        "meetingEndTime": "21:00",
+                        "meetingScheduleId": "299604",
+                        "assignedRoom1": "Contact DEPT",
+                        "assignedRoom2": null
+                    },
+                    "FR-299605": {
+                        "meetingDay": "FR",
+                        "meetingStartTime": "11:00",
+                        "meetingEndTime": "12:00",
+                        "meetingScheduleId": "299605",
+                        "assignedRoom1": "WI 1016",
+                        "assignedRoom2": null
+                    }
+                },
+                "instructors": {
+                    "7852102": {
+                        "instructorId": "7852102",
+                        "firstName": "S",
+                        "lastName": "Engels"
+                    }
+                },
+                "meetingId": "201343",
+                "teachingMethod": "LEC",
+                "sectionNumber": "0201",
+                "subtitle": "",
+                "cancel": "",
+                "waitlist": "Y",
+                "deliveryMode": "CLASS",
+                "online": "In Person",
+                "enrollmentCapacity": "150",
+                "actualEnrolment": "140",
+                "actualWaitlist": "0",
+                "enrollmentIndicator": "P",
+                "meetingStatusNotes": "September 17, 2021: Room changed.",
+                "enrollmentControls": [
+                    {
+                        "postId": null,
+                        "postCode": null,
+                        "postName": null,
+                        "subjectId": "1",
+                        "subjectCode": "*",
+                        "subjectName": "",
+                        "designationId": "1",
+                        "designationCode": "*",
+                        "designationName": "",
+                        "yearOfStudy": "*",
+                        "typeOfProgramId": null,
+                        "typeOfProgramCode": null,
+                        "typeOfProgramName": null,
+                        "primaryOrgId": "6",
+                        "primaryOrgCode": "ARTSC",
+                        "primaryOrgName": "Faculty of Arts and Science",
+                        "secondaryOrgId": "1",
+                        "secondaryOrgCode": "*",
+                        "secondaryOrgName": "",
+                        "assocOrgId": "1",
+                        "assocOrgCode": "*",
+                        "assocOrgName": "",
+                        "adminOrgId": "23",
+                        "adminOrgCode": "CSC",
+                        "adminOrgName": "Department of Computer Science"
+                    }
+                ]
+            }
+        }
+    },
+    "TEST-S": {
+        "courseId": "51828",
+        "org": "TST",
+        "orgName": "Test",
+        "courseTitle": "TestTitle",
+        "code": "TST105",
+        "corequisite": "",
+        "exclusion": "",
+        "recommendedPreparation": "",
+        "section": "S",
+        "meetings": {
+            "LEC-0101": {
+                "schedule": {
+                    "MO-298713": {
+                        "meetingDay": "MO",
+                        "meetingStartTime": "13:00",
+                        "meetingEndTime": "14:00",
+                        "meetingScheduleId": "298713",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "SF 1101"
+                    },
+                    "WE-298714": {
+                        "meetingDay": "WE",
+                        "meetingStartTime": "13:00",
+                        "meetingEndTime": "14:00",
+                        "meetingScheduleId": "298714",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "SF 1101"
+                    },
+                    "WE-298715": {
+                        "meetingDay": "WE",
+                        "meetingStartTime": "18:00",
+                        "meetingEndTime": "21:00",
+                        "meetingScheduleId": "298715",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "Contact DEPT"
+                    },
+                    "FR-298716": {
+                        "meetingDay": "FR",
+                        "meetingStartTime": "13:00",
+                        "meetingEndTime": "14:00",
+                        "meetingScheduleId": "298716",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "SF 1101"
+                    }
+                },
+                "instructors": {
+                    "7854568": {
+                        "instructorId": "7854568",
+                        "firstName": "S",
+                        "lastName": "Engels"
+                    }
+                },
+                "meetingId": "194277",
+                "teachingMethod": "LEC",
+                "sectionNumber": "0101",
+                "subtitle": "",
+                "cancel": "",
+                "waitlist": "Y",
+                "deliveryMode": "CLASS",
+                "online": "In Person",
+                "enrollmentCapacity": "150",
+                "actualEnrolment": "150",
+                "actualWaitlist": "0",
+                "enrollmentIndicator": "P",
+                "meetingStatusNotes": "",
+                "enrollmentControls": [
+                    {
+                        "postId": null,
+                        "postCode": null,
+                        "postName": null,
+                        "subjectId": "1",
+                        "subjectCode": "*",
+                        "subjectName": "",
+                        "designationId": "1",
+                        "designationCode": "*",
+                        "designationName": "",
+                        "yearOfStudy": "*",
+                        "typeOfProgramId": null,
+                        "typeOfProgramCode": null,
+                        "typeOfProgramName": null,
+                        "primaryOrgId": "6",
+                        "primaryOrgCode": "ARTSC",
+                        "primaryOrgName": "Faculty of Arts and Science",
+                        "secondaryOrgId": "1",
+                        "secondaryOrgCode": "*",
+                        "secondaryOrgName": "",
+                        "assocOrgId": "1",
+                        "assocOrgCode": "*",
+                        "assocOrgName": "",
+                        "adminOrgId": "23",
+                        "adminOrgCode": "CSC",
+                        "adminOrgName": "Department of Computer Science"
+                    }
+                ]
+            },
+            "LEC-0201": {
+                "schedule": {
+                    "MO-298709": {
+                        "meetingDay": "MO",
+                        "meetingStartTime": "14:00",
+                        "meetingEndTime": "15:00",
+                        "meetingScheduleId": "298709",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "SF 1101"
+                    },
+                    "MO-298710": {
+                        "meetingDay": "MO",
+                        "meetingStartTime": "18:00",
+                        "meetingEndTime": "21:00",
+                        "meetingScheduleId": "298710",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "Contact DEPT"
+                    },
+                    "WE-298711": {
+                        "meetingDay": "WE",
+                        "meetingStartTime": "14:00",
+                        "meetingEndTime": "15:00",
+                        "meetingScheduleId": "298711",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "SF 1101"
+                    },
+                    "FR-298712": {
+                        "meetingDay": "FR",
+                        "meetingStartTime": "14:00",
+                        "meetingEndTime": "15:00",
+                        "meetingScheduleId": "298712",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "SF 1101"
+                    }
+                },
+                "instructors": {
+                    "7854569": {
+                        "instructorId": "7854569",
+                        "firstName": "S",
+                        "lastName": "Engels"
+                    }
+                },
+                "meetingId": "194278",
+                "teachingMethod": "LEC",
+                "sectionNumber": "0201",
+                "subtitle": "",
+                "cancel": "",
+                "waitlist": "Y",
+                "deliveryMode": "CLASS",
+                "online": "In Person",
+                "enrollmentCapacity": "150",
+                "actualEnrolment": "129",
+                "actualWaitlist": "0",
+                "enrollmentIndicator": "P",
+                "meetingStatusNotes": "",
+                "enrollmentControls": [
+                    {
+                        "postId": null,
+                        "postCode": null,
+                        "postName": null,
+                        "subjectId": "1",
+                        "subjectCode": "*",
+                        "subjectName": "",
+                        "designationId": "1",
+                        "designationCode": "*",
+                        "designationName": "",
+                        "yearOfStudy": "*",
+                        "typeOfProgramId": null,
+                        "typeOfProgramCode": null,
+                        "typeOfProgramName": null,
+                        "primaryOrgId": "6",
+                        "primaryOrgCode": "ARTSC",
+                        "primaryOrgName": "Faculty of Arts and Science",
+                        "secondaryOrgId": "1",
+                        "secondaryOrgCode": "*",
+                        "secondaryOrgName": "",
+                        "assocOrgId": "1",
+                        "assocOrgCode": "*",
+                        "assocOrgName": "",
+                        "adminOrgId": "23",
+                        "adminOrgCode": "CSC",
+                        "adminOrgName": "Department of Computer Science"
+                    }
+                ]
+            },
+            "LEC-5101": {
+                "schedule": {
+                    "MO-298707": {
+                        "meetingDay": "MO",
+                        "meetingStartTime": "18:00",
+                        "meetingEndTime": "21:00",
+                        "meetingScheduleId": "298707",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "BA 1160"
+                    },
+                    "TU-298708": {
+                        "meetingDay": "TU",
+                        "meetingStartTime": "18:00",
+                        "meetingEndTime": "21:00",
+                        "meetingScheduleId": "298708",
+                        "assignedRoom1": null,
+                        "assignedRoom2": "Contact DEPT"
+                    }
+                },
+                "instructors": [],
+                "meetingId": "194279",
+                "teachingMethod": "LEC",
+                "sectionNumber": "5101",
+                "subtitle": "",
+                "cancel": "",
+                "waitlist": "Y",
+                "deliveryMode": "CLASS",
+                "online": "In Person",
+                "enrollmentCapacity": "150",
+                "actualEnrolment": "83",
+                "actualWaitlist": "0",
+                "enrollmentIndicator": "P",
+                "meetingStatusNotes": "",
+                "enrollmentControls": [
+                    {
+                        "postId": null,
+                        "postCode": null,
+                        "postName": null,
+                        "subjectId": "1",
+                        "subjectCode": "*",
+                        "subjectName": "",
+                        "designationId": "1",
+                        "designationCode": "*",
+                        "designationName": "",
+                        "yearOfStudy": "*",
+                        "typeOfProgramId": null,
+                        "typeOfProgramCode": null,
+                        "typeOfProgramName": null,
+                        "primaryOrgId": "6",
+                        "primaryOrgCode": "ARTSC",
+                        "primaryOrgName": "Faculty of Arts and Science",
+                        "secondaryOrgId": "1",
+                        "secondaryOrgCode": "*",
+                        "secondaryOrgName": "",
+                        "assocOrgId": "1",
+                        "assocOrgCode": "*",
+                        "assocOrgName": "",
+                        "adminOrgId": "23",
+                        "adminOrgCode": "CSC",
+                        "adminOrgName": "Department of Computer Science"
+                    }
+                ]
+            }
+        }
+    }
+}
