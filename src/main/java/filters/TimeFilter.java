@@ -38,10 +38,6 @@ public class TimeFilter implements Filter {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.filteredDay = filteredDay;
-        // kinda abused notation on using Day enum here to include option to filter for all days
-        // maybe better to have a boolean flag, but then I think it's confusing to select a day to
-        // filter for
-        // and also use a separate flag to say "Filter for all days"
     }
 
     /**
