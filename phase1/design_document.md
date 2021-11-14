@@ -208,6 +208,12 @@ CourseCreator
 ### Group member contributions & plans
 
 #### Rory
-- Worked on: refactoring the CourseCreator and Section classes, InPersonFilter class, mock API for testing classes
-- Will work on: implementing various other Filter subclasses, improved CLI schedlue representation
+* Worked On:
+  * refactoring the CourseCreator and Section classes
+  * InPersonFilter class
+  * mock API for testing classes
+  * design document
+* To Work on:
+  * implementing various other Filter subclasses
+  * improved CLI schedule representation
 
