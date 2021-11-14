@@ -166,6 +166,8 @@ Expansion of the program will be easy, as we can add each new clean architecture
 
 ## Design Pattern Summary
 
+`We can add patterns that we didn't use but should have, or are planning to implement in the future`
+
 ### Strategy
 i think we can use this in scheduler based on user criteria
 
