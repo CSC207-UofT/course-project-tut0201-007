@@ -27,9 +27,10 @@ A class that represents a possible schedule consisting of distinct lecture and t
 A class that stores possible lecture and tutorial sections for each course.
 
 #### Section 
-A class that represents a distinct time slot for some class. It is used by course, and stored in schedule.
+A class that represents a distinct time slot (a single lecture/tutorial) for some class. It is used by course, and stored in schedule.
 
 #### Timeslot 
+A class that stores the time, day, and location of a lecture or tutorial. 
 
 ### Use Cases:
 
