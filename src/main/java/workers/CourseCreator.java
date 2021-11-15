@@ -41,16 +41,15 @@ public class CourseCreator {
     public static Course generateCourse(String courseId, char session) throws IOException {
         APIWorker apiWorker = new APIWorker(courseId);
         int w = 0;
-        if (session == 'S' && apiWorker.semester.size() == 2) {
+        if (session == 'S') {
             w = 1;
         }
-        System.out.println(apiWorker.semester);
         JsonObject meetings =
                 apiWorker
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-
+      
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
