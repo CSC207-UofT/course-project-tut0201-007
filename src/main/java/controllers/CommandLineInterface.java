@@ -148,7 +148,7 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         System.out.println("Would you like to allow time conflicts between your courses? \n" +
-                "Enter 0/1 for N/Y. \n" +
+                "Enter 1/0 for Y/m. \n" +
                 "A non-integer input will quit selection.");
 
         while (scanner.hasNextInt()) {
@@ -169,7 +169,7 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         System.out.println("Would you like all courses online or in-person? \n" +
-                "Enter 0/1 for online/in-person. \n" +
+                "Enter 1/0 for in-person/online. \n" +
                 "A non-integer input will quit selection.");
 
         while (scanner.hasNextInt()) {
@@ -216,7 +216,7 @@ public class CommandLineInterface {
         };
 
         System.out.println("Would you like to specify times during which you have courses? " +
-                "(Enter 0/1 for N/Y). " +
+                "(Enter 1/0 for Y/N). " +
                 "A non-integer input will quit selection.");
         int input = 0;
         if (scanner.hasNextInt()) {
@@ -245,7 +245,7 @@ public class CommandLineInterface {
                 //WHY DOES DAY NOT HAVE TO STRING METHOD???? quick fix for now by hardcoding an array
                 System.out.println("You would like classes during " + dayStrings[day] + " from " +
                         startTime.toString() + " until " + endTime.toString());
-                System.out.println("Is the above correct? (0/1 for N/Y).");
+                System.out.println("Is the above correct? (1/0 for Y/N).");
                 int sc = scanner.nextInt();
                 if (sc == 1) {
                     newFilters.add(new TimeFilter(startTime, endTime, days[day]));
@@ -255,7 +255,7 @@ public class CommandLineInterface {
                     System.out.println("Invalid input. Please try again on the next iteration.");
                 }
             }
-            System.out.println("Would you like to restrict your schedule to another block of time? (0/1 for N/Y). \n" +
+            System.out.println("Would you like to restrict your schedule to another block of time? (1/0 for Y/N). \n" +
                     "Non-integer input will quit selection, and blocks will NOT be added to scheduling.");
 
             if (scanner.hasNextInt()) {
