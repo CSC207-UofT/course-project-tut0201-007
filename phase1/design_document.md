@@ -26,24 +26,32 @@ A class that represents a possible schedule consisting of distinct lecture and t
 #### Course 
 A class that stores possible lecture and tutorial sections for each course.
 
-#### Session 
-A class that represents a distinct time slot for some class. It is used by course, and stored in schedule.
+#### Section 
+A class that represents a distinct time slot (a single lecture/tutorial) for some class. It is used by course, and stored in schedule.
+
+#### Timeslot 
+A class that stores the time, day, and location of a lecture or tutorial. 
 
 ### Use Cases:
 
 #### CourseCreator 
-Creates a course object, populated with information from the API information retrieved through APIWorker.
+Creates a Course object, populated with information from the API information retrieved through APIWorker.
 
 #### Scheduler 
-Creates permutations of all possible schedules, and then passes them through filter classes that remove schedules.
+Creates permutations of all possible schedules, and then passes them through Filter classes that remove schedules.
 
-#### ICSCreator 
+#### ScheduleImporter 
+Parses information written in an ICS file and converts it into a Schedule object.
+
+#### ScheduleExporter 
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
 #### Filter Subclasses 
 Classes that verify schedules based on user requested specifications, i.e. distances.
 
 ### CLI Commands/Controller class:
+
+#### Controller 
 
 #### CommandLineInterface 
 Main class for the project, prompts user to input each of their classes, then uses the Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
@@ -68,6 +76,8 @@ Comments:
 
 ## UML Diagram
 
+![UML](UML.png?raw=true "UML Diagram")
+
 ## Major Design Decisons
 
 ### Changes to Session
@@ -83,6 +93,8 @@ For our data serialization functionality, we decided to use ICS files for our Da
 We chose to use ICS files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial 
 
 ## Clean Architecture
+
+`TODO: Describe a scenario walk-through and highlight how it demonstrates Clean Architecture`
 
 ### **User I/O**: CommandLineInterface, Calendar exporting 
 The user interacts with out CLI input class. At the moment, the CLI class and controllers class are closely related. The user gives input to the CommandLineInterface which is used to control scheduling in the Main method. These two classes are the same since there is high cohesion between the user input and the data the controllers works with.
@@ -142,9 +154,11 @@ The Open-closed principle is demonstrated by the `Filter` interface. Along with 
 
 ### Liskov substitution principle
 
+With our `Filter` interface, any usages of its implementing classes can be replaced with each other without changing functionality since they all implement the same interface methods. Other than this, we don't have many usages of inheritance in our program. The Liskov Substitution Principle isn't demonstrated very strongly as a result. In order to strengthen how we demonstrate this principle, we can design a superclass in the future that can be replaced by its subclasses without altering the functionality of the program. 
+
 ### Interface segregation principle
 
-The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the critera or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle. 
+The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the criteria or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle. 
 
 ### Dependency inversion principle
 
@@ -162,8 +176,17 @@ Expansion of the program will be easy, as we can add each new clean architecture
 
 ## Design Pattern Summary
 
+`We can add patterns that we didn't use but should have, or are planning to implement in the future`
+
 ### Strategy
-i think we can use this in scheduler based on user criteria
+This is design pattern is best exemplified by the "Filter" interface and it's subsequent implementations. The classes that implement it are:
+- [InPersonFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/InPersonFilter.java)
+- [SpaceFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/SpaceFilter.java)
+- [CourseExclusionFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/CourseExclusionFilter.java)
+- [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
+- [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
+
+The Strategy Design Pattern is a collection of encapsulated algorithm, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is overrided and implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
 ### Decorator
 For the filters
@@ -171,4 +194,28 @@ For the filters
 ### Command
 CLI
 
+### Chain of Responsibility
+CourseCreator
+
 ## Progress Report
+
+### Open questions
+- Can we further optimize our schedule generation, by using filters within the recursive method rather than applying them after all schedules have been generated? Would this even be more efficient?
+- How do we improve the worst case runtime of our filters?
+
+### What has worked well so far
+- Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
+- Pull Request reviews have been an efficient and concise way to communicate each group member's thoughts on design decisions, code formatting, and any other miscellaneous questions about the commits.
+
+### Group member contributions & plans
+
+#### Rory
+* Worked On:
+  * refactoring the CourseCreator and Section classes
+  * InPersonFilter class
+  * mock API for testing classes
+  * design document
+* To Work on:
+  * implementing various other Filter subclasses
+  * improved CLI schedule representation
+

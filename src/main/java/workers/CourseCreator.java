@@ -8,11 +8,12 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a entities.Course Creator. This class uses workers.APIWorker to generate
- * entities.Course objects.
+ * This class represents a Course Creator. This class uses APIWorker to generate
+ * Course objects.
  */
 public class CourseCreator {
 
@@ -32,7 +33,7 @@ public class CourseCreator {
     /**
      * Generates a course given a courseID and the session of the course
      *
-     * @param courseId the identifier for hte course
+     * @param courseId the identifier for the course
      * @param session the semester that the course takes place ie S, F, Y
      * @return a Course object
      * @throws IOException if there is an issue with retrieving the course from the API
@@ -48,9 +49,19 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
+      
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
-        return new Course(courseId, lectures, tutorials, session);
+
+        String exclusionsValue =
+                apiWorker
+                        .info
+                        .getAsJsonObject(apiWorker.semester.get(w))
+                        .get("exclusion").toString();
+        ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
+
+        return new Course(courseId, lectures, tutorials, session, exclusions);
+
     }
 
     /**
@@ -71,6 +82,27 @@ public class CourseCreator {
             }
         }
         return specifiedSessions;
+    }
+
+    /**
+     * Extracts all course names from a string containing the course exclusions and puts it into an
+     * ArrayList
+     *
+     * @param value a String that corresponds to all of the exclusions for a course
+     * @return an ArrayList of course names
+     */
+    public static ArrayList<String> getCourseExclusions(String value) {
+        ArrayList<String> shortenedCodes = new ArrayList<>();
+        try {
+            String cleanedValue = value.replace("\"", "").replace(".", "");
+            ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+            for (String s: values) {
+                shortenedCodes.add(s.substring(0, 6));
+            }
+        } catch (Exception IndexOutOfBoundsException){
+            System.out.println("The course has no exclusions (empty string)");
+        }
+        return shortenedCodes;
     }
 
     /**

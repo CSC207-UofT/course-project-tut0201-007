@@ -155,17 +155,21 @@ public class ScheduleExporter {
 
         LocalDate startDay = getStartingWeekDate(termStartDate, timeslot.getDay());
         LocalDateTime start = startDay.atTime(timeslot.getStart());
+        LocalDateTime end = startDay.atTime(timeslot.getEnd());
+
+        if (session == 'S'){
+            //Account for Eastern Time zone's time change
+            start = start.plusHours(1);
+            end = end.plusHours(1);
+        }
+
         Date timeslotStart =
                 new DateTime(java.util.Date.from(start.atZone(DateConstants.zoneId).toInstant()));
-
-        LocalDateTime end = startDay.atTime(timeslot.getEnd());
         Date timeslotEnd =
                 new DateTime(java.util.Date.from(end.atZone(DateConstants.zoneId).toInstant()));
 
         Location location = new Location(timeslot.getRoom());
 
-        System.out.println(start);
-        System.out.println(end);
 
 
         VEvent event = new VEvent(timeslotStart, timeslotEnd, name);
@@ -192,12 +196,11 @@ public class ScheduleExporter {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         ScheduleExporter exporter = new ScheduleExporter();
         Scheduler s = new Scheduler();
         ArrayList<String> courseIDs = new ArrayList<>();
-//        courseIDs.add("MAT237");
-        courseIDs.add("CSC209");
+        courseIDs.add("TST102");
 
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
         Schedule schedule = s.createBasicSchedule(courses);

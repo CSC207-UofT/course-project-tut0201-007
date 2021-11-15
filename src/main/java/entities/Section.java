@@ -8,13 +8,13 @@ public class Section {
 
     private String name;
     private String session;
-    private ArrayList<Timeslot> times;
+    private List<Timeslot> times;
 
     public Section(String name) {
         this(name, new ArrayList<Timeslot>());
     }
 
-    public Section(String name, ArrayList<Timeslot> times) {
+    public Section(String name, List<Timeslot> times) {
         this.name = name;
         this.session = name.split(" ")[2];
         this.times = times;
@@ -30,7 +30,7 @@ public class Section {
     }
 
     public List<Timeslot> getTimes() {
-        return (List<Timeslot>) times.clone();
+        return List.copyOf(times);
     }
 
     public String getSession() {
