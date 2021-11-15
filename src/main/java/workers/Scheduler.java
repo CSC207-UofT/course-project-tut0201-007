@@ -13,25 +13,25 @@ import java.util.List;
  * <p>Key method is permutationScheduler() which creates all permutations passing filters.
  */
 public class Scheduler {
-    private final List<Course> courses;
-    private final List<Schedule> schedules;
+    private Schedule schedule;
     private final List<Filter> filters = new ArrayList<Filter>();
 
     /** Constructs a workers.Scheduler with empty courses and schedules */
     public Scheduler() {
-        this.courses = new ArrayList<Course>();
-        this.schedules = new ArrayList<Schedule>();
+        this.schedule = new Schedule();
     }
 
     /**
      * Constructs a workers.Scheduler with the given courses and schedules
      *
-     * @param courses list of courses
-     * @param schedules list of schedules
+     * @param schedule list of schedules
      */
-    public Scheduler(ArrayList<Course> courses, ArrayList<Schedule> schedules) {
-        this.courses = courses;
-        this.schedules = schedules;
+    public Scheduler(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public void setBaseSchedule (Schedule schedule){
+        this.schedule = schedule;
     }
 
     public void addFilters(List<Filter> filters) {
@@ -54,7 +54,7 @@ public class Scheduler {
 
         if (newCourses.size() == 1) {
             Course newCourse = newCourses.get(0);
-            List<Schedule> newSchedules = populatePermutations(newCourse);
+            List<Schedule> newSchedules = extendPermutations(newCourse, this.schedule);
             return newSchedules;
         } else {
             Course newCourse = newCourses.get(numOfCourses - 1);
@@ -71,6 +71,42 @@ public class Scheduler {
             return newSchedules;
         }
     }
+
+
+/**
+     * Scheduler used to create courses all course permutations recursively. During generation,
+     * schedulers not passing filters are removed in the populatePermutations and
+     * extendPermutations().
+     *
+     * @param newCourses courses sorted by priority to be scheduled.
+     * @return a list of all possible Schedules passing the given filters
+
+    public List<Schedule> serializedPermutationScheduler(List<Course> newCourses) {
+        if (newCourses.isEmpty()) {
+            return new ArrayList<>();
+        }
+        int numOfCourses = newCourses.size();
+
+        if (newCourses.size() == 1) {
+            Course newCourse = newCourses.get(0);
+            List<Schedule> newSchedules = extendPermutations(newCourse, this.schedule);
+            return newSchedules;
+        } else {
+            Course newCourse = newCourses.get(numOfCourses - 1);
+            newCourses.remove(numOfCourses - 1);
+            List<Schedule> savedSchedules = permutationScheduler(newCourses);
+            List<Schedule> newSchedules = new ArrayList<>();
+
+            for (Schedule schedule : savedSchedules) {
+                newSchedules.addAll(extendPermutations(newCourse, schedule));
+            }
+
+            //savedSchedules.addAll(newSchedules);
+            //return savedSchedules;
+            return newSchedules;
+        }
+    }
+*/
 
     /**
      * Takes a list of courses and outputs a schedule that takes the first lecture section and first
@@ -92,13 +128,13 @@ public class Scheduler {
         }
         return schedule;
     }
+/**
 
-    /**
      * Creates all lecture/tutorial section permutations that pass all filters for one course.
      *
      * @param c course that we take lec/tut permutations of
      * @return all filtered schedules with these lec/tut permutations
-     */
+
     private List<Schedule> populatePermutations(Course c) {
         List<Schedule> populatedSchedules = new ArrayList<>();
         List<Section> courseLectures = c.getLectures();
@@ -128,6 +164,7 @@ public class Scheduler {
         }
         return populatedSchedules;
     }
+*/
 
     /**
      * Returns permutations of lectures and tutorials of course c, passing filters, together with
@@ -153,8 +190,6 @@ public class Scheduler {
             }
             return populatedSchedules;
         }
-
-
 
         for (Section lec : courseLectures) {
             for (Section tut : courseTutorials) {

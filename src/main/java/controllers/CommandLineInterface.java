@@ -4,14 +4,20 @@ import entities.Course;
 import entities.Schedule;
 import filters.*;
 import workers.ScheduleExporter;
+import workers.ScheduleImporter;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.time.LocalTime;
 import java.util.*;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
 
-    public CommandLineInterface() {}
+    public CommandLineInterface() {
+    }
 
     /**
      * Method that prompts user for input, eventually returning a List of course IDs that they will
@@ -19,9 +25,32 @@ public class CommandLineInterface {
      *
      * @return a list of desired course codes from greatest to least priority.
      */
-    public static ArrayList<String> promptUser() {
+    public static int promptUser() {
         Scanner scanner = new Scanner(System.in);
-        Boolean input = false;
+
+        System.out.println("=== We Do A Little Scheduling :) ===");
+        System.out.println("Would you like to create a new schedule, or import a schedule to configure?\n" +
+                "1/0 for new/import. \n" +
+                "Non-integer inputs will quit selection.");
+        int inputInt;
+        while (scanner.hasNextInt()) {
+            inputInt = scanner.nextInt();
+            if (inputInt == 1) {
+                System.out.println("Creating new schedules...");
+                return 1;
+            } else if (inputInt == 0) {
+                System.out.println("Importing schedule...");
+                return 0;
+            } else {
+                System.out.println("Please select a valid integer.");
+            }
+        }
+        return -1;
+    }
+
+    public static List<String> promptCourseCodeNames() {
+        Scanner scanner = new Scanner(System.in);
+        boolean input = false;
         int numCourses = 0;
         while (!input) {
             System.out.println("How many courses would you like information for?");
@@ -40,6 +69,33 @@ public class CommandLineInterface {
             courses.add(course);
         }
         return courses;
+    }
+
+    public static Schedule promptImportSchedule() {
+        Scanner scanner = new Scanner(System.in);
+        Schedule importedSchedule = new Schedule();
+        boolean success = false;
+
+        System.out.println("Please enter the relative file path to the schedule you would like to import:");
+        System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
+        String directory = scanner.next();
+
+        while (!success) {
+            try {
+                File file = new File(directory);
+                Reader fileReader = new FileReader(file);
+                importedSchedule = ScheduleImporter.importSchedule(fileReader);
+                fileReader.close();
+                success = true;
+            } catch (IOException exception) {
+                System.out.println("Invalid directory. Please try again.");
+                directory = scanner.next();
+            }
+        }
+        System.out.println("Schedule read successfully:\n");
+        System.out.println(importedSchedule);
+        System.out.println("Which courses would you like to add to this schedule?");
+        return importedSchedule;
     }
 
     public static List<Filter> promptUserFilters(List<Course> userCourses) {
@@ -61,13 +117,13 @@ public class CommandLineInterface {
         while (scanner.hasNextInt()) {
             int index = scanner.nextInt();
             try {
-                filterCodes[index-1] = true;
+                filterCodes[index - 1] = true;
             } catch (ArrayIndexOutOfBoundsException exception) {
                 System.out.println("Invalid integer selection. Please enter an valid option:");
             }
         }
 
-        for(int i = 0; i < filterCodes.length; i++) {
+        for (int i = 0; i < filterCodes.length; i++) {
             if (filterCodes[i]) {
                 switch (i) {
                     case 0:
@@ -144,11 +200,13 @@ public class CommandLineInterface {
         }
     }
 
-/** PRIVATE METHODS BELOW
- *
- *  These guys are used to simplify I/O methods above.
- */
-    private static List<Filter> promptTimeConflictFilter(){
+    /**
+     * PRIVATE METHODS BELOW
+     * <p>
+     * These guys are used to simplify I/O methods above.
+     */
+
+    private static List<Filter> promptTimeConflictFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         System.out.println("Would you like to allow time conflicts between your courses? \n" +
@@ -169,7 +227,7 @@ public class CommandLineInterface {
         return newFilters;
     }
 
-    private static List<Filter> promptInPersonFilter(){
+    private static List<Filter> promptInPersonFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         System.out.println("Would you like all courses online or in-person? \n" +
@@ -191,7 +249,7 @@ public class CommandLineInterface {
         return newFilters;
     }
 
-    private static List<Filter> promptSpaceFilter(){
+    private static List<Filter> promptSpaceFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         System.out.println("Would you like to enforce a time gap between all courses? \n" +
@@ -208,7 +266,7 @@ public class CommandLineInterface {
         return newFilters;
     }
 
-    private static List<Filter> promptTimeFilter(){
+    private static List<Filter> promptTimeFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         TimeFilter.Day[] days = {
@@ -242,7 +300,7 @@ public class CommandLineInterface {
             System.out.println("Until what time during these day(s) do you want classes?");
             LocalTime endTime = CommandLineInterface.timeInputHandler();
 
-            if(startTime.compareTo(endTime) > 0) {
+            if (startTime.compareTo(endTime) > 0) {
                 System.out.println("Your start time is before your end time." +
                         " Please try again during the next iteration.");
             } else {
@@ -275,8 +333,8 @@ public class CommandLineInterface {
                     return new ArrayList<>();
                 }
             } else {
-                    System.out.println("Your selected times will not be included in schedule generation. Exiting selection.");
-                    return new ArrayList<>();
+                System.out.println("Your selected times will not be included in schedule generation. Exiting selection.");
+                return new ArrayList<>();
             }
 
 
