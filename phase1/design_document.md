@@ -201,3 +201,14 @@ The Template Method is a design pattern that could be used to improve the import
   * Further UI reworking + design patterns
   * Further bug hunting
 
+
+#### Lorena
+* Worked On:
+  * CourseExclusionFilter implementation 
+  * Refactoring - Packaging 
+  * Augmenting Schedule class to store exclusions from the API 
+  * Design Document
+* To Work on:
+  * Check for issues and create tests
+  * Implementing future Filters
+
