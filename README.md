@@ -10,7 +10,7 @@ This is a Course Scheduler app in Java, for CSC207, Tutorial 0201 Group 007.
 
 # Dev
 ## Instructions
-To run our program, run the `main` method in 'src/main/java/controllers/Controller.java'. When run, you will receive prompts in the command line to enter information about your desired schedule.
+To run our program, run the `main` method in [Controller.java](src/main/java/controllers/Controller.java). When run, you will receive prompts in the command line to enter information about your desired schedule.
 
 ## Auto-formatting
 In order to format code style, run below:
