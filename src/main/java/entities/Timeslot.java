@@ -100,6 +100,10 @@ public class Timeslot implements Comparable<Timeslot> {
 
     @Override
     public int compareTo(Timeslot that) {
-        return this.start.compareTo(that.getStart());
+        int dayCompare = this.day.compareTo(that.getDay());
+        if (dayCompare == 0) {
+            return this.start.compareTo(that.getStart());
+        }
+        return dayCompare;
     }
 }
