@@ -136,8 +136,6 @@ Expansion of the program will be easy, as we can add each new clean architecture
 
 ## Design Pattern Summary
 
-`We can add patterns that we didn't use but should have, or are planning to implement in the future`
-
 ### Strategy
 This is design pattern is best exemplified by the "Filter" interface and it's subsequent implementations. The classes that implement it are:
 - [InPersonFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/InPersonFilter.java)
