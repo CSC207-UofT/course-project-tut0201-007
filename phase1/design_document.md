@@ -197,3 +197,15 @@ The Template Method is a design pattern that could be used to improve the import
   * Check for issues and create tests
   * Implementing future Filters
 
+
+#### Anton
+* Worked On:
+  * Creating Controller class, decoupling from CommandLineInterface
+  * Scheduler with permutation implementation using filters and serialization
+  * User input and output
+  * ExcludeTimeFilter 
+  * Design Document/Specification
+* To Work on:
+  * elegant User Input/Output experience
+  * optimizing Scheduling
+  * cleaner architecture
