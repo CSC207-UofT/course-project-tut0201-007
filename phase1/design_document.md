@@ -21,10 +21,10 @@ A user specifies which courses they want to take, and also specify filters, like
 ### Entities:
 
 #### Schedule 
-A class that represents a possible schedule consisting of distinct lecture and tutorial sessions for each course.
+A class that represents a particular schedule, with specific sections for a course. It is manipulated by the above use case classes, notably Scheduler, and its representation is eventually returned by Controller to the user.
 
 #### Course 
-A class that stores possible lecture and tutorial sections for each course.
+Course represents a particular course with various sections. The sections of courses are added to different schedules during schedule generation. Filters check the timeslots of sessions to satisfy certain criteria.
 
 #### Section 
 A class that represents a distinct time slot (a single lecture/tutorial) for some class. It is used by course, and stored in schedule.
@@ -50,7 +50,7 @@ Parses information written in an ICS file and converts it into a Schedule object
 Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
 
 #### Filter Subclasses 
-Classes that verify schedules based on user requested specifications, i.e. distances.
+These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
 
 ### CLI Commands/Controller class:
 
@@ -106,24 +106,7 @@ Following this, Controller generates Schedule entities using Scheduler. Controll
 
 Alternatively, at the beginning of the CommandLineInterface, the user can choose to import an existing .ics file for further modification. The steps the program takes to do this is essentially identical to that described above.
 
-### **User I/O**: CommandLineInterface, Calendar exporting 
-The user interacts with out CLI input class. At the moment, the CLI class and controllers class are closely related. The user gives input to the CommandLineInterface which is used to control scheduling in the Main method. These two classes are the same since there is high cohesion between the user input and the data the controllers works with.
-
-The calendar export class creates .ics files that contain times for a specific schedule. The user can also choose which generated schedule to export to an .ics file through the CLI. In addition, the user can also specify ICS files to import into the program via the CLI.
-
 (**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
-
-### **Controller**: CommandLineInterface
-
-The main method of our program lies in the CommandLineInterface class. User input is collected, and calls to Scheduler are made based on this input. Scheduler is a use case class that calls on other use case and entity classes, subsequently returning schedules meeting user criteria to the controllers.
-
-### **Use Case**: Scheduler, CourseGenerator, APIWorker
-
-Scheduler takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
-
-CourseGenerator is called by Scheduler/(**our future controllers**) and instantiates Course objects representing the user's courses. It does so by calling APIWorker to retrieve data from the U of T API. The CourseGenerator then creates Sessions and TimeSlots (ok this seems like it's doing too much), adding these Objects to the list of Sessions each course has.
-
-APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
 (**Note for ourselves** We REALLY need to consider how we actually implement this. There are a few obvious questions:
 
@@ -135,20 +118,6 @@ APIWorker takes course codes and gets their information from the U of T API. Thi
 6. What is the **single responsibility** of scheduler? What is the single responsibility of each of our classes? Honestly not many of ours follow the S principle.
 7. Are we blurring the lines between 'scheduler' and our controllers? We should create a distinct controllers class. 
 )
-
-### **Entity**: Schedule, Course, Session, Timeslot
-
-Schedule represents a particular scheduler, with specific lecture and tutorial sessions for a course. It is manipulated by the above use case classes, notably Scheduler, and its representation is eventually returned by the controllers to the user.
-
-Course represents a particular course with various sessions. The sessions of courses are added to different schedules during schedule generation. Filters check the timeslots of sessions to satisfy certain criteria.
-
-Sessions represent a collection of time slots with a room and code. These are taken from their respective courses and stored in Schedule during schedule generation.
-
-(**Note for ourselves** Comparisons of sessions should be clean. Again, we need to consider the implementation since it seems there is a lot of unnecessary intertwining of classes. We should also encapsulate the return of times in the session so we do not need to get the list of slots and do operations or something.)
-
-### Filter & implementations
-
-Different Filter objects are instantiated based on the criteria a user provides for their scheduler. The filters are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
 
 ## SOLID Design Principles
 
