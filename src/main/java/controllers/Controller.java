@@ -4,6 +4,8 @@ import entities.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import filters.Filter;
 import workers.*;
 
 /**
@@ -17,17 +19,27 @@ public class Controller {
          * We create the input getter, and scheduler. Note that scheduler has addFilters() method,
          * which we use according to User Input later in this method
          */
+        //create our scheduler object
         Scheduler scheduler = new Scheduler();
 
+        //get list of course ID strings
         List<String> courses = CommandLineInterface.promptUser();
 
+        //course objects are instantiated based on the passed course codes
         List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
 
+        //get user specified filters, add them as filters to our scheduler object
+        List<Filter> filters = CommandLineInterface.promptUserFilters(instantiatedCourses);
+        scheduler.addFilters(filters);
+
+        //call the permutation scheduler to give us all schedules given these courses and filters
         List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
 
+        //print all schedules. this will soon be replaced by a scheduler outputter class.
         for (Schedule sch : schedules) {
             System.out.println(sch);
         }
+
     }
 
     /**
