@@ -35,10 +35,13 @@ A class that stores the time, day, and location of a lecture or tutorial.
 ### Use Cases:
 
 #### CourseCreator 
-Creates a Course object, populated with information from the API information retrieved through APIWorker.
+CourseCreator is called by Scheduler/Controller and instantiates Course objects representing the user's courses. It does so by using APIWorker to retrieve data from the U of T API. CourseCreator then creates Sections and Timeslots, adding these entities to a Course.
 
 #### Scheduler 
-Creates permutations of all possible schedules, and then passes them through Filter classes that remove schedules.
+This class takes courses and criteria specified by the user, generates all course schedules satisfying this criteria, then returns them. Scheduler calls Filter classes in order to filter courses not satisfying some criterion. Scheduling occurs with the strategy design pattern so that if the user has a certain priority for a course, schedules are generated that prioritize each course.
+
+#### APIWorker
+APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
 #### ScheduleImporter 
 Parses information written in an ICS file and converts it into a Schedule object.
@@ -52,7 +55,7 @@ Classes that verify schedules based on user requested specifications, i.e. dista
 ### CLI Commands/Controller class:
 
 #### Controller 
-The main class of the program. Manages user input, scheduling, adds filters, and negotiates output.
+The main method of our program lies in this class. This manages the CommandLineInterface, instantiates courses, added filters, and negotiates output.
 
 #### CommandLineInterface 
 The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics.
