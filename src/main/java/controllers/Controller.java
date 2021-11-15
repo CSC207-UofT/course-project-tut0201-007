@@ -45,7 +45,7 @@ public class Controller {
                  * For every course code, generate the course from CourseCreator, add first lec/tut
                  * session to the lectures and tutorials within the schedule.
                  */
-                Course newCourse = CourseCreator.generateCourse(courseCode, 'F');
+                Course newCourse = CourseCreator.generateCourse(courseCode, 'S');
                 courses.add(newCourse);
             } catch (IOException exception) {
                 /**
