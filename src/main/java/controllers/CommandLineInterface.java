@@ -20,10 +20,14 @@ public class CommandLineInterface {
     }
 
     /**
-     * Method that prompts user for input, eventually returning a List of course IDs that they will
-     * be taking. The list should be sorted from greatest to least priority.
+     * Prompts user for input, asking whether they would like to import a schedule or make a new one.
+     * Informs Controller how to perform generation.
      *
-     * @return a list of desired course codes from greatest to least priority.
+     * @return an integer representing whether the user wants to import or creates a new schedule
+     * 0 -> import
+     * 1 -> new schedule
+     * other integer -> exit program
+     *
      */
     public static int promptUser() {
         Scanner scanner = new Scanner(System.in);
@@ -48,12 +52,17 @@ public class CommandLineInterface {
         return -1;
     }
 
+    /**
+     * Asks the user to enter the course codes they would like to include in schedule generation.
+     *
+     * @return a String list of course codes
+     */
     public static List<String> promptCourseCodeNames() {
         Scanner scanner = new Scanner(System.in);
         boolean input = false;
         int numCourses = 0;
         while (!input) {
-            System.out.println("How many courses would you like information for?");
+            System.out.println("How many courses would you like to add?");
             try {
                 numCourses = Integer.parseInt(scanner.nextLine());
                 input = true;
@@ -71,6 +80,11 @@ public class CommandLineInterface {
         return courses;
     }
 
+    /**
+     * Prompts the user to specify the directory to a saved schedule. Serialization.
+     *
+     * @return a user-saved schedule that courses will be added to
+     */
     public static Schedule promptImportSchedule() {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
@@ -98,6 +112,11 @@ public class CommandLineInterface {
         return importedSchedule;
     }
 
+    /**
+     * Asks the user which filters they would like to add during schedule generation.
+     * @param userCourses the courses the user will take
+     * @return a list of filters for their schedules
+     */
     public static List<Filter> promptUserFilters(List<Course> userCourses) {
         ArrayList<Filter> userFilters = new ArrayList<>();
 
@@ -146,7 +165,7 @@ public class CommandLineInterface {
     }
 
     /**
-     * Outputs schedules meeting user criteria. User can move through schedules and save them.
+     * Outputs schedules meeting user criteria. User can navigate through schedules and save them.
      *
      * @param userSchedules schedules meeting filter criteria
      */
@@ -206,6 +225,11 @@ public class CommandLineInterface {
      * These guys are used to simplify I/O methods above.
      */
 
+    /**
+     * Handles I/O request for filter that includes or excludes time conflicts.
+     *
+     * @return list of filters meeting user specification
+     */
     private static List<Filter> promptTimeConflictFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
@@ -227,6 +251,11 @@ public class CommandLineInterface {
         return newFilters;
     }
 
+    /**
+     * Handles I/O request for filter that includes or excludes in-person courses.
+     *
+     * @return list of filters meeting user specification
+     */
     private static List<Filter> promptInPersonFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
@@ -249,6 +278,11 @@ public class CommandLineInterface {
         return newFilters;
     }
 
+    /**
+     * Handles I/O request for filter that includes or excludes in-person courses.
+     *
+     * @return list of filters meeting user specification
+     */
     private static List<Filter> promptSpaceFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
@@ -266,6 +300,11 @@ public class CommandLineInterface {
         return newFilters;
     }
 
+    /**
+     * Handles I/O request for filter that schedules courses during specific times.
+     *
+     * @return list of filters meeting user specification
+     */
     private static List<Filter> promptTimeFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
@@ -325,8 +364,8 @@ public class CommandLineInterface {
                 if (input == 1) {
                     System.out.println("Looping...");
                 } else if (input == 0) {
-                    System.out.println("Your selected blocks of time are saved and courses taking place outside these times " +
-                            "will be excluded. Exiting selection.");
+                    System.out.println("Your selected blocks of time are saved and courses taking place outside " +
+                            "these times will be excluded. Exiting selection.");
                     return newFilters;
                 } else {
                     System.out.println("Your selected times will not be included in schedule generation. Exiting selection.");
@@ -345,6 +384,11 @@ public class CommandLineInterface {
         return new ArrayList<>();
     }
 
+    /**
+     * Handles I/O for time formatting for the TimeFilter method.
+     *
+     * @return LocalTime object that represents a time
+     */
     private static LocalTime timeInputHandler() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please use hh:mm format in 24 hour time.");

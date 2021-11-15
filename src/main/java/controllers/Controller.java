@@ -35,6 +35,7 @@ public class Controller {
             Schedule baseSchedule = CommandLineInterface.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
         }
+        //ask user for course codes
         List<String> courses = CommandLineInterface.promptCourseCodeNames();
 
         //course objects are instantiated based on the passed course codes
