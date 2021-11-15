@@ -103,8 +103,6 @@ Alternatively, at the beginning of the CommandLineInterface, the user can choose
 
 ## SOLID Design Principles
 
-`TODO: Include parts of the code that DON'T adhere to SOLID, and talk about how it can be fixed`
-
 ### Single-responsibility principle
 
 The workers package exemplifies the use of the Single-responsibility principle in our program. Many of our entity classes are comprised of a collection of other entity classes (i.e. a `Section` is a collection of `Timeslot` classes). We wanted to avoid having an entity class be responsible for both representing itself and for constructing itself from other entities, as this would violate the SRP. To solve this problem we created classes that have the sole responsibility of creating these entities. For example, instead of creating a `Course` object by instantiating a course with a collection of `Section` classes, the `CourseCreator` class bears this responsibility.
