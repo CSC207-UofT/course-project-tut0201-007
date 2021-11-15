@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import workers.*;
 
 /**
@@ -36,7 +35,8 @@ public class Controller {
      * This method instantiates all courses with the courseCodes as their ID. Courses should be
      * sorted in terms of user priority
      *
-     * @param courseInputs the Course Inputs for the courses to be instantiated. Assumed format is something like TST101F
+     * @param courseInputs the Course Inputs for the courses to be instantiated. Assumed format is
+     *     something like TST101F
      * @return Course objects matching the passed in CourseCodes
      */
     public static List<Course> courseInstantiator(List<String> courseInputs) {
@@ -45,18 +45,17 @@ public class Controller {
         for (String courseInput : courseInputs) {
             Matcher matcher = validInput.matcher(courseInput);
             try {
-                if(matcher.find()){
+                if (matcher.find()) {
                     String courseCode = courseInput.substring(0, 6);
                     char session = Character.toUpperCase(courseInput.charAt(6));
                     /**
-                     * For every course code, generate the course from CourseCreator, add first lec/tut
-                     * session to the lectures and tutorials within the schedule.
+                     * For every course code, generate the course from CourseCreator, add first
+                     * lec/tut session to the lectures and tutorials within the schedule.
                      */
                     Course newCourse = CourseCreator.generateCourse(courseCode, session);
                     courses.add(newCourse);
 
-                }
-                else{
+                } else {
                     System.out.printf("Invalid course input of %s", courseInput);
                 }
             } catch (IOException exception) {

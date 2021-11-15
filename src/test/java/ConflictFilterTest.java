@@ -23,8 +23,8 @@ public class ConflictFilterTest {
     @Test(timeout = 1000)
     public void testFilterAccepts() {
         List<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101");
-        courseIDs.add("TST104");
+        courseIDs.add("TST101Y");
+        courseIDs.add("TST104Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
@@ -34,8 +34,8 @@ public class ConflictFilterTest {
     @Test(timeout = 1000)
     public void testFilterRejects() {
         List<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101");
-        courseIDs.add("TST102");
+        courseIDs.add("TST101Y");
+        courseIDs.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);

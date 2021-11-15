@@ -1,5 +1,7 @@
 package workers;
 
+import controllers.Controller;
+import entities.Course;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
@@ -11,6 +13,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -183,5 +186,16 @@ public class ScheduleExporter {
         } else {
             return res;
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        ScheduleExporter exporter = new ScheduleExporter();
+        Scheduler s = new Scheduler();
+        ArrayList<String> courseIDs = new ArrayList<>();
+        courseIDs.add("TST101Y");
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        Schedule schedule = s.createBasicSchedule(courses);
+        System.out.println(schedule);
+        exporter.outputScheduleICS(schedule);
     }
 }
