@@ -154,6 +154,8 @@ The Open-closed principle is demonstrated by the `Filter` interface. Along with 
 
 ### Liskov substitution principle
 
+We don't have any abstract classes or inheritance in our program. Due to this, we cannot demonstrate the Liskov Substitution Principle. In order to demonstrate this principle, we can design a superclass in the future that can be replaced by its subclasses without altering the functionality of the program. 
+
 ### Interface segregation principle
 
 The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the criteria or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle. 
