@@ -66,6 +66,8 @@ public class Scheduler {
                 newSchedules.addAll(extendPermutations(newCourse, schedule));
             }
 
+            //savedSchedules.addAll(newSchedules);
+            //return savedSchedules;
             return newSchedules;
         }
     }
@@ -110,6 +112,7 @@ public class Scheduler {
                     populatedSchedules.add(tempSchedule);
                 }
             }
+            return populatedSchedules;
         }
 
         for (Section lec : courseLectures) {
@@ -148,7 +151,10 @@ public class Scheduler {
                     populatedSchedules.add(tempSchedule);
                 }
             }
+            return populatedSchedules;
         }
+
+
 
         for (Section lec : courseLectures) {
             for (Section tut : courseTutorials) {

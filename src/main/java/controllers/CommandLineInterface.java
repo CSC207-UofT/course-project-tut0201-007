@@ -148,7 +148,7 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         System.out.println("Would you like to allow time conflicts between your courses? \n" +
-                "Enter 1/0 for Y/m. \n" +
+                "Enter 1/0 for Y/N. \n" +
                 "A non-integer input will quit selection.");
 
         while (scanner.hasNextInt()) {
@@ -197,7 +197,7 @@ public class CommandLineInterface {
         if (scanner.hasNextInt()) {
             int gap = scanner.nextInt();
             newFilters.add(new SpaceFilter(gap));
-            System.out.println("ONLY schedules with " + 1 + "hour gap between classes will be generated.");
+            System.out.println("ONLY schedules with " + gap + " hour gap between classes will be generated.");
             return newFilters;
         }
         System.out.println("You did not specify a time gap. Quitting selection.");
