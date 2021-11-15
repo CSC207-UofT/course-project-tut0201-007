@@ -151,8 +151,8 @@ The Strategy Design Pattern is a collection of encapsulated algorithm, that can 
 ### Command
 CLI
 
-### Chain of Responsibility
-CourseCreator
+### Template Method
+The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
 
 ## Progress Report
 
