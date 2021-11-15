@@ -126,7 +126,6 @@ public class Scheduler {
                 }
             }
         }
-
         return populatedSchedules;
     }
 
@@ -145,8 +144,9 @@ public class Scheduler {
 
         if (courseTutorials.size() == 0) {
             for (Section lec : courseLectures) {
-                Schedule tempSchedule = new Schedule();
+                Schedule tempSchedule = s.clone();
                 tempSchedule.addLecture(lec);
+
                 if (checkFilters(tempSchedule)) {
                     populatedSchedules.add(tempSchedule);
                 }
