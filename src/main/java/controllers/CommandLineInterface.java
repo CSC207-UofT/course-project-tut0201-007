@@ -96,10 +96,14 @@ public class CommandLineInterface {
      */
     public static void displayUserSchedules(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
-        ScheduleExporter scheduleExporter = new ScheduleExporter();
         int numOfSchedules = userSchedules.size() - 1;
         int scheduleNumber = 0;
         char userActivity = 'W';
+
+        if (numOfSchedules == -1) {
+            System.out.println("No schedules meeting these criteria could be created.");
+            return;
+        }
 
         while (userActivity != 'Q') {
             Schedule currSchedule = userSchedules.get(scheduleNumber);
