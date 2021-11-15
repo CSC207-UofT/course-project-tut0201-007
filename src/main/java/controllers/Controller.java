@@ -5,8 +5,6 @@ import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import workers.*;
 
 /**
@@ -67,8 +65,8 @@ public class Controller {
                 String courseCode = courseInput.substring(0, 6);
                 char session = Character.toUpperCase(courseInput.charAt(6));
                 /**
-                 * For every course code, generate the course from CourseCreator, add first
-                 * lec/tut session to the lectures and tutorials within the schedule.
+                 * For every course code, generate the course from CourseCreator, add first lec/tut
+                 * session to the lectures and tutorials within the schedule.
                  */
                 Course newCourse = CourseCreator.generateCourse(courseCode, session);
                 courses.add(newCourse);

@@ -11,7 +11,6 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import workers.ScheduleExporter;
 import workers.ScheduleImporter;
 
@@ -73,17 +72,16 @@ public class CommandLineInterface {
         ArrayList<String> courses = new ArrayList<>();
         Pattern validInput = Pattern.compile("^[a-zA-Z0-9]{6}[fsyFSY]");
         int a = 0;
-        while (a < numCourses){
+        while (a < numCourses) {
             System.out.println(
                     "Please give the course code and session of one of your courses. An example of"
                             + " expected format is MAT237Y. Accepted Sessions are (F,S,Y)");
             String courseInput = scanner.nextLine();
             Matcher matcher = validInput.matcher(courseInput);
-            if (matcher.find()){
+            if (matcher.find()) {
                 courses.add(courseInput);
                 a++;
-            }
-            else {
+            } else {
                 System.out.printf("Input of %s did not match expected format \n", courseInput);
             }
         }

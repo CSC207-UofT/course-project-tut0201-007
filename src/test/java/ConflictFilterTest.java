@@ -42,6 +42,4 @@ public class ConflictFilterTest {
 
         assertFalse(conflictFilter.checkSchedule(schedule));
     }
-
-
 }
