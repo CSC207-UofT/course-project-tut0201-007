@@ -106,6 +106,8 @@ Following this, Controller generates Schedule entities using Scheduler. Controll
 
 Alternatively, at the beginning of the CommandLineInterface, the user can choose to import an existing .ics file for further modification. The steps the program takes to do this is essentially identical to that described above.
 
+`TODO: remove these notes. they remain because im not sure if they contain information we would still like, but they should be gone by the final draft`
+
 (**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
 
 (**Note for ourselves** We REALLY need to consider how we actually implement this. There are a few obvious questions:
@@ -140,6 +142,7 @@ With our `Filter` interface, any usages of its implementing classes can be repla
 The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the criteria or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle. 
 
 ### Dependency inversion principle
+Our program applies the Dependency inversion principle to adhere to the Open-closed principle. In the example of OCP above, `Controller` acts a as a high-level module that depends on `Filter` as an abstraction layer. The actual `Filter`subclasses, such as `InPersonFilter` and `TimeFilter`, are implementations of the abstract layer. Therefore the 'details' of the program (i.e. what filters `Controller` calls and what each `Filter` subclass actually performs on the schedule) are dependent on the abstraction, and not the other way around.
 
 ## Packaging Strategies
 
