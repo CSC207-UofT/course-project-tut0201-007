@@ -66,8 +66,7 @@ public class Scheduler {
                 newSchedules.addAll(extendPermutations(newCourse, schedule));
             }
 
-            savedSchedules.addAll(newSchedules);
-            return savedSchedules;
+            return newSchedules;
         }
     }
 
