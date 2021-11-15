@@ -86,21 +86,6 @@ Following this, Controller generates Schedule entities using Scheduler. Controll
 
 Alternatively, at the beginning of the CommandLineInterface, the user can choose to import an existing .ics file for further modification. The steps the program takes to do this is essentially identical to that described above.
 
-`TODO: remove these notes. they remain because im not sure if they contain information we would still like, but they should be gone by the final draft`
-
-(**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
-
-(**Note for ourselves** We REALLY need to consider how we actually implement this. There are a few obvious questions:
-
-1. Making all permutations is extremely inefficient. We need to come up with a way to check filters for schedules while they are being generated.
-2. We should make 'ScheduleGenerator' or something for the specific implementation.
-3. How does the user 'pass in' filters? We should consider how we implement the controllers and encode user input instead of using text.
-4. How do we ensure user priority for schedules are satisfied during generation? How do we make sure we return the least amount of 'useless' schedules? We need to make a decision about what is truly 'useless' and not consider those cases.
-5. We should consider making the collection of courses passed into schedule cleaner. Course object instantiation should occur outside of scheduler, or else scheduler has too many responsibilities.
-6. What is the **single responsibility** of scheduler? What is the single responsibility of each of our classes? Honestly not many of ours follow the S principle.
-7. Are we blurring the lines between 'scheduler' and our controllers? We should create a distinct controllers class.
-)
-
 ## SOLID Design Principles
 
 ### Single-responsibility principle
@@ -120,7 +105,7 @@ With our `Filter` interface, any usages of its implementing classes can be repla
 The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the criteria or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle.
 
 ### Dependency inversion principle
-Our program applies the Dependency inversion principle to adhere to the Open-closed principle. In the example of OCP above, `Controller` acts a as a high-level module that depends on `Filter` as an abstraction layer. The actual `Filter`subclasses, such as `InPersonFilter` and `TimeFilter`, are implementations of the abstract layer. Therefore the 'details' of the program (i.e. what filters `Controller` calls and what each `Filter` subclass actually performs on the schedule) are dependent on the abstraction, and not the other way around.
+Our program applies the Dependency inversion principle to adhere to the Open-closed principle. In the example of OCP above, `Controller` acts a as a high-level module that depends on `Filter` as an abstraction layer. The actual `Filter` subclasses, such as `InPersonFilter` and `TimeFilter`, are implementations of the abstract layer. Therefore the 'details' of the program (i.e. what filters `Controller` calls and what each `Filter` subclass actually performs on the schedule) are dependent on the abstraction, and not the other way around.
 
 ## Packaging Strategies
 
@@ -144,10 +129,7 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
 
-The Strategy Design Pattern is a collection of encapsulated algorithm, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is overrided and implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
-
-### Command
-CLI
+The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
 ### Template Method
 The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
@@ -185,6 +167,7 @@ The Template Method is a design pattern that could be used to improve the import
   * ConflictFilter
   * Implemented TimeFilter
   * Bug Fixes on bugs surrounding schedule generation
+  * Design Doc
 * To Work on:
   * Filter for allowing courses only if their corequisites are filled
   * Provide option to export schedule to human-readable format as well as ICS
@@ -201,3 +184,26 @@ The Template Method is a design pattern that could be used to improve the import
   * Further UI reworking + design patterns
   * Further bug hunting
 
+
+#### Lorena
+* Worked On:
+  * CourseExclusionFilter implementation
+  * Refactoring - Packaging
+  * Augmenting Schedule class to store exclusions from the API
+  * Design Document
+* To Work on:
+  * Check for issues and create tests
+  * Implementing future Filters
+
+
+#### Anton
+* Worked On:
+  * Creating Controller class, decoupling from CommandLineInterface
+  * Scheduler with permutation implementation using filters and serialization
+  * User input and output
+  * ExcludeTimeFilter
+  * Design Document/Specification
+* To Work on:
+  * elegant User Input/Output experience
+  * optimizing Scheduling
+  * cleaner architecture

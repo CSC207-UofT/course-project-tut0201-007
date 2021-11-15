@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.*;
+import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +20,36 @@ public class Controller {
          * We create the input getter, and scheduler. Note that scheduler has addFilters() method,
          * which we use according to User Input later in this method
          */
+        // create our scheduler object
         Scheduler scheduler = new Scheduler();
 
-        List<String> courses = CommandLineInterface.promptUser();
+        /**
+         * Check if user wants to import or create new schedules. 1 -> new schedules 0 -> import -1
+         * -> do nothing
+         */
+        int userStrategy = CommandLineInterface.promptUser();
+        if (userStrategy == -1) {
+            return;
+        } else if (userStrategy == 0) {
+            Schedule baseSchedule = CommandLineInterface.promptImportSchedule();
+            scheduler.setBaseSchedule(baseSchedule);
+        }
+        // ask user for course codes
+        List<String> courses = CommandLineInterface.promptCourseCodeNames();
 
+        // course objects are instantiated based on the passed course codes
         List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
+
+        // get user specified filters, add them as filters to our scheduler object
+        List<Filter> filters = CommandLineInterface.promptUserFilters(instantiatedCourses);
+        scheduler.addFilters(filters);
+
+        // call the scheduler to give us all schedules given these courses, filters, and base
+        // schedule
         List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
 
-        for (Schedule sch : schedules) {
-            System.out.println(sch);
-        }
+        // user interactive output method
+        CommandLineInterface.displayUserSchedules(schedules);
     }
 
     /**
