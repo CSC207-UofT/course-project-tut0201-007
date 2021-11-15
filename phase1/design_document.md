@@ -131,9 +131,6 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 
 The Strategy Design Pattern is a collection of encapsulated algorithm, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is overrided and implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
-### Command
-CLI
-
 ### Template Method
 The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
 
@@ -189,9 +186,9 @@ The Template Method is a design pattern that could be used to improve the import
 
 #### Lorena
 * Worked On:
-  * CourseExclusionFilter implementation 
-  * Refactoring - Packaging 
-  * Augmenting Schedule class to store exclusions from the API 
+  * CourseExclusionFilter implementation
+  * Refactoring - Packaging
+  * Augmenting Schedule class to store exclusions from the API
   * Design Document
 * To Work on:
   * Check for issues and create tests
@@ -203,7 +200,7 @@ The Template Method is a design pattern that could be used to improve the import
   * Creating Controller class, decoupling from CommandLineInterface
   * Scheduler with permutation implementation using filters and serialization
   * User input and output
-  * ExcludeTimeFilter 
+  * ExcludeTimeFilter
   * Design Document/Specification
 * To Work on:
   * elegant User Input/Output experience
