@@ -184,6 +184,7 @@ CourseCreator
 ### Open questions
 - Can we further optimize our schedule generation, by using filters within the recursive method rather than applying them after all schedules have been generated? Would this even be more efficient?
 - How do we improve the worst case runtime of our filters?
+- Can we make CLI schedule output more visual, to better convey information to the user in a clear and concise manner? (i.e. ASCII)
 
 ### What has worked well so far
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
