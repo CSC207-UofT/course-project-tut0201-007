@@ -72,42 +72,6 @@ public class Scheduler {
         }
     }
 
-
-/**
-     * Scheduler used to create courses all course permutations recursively. During generation,
-     * schedulers not passing filters are removed in the populatePermutations and
-     * extendPermutations().
-     *
-     * @param newCourses courses sorted by priority to be scheduled.
-     * @return a list of all possible Schedules passing the given filters
-
-    public List<Schedule> serializedPermutationScheduler(List<Course> newCourses) {
-        if (newCourses.isEmpty()) {
-            return new ArrayList<>();
-        }
-        int numOfCourses = newCourses.size();
-
-        if (newCourses.size() == 1) {
-            Course newCourse = newCourses.get(0);
-            List<Schedule> newSchedules = extendPermutations(newCourse, this.schedule);
-            return newSchedules;
-        } else {
-            Course newCourse = newCourses.get(numOfCourses - 1);
-            newCourses.remove(numOfCourses - 1);
-            List<Schedule> savedSchedules = permutationScheduler(newCourses);
-            List<Schedule> newSchedules = new ArrayList<>();
-
-            for (Schedule schedule : savedSchedules) {
-                newSchedules.addAll(extendPermutations(newCourse, schedule));
-            }
-
-            //savedSchedules.addAll(newSchedules);
-            //return savedSchedules;
-            return newSchedules;
-        }
-    }
-*/
-
     /**
      * Takes a list of courses and outputs a schedule that takes the first lecture section and first
      * tutorial section in each course. Mainly used for testing purposes.
@@ -128,43 +92,6 @@ public class Scheduler {
         }
         return schedule;
     }
-/**
-
-     * Creates all lecture/tutorial section permutations that pass all filters for one course.
-     *
-     * @param c course that we take lec/tut permutations of
-     * @return all filtered schedules with these lec/tut permutations
-
-    private List<Schedule> populatePermutations(Course c) {
-        List<Schedule> populatedSchedules = new ArrayList<>();
-        List<Section> courseLectures = c.getLectures();
-        List<Section> courseTutorials = c.getTutorials();
-
-        if (courseTutorials.size() == 0) {
-            for (Section lec : courseLectures) {
-                Schedule tempSchedule = new Schedule();
-                tempSchedule.addLecture(lec);
-                if (checkFilters(tempSchedule)) {
-                    populatedSchedules.add(tempSchedule);
-                }
-            }
-            return populatedSchedules;
-        }
-
-        for (Section lec : courseLectures) {
-            for (Section tut : courseTutorials) {
-                Schedule tempSchedule = new Schedule();
-                tempSchedule.addLecture(lec);
-                tempSchedule.addTutorial(tut);
-
-                if (this.checkFilters(tempSchedule)) {
-                    populatedSchedules.add(tempSchedule);
-                }
-            }
-        }
-        return populatedSchedules;
-    }
-*/
 
     /**
      * Returns permutations of lectures and tutorials of course c, passing filters, together with
