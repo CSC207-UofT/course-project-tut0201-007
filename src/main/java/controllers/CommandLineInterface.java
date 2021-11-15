@@ -3,39 +3,37 @@ package controllers;
 import entities.Course;
 import entities.Schedule;
 import filters.*;
-import workers.ScheduleExporter;
-import workers.ScheduleImporter;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import workers.ScheduleExporter;
+import workers.ScheduleImporter;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
 
-    public CommandLineInterface() {
-    }
+    public CommandLineInterface() {}
 
     /**
-     * Prompts user for input, asking whether they would like to import a schedule or make a new one.
-     * Informs Controller how to perform generation.
+     * Prompts user for input, asking whether they would like to import a schedule or make a new
+     * one. Informs Controller how to perform generation.
      *
-     * @return an integer representing whether the user wants to import or creates a new schedule
-     * 0 -> import
-     * 1 -> new schedule
-     * other integer -> exit program
-     *
+     * @return an integer representing whether the user wants to import or creates a new schedule 0
+     *     -> import 1 -> new schedule other integer -> exit program
      */
     public static int promptUser() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("=== We Do A Little Scheduling :) ===");
-        System.out.println("Would you like to create a new schedule, or import a schedule to configure?\n" +
-                "1/0 for new/import. \n" +
-                "Non-integer inputs will quit selection.");
+        System.out.println(
+                "Would you like to create a new schedule, or import a schedule to configure?\n"
+                        + "1/0 for new/import. \n"
+                        + "Non-integer inputs will quit selection.");
         int inputInt;
         while (scanner.hasNextInt()) {
             inputInt = scanner.nextInt();
@@ -72,10 +70,20 @@ public class CommandLineInterface {
             }
         }
         ArrayList<String> courses = new ArrayList<>();
-        for (int a = 0; a < numCourses; a++) {
-            System.out.println("Please give the course code of one of your courses");
-            String course = scanner.nextLine();
-            courses.add(course);
+        Pattern validInput = Pattern.compile("^[a-zA-Z0-9]{6}[fsyFSY]");
+        int a = 0;
+        while (a < numCourses) {
+            System.out.println(
+                    "Please give the course code and session of one of your courses. An example of"
+                            + " expected format is MAT237Y. Accepted Sessions are (F,S,Y)");
+            String courseInput = scanner.nextLine();
+            Matcher matcher = validInput.matcher(courseInput);
+            if (matcher.find()) {
+                courses.add(courseInput);
+                a++;
+            } else {
+                System.out.printf("Input of %s did not match expected format \n", courseInput);
+            }
         }
         return courses;
     }
@@ -90,7 +98,8 @@ public class CommandLineInterface {
         Schedule importedSchedule = new Schedule();
         boolean success = false;
 
-        System.out.println("Please enter the relative file path to the schedule you would like to import:");
+        System.out.println(
+                "Please enter the relative file path to the schedule you would like to import:");
         System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
         String directory = scanner.next();
 
@@ -114,6 +123,7 @@ public class CommandLineInterface {
 
     /**
      * Asks the user which filters they would like to add during schedule generation.
+     *
      * @param userCourses the courses the user will take
      * @return a list of filters for their schedules
      */
@@ -121,15 +131,14 @@ public class CommandLineInterface {
         ArrayList<Filter> userFilters = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to configure any criteria for your schedules?" +
-                "\n" + "1 - Time conflicts" +
-                "\n" + "2 - Delivery method" +
-                "\n" + "3 - Enforce a time gap between courses" +
-                "\n" + "4 - Enforce times when you have no courses" +
-                "\n" + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2 3' or '2' or '')." +
-                "A non-integer input will end selection.\n"
-        );
-
+        System.out.println(
+                "Would you like to configure any criteria for your schedules?\n"
+                    + "1 - Time conflicts\n"
+                    + "2 - Delivery method\n"
+                    + "3 - Enforce a time gap between courses\n"
+                    + "4 - Enforce times when you have no courses\n"
+                    + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
+                    + " 3' or '2' or '').A non-integer input will end selection.\n");
 
         boolean[] filterCodes = new boolean[4];
 
@@ -183,7 +192,8 @@ public class CommandLineInterface {
         while (userActivity != 'Q') {
             Schedule currSchedule = userSchedules.get(scheduleNumber);
             System.out.println("These are schedules meeting your criteria:");
-            System.out.println("Schedule No. " + (scheduleNumber + 1) + " / " + (numOfSchedules + 1) + ".");
+            System.out.println(
+                    "Schedule No. " + (scheduleNumber + 1) + " / " + (numOfSchedules + 1) + ".");
             System.out.println();
             System.out.println(currSchedule);
             System.out.println();
@@ -221,8 +231,8 @@ public class CommandLineInterface {
 
     /**
      * PRIVATE METHODS BELOW
-     * <p>
-     * These guys are used to simplify I/O methods above.
+     *
+     * <p>These guys are used to simplify I/O methods above.
      */
 
     /**
@@ -233,9 +243,10 @@ public class CommandLineInterface {
     private static List<Filter> promptTimeConflictFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
-        System.out.println("Would you like to allow time conflicts between your courses? \n" +
-                "Enter 1/0 for Y/N. \n" +
-                "A non-integer input will quit selection.");
+        System.out.println(
+                "Would you like to allow time conflicts between your courses? \n"
+                        + "Enter 1/0 for Y/N. \n"
+                        + "A non-integer input will quit selection.");
 
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
@@ -259,9 +270,10 @@ public class CommandLineInterface {
     private static List<Filter> promptInPersonFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
-        System.out.println("Would you like all courses online or in-person? \n" +
-                "Enter 1/0 for in-person/online. \n" +
-                "A non-integer input will quit selection.");
+        System.out.println(
+                "Would you like all courses online or in-person? \n"
+                        + "Enter 1/0 for in-person/online. \n"
+                        + "A non-integer input will quit selection.");
 
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
@@ -286,14 +298,16 @@ public class CommandLineInterface {
     private static List<Filter> promptSpaceFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
-        System.out.println("Would you like to enforce a time gap between all courses? \n" +
-                "Enter an integer for the number of hours in the time gap. \n" +
-                "A non-integer input will quit selection.");
+        System.out.println(
+                "Would you like to enforce a time gap between all courses? \n"
+                        + "Enter an integer for the number of hours in the time gap. \n"
+                        + "A non-integer input will quit selection.");
 
         if (scanner.hasNextInt()) {
             int gap = scanner.nextInt();
             newFilters.add(new SpaceFilter(gap));
-            System.out.println("ONLY schedules with " + gap + " hour gap between classes will be generated.");
+            System.out.println(
+                    "ONLY schedules with " + gap + " hour gap between classes will be generated.");
             return newFilters;
         }
         System.out.println("You did not specify a time gap. Quitting selection.");
@@ -309,25 +323,30 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
         TimeFilter.Day[] days = {
-                TimeFilter.Day.ALL_DAYS, TimeFilter.Day.MONDAY, TimeFilter.Day.TUESDAY, TimeFilter.Day.WEDNESDAY,
-                TimeFilter.Day.THURSDAY, TimeFilter.Day.FRIDAY
+            TimeFilter.Day.ALL_DAYS,
+            TimeFilter.Day.MONDAY,
+            TimeFilter.Day.TUESDAY,
+            TimeFilter.Day.WEDNESDAY,
+            TimeFilter.Day.THURSDAY,
+            TimeFilter.Day.FRIDAY
         };
         String[] dayStrings = {
-                "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+            "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
         };
 
-        System.out.println("Would you like to specify times during which you have courses? " +
-                "(Enter 1/0 for Y/N). " +
-                "A non-integer input will quit selection.");
+        System.out.println(
+                "Would you like to specify times during which you have courses? "
+                        + "(Enter 1/0 for Y/N). "
+                        + "A non-integer input will quit selection.");
         int input = 0;
         if (scanner.hasNextInt()) {
             input = scanner.nextInt();
         }
 
-
         while (input == 1) {
-            System.out.println("During which day do you want to include times?\n" +
-                    "(0/1/2/3/4/5 for Everyday/Mon./Tue./Wed./Thu./Fri.)");
+            System.out.println(
+                    "During which day do you want to include times?\n"
+                            + "(0/1/2/3/4/5 for Everyday/Mon./Tue./Wed./Thu./Fri.)");
             int day = scanner.nextInt();
             while (!(day >= 0 && day <= 5)) {
                 System.out.println("Invalid input. Please enter another integer.");
@@ -340,12 +359,19 @@ public class CommandLineInterface {
             LocalTime endTime = CommandLineInterface.timeInputHandler();
 
             if (startTime.compareTo(endTime) > 0) {
-                System.out.println("Your start time is before your end time." +
-                        " Please try again during the next iteration.");
+                System.out.println(
+                        "Your start time is before your end time."
+                                + " Please try again during the next iteration.");
             } else {
-                //WHY DOES DAY NOT HAVE TO STRING METHOD???? quick fix for now by hardcoding an array
-                System.out.println("You would like classes during " + dayStrings[day] + " from " +
-                        startTime.toString() + " until " + endTime.toString());
+                // WHY DOES DAY NOT HAVE TO STRING METHOD???? quick fix for now by hardcoding an
+                // array
+                System.out.println(
+                        "You would like classes during "
+                                + dayStrings[day]
+                                + " from "
+                                + startTime.toString()
+                                + " until "
+                                + endTime.toString());
                 System.out.println("Is the above correct? (1/0 for Y/N).");
                 int sc = scanner.nextInt();
                 if (sc == 1) {
@@ -356,27 +382,33 @@ public class CommandLineInterface {
                     System.out.println("Invalid input. Please try again on the next iteration.");
                 }
             }
-            System.out.println("Would you like to restrict your schedule to another block of time? (1/0 for Y/N). \n" +
-                    "Non-integer input will quit selection, and blocks will NOT be added to scheduling.");
+            System.out.println(
+                    "Would you like to restrict your schedule to another block of time? (1/0 for"
+                        + " Y/N). \n"
+                        + "Non-integer input will quit selection, and blocks will NOT be added to"
+                        + " scheduling.");
 
             if (scanner.hasNextInt()) {
                 input = scanner.nextInt();
                 if (input == 1) {
                     System.out.println("Looping...");
                 } else if (input == 0) {
-                    System.out.println("Your selected blocks of time are saved and courses taking place outside " +
-                            "these times will be excluded. Exiting selection.");
+                    System.out.println(
+                            "Your selected blocks of time are saved and courses taking place"
+                                    + " outside these times will be excluded. Exiting selection.");
                     return newFilters;
                 } else {
-                    System.out.println("Your selected times will not be included in schedule generation. Exiting selection.");
+                    System.out.println(
+                            "Your selected times will not be included in schedule generation."
+                                    + " Exiting selection.");
                     return new ArrayList<>();
                 }
             } else {
-                System.out.println("Your selected times will not be included in schedule generation. Exiting selection.");
+                System.out.println(
+                        "Your selected times will not be included in schedule generation. Exiting"
+                                + " selection.");
                 return new ArrayList<>();
             }
-
-
         }
         if (input == 0) {
             System.out.println("Input not selected.");
