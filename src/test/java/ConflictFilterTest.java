@@ -53,7 +53,6 @@ public class ConflictFilterTest {
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
 
-        System.out.println(schedule);
 
         assertFalse(conflictFilter.checkSchedule(schedule));
     }
