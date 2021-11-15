@@ -105,7 +105,7 @@ With our `Filter` interface, any usages of its implementing classes can be repla
 The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the criteria or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle.
 
 ### Dependency inversion principle
-Our program applies the Dependency inversion principle to adhere to the Open-closed principle. In the example of OCP above, `Controller` acts a as a high-level module that depends on `Filter` as an abstraction layer. The actual `Filter`subclasses, such as `InPersonFilter` and `TimeFilter`, are implementations of the abstract layer. Therefore the 'details' of the program (i.e. what filters `Controller` calls and what each `Filter` subclass actually performs on the schedule) are dependent on the abstraction, and not the other way around.
+Our program applies the Dependency inversion principle to adhere to the Open-closed principle. In the example of OCP above, `Controller` acts a as a high-level module that depends on `Filter` as an abstraction layer. The actual `Filter` subclasses, such as `InPersonFilter` and `TimeFilter`, are implementations of the abstract layer. Therefore the 'details' of the program (i.e. what filters `Controller` calls and what each `Filter` subclass actually performs on the schedule) are dependent on the abstraction, and not the other way around.
 
 ## Packaging Strategies
 
@@ -129,7 +129,7 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
 
-The Strategy Design Pattern is a collection of encapsulated algorithm, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is overrided and implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
+The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
 ### Template Method
 The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
@@ -167,6 +167,7 @@ The Template Method is a design pattern that could be used to improve the import
   * ConflictFilter
   * Implemented TimeFilter
   * Bug Fixes on bugs surrounding schedule generation
+  * Design Doc
 * To Work on:
   * Filter for allowing courses only if their corequisites are filled
   * Provide option to export schedule to human-readable format as well as ICS
