@@ -22,7 +22,6 @@ public class Controller {
         List<String> courses = CommandLineInterface.promptUser();
 
         List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
-
         List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
 
         for (Schedule sch : schedules) {
