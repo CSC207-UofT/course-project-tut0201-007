@@ -1,7 +1,9 @@
 package controllers;
 
 import entities.Course;
+import entities.Schedule;
 import filters.*;
+import workers.ScheduleExporter;
 
 import java.time.LocalTime;
 import java.util.*;
@@ -87,6 +89,61 @@ public class CommandLineInterface {
         return userFilters;
     }
 
+    /**
+     * Outputs schedules meeting user criteria. User can move through schedules and save them.
+     *
+     * @param userSchedules schedules meeting filter criteria
+     */
+    public static void displayUserSchedules(List<Schedule> userSchedules) {
+        Scanner scanner = new Scanner(System.in);
+        ScheduleExporter scheduleExporter = new ScheduleExporter();
+        int numOfSchedules = userSchedules.size() - 1;
+        int scheduleNumber = 0;
+        char userActivity = 'W';
+
+        while (userActivity != 'Q') {
+            Schedule currSchedule = userSchedules.get(scheduleNumber);
+            System.out.println("These are schedules meeting your criteria:");
+            System.out.println("Schedule No. " + (scheduleNumber + 1) + " / " + (numOfSchedules + 1) + ".");
+            System.out.println();
+            System.out.println(currSchedule);
+            System.out.println();
+            System.out.println("Press 'Q' to quit.");
+            System.out.println("Press '>' to go to the next schedule.");
+            System.out.println("Press '<' to go to the previous schedule.");
+            System.out.println("Press 'S' to save this schedule as an .ics file");
+
+            char userInput = scanner.next().charAt(0);
+            switch (userInput) {
+                case 'Q':
+                    userActivity = 'Q';
+                    break;
+                case '<':
+                    if (scheduleNumber > 0) {
+                        scheduleNumber--;
+                    } else {
+                        System.out.println("No schedule before this one.");
+                    }
+                    break;
+                case '>':
+                    if (scheduleNumber < numOfSchedules) {
+                        scheduleNumber++;
+                    } else {
+                        System.out.println("No schedules after this one.");
+                    }
+                    break;
+                case 'S':
+                    System.out.println("Saving this schedule in .ics format...");
+                    ScheduleExporter.outputScheduleICS(currSchedule);
+                    break;
+            }
+        }
+    }
+
+/** PRIVATE METHODS BELOW
+ *
+ *  These guys are used to simplify I/O methods above.
+ */
     private static List<Filter> promptTimeConflictFilter(){
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();

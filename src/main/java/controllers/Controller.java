@@ -35,10 +35,9 @@ public class Controller {
         //call the permutation scheduler to give us all schedules given these courses and filters
         List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
 
-        //print all schedules. this will soon be replaced by a scheduler outputter class.
-        for (Schedule sch : schedules) {
-            System.out.println(sch);
-        }
+        //user interactive output method
+        CommandLineInterface.displayUserSchedules(schedules);
+
 
     }
 
