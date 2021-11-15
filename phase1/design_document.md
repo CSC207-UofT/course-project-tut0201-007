@@ -86,21 +86,6 @@ Following this, Controller generates Schedule entities using Scheduler. Controll
 
 Alternatively, at the beginning of the CommandLineInterface, the user can choose to import an existing .ics file for further modification. The steps the program takes to do this is essentially identical to that described above.
 
-`TODO: remove these notes. they remain because im not sure if they contain information we would still like, but they should be gone by the final draft`
-
-(**Note for ourselves** We need to implement the input class to view/swtich between schedules, and save specific schedules in .ics format. For this we need a more sophisticated terminal. We will also need to separate our controllers and input if this happens in order to follow clean architecture. Please review the use of PicoCLI, or consider a GUI.)
-
-(**Note for ourselves** We REALLY need to consider how we actually implement this. There are a few obvious questions:
-
-1. Making all permutations is extremely inefficient. We need to come up with a way to check filters for schedules while they are being generated.
-2. We should make 'ScheduleGenerator' or something for the specific implementation.
-3. How does the user 'pass in' filters? We should consider how we implement the controllers and encode user input instead of using text.
-4. How do we ensure user priority for schedules are satisfied during generation? How do we make sure we return the least amount of 'useless' schedules? We need to make a decision about what is truly 'useless' and not consider those cases.
-5. We should consider making the collection of courses passed into schedule cleaner. Course object instantiation should occur outside of scheduler, or else scheduler has too many responsibilities.
-6. What is the **single responsibility** of scheduler? What is the single responsibility of each of our classes? Honestly not many of ours follow the S principle.
-7. Are we blurring the lines between 'scheduler' and our controllers? We should create a distinct controllers class.
-)
-
 ## SOLID Design Principles
 
 ### Single-responsibility principle
