@@ -103,6 +103,17 @@ public class Scheduler {
         List<Section> courseLectures = c.getLectures();
         List<Section> courseTutorials = c.getTutorials();
 
+        if (courseTutorials.size() == 0){
+            for (Section lec: courseLectures){
+                Schedule tempSchedule = new Schedule();
+                tempSchedule.addLecture(lec);
+                if (checkFilters(tempSchedule)){
+                    populatedSchedules.add(tempSchedule);
+                }
+            }
+
+        }
+
         for (Section lec : courseLectures) {
             for (Section tut : courseTutorials) {
                 Schedule tempSchedule = new Schedule();
