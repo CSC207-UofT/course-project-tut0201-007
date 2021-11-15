@@ -140,6 +140,7 @@ The Template Method is a design pattern that could be used to improve the import
 - Can we further optimize our schedule generation, by using filters within the recursive method rather than applying them after all schedules have been generated? Would this even be more efficient?
 - How do we improve the worst case runtime of our filters?
 - Can we make CLI schedule output more visual, to better convey information to the user in a clear and concise manner? (i.e. ASCII)
+- What other factors impact course making decision and how can we make filters to address these factors?
 * Can we alter our CLI input to make it more intuitive?
 
 
@@ -207,3 +208,12 @@ The Template Method is a design pattern that could be used to improve the import
   * elegant User Input/Output experience
   * optimizing Scheduling
   * cleaner architecture
+
+#### Baker
+* Worked On:
+  * Refactoring and bug fixing the `Section` and `CourseCreator`
+  * Implementing the `TimeSlot` class
+  * General bug fixes
+* To Work On
+  * Improving runtime for `Scheduler`
+  * Adding RateMyProfessor functionality web scraping to prioritize sections taught by highly-graded profs
