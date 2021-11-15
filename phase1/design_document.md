@@ -154,7 +154,7 @@ The Open-closed principle is demonstrated by the `Filter` interface. Along with 
 
 ### Liskov substitution principle
 
-We don't have many usages of inheritance in our program. Due to this, the Liskov Substitution Principle isn't demonstrated very strongly. In order to demonstrate this principle, we can design a superclass in the future that can be replaced by its subclasses without altering the functionality of the program. 
+With our `Filter` interface, any usages of `Filter` can be replaced with one of its implementing classes without changing functionality. Other than this, we don't have many usages of inheritance in our program. The Liskov Substitution Principle isn't demonstrated very strongly as a result. In order to strengthen how we demonstrate this principle, we can design a superclass in the future that can be replaced by its subclasses without altering the functionality of the program. 
 
 ### Interface segregation principle
 
