@@ -2,8 +2,6 @@
 
 ## Updated Specification
 
-`TODO: This is the Phase 0 specification, needs to be updated.`
-
 ### Overview
 The project domain of our group is a Scheduling App that allows Students to specify courses they'd like to take, as well as criteria for their final schedule. Currently there are some course scheduling applications out there, but we felt that they were:
 
@@ -16,7 +14,7 @@ The project domain of our group is a Scheduling App that allows Students to spec
 Which is why we decided to make our own.
 
 ### The Project
-A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS invites that can be used with most calendar apps.
+A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS files that can be used with most calendar apps.
 
 ### Entities:
 
@@ -59,24 +57,6 @@ The main method of our program lies in this class. This manages the CommandLineI
 
 #### CommandLineInterface
 The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics.
-
-### Potential Additions for Future Phases:
-
-Schedule Generation
-* Recursively creating schedules, ensuring that there are no overlapping courses. This is the main feature of the project, and the groundwork for it has been laid in phase 0
-
-Improved Parameters
-* Use Distance between class sessions to support Filters like "Walking distance must be less than 10 minutes between sessions".
-
-Optimization
-* Use multithreading to improve the time taken to generate schedule permutations
-* Use caching in the cli + APIWorker to prevent repetitive API calls
-
-Comments:
-- Details about the entire app (as much as possible)
-- Use cases (CLI commands, example, expected behaviour)
-- "Granular"
-- Features + functionality
 
 ## UML Diagram
 
@@ -170,9 +150,6 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 
 The Strategy Design Pattern is a collection of encapsulated algorithm, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is overrided and implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
-### Decorator
-For the filters
-
 ### Command
 CLI
 
@@ -191,6 +168,8 @@ CourseCreator
 ### What has worked well so far
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
 - Pull Request reviews have been an efficient and concise way to communicate each group member's thoughts on design decisions, code formatting, and any other miscellaneous questions about the commits.
+- Our choice of entities, once we switched to using Sections to represent lecture or tutorial sections, made implementing schedule generation and ICS export/import much easier
+- The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of diverse Filters, without much effort for integrating them with our general program.
 
 ### Group member contributions & plans
 
