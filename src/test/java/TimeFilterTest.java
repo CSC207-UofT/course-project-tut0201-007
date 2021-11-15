@@ -17,8 +17,8 @@ public class TimeFilterTest {
     @Before
     public void setUp() {
         List<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101");
-        courseIDs.add("TST102");
+        courseIDs.add("TST101Y");
+        courseIDs.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 
         Scheduler scheduleCreator = new Scheduler();

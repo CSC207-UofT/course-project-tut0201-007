@@ -30,7 +30,7 @@ public class Scheduler {
         this.schedule = schedule;
     }
 
-    public void setBaseSchedule (Schedule schedule){
+    public void setBaseSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
 
@@ -66,8 +66,8 @@ public class Scheduler {
                 newSchedules.addAll(extendPermutations(newCourse, schedule));
             }
 
-            //savedSchedules.addAll(newSchedules);
-            //return savedSchedules;
+            // savedSchedules.addAll(newSchedules);
+            // return savedSchedules;
             return newSchedules;
         }
     }
