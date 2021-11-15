@@ -137,7 +137,7 @@ The Template Method is a design pattern that could be used to improve the import
 ## Progress Report
 
 ### Open questions
-- Can we further optimize our schedule generation, by using filters within the recursive method rather than applying them after all schedules have been generated? Would this even be more efficient?
+- Can we further optimize our schedule generation? Given some criteria, are there more efficient algorithms to generate schedules instead of using filters?
 - How do we improve the worst case runtime of our filters?
 - Can we make CLI schedule output more visual, to better convey information to the user in a clear and concise manner? (i.e. ASCII)
 - What other factors impact course making decision and how can we make filters to address these factors?
@@ -148,7 +148,7 @@ The Template Method is a design pattern that could be used to improve the import
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
 - Pull Request reviews have been an efficient and concise way to communicate each group member's thoughts on design decisions, code formatting, and any other miscellaneous questions about the commits.
 - Our choice of entities, once we switched to using Sections to represent lecture or tutorial sections, made implementing schedule generation and ICS export/import much easier
-- The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of diverse Filters, without much effort for integrating them with our general program.
+- The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of Filters, without much effort for integrating them with our general program.
 
 ### Group member contributions & plans
 
