@@ -14,7 +14,7 @@ To run our program, run the `main` method in [Controller.java](src/main/java/con
 
 ## Auto-formatting
 In order to format code style, run below:
-```bash 
+```bash
 ./gradlew spotlessApply
 ./gradlew build
 ```
