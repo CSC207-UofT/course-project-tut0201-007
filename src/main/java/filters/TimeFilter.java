@@ -63,7 +63,6 @@ public class TimeFilter implements Filter {
 
         for (Timeslot timeslot : timeslots) {
             if (!withinBounds(timeslot, filteredDay)) {
-                System.out.println(timeslot);
                 return false;
             }
         }
