@@ -214,3 +214,15 @@ CourseCreator
   * Filter for allowing courses only if their corequisites are filled
   * Provide option to export schedule to human-readable format as well as ICS
   * Look into generating PDF for a schedule
+
+#### Siddarth
+* Worked On:
+  * General Filter Template (SpaceFilter) + Design Pattern Implementations
+  * Mock API bugs
+  * Filter Testing
+  * Design Document
+* To Work on:
+  * ASCII Visual output in CLI
+  * Further UI reworking + design patterns
+  * Further bug hunting
+
