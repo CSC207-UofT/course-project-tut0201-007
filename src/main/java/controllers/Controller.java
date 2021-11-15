@@ -62,23 +62,17 @@ public class Controller {
      */
     public static List<Course> courseInstantiator(List<String> courseInputs) {
         ArrayList<Course> courses = new ArrayList<>();
-        Pattern validInput = Pattern.compile("^[a-zA-Z0-9]{6}[fsyFSY]");
         for (String courseInput : courseInputs) {
-            Matcher matcher = validInput.matcher(courseInput);
             try {
-                if (matcher.find()) {
-                    String courseCode = courseInput.substring(0, 6);
-                    char session = Character.toUpperCase(courseInput.charAt(6));
-                    /**
-                     * For every course code, generate the course from CourseCreator, add first
-                     * lec/tut session to the lectures and tutorials within the schedule.
-                     */
-                    Course newCourse = CourseCreator.generateCourse(courseCode, session);
-                    courses.add(newCourse);
+                String courseCode = courseInput.substring(0, 6);
+                char session = Character.toUpperCase(courseInput.charAt(6));
+                /**
+                 * For every course code, generate the course from CourseCreator, add first
+                 * lec/tut session to the lectures and tutorials within the schedule.
+                 */
+                Course newCourse = CourseCreator.generateCourse(courseCode, session);
+                courses.add(newCourse);
 
-                } else {
-                    System.out.printf("Invalid course input of %s", courseInput);
-                }
             } catch (IOException exception) {
                 /**
                  * In case something goes wrong with the API for a specific course code, we print
