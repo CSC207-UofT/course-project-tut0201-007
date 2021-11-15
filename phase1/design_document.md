@@ -52,9 +52,10 @@ Classes that verify schedules based on user requested specifications, i.e. dista
 ### CLI Commands/Controller class:
 
 #### Controller 
+The main class of the program. Manages user input, scheduling, adds filters, and negotiates output.
 
 #### CommandLineInterface 
-Main class for the project, prompts user to input each of their classes, then uses the Scheduler class to create a schedule and outputs details about each course as well as a basic schedule.
+The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics.
 
 ### Potential Additions for Future Phases:
 
