@@ -2,14 +2,9 @@ package workers;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
 
 /** An abstract class that provides a template for exporting schedules to different file types (i.e. ICS, CSV, etc.) */
 public abstract class Exporter {
-
-    private static ZoneId zoneId = ZoneId.of("-4");
-    private static LocalDate now = LocalDate.now(zoneId);
-
 
     public Exporter() {}
 
