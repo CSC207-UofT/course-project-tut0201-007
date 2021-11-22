@@ -69,12 +69,15 @@ The UI of the program. Prompts user to input each of their classes/filters, then
 
 ### Controller
 
-Our CommandLineInterface class initially violated the single responsibility principle since it took on too many tasks; it would take user input, call Scheduler, and handles output. As well, we noticed that our Scheduler class was responsible for the instantiation of course objects. It became evident that our Controller functionality was split between the CommandLineInterface and Scheduler classes. In order to adhere to the single responsibility and open/closed principles of software design, we created the Controller class. This class now holds the main method, calls the CommandLineInterface to prompt for user input, and then instantiates Course objects for Scheduler. Scheduler was changed so that it accepts only Course objects as paramaters to avoid instantiation of Courses from String course ID within scheduling methods. Overall, this will allow for greater flexibility with extension of our program's UI, control flow, and output.
+Our CommandLineInterface class initially violated the single responsibility principle since it took on too many tasks; it would take user input, call Scheduler, and handle outputs. As well, we noticed that our Scheduler class was responsible for the instantiation of course objects. It became evident that our Controller functionality was split between the CommandLineInterface and Scheduler classes. In order to adhere to the single responsibility and open/closed principles of software design, we created the Controller class. This class now holds the main method, calls the CommandLineInterface to prompt for user I/O, and then instantiates Course objects for Scheduler. Scheduler was changed so that it accepts Course objects as paramaters in scheduling methods to avoid instantiation of Courses from String course ID. Overall, this will allow for greater flexibility with extension of our program's UI, control flow, and output.
 
 ### Data Serialization
 For our data serialization functionality, we decided to use ICS files for our Data serialization because ICS files are the standard for storing online calendars. Since we use ICS files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. We created two classes, one for importing schedules from ICS files (**ScheduleImporter**) and one for exporting schedules (**ScheduleExporter**) to ICS files.
 
 We chose to use ICS files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial
+
+### Scheduler Recursive Base Case
+We had an elegant solution to generating schedules on top of a fixed set of courses. When a `Scheduler` object is instantiated, we set its instance attribute `schedule` to an empty schedule. Given a set of courses, this attribute is used as the base case for the recursive algorithm. The method `setBaseSchedule()` allows for this recursive base case to be changed. This allows for courses to be added to previously existing schedules, improves data serialization, and reduces redundant methods in `Scheduler`. For example, if a user imports a schedule with some preferable sections, this will be set as the recursive base case, and other schedules will be generated around these. This allows for greater flexibility in Phase 2 for selection, i.e. 'one by one' schedule generation.
 
 ## Clean Architecture
 
@@ -129,7 +132,10 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
 
-The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement  `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
+The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
+
+### Facade
+A Facade is a design pattern that this program uses to simplify the complexity of the system for certain classes. For example, a Facade is used in the `generateCourse()` method of `CourseCreator`. While the actual course generation required the use of the U of T API, the `Timeslot` and `Section` classes, and the `APIWorker` use-case, the methods simply requires a course id (i.e. CSC207) and a session (i.e F for fall semester). This design pattern reduces the required knowledge `CourseCreator` needs to perform its function.
 
 ### Template Method
 The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
@@ -137,9 +143,10 @@ The Template Method is a design pattern that could be used to improve the import
 ## Progress Report
 
 ### Open questions
-- Can we further optimize our schedule generation, by using filters within the recursive method rather than applying them after all schedules have been generated? Would this even be more efficient?
+- Can we further optimize our schedule generation? Given some criteria, are there more efficient algorithms to generate schedules instead of using filters?
 - How do we improve the worst case runtime of our filters?
 - Can we make CLI schedule output more visual, to better convey information to the user in a clear and concise manner? (i.e. ASCII)
+- What other factors impact course making decision and how can we make filters to address these factors?
 * Can we alter our CLI input to make it more intuitive?
 
 
@@ -147,7 +154,7 @@ The Template Method is a design pattern that could be used to improve the import
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
 - Pull Request reviews have been an efficient and concise way to communicate each group member's thoughts on design decisions, code formatting, and any other miscellaneous questions about the commits.
 - Our choice of entities, once we switched to using Sections to represent lecture or tutorial sections, made implementing schedule generation and ICS export/import much easier
-- The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of diverse Filters, without much effort for integrating them with our general program.
+- The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of Filters, without much effort for integrating them with our general program.
 
 ### Group member contributions & plans
 
@@ -207,3 +214,13 @@ The Template Method is a design pattern that could be used to improve the import
   * elegant User Input/Output experience
   * optimizing Scheduling
   * cleaner architecture
+  * 'one by one' scheduling feature
+
+#### Baker
+* Worked On:
+  * Refactoring and bug fixing the `Section` and `CourseCreator`
+  * Implementing the `TimeSlot` class
+  * General bug fixes
+* To Work On
+  * Improving runtime for `Scheduler`
+  * Adding RateMyProfessor functionality web scraping to prioritize sections taught by highly-graded profs

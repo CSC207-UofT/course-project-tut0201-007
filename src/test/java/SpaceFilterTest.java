@@ -21,8 +21,8 @@ public class SpaceFilterTest {
     @Test(timeout = 1000)
     public void filterFail() {
         ArrayList<String> multi = new ArrayList<>();
-        multi.add("TST101");
-        multi.add("TST102");
+        multi.add("TST101Y");
+        multi.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filter.checkSchedule(schedule));
@@ -31,8 +31,8 @@ public class SpaceFilterTest {
     @Test(timeout = 1000)
     public void filterSucceed() {
         ArrayList<String> multi = new ArrayList<>();
-        multi.add("TST101");
-        multi.add("TST104");
+        multi.add("TST101Y");
+        multi.add("TST104Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filter.checkSchedule(schedule));
