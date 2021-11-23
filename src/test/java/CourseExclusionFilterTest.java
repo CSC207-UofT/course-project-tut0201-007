@@ -44,5 +44,4 @@ public class CourseExclusionFilterTest {
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filter2.checkSchedule(schedule));
     }
-
 }

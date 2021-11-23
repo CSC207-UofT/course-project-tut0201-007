@@ -157,8 +157,8 @@ public class ScheduleExporter {
         LocalDateTime start = startDay.atTime(timeslot.getStart());
         LocalDateTime end = startDay.atTime(timeslot.getEnd());
 
-        if (session == 'S'){
-            //Account for Eastern Time zone's time change
+        if (session == 'S') {
+            // Account for Eastern Time zone's time change
             start = start.plusHours(1);
             end = end.plusHours(1);
         }
@@ -169,8 +169,6 @@ public class ScheduleExporter {
                 new DateTime(java.util.Date.from(end.atZone(DateConstants.zoneId).toInstant()));
 
         Location location = new Location(timeslot.getRoom());
-
-
 
         VEvent event = new VEvent(timeslotStart, timeslotEnd, name);
         event.getProperties().add(recurrenceRule);
@@ -196,7 +194,7 @@ public class ScheduleExporter {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ScheduleExporter exporter = new ScheduleExporter();
         Scheduler s = new Scheduler();
         ArrayList<String> courseIDs = new ArrayList<>();

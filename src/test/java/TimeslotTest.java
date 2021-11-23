@@ -21,15 +21,15 @@ public class TimeslotTest {
         DayOfWeek today = DayOfWeek.MONDAY;
         String location = "The Office";
 
-        timeslotA = new Timeslot(start, end, today, location);
-        timeslotB = new Timeslot(start, end, today, location);
-        different = new Timeslot(start, start.plusHours(2), today, location);
+        timeslotA = new Timeslot(start, end, today, location, 'F');
+        timeslotB = new Timeslot(start, end, today, location, 'F');
+        different = new Timeslot(start, start.plusHours(2), today, location, 'F');
 
         LocalTime laterStartTime = start.plusHours(3);
         LocalTime latestStartTime = start.plusHours(4);
 
-        laterStart = new Timeslot(laterStartTime, end, today, location);
-        latestStart = new Timeslot(latestStartTime, end, today, location);
+        laterStart = new Timeslot(laterStartTime, end, today, location, 'F');
+        latestStart = new Timeslot(latestStartTime, end, today, location, 'F');
     }
 
     @Test(timeout = 1000)

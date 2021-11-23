@@ -12,13 +12,12 @@ public class Timeslot implements Comparable<Timeslot> {
     private char session;
 
     /**
-     *
      * @param start Start of the timeslot
      * @param end End of the timeslot
      * @param day Day the timeslot occurs
      * @param room Room the room of the timeslot
-     * @param session The session this timeslot occurs in (F/S). Note that this is different from a course's session,
-     *                as the timeslot can only represent one "half" of a Y course's timeslot
+     * @param session The session this timeslot occurs in (F/S). Note that this is different from a
+     *     course's session, as the timeslot can only represent one "half" of a Y course's timeslot
      */
     public Timeslot(LocalTime start, LocalTime end, DayOfWeek day, String room, char session) {
         this.start = start;
@@ -26,7 +25,8 @@ public class Timeslot implements Comparable<Timeslot> {
         this.day = day;
         this.room = room;
         this.session = session;
-        //TODO: Kind of weird that this session means something else from the Section's session. Not sure how to resolve. Better naming?
+        // TODO: Kind of weird that this session means something else from the Section's session.
+        // Not sure how to resolve. Better naming? See javadoc for explanation.
     }
 
     /**
@@ -129,10 +129,21 @@ public class Timeslot implements Comparable<Timeslot> {
 
     @Override
     public int compareTo(Timeslot that) {
-        int dayCompare = this.day.compareTo(that.getDay());
-        if (dayCompare == 0) {
-            return this.start.compareTo(that.getStart());
+        int sessionCompare;
+        if (this.session == that.getSession()){
+            sessionCompare = 0;
+            int dayCompare = this.day.compareTo(that.getDay());
+            if (dayCompare == 0) {
+                return this.start.compareTo(that.getStart());
+            }
+            return dayCompare;
         }
-        return dayCompare;
+        else if(this.session == 'F' && that.getSession() == 'S'){
+            //technically I can not do the second check, but imo it improves readability
+            return -1;
+        }
+        else {
+            return 1;
+        }
     }
 }
