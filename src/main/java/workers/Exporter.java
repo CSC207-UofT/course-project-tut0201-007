@@ -1,5 +1,7 @@
 package workers;
 
+import entities.Schedule;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
@@ -24,7 +26,6 @@ public abstract class Exporter {
         }
     }
 
-    abstract void addTimeslotToCalendar();
-    abstract void outputSchedule();
+    public abstract void outputSchedule(Schedule schedule);
 
 }
