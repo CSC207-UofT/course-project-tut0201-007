@@ -94,4 +94,31 @@ public class SchedulerTest {
         assertEquals(expected, schedule.toString());
     }
 
+    @Test(timeout = 1000)
+    public void testGenerateYearCourseSchedule() {
+        ArrayList<String> courseIDs = new ArrayList<>();
+        courseIDs.add("TST102Y");
+
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        Schedule schedule = scheduleCreator.createBasicSchedule(courses);
+        String expected =
+                "Schedule: \n"
+                        + "\n"
+                        + "Lectures\n"
+                        + "TST102 LEC-0101 Y meets at:\n"
+                        + "MONDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "MONDAY from 09:00-10:00 at LM 159 in session S\n"
+                        + "TUESDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "TUESDAY from 09:00-10:00 at LM 159 in session S\n"
+                        + "THURSDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "THURSDAY from 09:00-10:00 at LM 159 in session S\n"
+                        + "\n"
+                        + "\n"
+                        + "Tutorials\n"
+                        + "TST102 TUT-0101 Y meets at:\n"
+                        + "TUESDAY from 13:00-14:00 at WB 119 in session F\n"
+                        + "TUESDAY from 13:00-14:00 at WB 119 in session S\n"
+                        + "\n";
+        assertEquals(expected, schedule.toString());
+    }
 }
