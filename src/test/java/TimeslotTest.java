@@ -44,7 +44,6 @@ public class TimeslotTest {
 
     @Test(timeout = 100)
     public void testSorting() {
-        // TODO: idk if this should be a test but I wanted to check it worked
         List<Timeslot> timeslots = new ArrayList<>();
         timeslots.add(latestStart);
         timeslots.add(timeslotA);

@@ -76,7 +76,6 @@ public class ScheduleImporterTest {
 
     @Test(timeout = 1000)
     public void testYSessionImport() {
-        // TODO: Need to be able to pass in course codes with S/Y/F included
         String ySessionICS =
                 "BEGIN:VCALENDAR\n"
                         + "PRODID:-//CSC207 Team 007//iCal4j 1.0//EN\n"

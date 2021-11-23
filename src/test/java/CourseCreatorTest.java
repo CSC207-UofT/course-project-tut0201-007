@@ -31,7 +31,7 @@ public class CourseCreatorTest {
         String expected =
                 "TST101 LEC-0101 Y meets at:\n"
                         + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
-                        + "MONDAY from 12:00-13:00 at ROOM 08 in session Y\n";
+                        + "MONDAY from 12:00-13:00 at ROOM 08 in session S\n";
         // Checking that the course has the correct lecture
         assertEquals(expected, mockCourse1.getLectures().get(0).toString());
     }
@@ -41,7 +41,7 @@ public class CourseCreatorTest {
         String expected =
                 "TST101 TUT-0101 Y meets at:\n"
                         + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n"
-                        + "FRIDAY from 18:00-21:00 at ROOM 06 in session Y\n";
+                        + "FRIDAY from 18:00-21:00 at ROOM 06 in session S\n";
         // Checking that the course has the correct tutorial
         assertEquals(expected, mockCourse1.getTutorials().get(0).toString());
     }

@@ -130,19 +130,17 @@ public class Timeslot implements Comparable<Timeslot> {
     @Override
     public int compareTo(Timeslot that) {
         int sessionCompare;
-        if (this.session == that.getSession()){
+        if (this.session == that.getSession()) {
             sessionCompare = 0;
             int dayCompare = this.day.compareTo(that.getDay());
             if (dayCompare == 0) {
                 return this.start.compareTo(that.getStart());
             }
             return dayCompare;
-        }
-        else if(this.session == 'F' && that.getSession() == 'S'){
-            //technically I can not do the second check, but imo it improves readability
+        } else if (this.session == 'F' && that.getSession() == 'S') {
+            // technically I can not do the second check, but imo it improves readability
             return -1;
-        }
-        else {
+        } else {
             return 1;
         }
     }

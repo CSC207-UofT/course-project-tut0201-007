@@ -130,7 +130,13 @@ public class CourseCreator {
                 ret.addTime(new Timeslot(start, end, day, room, session));
             } else if (session == 'Y') {
                 String fallRoom = slot.get(fallRoomKey).getAsString();
+                if (fallRoom.equals("")) {
+                    fallRoom = "ONLINE";
+                }
                 String winterRoom = slot.get(winterRoomKey).getAsString();
+                if (winterRoom.equals("")) {
+                    winterRoom = "ONLINE";
+                }
 
                 ret.addTime(new Timeslot(start, end, day, fallRoom, 'F'));
                 ret.addTime(new Timeslot(start, end, day, winterRoom, 'S'));
