@@ -26,6 +26,11 @@ public abstract class Exporter {
         }
     }
 
+    /**
+     * An abstract method requiring that any exporter class has a method to output a schedule as a file.
+     *
+     * @param schedule The Schedule object to output as some file
+     */
     public abstract void outputSchedule(Schedule schedule);
 
 }
