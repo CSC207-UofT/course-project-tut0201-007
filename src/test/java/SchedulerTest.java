@@ -21,23 +21,25 @@ public class SchedulerTest {
     }
 
     @Test(timeout = 1000)
-    public void testGenerateTST101Schedule() {
-        ArrayList<String> tst101 = new ArrayList<>();
-        tst101.add("TST101");
-        ArrayList<Course> tst101_c = (ArrayList<Course>) Controller.courseInstantiator(tst101);
-        Schedule schedule = scheduleCreator.createBasicSchedule(tst101_c);
+    public void testGenerateTST105Schedule() {
+        ArrayList<String> tst105 = new ArrayList<>();
+        tst105.add("TST105F");
+        ArrayList<Course> tst105C = (ArrayList<Course>) Controller.courseInstantiator(tst105);
+        Schedule schedule = scheduleCreator.createBasicSchedule(tst105C);
 
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "TST101 LEC-0101 F meets at:\n"
-                        + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
+                        + "TST105 LEC-0101 F meets at:\n"
+                        + "MONDAY from 10:00-11:00 at WI 1016\n"
+                        + "TUESDAY from 18:00-21:00 at Contact DEPT\n"
+                        + "WEDNESDAY from 10:00-11:00 at WI 1016\n"
+                        + "FRIDAY from 10:00-11:00 at WI 1016\n"
                         + "\n"
                         + "\n"
-                        + "Tutorials\n"
-                        + "TST101 TUT-0101 F meets at:\n"
-                        + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n\n";
+                        + "Tutorials\n";
+
         // Checking that the course has the correct code
         assertEquals(expected, schedule.toString());
     }
@@ -45,48 +47,50 @@ public class SchedulerTest {
     @Test(timeout = 1500)
     public void testGenerateMultiCourseSchedule() {
         ArrayList<String> multi = new ArrayList<>();
-        multi.add("TST101");
-        multi.add("TST102");
-        ArrayList<Course> mutli_c = (ArrayList<Course>) Controller.courseInstantiator(multi);
-        Schedule schedule = scheduleCreator.createBasicSchedule(mutli_c);
+        multi.add("TST107F");
+        multi.add("TST105F");
+        ArrayList<Course> multiC = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        Schedule schedule = scheduleCreator.createBasicSchedule(multiC);
 
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "TST101 LEC-0101 F meets at:\n"
-                        + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
+                        + "TST107 LEC-9901 F meets at:\n"
+                        + "MONDAY from 09:00-10:00 at ONLINE\n"
+                        + "WEDNESDAY from 09:00-11:00 at ONLINE\n"
                         + "\n"
-                        + "TST102 LEC-0101 F meets at:\n"
-                        + "MONDAY from 09:00-10:00 at LM 159 in session F\n"
-                        + "TUESDAY from 09:00-10:00 at LM 159 in session F\n"
-                        + "THURSDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "TST105 LEC-0101 F meets at:\n"
+                        + "MONDAY from 10:00-11:00 at WI 1016\n"
+                        + "TUESDAY from 18:00-21:00 at Contact DEPT\n"
+                        + "WEDNESDAY from 10:00-11:00 at WI 1016\n"
+                        + "FRIDAY from 10:00-11:00 at WI 1016\n"
                         + "\n"
                         + "\n"
-                        + "Tutorials\n"
-                        + "TST101 TUT-0101 F meets at:\n"
-                        + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n"
-                        + "\n"
-                        + "TST102 TUT-0101 F meets at:\n"
-                        + "TUESDAY from 13:00-14:00 at WB 119 in session F\n\n";
+                        + "Tutorials\n";
+
         assertEquals(expected, schedule.toString());
     }
 
     @Test(timeout = 1500)
     public void testGenerateNoTutorialSchedule() {
         ArrayList<String> tst104 = new ArrayList<>();
-        tst104.add("TST104");
-        ArrayList<Course> tst104_c = (ArrayList<Course>) Controller.courseInstantiator(tst104);
-        Schedule schedule = scheduleCreator.createBasicSchedule(tst104_c);
+        tst104.add("TST105F");
+        ArrayList<Course> tst104C = (ArrayList<Course>) Controller.courseInstantiator(tst104);
+        Schedule schedule = scheduleCreator.createBasicSchedule(tst104C);
         String expected =
                 "Schedule: \n"
                         + "\n"
                         + "Lectures\n"
-                        + "TST104 LEC-0101 F meets at:\n"
-                        + "WEDNESDAY from 09:00-10:00 at ROOM 01 in session F\n"
+                        + "TST105 LEC-0101 F meets at:\n"
+                        + "MONDAY from 10:00-11:00 at WI 1016\n"
+                        + "TUESDAY from 18:00-21:00 at Contact DEPT\n"
+                        + "WEDNESDAY from 10:00-11:00 at WI 1016\n"
+                        + "FRIDAY from 10:00-11:00 at WI 1016\n"
                         + "\n"
                         + "\n"
                         + "Tutorials\n";
+
         assertEquals(expected, schedule.toString());
     }
 }

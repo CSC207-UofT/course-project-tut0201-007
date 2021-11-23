@@ -25,7 +25,7 @@ public class InPersonFilterTest {
     @Test(timeout = 2000)
     public void filterInPersonSucceed() {
         ArrayList<String> tst102 = new ArrayList<>();
-        tst102.add("TST102");
+        tst102.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst102);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filterInPerson.checkSchedule(schedule));
@@ -34,7 +34,7 @@ public class InPersonFilterTest {
     @Test(timeout = 2000)
     public void filterInPersonFail() {
         ArrayList<String> tst103 = new ArrayList<>();
-        tst103.add("TST103");
+        tst103.add("TST103Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filterInPerson.checkSchedule(schedule));
@@ -43,7 +43,7 @@ public class InPersonFilterTest {
     @Test(timeout = 2000)
     public void filterOnlineSucceed() {
         ArrayList<String> tst103 = new ArrayList<>();
-        tst103.add("TST103");
+        tst103.add("TST103Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filterOnline.checkSchedule(schedule));
@@ -52,7 +52,7 @@ public class InPersonFilterTest {
     @Test(timeout = 2000)
     public void filterOnlineFail() {
         ArrayList<String> tst101 = new ArrayList<>();
-        tst101.add("TST101");
+        tst101.add("TST101Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst101);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filterOnline.checkSchedule(schedule));

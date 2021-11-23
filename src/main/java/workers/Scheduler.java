@@ -13,25 +13,25 @@ import java.util.List;
  * <p>Key method is permutationScheduler() which creates all permutations passing filters.
  */
 public class Scheduler {
-    private final List<Course> courses;
-    private final List<Schedule> schedules;
+    private Schedule schedule;
     private final List<Filter> filters = new ArrayList<Filter>();
 
     /** Constructs a workers.Scheduler with empty courses and schedules */
     public Scheduler() {
-        this.courses = new ArrayList<Course>();
-        this.schedules = new ArrayList<Schedule>();
+        this.schedule = new Schedule();
     }
 
     /**
      * Constructs a workers.Scheduler with the given courses and schedules
      *
-     * @param courses list of courses
-     * @param schedules list of schedules
+     * @param schedule list of schedules
      */
-    public Scheduler(ArrayList<Course> courses, ArrayList<Schedule> schedules) {
-        this.courses = courses;
-        this.schedules = schedules;
+    public Scheduler(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public void setBaseSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     public void addFilters(List<Filter> filters) {
@@ -54,7 +54,7 @@ public class Scheduler {
 
         if (newCourses.size() == 1) {
             Course newCourse = newCourses.get(0);
-            List<Schedule> newSchedules = populatePermutations(newCourse);
+            List<Schedule> newSchedules = extendPermutations(newCourse, this.schedule);
             return newSchedules;
         } else {
             Course newCourse = newCourses.get(numOfCourses - 1);
@@ -66,8 +66,9 @@ public class Scheduler {
                 newSchedules.addAll(extendPermutations(newCourse, schedule));
             }
 
-            savedSchedules.addAll(newSchedules);
-            return savedSchedules;
+            // savedSchedules.addAll(newSchedules);
+            // return savedSchedules;
+            return newSchedules;
         }
     }
 
@@ -93,32 +94,6 @@ public class Scheduler {
     }
 
     /**
-     * Creates all lecture/tutorial section permutations that pass all filters for one course.
-     *
-     * @param c course that we take lec/tut permutations of
-     * @return all filtered schedules with these lec/tut permutations
-     */
-    private List<Schedule> populatePermutations(Course c) {
-        List<Schedule> populatedSchedules = new ArrayList<>();
-        List<Section> courseLectures = c.getLectures();
-        List<Section> courseTutorials = c.getTutorials();
-
-        for (Section lec : courseLectures) {
-            for (Section tut : courseTutorials) {
-                Schedule tempSchedule = new Schedule();
-                tempSchedule.addLecture(lec);
-                tempSchedule.addTutorial(tut);
-
-                if (this.checkFilters(tempSchedule)) {
-                    populatedSchedules.add(tempSchedule);
-                }
-            }
-        }
-
-        return populatedSchedules;
-    }
-
-    /**
      * Returns permutations of lectures and tutorials of course c, passing filters, together with
      * all sections already present in schedule s.
      *
@@ -130,6 +105,18 @@ public class Scheduler {
         List<Schedule> populatedSchedules = new ArrayList<>();
         List<Section> courseLectures = c.getLectures();
         List<Section> courseTutorials = c.getTutorials();
+
+        if (courseTutorials.size() == 0) {
+            for (Section lec : courseLectures) {
+                Schedule tempSchedule = s.clone();
+                tempSchedule.addLecture(lec);
+
+                if (checkFilters(tempSchedule)) {
+                    populatedSchedules.add(tempSchedule);
+                }
+            }
+            return populatedSchedules;
+        }
 
         for (Section lec : courseLectures) {
             for (Section tut : courseTutorials) {

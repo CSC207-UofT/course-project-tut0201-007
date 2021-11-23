@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
 
-
 public class CourseExclusionFilterTest {
     CourseExclusionFilter filter1;
     CourseExclusionFilter filter2;
@@ -26,8 +25,8 @@ public class CourseExclusionFilterTest {
     public void filterFail() {
         ArrayList<String> multi = new ArrayList<>();
         // Courses are not exclusions
-        multi.add("TST101");
-        multi.add("TST104");
+        multi.add("TST101Y");
+        multi.add("TST104Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
         filter1 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
@@ -38,8 +37,8 @@ public class CourseExclusionFilterTest {
     public void filterSucceed() {
         ArrayList<String> multi = new ArrayList<>();
         // Courses are exclusions
-        multi.add("TST101");
-        multi.add("TST102");
+        multi.add("TST101Y");
+        multi.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
         filter2 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
