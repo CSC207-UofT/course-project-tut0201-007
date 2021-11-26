@@ -13,7 +13,7 @@ import workers.*;
  */
 public class Controller {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         /**
          * We create the input getter, and scheduler. Note that scheduler has addFilters() method,
          * which we use according to User Input later in this method

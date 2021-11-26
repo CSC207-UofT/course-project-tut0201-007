@@ -97,7 +97,8 @@ public class Schedule implements Cloneable {
     }
 
     @Override
-    public Schedule clone() {
+    public Schedule clone() throws CloneNotSupportedException {
+        Schedule clone = (Schedule) super.clone();
         return new Schedule(
                 (ArrayList<Section>) this.lectures.clone(),
                 (ArrayList<Section>) this.tutorials.clone()
