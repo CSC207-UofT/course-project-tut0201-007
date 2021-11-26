@@ -1,3 +1,5 @@
+package entitiesTests;
+
 import static org.junit.Assert.*;
 
 import entities.Schedule;
