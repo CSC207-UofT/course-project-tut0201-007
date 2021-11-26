@@ -4,6 +4,8 @@ import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import util.InvalidSessionException;
@@ -14,10 +16,11 @@ public class CSVExporter extends Exporter {
     private final ZoneId zoneId = ZoneId.of("-4");
     private final LocalDate now = LocalDate.now(zoneId);
     private final int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
+    private final int endYear = startYear + 1;
     private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
     private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
-    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
-    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
+    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(endYear, 1, 10);
+    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(endYear, 4, 11);
 
     @Override
     public void outputSchedule(Schedule schedule) {
@@ -28,7 +31,16 @@ public class CSVExporter extends Exporter {
         try {
             Writer writer =
                     new FileWriter(
-                            outputDir.getAbsolutePath().concat("/CSVSchedule_" + startYear + "-" + startYear + 1 + "_" + num + ".csv"));
+                            outputDir
+                                    .getAbsolutePath()
+                                    .concat(
+                                            "/CSVSchedule_"
+                                                    + startYear
+                                                    + "-"
+                                                    + endYear
+                                                    + "_"
+                                                    + num
+                                                    + ".csv"));
             generateCSVSchedule(schedule, writer);
             num += 1;
         } catch (IOException e) {
@@ -116,5 +128,22 @@ public class CSVExporter extends Exporter {
             currDay = currDay.plusDays(7);
         }
         return rawTimeslot.toString();
+    }
+
+    public String toString(int id) throws IOException {
+        File file =
+                new File(
+                        new File("")
+                                .getAbsolutePath()
+                                .concat("/output")
+                                .concat(
+                                        "/CSVSchedule_"
+                                                + startYear
+                                                + "-"
+                                                + endYear
+                                                + "_"
+                                                + id
+                                                + ".csv"));
+        return Files.readString(Path.of(file.getPath()));
     }
 }
