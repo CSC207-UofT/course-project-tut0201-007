@@ -28,7 +28,7 @@ public class CSVExporter extends Exporter {
         try {
             Writer writer =
                     new FileWriter(
-                            outputDir.getAbsolutePath().concat("/CSVSchedule_" + num + ".csv"));
+                            outputDir.getAbsolutePath().concat("/CSVSchedule_" + startYear + "-" + startYear + 1 + "_" + num + ".csv"));
             generateCSVSchedule(schedule, writer);
             num += 1;
         } catch (IOException e) {
@@ -55,6 +55,19 @@ public class CSVExporter extends Exporter {
                     rawSchedule.append(
                             scheduleTimeslot(lecture.getName(), lecture.getSession(), timeslot));
                 } catch (InvalidSessionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try {
+            writer.write(rawSchedule.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
