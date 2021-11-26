@@ -11,6 +11,9 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import workers.CSVExporter;
+import workers.Exporter;
 import workers.ScheduleExporter;
 import workers.ScheduleImporter;
 
@@ -224,6 +227,11 @@ public class CommandLineInterface {
                 case 'S':
                     System.out.println("Saving this schedule in .ics format...");
                     ScheduleExporter.outputScheduleICS(currSchedule);
+                    break;
+                case 'C':
+                    System.out.println("Saving this schedule in .csv format...");
+                    Exporter exporter = new CSVExporter();
+                    exporter.outputSchedule(currSchedule);
                     break;
             }
         }
