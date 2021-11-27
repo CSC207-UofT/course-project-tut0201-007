@@ -1,13 +1,14 @@
+package workersTests;
+
 import static org.junit.Assert.*;
 
 import entities.Course;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CourseCreatorTest {
     Course mockCourse1, mockCourse2, sCourse, fCourse;
@@ -56,13 +57,13 @@ public class CourseCreatorTest {
     }
 
     @Test(timeout = 1000)
-    public void testGenerateFCourse() throws IOException {
+    public void testGenerateFCourse() {
         String expected = "TST105";
         assertEquals(expected, fCourse.getCourseId());
     }
 
     @Test(timeout = 1000)
-    public void testGenerateSCourse() throws IOException {
+    public void testGenerateSCourse() {
         String expected = "TST105";
         assertEquals(expected, sCourse.getCourseId());
     }

@@ -1,3 +1,5 @@
+package workersTests;
+
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;

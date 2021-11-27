@@ -1,3 +1,5 @@
+package filtersTests;
+
 import static org.junit.Assert.*;
 
 import controllers.Controller;
