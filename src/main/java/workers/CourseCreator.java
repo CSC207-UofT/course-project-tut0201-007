@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class represents a Course Creator. This class uses APIWorker to generate
- * Course objects.
- */
+/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -49,7 +46,7 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-      
+
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
@@ -57,18 +54,19 @@ public class CourseCreator {
                 apiWorker
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
-                        .get("exclusion").toString();
+                        .get("exclusion")
+                        .toString();
         ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         String corequisitesValue =
                 apiWorker
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
-                        .get("corequisite").toString();
+                        .get("corequisite")
+                        .toString();
         ArrayList<String> corequisites = getCourseCorequisites(corequisitesValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
-
     }
 
     /**
@@ -102,15 +100,15 @@ public class CourseCreator {
         ArrayList<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
-        } catch (Exception IndexOutOfBoundsException){
+        } catch (Exception IndexOutOfBoundsException) {
             System.out.println("The course has no exclusions (empty string)");
         }
         return shortenedCodes;
     }
 
     /**
-     * Extracts all course names from a string containing the course corequisites and puts it into an
-     * ArrayList
+     * Extracts all course names from a string containing the course corequisites and puts it into
+     * an ArrayList
      *
      * @param value a String that corresponds to all the corequisites for a course
      * @return an ArrayList of course names
@@ -119,14 +117,14 @@ public class CourseCreator {
         ArrayList<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
-        } catch (Exception IndexOutOfBoundsException){
+        } catch (Exception IndexOutOfBoundsException) {
             System.out.println("The course has no corequisites (empty string)");
         }
         return shortenedCodes;
     }
 
     /**
-     *  Helper method for extracting the course code values from the API contents
+     * Helper method for extracting the course code values from the API contents
      *
      * @param value a String that corresponds to all the corequisites for a course
      * @param shortenedCodes an empty arraylist to add the course codes to
@@ -134,7 +132,7 @@ public class CourseCreator {
     private static void extractCodes(String value, ArrayList<String> shortenedCodes) {
         String cleanedValue = value.replace("\"", "").replace(".", "");
         ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
-        for (String s: values) {
+        for (String s : values) {
             shortenedCodes.add(s.substring(0, 6));
         }
     }

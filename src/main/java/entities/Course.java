@@ -12,7 +12,8 @@ public class Course {
     private final ArrayList<String> courseCorequisiteIds;
 
     /**
-     * Constructs a course with an id and list of lecture and tutorial sessions as well as course exclusions.
+     * Constructs a course with an id and list of lecture and tutorial sessions as well as course
+     * exclusions.
      *
      * @param courseId given id
      * @param lectures given lectures
@@ -51,7 +52,9 @@ public class Course {
         return courseExclusionIds;
     }
 
-    public ArrayList<String> getCorequisites() { return  courseCorequisiteIds; }
+    public ArrayList<String> getCorequisites() {
+        return courseCorequisiteIds;
+    }
 
     @Override
     public String toString() {
