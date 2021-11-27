@@ -96,6 +96,10 @@ public class Schedule implements Cloneable {
         return false;
     }
 
+    public boolean isEmpty() {
+        return lectures.isEmpty();
+    }
+
     @Override
     public Schedule clone() {
         return new Schedule(

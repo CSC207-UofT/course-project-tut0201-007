@@ -18,6 +18,37 @@ import workers.ScheduleImporter;
 public class CommandLineInterface {
 
     public CommandLineInterface() {}
+    private int generationMode;
+
+    /** Constructor.
+     *
+     * @param mode represents one by one generation for the Controller
+     * 0 -> creates all permutations
+     * 1 -> one by one generation
+     *
+     * if one by one generation is used in controller, displayUserSchedule will take input to return a schedule
+     */
+    public CommandLineInterface(int mode) {
+        generationMode = mode;
+    }
+
+    /** Gets generation mode.
+     *
+     * @return generationMode
+     */
+    public int getGenerationMode() {
+        return generationMode;
+    }
+
+    /** Sets generation mode.
+     *
+     * @param i must be either 0 or 1. If i is not 0 or 1 this method does nothing.
+     */
+    public void setGenerationMode(int i) {
+        if (i == 0 || i == 1) {
+            generationMode = i;
+        }
+    }
 
     /**
      * Prompts user for input, asking whether they would like to import a schedule or make a new
@@ -26,7 +57,7 @@ public class CommandLineInterface {
      * @return an integer representing whether the user wants to import or creates a new schedule 0
      *     -> import 1 -> new schedule other integer -> exit program
      */
-    public static int promptUser() {
+    public int promptUser() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("=== We Do A Little Scheduling :) ===");
@@ -55,7 +86,7 @@ public class CommandLineInterface {
      *
      * @return a String list of course codes
      */
-    public static List<String> promptCourseCodeNames() {
+    public List<String> promptCourseCodeNames() {
         Scanner scanner = new Scanner(System.in);
         boolean input = false;
         int numCourses = 0;
@@ -93,7 +124,7 @@ public class CommandLineInterface {
      *
      * @return a user-saved schedule that courses will be added to
      */
-    public static Schedule promptImportSchedule() {
+    public Schedule promptImportSchedule() {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
         boolean success = false;
@@ -127,7 +158,7 @@ public class CommandLineInterface {
      * @param userCourses the courses the user will take
      * @return a list of filters for their schedules
      */
-    public static List<Filter> promptUserFilters(List<Course> userCourses) {
+    public List<Filter> promptUserFilters(List<Course> userCourses) {
         ArrayList<Filter> userFilters = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
@@ -138,7 +169,8 @@ public class CommandLineInterface {
                     + "3 - Enforce a time gap between courses\n"
                     + "4 - Enforce times when you have no courses\n"
                     + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
-                    + " 3' or '2' or '').A non-integer input will end selection.\n");
+                    + " 3' or '2' or '').\n"
+                    + "A non-integer input will end selection.\n");
 
         boolean[] filterCodes = new boolean[4];
 
@@ -174,11 +206,73 @@ public class CommandLineInterface {
     }
 
     /**
+     * Confirms whether user wants to generate all schedules or use one by one generation.
+     */
+    public void confirmOneByOneGeneration() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(
+                "Would you like to generate schedules one by one?\n"
+                + "Your schedule will be populated with only one course at a time to allow for specific time slot"
+                + " selection.\n"
+                + "1/0 for Y/N. \n"
+                + "Non-integer inputs will quit selection."
+        );
+        while (scanner.hasNextInt()) {
+            int input = scanner.nextInt();
+            if (input == 1 || input == 0) {
+                this.generationMode = input;
+                return;
+            }
+        }
+    }
+
+    /** Asks user to select the next base schedule for permutation in Scheduler.
+     *
+     * @param userSchedules the schedules meeting previous user specifications with one more course being permuted
+     * @return if the user selects a schedule around
+     */
+    public Schedule promptUserBaseSchedule(List<Schedule> userSchedules) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Schedules populated the next course on your priority list have been generated.\n"
+                + "Please select the schedule around which you want other time slots to be populated."
+        );
+        Schedule nextSchedule = this.displayUserSchedules(userSchedules);
+
+        if (nextSchedule == null) {
+            System.out.println("You have not selected a schedule.\n" +
+                    " The scheduler will generate all available schedules meeting previous specifications."
+            );
+        }
+        System.out.println(
+                "Would you like to continue one-by-one generation?\n"
+                        + "Your schedule will be populated with only the next course along with your currently selected"
+                        + " base schedule.\n"
+                        + "1/0 for Y/N. \n"
+                        + "Non-integer inputs will quit selection."
+        );
+        while (scanner.hasNextInt()) {
+            int input = scanner.nextInt();
+            if (input == 1 || input == 0) {
+                this.generationMode = input;
+                return nextSchedule;
+            }
+        }
+        return nextSchedule;
+    }
+
+
+
+    /**
      * Outputs schedules meeting user criteria. User can navigate through schedules and save them.
      *
      * @param userSchedules schedules meeting filter criteria
+     *
+     * attribute 'generationMode' is used in this method with
+     * 0 -> returning a Schedule is not an option
+     * 1 -> returning a Schedule is an option
+     * Note: returning a schedule is required in 1 by 1 generation
      */
-    public static void displayUserSchedules(List<Schedule> userSchedules) {
+    public Schedule displayUserSchedules(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
         int numOfSchedules = userSchedules.size() - 1;
         int scheduleNumber = 0;
@@ -186,7 +280,7 @@ public class CommandLineInterface {
 
         if (numOfSchedules == -1) {
             System.out.println("No schedules meeting these criteria could be created.");
-            return;
+            return null;
         }
 
         while (userActivity != 'Q') {
@@ -201,6 +295,9 @@ public class CommandLineInterface {
             System.out.println("Press '>' to go to the next schedule.");
             System.out.println("Press '<' to go to the previous schedule.");
             System.out.println("Press 'S' to save this schedule as an .ics file");
+            if (this.generationMode == 1) {
+                System.out.println("Press 'X' to build courses around this schedule");
+            }
 
             char userInput = scanner.next().charAt(0);
             switch (userInput) {
@@ -225,8 +322,14 @@ public class CommandLineInterface {
                     System.out.println("Saving this schedule in .ics format...");
                     ScheduleExporter.outputScheduleICS(currSchedule);
                     break;
+                case 'X':
+                    if (this.generationMode == 1) {
+                        return currSchedule;
+                    }
+                    break;
             }
         }
+        return null;
     }
 
     /**
