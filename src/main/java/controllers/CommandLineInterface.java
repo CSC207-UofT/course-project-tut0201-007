@@ -105,8 +105,8 @@ public class CommandLineInterface {
         int a = 0;
         while (a < numCourses) {
             System.out.println(
-                    "Please give the course code and session of one of your courses. An example of"
-                            + " expected format is MAT237Y. Accepted Sessions are (F,S,Y)");
+                    "Please give the course code and session of one of your courses." +
+                            "\nAn example of expected format is MAT237Y. Accepted Sessions are (F,S,Y)");
             String courseInput = scanner.nextLine();
             Matcher matcher = validInput.matcher(courseInput);
             if (matcher.find()) {
@@ -233,20 +233,17 @@ public class CommandLineInterface {
      */
     public Schedule promptUserBaseSchedule(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Schedules populated the next course on your priority list have been generated.\n"
-                + "Please select the schedule around which you want other time slots to be populated."
+        System.out.println("Please select the schedule around which you want other time slots to be populated."
         );
         Schedule nextSchedule = this.displayUserSchedules(userSchedules);
 
         if (nextSchedule == null) {
             System.out.println("You have not selected a schedule.\n" +
-                    " The scheduler will generate all available schedules meeting previous specifications."
+                    "The scheduler will generate all available schedules meeting previous specifications."
             );
         }
         System.out.println(
                 "Would you like to continue one-by-one generation?\n"
-                        + "Your schedule will be populated with only the next course along with your currently selected"
-                        + " base schedule.\n"
                         + "1/0 for Y/N. \n"
                         + "Non-integer inputs will quit selection."
         );

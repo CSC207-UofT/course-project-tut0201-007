@@ -58,7 +58,7 @@ public class Controller {
         //final user schedules
         List<Schedule> schedules = new ArrayList<>();
 
-        while (CLI.getGenerationMode() == 1 || instantiatedCourses.size() > 1) {
+        while (CLI.getGenerationMode() == 1 && instantiatedCourses.size() > 0) {
             Course nextCourse = instantiatedCourses.get(0);
             List<Schedule> nextCourseSchedules = scheduler.permutationScheduler(nextCourse);
             Schedule nextBase = CLI.promptUserBaseSchedule(nextCourseSchedules);
@@ -67,9 +67,6 @@ public class Controller {
             } else {
                 instantiatedCourses.remove(0);
                 scheduler.setBaseSchedule(nextBase);
-            }
-            if (instantiatedCourses.size() == 0) {
-                CLI.setGenerationMode(0);
             }
         }
 
