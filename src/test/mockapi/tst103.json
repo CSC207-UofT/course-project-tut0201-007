@@ -5,7 +5,7 @@
     "orgName": "Test",
     "courseTitle": "Test Json",
     "code": "TST103",
-    "corequisite": "",
+    "corequisite": "TST101",
     "exclusion": "",
     "section": "Y",
     "meetings": {
