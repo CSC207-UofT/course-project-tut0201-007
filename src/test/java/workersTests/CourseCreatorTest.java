@@ -3,7 +3,6 @@ package workersTests;
 import static org.junit.Assert.*;
 
 import entities.Course;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
