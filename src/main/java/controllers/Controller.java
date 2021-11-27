@@ -32,12 +32,17 @@ public class Controller {
             Schedule baseSchedule = CommandLineInterface.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
         }
-        // ask user for course codes
-        List<String> courses = CommandLineInterface.promptCourseCodeNames();
 
-        // course objects are instantiated based on the passed course codes
-        List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
+        List<String> courses;
+        List<Course> instantiatedCourses = new ArrayList<>();
 
+        // Prompt user for courses until courses are successfully instantiated (no issues with API retrieving courses)
+        while (instantiatedCourses.isEmpty()) {
+            // ask user for course codes
+            courses = CommandLineInterface.promptCourseCodeNames();
+            // course objects are instantiated based on the passed course codes
+            instantiatedCourses = Controller.courseInstantiator(courses);
+        }
         // get user specified filters, add them as filters to our scheduler object
         List<Filter> filters = CommandLineInterface.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
