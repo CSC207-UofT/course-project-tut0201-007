@@ -48,6 +48,12 @@ public class CSVExporter extends Exporter {
         }
     }
 
+    /**
+     * Converts all Timeslots within a Schedule into .csv format.
+     *
+     * @param schedule A Schedule object to output as .csv
+     * @param writer A Writer object used to output the .csv
+     */
     private void generateCSVSchedule(Schedule schedule, Writer writer) {
         StringBuilder rawSchedule = new StringBuilder();
         rawSchedule.append("Subject,Start Date,Start Time,End Date,End Time,Location\n");
@@ -86,6 +92,14 @@ public class CSVExporter extends Exporter {
         }
     }
 
+    /**
+     * Since .csv does not support recurring events, this method schedules a timeslot every week
+     * from the start date to the end date.
+     *
+     * @param name The name of the Timeslot object i.e. CSC207 LEC0101 Y
+     * @param session The session the Timeslot object (F/S/Y)
+     * @param timeslot The Timeslot to schedule
+     */
     private String scheduleTimeslot(String name, String session, Timeslot timeslot)
             throws InvalidSessionException {
         LocalDate termStartDate, termEndDate;
@@ -130,6 +144,11 @@ public class CSVExporter extends Exporter {
         return rawTimeslot.toString();
     }
 
+    /**
+     * A method to return a raw String representation of the .csv file, for testing.
+     *
+     * @param id The id of the file (CSVSchedule_2021-2022_0.csv has id 0)
+     */
     public String toString(int id) throws IOException {
         File file =
                 new File(
