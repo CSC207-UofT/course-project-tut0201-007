@@ -71,7 +71,7 @@ public class Controller {
                 Course newCourse = CourseCreator.generateCourse(courseCode, session);
                 courses.add(newCourse);
 
-            } catch (IOException exception) {
+            } catch (IOException | IllegalStateException exception) {
                 /**
                  * In case something goes wrong with the API for a specific course code, we print
                  * the code and the exception that is thrown.

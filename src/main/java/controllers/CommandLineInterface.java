@@ -202,7 +202,7 @@ public class CommandLineInterface {
             System.out.println("Press 'Q' to quit.");
             System.out.println("Press '>' to go to the next schedule.");
             System.out.println("Press '<' to go to the previous schedule.");
-            System.out.println("Press 'S' to save this schedule as an .ics file");
+            System.out.println("Press 'S/C' to save this schedule as an .ics/.csv file");
 
             char userInput = scanner.next().charAt(0);
             switch (userInput) {
