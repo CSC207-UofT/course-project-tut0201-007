@@ -160,6 +160,8 @@ added in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pul
 - Our choice of entities, once we switched to using Sections to represent lecture or tutorial sections, made implementing schedule generation and ICS export/import much easier
 - The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of Filters, without much effort for integrating them with our general program.
 
+## Accessibility Report
+
 ### Group member contributions & plans
 
 #### Rory
