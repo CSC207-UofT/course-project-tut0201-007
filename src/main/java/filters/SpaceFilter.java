@@ -22,7 +22,7 @@ public class SpaceFilter implements Filter {
         this.interval = hours;
     }
     /**
-     * Essentially, we are returning nothing if the schedule does not pass the filter, otherwise
+     * Essentially, we are returning false if the schedule does not pass the filter, otherwise
      * return the schedule, so we can layer
      *
      * @param s is a schedule we want to check follows the "interval" rule
