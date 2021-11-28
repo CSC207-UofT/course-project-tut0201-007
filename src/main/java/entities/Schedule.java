@@ -11,12 +11,14 @@ public class Schedule implements Cloneable {
     private final ArrayList<Section> lectures;
     private final ArrayList<Section> tutorials;
     private final ArrayList<String> courses;
+    private final ArrayList<Timeslot> timeslots;
 
     /** No parameter constructor that creates empty ArrayLists of lecture and tutorial sessions. */
     public Schedule() {
         this.lectures = new ArrayList<>();
         this.tutorials = new ArrayList<>();
         this.courses = new ArrayList<>();
+        this.timeslots = new ArrayList<>();
     }
 
     /**
@@ -29,6 +31,7 @@ public class Schedule implements Cloneable {
         this.lectures = lectures;
         this.tutorials = tutorials;
         this.courses = new ArrayList<>();
+        this.timeslots = populateTimeslots();
 
         for (Section sec : this.lectures) {
             String courseCode = sec.getName().substring(0,6);
@@ -50,6 +53,30 @@ public class Schedule implements Cloneable {
         return courses;
     }
 
+    public ArrayList<Timeslot> getTimeslots() {
+        return timeslots;
+    }
+
+    /**
+     * Creates a total list of timeslots.
+     *
+     * We end up iterating over timeslots as a whole a fair amount, so we might as well do it once.
+     */
+    private ArrayList<Timeslot> populateTimeslots () {
+
+        ArrayList<Timeslot> timeslots = new ArrayList();
+
+        for (Section lec : this.lectures) {
+            timeslots.addAll(lec.getTimes());
+        }
+
+        for (Section tut : this.tutorials) {
+            timeslots.addAll(tut.getTimes());
+        }
+
+        return timeslots;
+    }
+
     /**
      * Mutate the lectures list by adding lecture sessions in chronological order
      *
@@ -57,6 +84,7 @@ public class Schedule implements Cloneable {
      */
     public void addLecture(Section lecture) {
         lectures.add(lecture);
+        timeslots.addAll(lecture.getTimes());
 
         String courseCode = lecture.getName().substring(0,6);
         if (!this.courses.contains(courseCode)) {
@@ -71,6 +99,7 @@ public class Schedule implements Cloneable {
      */
     public void addTutorial(Section tutorial) {
         tutorials.add(tutorial);
+        timeslots.addAll(tutorial.getTimes());
     }
 
     @Override
