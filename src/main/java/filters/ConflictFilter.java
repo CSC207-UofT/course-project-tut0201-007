@@ -25,7 +25,6 @@ public class ConflictFilter implements Filter {
         }
 
         Collections.sort(timeslots);
-        System.out.println(timeslots);
 
         for (int i = 0; i < timeslots.size() - 1; i++) {
             Timeslot current = timeslots.get(i);

@@ -1,3 +1,5 @@
+package entitiesTests;
+
 import entities.Timeslot;
 import java.time.DayOfWeek;
 import java.time.LocalTime;

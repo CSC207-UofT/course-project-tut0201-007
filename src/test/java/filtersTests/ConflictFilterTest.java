@@ -1,3 +1,5 @@
+package filtersTests;
+
 import static org.junit.Assert.assertFalse;
 
 import controllers.Controller;
@@ -52,7 +54,6 @@ public class ConflictFilterTest {
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
-        System.out.println(schedule);
 
         assertFalse(conflictFilter.checkSchedule(schedule));
     }

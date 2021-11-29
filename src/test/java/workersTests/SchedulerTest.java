@@ -1,3 +1,5 @@
+package workersTests;
+
 import static org.junit.Assert.assertEquals;
 
 import controllers.Controller;
