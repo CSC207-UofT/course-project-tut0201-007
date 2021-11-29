@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class represents a Course Creator. This class uses APIWorker to generate
- * Course objects.
- */
+/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -49,7 +46,7 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-      
+
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
@@ -57,11 +54,11 @@ public class CourseCreator {
                 apiWorker
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
-                        .get("exclusion").toString();
+                        .get("exclusion")
+                        .toString();
         ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
-
     }
 
     /**
@@ -96,10 +93,10 @@ public class CourseCreator {
         try {
             String cleanedValue = value.replace("\"", "").replace(".", "");
             ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
-            for (String s: values) {
+            for (String s : values) {
                 shortenedCodes.add(s.substring(0, 6));
             }
-        } catch (Exception IndexOutOfBoundsException){
+        } catch (Exception IndexOutOfBoundsException) {
             System.out.println("The course has no exclusions (empty string)");
         }
         return shortenedCodes;
@@ -116,17 +113,34 @@ public class CourseCreator {
             JsonObject meeting, String name, String courseId, char session) {
         String fullName = String.format("%s %s %c", courseId, name, session);
         Section ret = new Section(fullName);
-        String roomKey = session == 'S' ? "assignedRoom2" : "assignedRoom1";
         JsonObject schedule = meeting.getAsJsonObject("schedule");
+        String fallRoomKey = "assignedRoom1";
+        String winterRoomKey = "assignedRoom2";
+
         for (String time : schedule.keySet()) {
             if (time.equals("-")) continue;
             JsonObject slot = schedule.getAsJsonObject(time);
             DayOfWeek day = toDay.get(slot.get("meetingDay").getAsString());
             LocalTime start = LocalTime.parse(slot.get("meetingStartTime").getAsString());
             LocalTime end = LocalTime.parse(slot.get("meetingEndTime").getAsString());
-            String room = slot.get(roomKey).getAsString();
-            if (room.equals("")) room = "ONLINE";
-            ret.addTime(new Timeslot(start, end, day, room));
+            if (session == 'F' || session == 'S') {
+                String roomKey = session == 'S' ? winterRoomKey : fallRoomKey;
+                String room = slot.get(roomKey).getAsString();
+                if (room.equals("")) room = "ONLINE";
+                ret.addTime(new Timeslot(start, end, day, room, session));
+            } else if (session == 'Y') {
+                String fallRoom = slot.get(fallRoomKey).getAsString();
+                if (fallRoom.equals("")) {
+                    fallRoom = "ONLINE";
+                }
+                String winterRoom = slot.get(winterRoomKey).getAsString();
+                if (winterRoom.equals("")) {
+                    winterRoom = "ONLINE";
+                }
+
+                ret.addTime(new Timeslot(start, end, day, fallRoom, 'F'));
+                ret.addTime(new Timeslot(start, end, day, winterRoom, 'S'));
+            }
         }
         return ret;
     }
