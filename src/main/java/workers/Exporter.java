@@ -11,15 +11,15 @@ import java.time.ZoneId;
  */
 public abstract class Exporter {
 
-     int num = 0;
-     final ZoneId zoneId = ZoneId.of("-4");
-     final LocalDate now = LocalDate.now(zoneId);
-     final int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
-     final int endYear = startYear + 1;
-     final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
-     final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
-     final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(endYear, 1, 10);
-     final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(endYear, 4, 11);
+    int num = 0;
+    final ZoneId zoneId = ZoneId.of("-4");
+    final LocalDate now = LocalDate.now(zoneId);
+    final int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
+    final int endYear = startYear + 1;
+    final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
+    final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
+    final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(endYear, 1, 10);
+    final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(endYear, 4, 11);
 
     public Exporter() {}
 
