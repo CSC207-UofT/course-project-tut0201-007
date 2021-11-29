@@ -36,7 +36,8 @@ public class Controller {
         List<String> courses;
         List<Course> instantiatedCourses = new ArrayList<>();
 
-        // Prompt user for courses until courses are successfully instantiated (no issues with API retrieving courses)
+        // Prompt user for courses until courses are successfully instantiated (no issues with API
+        // retrieving courses)
         while (instantiatedCourses.isEmpty()) {
             // ask user for course codes
             courses = CommandLineInterface.promptCourseCodeNames();
