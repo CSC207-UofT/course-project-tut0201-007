@@ -21,7 +21,7 @@ public class TimeFilterTest {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST101Y");
         courseIDs.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
 
         Scheduler scheduleCreator = new Scheduler();
         schedule = scheduleCreator.createBasicSchedule(courses);

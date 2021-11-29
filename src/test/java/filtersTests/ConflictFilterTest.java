@@ -27,7 +27,7 @@ public class ConflictFilterTest {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST101Y");
         courseIDs.add("TST104Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
         assert (conflictFilter.checkSchedule(schedule));
@@ -38,7 +38,7 @@ public class ConflictFilterTest {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST101Y");
         courseIDs.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
 
@@ -51,7 +51,7 @@ public class ConflictFilterTest {
         courseIDs.add("TST106Y");
         courseIDs.add("TST107Y");
 
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
 

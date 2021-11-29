@@ -79,7 +79,7 @@ public class Scheduler {
      * @param courses an ArrayList of courses from which a schedule will be generated.
      * @return a schedule that takes the first lecture and first tutorial section in each course.
      */
-    public Schedule createBasicSchedule(ArrayList<Course> courses) {
+    public Schedule createBasicSchedule(List<Course> courses) {
         Schedule schedule = new Schedule();
 
         for (Course newCourse : courses) {

@@ -7,6 +7,7 @@ import entities.Course;
 import entities.Schedule;
 import filters.SpaceFilter;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
@@ -25,7 +26,7 @@ public class SpaceFilterTest {
         ArrayList<String> multi = new ArrayList<>();
         multi.add("TST101Y");
         multi.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        List<Course> courses = Controller.courseInstantiator(multi);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filter.checkSchedule(schedule));
     }
@@ -35,7 +36,7 @@ public class SpaceFilterTest {
         ArrayList<String> multi = new ArrayList<>();
         multi.add("TST101Y");
         multi.add("TST104Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        List<Course> courses = Controller.courseInstantiator(multi);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filter.checkSchedule(schedule));
     }

@@ -5,6 +5,7 @@ import entities.Section;
 import entities.Timeslot;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ConflictFilter implements Filter {
 
@@ -14,7 +15,7 @@ public class ConflictFilter implements Filter {
             return false;
         }
 
-        ArrayList<Timeslot> timeslots = new ArrayList();
+        List<Timeslot> timeslots = new ArrayList();
 
         for (Section lec : s.getLectures()) {
             timeslots.addAll(lec.getTimes());
@@ -25,7 +26,6 @@ public class ConflictFilter implements Filter {
         }
 
         Collections.sort(timeslots);
-
 
         for (int i = 0; i < timeslots.size() - 1; i++) {
             Timeslot current = timeslots.get(i);

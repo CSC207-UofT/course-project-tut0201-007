@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This class represents a Course Creator. This class uses APIWorker to generate
- * Course objects.
- */
+/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -49,19 +46,19 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-      
-        ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
-        ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
+
+        List<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
+        List<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
         String exclusionsValue =
                 apiWorker
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
-                        .get("exclusion").toString();
-        ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
+                        .get("exclusion")
+                        .toString();
+        List<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
-
     }
 
     /**
@@ -71,9 +68,9 @@ public class CourseCreator {
      * @param type LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
-    private static ArrayList<Section> getSessionsByType(
+    private static List<Section> getSessionsByType(
             JsonObject meetings, String type, String courseId, char session) {
-        ArrayList<Section> specifiedSessions = new ArrayList<>();
+        List<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
                 specifiedSessions.add(
@@ -91,15 +88,15 @@ public class CourseCreator {
      * @param value a String that corresponds to all of the exclusions for a course
      * @return an ArrayList of course names
      */
-    public static ArrayList<String> getCourseExclusions(String value) {
-        ArrayList<String> shortenedCodes = new ArrayList<>();
+    public static List<String> getCourseExclusions(String value) {
+        List<String> shortenedCodes = new ArrayList<>();
         try {
             String cleanedValue = value.replace("\"", "").replace(".", "");
-            ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
-            for (String s: values) {
+            List<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+            for (String s : values) {
                 shortenedCodes.add(s.substring(0, 6));
             }
-        } catch (Exception IndexOutOfBoundsException){
+        } catch (Exception IndexOutOfBoundsException) {
             System.out.println("The course has no exclusions (empty string)");
         }
         return shortenedCodes;
