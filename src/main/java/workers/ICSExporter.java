@@ -39,6 +39,9 @@ public class ICSExporter extends Exporter {
 
     public ICSExporter() {
         calendar = new Calendar();
+        calendar.getProperties().add(new ProdId("-//CSC207 Team 007//iCal4j 1.0//EN"));
+        calendar.getProperties().add(Version.VERSION_2_0);
+        calendar.getProperties().add(CalScale.GREGORIAN);
         baseDir = new File("").getAbsolutePath();
         outputDirectory = new File(baseDir.concat("/output"));
         if (!outputDirectory.exists()) {
@@ -75,10 +78,6 @@ public class ICSExporter extends Exporter {
      * @param writer The Writer object used to output the ICS, such as FileWriter or StringWriter
      */
     public void outputSchedule(Schedule schedule, Writer writer) {
-        Calendar calendar = new Calendar();
-        calendar.getProperties().add(new ProdId("-//CSC207 Team 007//iCal4j 1.0//EN"));
-        calendar.getProperties().add(Version.VERSION_2_0);
-        calendar.getProperties().add(CalScale.GREGORIAN);
 
         for (Section tutorial : schedule.getTutorials()) {
             for (Timeslot timeslot : tutorial.getTimes()) {
