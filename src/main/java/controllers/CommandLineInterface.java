@@ -11,8 +11,8 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import workers.ICSImporter;
 import workers.ScheduleExporter;
-import workers.ScheduleImporter;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
@@ -107,7 +107,7 @@ public class CommandLineInterface {
             try {
                 File file = new File(directory);
                 Reader fileReader = new FileReader(file);
-                importedSchedule = ScheduleImporter.importSchedule(fileReader);
+                importedSchedule = new ICSImporter().importSchedule(fileReader);
                 fileReader.close();
                 success = true;
             } catch (IOException exception) {

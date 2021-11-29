@@ -7,10 +7,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
-import workers.ScheduleImporter;
+import workers.ICSImporter;
 import workers.Scheduler;
 
-public class ScheduleImporterTest {
+public class ICSImporterTest {
 
     String dummyICS;
 
@@ -45,7 +45,7 @@ public class ScheduleImporterTest {
     @Test(timeout = 1000)
     public void testImport() {
         StringReader stringReader = new StringReader(dummyICS);
-        Schedule res = ScheduleImporter.importSchedule(stringReader);
+        Schedule res = new ICSImporter().importSchedule(stringReader);
 
         Scheduler s = new Scheduler();
         ArrayList<String> courseCodes = new ArrayList<>();
