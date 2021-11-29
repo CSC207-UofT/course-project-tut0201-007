@@ -1,3 +1,5 @@
+package filtersTests;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -22,7 +24,7 @@ public class InPersonFilterTest {
         scheduleCreator = new Scheduler();
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 5000)
     public void filterInPersonSucceed() {
         ArrayList<String> tst102 = new ArrayList<>();
         tst102.add("TST102Y");
@@ -37,15 +39,17 @@ public class InPersonFilterTest {
         tst103.add("TST103Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
+        System.out.println(schedule);
         assertFalse(filterInPerson.checkSchedule(schedule));
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 6000)
     public void filterOnlineSucceed() {
         ArrayList<String> tst103 = new ArrayList<>();
-        tst103.add("TST103Y");
+        tst103.add("TST107F");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
+        System.out.println(schedule);
         assertTrue(filterOnline.checkSchedule(schedule));
     }
 

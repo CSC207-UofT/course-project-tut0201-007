@@ -1,40 +1,49 @@
+package filtersTests;
+
 import static org.junit.Assert.*;
 
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
-import filters.SpaceFilter;
+import filters.CourseExclusionFilter;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
 
-public class SpaceFilterTest {
-    SpaceFilter filter;
-    Scheduler scheduleCreator = new Scheduler();
+public class CourseExclusionFilterTest {
+    CourseExclusionFilter filter1;
+    CourseExclusionFilter filter2;
+    Scheduler scheduleCreator;
+    ArrayList<Course> courses;
 
     @Before
     public void setUp() {
-        filter = new SpaceFilter(1);
+        scheduleCreator = new Scheduler();
+        courses = new ArrayList<>();
     }
 
     @Test(timeout = 1000)
     public void filterFail() {
         ArrayList<String> multi = new ArrayList<>();
-        multi.add("TST101Y");
-        multi.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
-        Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertFalse(filter.checkSchedule(schedule));
-    }
-
-    @Test(timeout = 1000)
-    public void filterSucceed() {
-        ArrayList<String> multi = new ArrayList<>();
+        // Courses are not exclusions
         multi.add("TST101Y");
         multi.add("TST104Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        filter1 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertTrue(filter.checkSchedule(schedule));
+        assertFalse(filter1.checkSchedule(schedule));
+    }
+
+    @Test(timeout = 5000)
+    public void filterSucceed() {
+        ArrayList<String> multi = new ArrayList<>();
+        // Courses are exclusions
+        multi.add("TST101Y");
+        multi.add("TST102Y");
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        filter2 = new CourseExclusionFilter(courses);
+        Schedule schedule = scheduleCreator.createBasicSchedule(courses);
+        assertTrue(filter2.checkSchedule(schedule));
     }
 }

@@ -1,47 +1,42 @@
+package filtersTests;
+
 import static org.junit.Assert.*;
 
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
-import filters.CourseExclusionFilter;
+import filters.SpaceFilter;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
 
-public class CourseExclusionFilterTest {
-    CourseExclusionFilter filter1;
-    CourseExclusionFilter filter2;
-    Scheduler scheduleCreator;
-    ArrayList<Course> courses;
+public class SpaceFilterTest {
+    SpaceFilter filter;
+    Scheduler scheduleCreator = new Scheduler();
 
     @Before
     public void setUp() {
-        scheduleCreator = new Scheduler();
-        courses = new ArrayList<>();
+        filter = new SpaceFilter(1);
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 4000)
     public void filterFail() {
         ArrayList<String> multi = new ArrayList<>();
-        // Courses are not exclusions
         multi.add("TST101Y");
-        multi.add("TST104Y");
+        multi.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
-        filter1 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertFalse(filter1.checkSchedule(schedule));
+        assertFalse(filter.checkSchedule(schedule));
     }
 
     @Test(timeout = 1000)
     public void filterSucceed() {
         ArrayList<String> multi = new ArrayList<>();
-        // Courses are exclusions
         multi.add("TST101Y");
-        multi.add("TST102Y");
+        multi.add("TST104Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(multi);
-        filter2 = new CourseExclusionFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertTrue(filter2.checkSchedule(schedule));
+        assertTrue(filter.checkSchedule(schedule));
     }
 }

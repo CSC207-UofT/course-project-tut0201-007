@@ -1,3 +1,5 @@
+package filtersTests;
+
 import static org.junit.Assert.assertFalse;
 
 import controllers.Controller;
@@ -31,10 +33,10 @@ public class ConflictFilterTest {
         assert (conflictFilter.checkSchedule(schedule));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 3000)
     public void testFilterRejects() {
         List<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101Y");
+        courseIDs.add("TST106Y");
         courseIDs.add("TST102Y");
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 
@@ -47,7 +49,7 @@ public class ConflictFilterTest {
     public void testFilterRejects2() {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST106Y");
-        courseIDs.add("TST107Y");
+        courseIDs.add("TST107F");
 
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 

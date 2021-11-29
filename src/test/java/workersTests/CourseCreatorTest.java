@@ -1,13 +1,13 @@
+package workersTests;
+
 import static org.junit.Assert.*;
 
 import entities.Course;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CourseCreatorTest {
     Course mockCourse1, mockCourse2, sCourse, fCourse;
@@ -29,14 +29,20 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testMockLectureSessions() {
-        String expected = "TST101 LEC-0101 Y meets at:\n" + "MONDAY from 12:00-13:00 at ROOM 07\n";
+        String expected =
+                "TST101 LEC-0101 Y meets at:\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 08 in session S\n";
         // Checking that the course has the correct lecture
         assertEquals(expected, mockCourse1.getLectures().get(0).toString());
     }
 
     @Test(timeout = 1000)
     public void testMockTutorialSessions() {
-        String expected = "TST101 TUT-0101 Y meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
+        String expected =
+                "TST101 TUT-0101 Y meets at:\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 06 in session S\n";
         // Checking that the course has the correct tutorial
         assertEquals(expected, mockCourse1.getTutorials().get(0).toString());
     }
@@ -56,13 +62,13 @@ public class CourseCreatorTest {
     }
 
     @Test(timeout = 1000)
-    public void testGenerateFCourse() throws IOException {
+    public void testGenerateFCourse() {
         String expected = "TST105";
         assertEquals(expected, fCourse.getCourseId());
     }
 
     @Test(timeout = 1000)
-    public void testGenerateSCourse() throws IOException {
+    public void testGenerateSCourse() {
         String expected = "TST105";
         assertEquals(expected, sCourse.getCourseId());
     }

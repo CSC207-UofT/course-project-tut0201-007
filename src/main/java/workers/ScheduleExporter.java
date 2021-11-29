@@ -1,5 +1,7 @@
 package workers;
 
+import controllers.Controller;
+import entities.Course;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
@@ -10,7 +12,7 @@ import java.io.Writer;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.ArrayList;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -21,19 +23,13 @@ import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 import net.fortuna.ical4j.validate.ValidationException;
+import util.DateConstants;
 import util.InvalidSessionException;
 
 /** Use Case class for exporting a Schedule into an ICS file */
 public class ScheduleExporter {
 
     private static int numFiles = 0;
-    private static ZoneId zoneId = ZoneId.of("-4");
-    private static LocalDate now = LocalDate.now(zoneId);
-    private static int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
-    private static final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
-    private static final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
-    private static final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
-    private static final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
 
     public ScheduleExporter() {}
 
@@ -77,9 +73,10 @@ public class ScheduleExporter {
 
         for (Section tutorial : schedule.getTutorials()) {
             for (Timeslot timeslot : tutorial.getTimes()) {
+                System.out.println(timeslot);
                 try {
                     addTimeslotToCalendar(
-                            tutorial.getName(), tutorial.getSession(), timeslot, calendar);
+                            tutorial.getName(), timeslot.getSession(), timeslot, calendar);
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -87,9 +84,10 @@ public class ScheduleExporter {
         }
         for (Section lecture : schedule.getLectures()) {
             for (Timeslot timeslot : lecture.getTimes()) {
+                System.out.println(timeslot);
                 try {
                     addTimeslotToCalendar(
-                            lecture.getName(), lecture.getSession(), timeslot, calendar);
+                            lecture.getName(), timeslot.getSession(), timeslot, calendar);
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -122,22 +120,22 @@ public class ScheduleExporter {
      * @param calendar Calendar holding all VEvents
      */
     private static void addTimeslotToCalendar(
-            String name, String session, Timeslot timeslot, Calendar calendar)
+            String name, char session, Timeslot timeslot, Calendar calendar)
             throws InvalidSessionException {
-        LocalDate termStartDate = FALL_SEMESTER_START_DATE;
-        LocalDate termEndDate = FALL_SEMESTER_END_DATE;
+        LocalDate termStartDate = DateConstants.FALL_SEMESTER_START_DATE;
+        LocalDate termEndDate = DateConstants.FALL_SEMESTER_END_DATE;
         switch (session) {
-            case "F":
-                termStartDate = FALL_SEMESTER_START_DATE;
-                termEndDate = FALL_SEMESTER_END_DATE;
+            case 'F':
+                termStartDate = DateConstants.FALL_SEMESTER_START_DATE;
+                termEndDate = DateConstants.FALL_SEMESTER_END_DATE;
                 break;
-            case "S":
-                termStartDate = WINTER_SEMESTER_START_DATE;
-                termEndDate = WINTER_SEMESTER_END_DATE;
+            case 'S':
+                termStartDate = DateConstants.WINTER_SEMESTER_START_DATE;
+                termEndDate = DateConstants.WINTER_SEMESTER_END_DATE;
                 break;
-            case "Y":
-                termStartDate = FALL_SEMESTER_START_DATE;
-                termEndDate = WINTER_SEMESTER_END_DATE;
+            case 'Y':
+                termStartDate = DateConstants.FALL_SEMESTER_START_DATE;
+                termEndDate = DateConstants.WINTER_SEMESTER_END_DATE;
                 break;
             default:
                 throw new InvalidSessionException(
@@ -145,7 +143,10 @@ public class ScheduleExporter {
                                 "%s has invalid session %s. It should be either F, Y, or S",
                                 name, session));
         }
-        Date finalDay = new Date(java.util.Date.from(termEndDate.atStartOfDay(zoneId).toInstant()));
+        Date finalDay =
+                new Date(
+                        java.util.Date.from(
+                                termEndDate.atStartOfDay(DateConstants.zoneId).toInstant()));
 
         UidGenerator ug = new RandomUidGenerator();
         Uid uid = ug.generateUid();
@@ -154,10 +155,18 @@ public class ScheduleExporter {
 
         LocalDate startDay = getStartingWeekDate(termStartDate, timeslot.getDay());
         LocalDateTime start = startDay.atTime(timeslot.getStart());
-        Date timeslotStart = new DateTime(java.util.Date.from(start.atZone(zoneId).toInstant()));
-
         LocalDateTime end = startDay.atTime(timeslot.getEnd());
-        Date timeslotEnd = new DateTime(java.util.Date.from(end.atZone(zoneId).toInstant()));
+
+        if (session == 'S') {
+            // Account for Eastern Time zone's time change
+            start = start.plusHours(1);
+            end = end.plusHours(1);
+        }
+
+        Date timeslotStart =
+                new DateTime(java.util.Date.from(start.atZone(DateConstants.zoneId).toInstant()));
+        Date timeslotEnd =
+                new DateTime(java.util.Date.from(end.atZone(DateConstants.zoneId).toInstant()));
 
         Location location = new Location(timeslot.getRoom());
 
@@ -183,5 +192,16 @@ public class ScheduleExporter {
         } else {
             return res;
         }
+    }
+
+    public static void main(String[] args) {
+        ScheduleExporter exporter = new ScheduleExporter();
+        Scheduler s = new Scheduler();
+        ArrayList<String> courseIDs = new ArrayList<>();
+        courseIDs.add("TST102");
+
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        Schedule schedule = s.createBasicSchedule(courses);
+        exporter.outputScheduleICS(schedule);
     }
 }

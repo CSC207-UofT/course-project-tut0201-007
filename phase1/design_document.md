@@ -112,6 +112,8 @@ Our program applies the Dependency inversion principle to adhere to the Open-clo
 
 ## Packaging Strategies
 
+refactored test packages [https://github.com/CSC207-UofT/course-project-tut0201-007/pull/59](commit)
+
 We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its
 own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
 contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers
@@ -139,6 +141,8 @@ A Facade is a design pattern that this program uses to simplify the complexity o
 
 ### Template Method
 The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
+
+added in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/57)
 
 ## Progress Report
 
