@@ -37,6 +37,21 @@ public class CSVExporter extends Exporter {
         }
     }
 
+    @Override
+    public void outputSchedule(Schedule schedule, String name) {
+        File outputDir = new File(new File("").getAbsolutePath().concat("/output"));
+        if (!outputDir.exists()) {
+            outputDir.mkdir();
+        }
+        try {
+            Writer writer = new FileWriter(outputDir.getAbsolutePath().concat(name + ".csv"));
+            generateCSVSchedule(schedule, writer);
+            num += 1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Converts all Timeslots within a Schedule into .csv format.
      *

@@ -46,4 +46,13 @@ public abstract class Exporter {
      * @param schedule The Schedule object to output as some file
      */
     public abstract void outputSchedule(Schedule schedule);
+
+    /**
+     * An abstract method requiring that any exporter class has a method to output a schedule as a
+     * file, and allows for custom file name.
+     *
+     * @param schedule The Schedule object to output as some file
+     * @param name The desired name of the file
+     */
+    public abstract void outputSchedule(Schedule schedule, String name);
 }
