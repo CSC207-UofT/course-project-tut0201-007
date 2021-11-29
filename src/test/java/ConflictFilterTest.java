@@ -43,7 +43,7 @@ public class ConflictFilterTest {
         assertFalse(conflictFilter.checkSchedule(schedule));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 6000)
     public void testFilterRejects2() {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST106Y");
@@ -52,7 +52,6 @@ public class ConflictFilterTest {
         ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
 
         Schedule schedule = scheduler.createBasicSchedule(courses);
-
 
         assertFalse(conflictFilter.checkSchedule(schedule));
     }

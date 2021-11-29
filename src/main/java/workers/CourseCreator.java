@@ -10,11 +10,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-/**
- * This class represents a Course Creator. This class uses APIWorker to generate
- * Course objects.
- */
+/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -49,7 +47,7 @@ public class CourseCreator {
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
-      
+
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
@@ -57,11 +55,11 @@ public class CourseCreator {
                 apiWorker
                         .info
                         .getAsJsonObject(apiWorker.semester.get(w))
-                        .get("exclusion").toString();
+                        .get("exclusion")
+                        .toString();
         ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
-
     }
 
     /**
@@ -76,12 +74,37 @@ public class CourseCreator {
         ArrayList<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
+                Double professorRating = getProfessorRating(meetings.getAsJsonObject(meeting));
                 specifiedSessions.add(
                         createSection(
-                                meetings.getAsJsonObject(meeting), meeting, courseId, session));
+                                meetings.getAsJsonObject(meeting),
+                                meeting,
+                                courseId,
+                                session,
+                                professorRating));
             }
         }
         return specifiedSessions;
+    }
+
+    private static Double getProfessorRating(JsonObject lecture) {
+        JsonObject profs;
+        try {
+            profs = lecture.getAsJsonObject("instructors");
+        } catch (Exception e) {
+            return 2.5;
+        }
+        Set<String> p;
+        try {
+            p = profs.keySet();
+        } catch (Exception NullPointerException) {
+            return 2.5;
+        }
+        String firstProf = p.iterator().next();
+        JsonObject professorInfo = profs.getAsJsonObject(firstProf);
+        return RMPScraper.getRating(
+                professorInfo.get("firstName").getAsString(),
+                professorInfo.get("lastName").getAsString());
     }
 
     /**
@@ -96,10 +119,10 @@ public class CourseCreator {
         try {
             String cleanedValue = value.replace("\"", "").replace(".", "");
             ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
-            for (String s: values) {
+            for (String s : values) {
                 shortenedCodes.add(s.substring(0, 6));
             }
-        } catch (Exception IndexOutOfBoundsException){
+        } catch (Exception IndexOutOfBoundsException) {
             System.out.println("The course has no exclusions (empty string)");
         }
         return shortenedCodes;
@@ -113,9 +136,13 @@ public class CourseCreator {
      * @return a Section object representing the JsonObject
      */
     private static Section createSection(
-            JsonObject meeting, String name, String courseId, char session) {
+            JsonObject meeting,
+            String name,
+            String courseId,
+            char session,
+            double professorRating) {
         String fullName = String.format("%s %s %c", courseId, name, session);
-        Section ret = new Section(fullName);
+        Section ret = new Section(fullName, professorRating);
         String roomKey = session == 'S' ? "assignedRoom2" : "assignedRoom1";
         JsonObject schedule = meeting.getAsJsonObject("schedule");
         for (String time : schedule.keySet()) {
