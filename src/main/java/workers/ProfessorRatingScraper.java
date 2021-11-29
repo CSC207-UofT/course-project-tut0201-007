@@ -4,7 +4,7 @@ import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 
-class RMPScraper {
+class ProfessorRatingScraper {
     public static double getRating(String firstName, String lastName) {
         String html;
         try {

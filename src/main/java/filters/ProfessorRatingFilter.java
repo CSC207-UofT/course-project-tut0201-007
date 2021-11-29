@@ -3,10 +3,10 @@ package filters;
 import entities.Schedule;
 import entities.Section;
 
-class RMPFilter implements Filter {
+class ProfessorRatingFilter implements Filter {
     Double minimumScore;
 
-    public RMPFilter(Double minimumScore) {
+    public ProfessorRatingFilter(Double minimumScore) {
         this.minimumScore = minimumScore;
     }
 

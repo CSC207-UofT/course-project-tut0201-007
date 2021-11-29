@@ -102,7 +102,7 @@ public class CourseCreator {
         }
         String firstProf = p.iterator().next();
         JsonObject professorInfo = profs.getAsJsonObject(firstProf);
-        return RMPScraper.getRating(
+        return ProfessorRatingScraper.getRating(
                 professorInfo.get("firstName").getAsString(),
                 professorInfo.get("lastName").getAsString());
     }
