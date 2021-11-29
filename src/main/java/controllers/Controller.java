@@ -21,7 +21,9 @@ public class Controller {
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
-        CommandLineInterface CLI = new CommandLineInterface(1);
+        CommandLineInterface.GenerationMode oneByOne = CommandLineInterface.GenerationMode.ONE_BY_ONE;
+        CommandLineInterface.GenerationMode allPermutations = CommandLineInterface.GenerationMode.ALL_PERMUTATIONS;
+        CommandLineInterface CLI = new CommandLineInterface(oneByOne);
 
         /**
          * Check if user wants to import or create new schedules.
@@ -58,19 +60,19 @@ public class Controller {
         //final user schedules
         List<Schedule> schedules = new ArrayList<>();
 
-        while (CLI.getGenerationMode() == 1 && instantiatedCourses.size() > 0) {
+        while (CLI.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
             Course nextCourse = instantiatedCourses.get(0);
             List<Schedule> nextCourseSchedules = scheduler.permutationScheduler(nextCourse);
             Schedule nextBase = CLI.promptUserBaseSchedule(nextCourseSchedules);
             if (nextBase == null) {
-                CLI.setGenerationMode(0);
+                CLI.setGenerationMode(allPermutations);
             } else {
                 instantiatedCourses.remove(0);
                 scheduler.setBaseSchedule(nextBase);
             }
         }
 
-        CLI.setGenerationMode(0);
+        CLI.setGenerationMode(allPermutations);
 
         // call the scheduler to give us all schedules given these courses, filters, and base
         // schedule

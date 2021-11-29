@@ -18,7 +18,7 @@ import workers.ScheduleImporter;
 public class CommandLineInterface {
 
     public CommandLineInterface() {}
-    private int generationMode;
+    private GenerationMode generationMode;
 
     /** Constructor.
      *
@@ -28,7 +28,7 @@ public class CommandLineInterface {
      *
      * if one by one generation is used in controller, displayUserSchedule will take input to return a schedule
      */
-    public CommandLineInterface(int mode) {
+    public CommandLineInterface(GenerationMode mode) {
         generationMode = mode;
     }
 
@@ -36,18 +36,16 @@ public class CommandLineInterface {
      *
      * @return generationMode
      */
-    public int getGenerationMode() {
+    public GenerationMode getGenerationMode() {
         return generationMode;
     }
 
     /** Sets generation mode.
      *
-     * @param i must be either 0 or 1. If i is not 0 or 1 this method does nothing.
+     * @param mode must be enum ONE_BY_ONE or ALL_PERMUTATIONS as described in enum class GenerationMode
      */
-    public void setGenerationMode(int i) {
-        if (i == 0 || i == 1) {
-            generationMode = i;
-        }
+    public void setGenerationMode(GenerationMode mode) {
+        generationMode = mode;
     }
 
     /**
@@ -219,8 +217,11 @@ public class CommandLineInterface {
         );
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
-            if (input == 1 || input == 0) {
-                this.generationMode = input;
+            if (input == 1) {
+                this.generationMode = GenerationMode.ONE_BY_ONE;
+                return;
+            } if (input == 0) {
+                this.generationMode = GenerationMode.ALL_PERMUTATIONS;
                 return;
             }
         }
@@ -249,8 +250,11 @@ public class CommandLineInterface {
         );
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
-            if (input == 1 || input == 0) {
-                this.generationMode = input;
+            if (input == 1) {
+                this.generationMode = GenerationMode.ONE_BY_ONE;
+                return nextSchedule;
+            } if (input == 0) {
+                this.generationMode = GenerationMode.ALL_PERMUTATIONS;
                 return nextSchedule;
             }
         }
@@ -292,7 +296,7 @@ public class CommandLineInterface {
             System.out.println("Press '>' to go to the next schedule.");
             System.out.println("Press '<' to go to the previous schedule.");
             System.out.println("Press 'S' to save this schedule as an .ics file");
-            if (this.generationMode == 1) {
+            if (this.generationMode == GenerationMode.ONE_BY_ONE) {
                 System.out.println("Press 'X' to build courses around this schedule");
             }
 
@@ -320,7 +324,7 @@ public class CommandLineInterface {
                     ScheduleExporter.outputScheduleICS(currSchedule);
                     break;
                 case 'X':
-                    if (this.generationMode == 1) {
+                    if (this.generationMode == GenerationMode.ONE_BY_ONE) {
                         return currSchedule;
                     }
                     break;
@@ -533,6 +537,21 @@ public class CommandLineInterface {
             } catch (ArrayIndexOutOfBoundsException exception) {
                 System.out.println("Invalid input. PLEASE use HH:MM format in 24 HOUR TIME:");
             }
+        }
+    }
+
+    public enum GenerationMode {
+        ALL_PERMUTATIONS(0),
+        ONE_BY_ONE(1);
+
+        private final int generationMode;
+
+        GenerationMode(int i) {
+            this.generationMode = i;
+        }
+
+        public int getDay() {
+            return generationMode;
         }
     }
 }
