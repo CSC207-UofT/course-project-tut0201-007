@@ -11,8 +11,8 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import workers.ICSExporter;
 import workers.ICSImporter;
-import workers.ScheduleExporter;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
@@ -223,7 +223,7 @@ public class CommandLineInterface {
                     break;
                 case 'S':
                     System.out.println("Saving this schedule in .ics format...");
-                    ScheduleExporter.outputScheduleICS(currSchedule);
+                    new ICSExporter().outputSchedule(currSchedule);
                     break;
             }
         }
