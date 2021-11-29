@@ -34,10 +34,10 @@ public class SchedulerTest {
                         + "\n"
                         + "Lectures\n"
                         + "TST105 LEC-0101 F meets at:\n"
-                        + "MONDAY from 10:00-11:00 at WI 1016\n"
-                        + "TUESDAY from 18:00-21:00 at Contact DEPT\n"
-                        + "WEDNESDAY from 10:00-11:00 at WI 1016\n"
-                        + "FRIDAY from 10:00-11:00 at WI 1016\n"
+                        + "MONDAY from 10:00-11:00 at WI 1016 in session F\n"
+                        + "TUESDAY from 18:00-21:00 at Contact DEPT in session F\n"
+                        + "WEDNESDAY from 10:00-11:00 at WI 1016 in session F\n"
+                        + "FRIDAY from 10:00-11:00 at WI 1016 in session F\n"
                         + "\n"
                         + "\n"
                         + "Tutorials\n";
@@ -59,14 +59,14 @@ public class SchedulerTest {
                         + "\n"
                         + "Lectures\n"
                         + "TST107 LEC-9901 F meets at:\n"
-                        + "MONDAY from 09:00-10:00 at ONLINE\n"
-                        + "WEDNESDAY from 09:00-11:00 at ONLINE\n"
+                        + "MONDAY from 09:00-10:00 at ONLINE in session F\n"
+                        + "WEDNESDAY from 09:00-11:00 at ONLINE in session F\n"
                         + "\n"
                         + "TST105 LEC-0101 F meets at:\n"
-                        + "MONDAY from 10:00-11:00 at WI 1016\n"
-                        + "TUESDAY from 18:00-21:00 at Contact DEPT\n"
-                        + "WEDNESDAY from 10:00-11:00 at WI 1016\n"
-                        + "FRIDAY from 10:00-11:00 at WI 1016\n"
+                        + "MONDAY from 10:00-11:00 at WI 1016 in session F\n"
+                        + "TUESDAY from 18:00-21:00 at Contact DEPT in session F\n"
+                        + "WEDNESDAY from 10:00-11:00 at WI 1016 in session F\n"
+                        + "FRIDAY from 10:00-11:00 at WI 1016 in session F\n"
                         + "\n"
                         + "\n"
                         + "Tutorials\n";
@@ -85,14 +85,42 @@ public class SchedulerTest {
                         + "\n"
                         + "Lectures\n"
                         + "TST105 LEC-0101 F meets at:\n"
-                        + "MONDAY from 10:00-11:00 at WI 1016\n"
-                        + "TUESDAY from 18:00-21:00 at Contact DEPT\n"
-                        + "WEDNESDAY from 10:00-11:00 at WI 1016\n"
-                        + "FRIDAY from 10:00-11:00 at WI 1016\n"
+                        + "MONDAY from 10:00-11:00 at WI 1016 in session F\n"
+                        + "TUESDAY from 18:00-21:00 at Contact DEPT in session F\n"
+                        + "WEDNESDAY from 10:00-11:00 at WI 1016 in session F\n"
+                        + "FRIDAY from 10:00-11:00 at WI 1016 in session F\n"
                         + "\n"
                         + "\n"
                         + "Tutorials\n";
 
+        assertEquals(expected, schedule.toString());
+    }
+
+    @Test(timeout = 1000)
+    public void testGenerateYearCourseSchedule() {
+        ArrayList<String> courseIDs = new ArrayList<>();
+        courseIDs.add("TST102Y");
+
+        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        Schedule schedule = scheduleCreator.createBasicSchedule(courses);
+        String expected =
+                "Schedule: \n"
+                        + "\n"
+                        + "Lectures\n"
+                        + "TST102 LEC-0101 Y meets at:\n"
+                        + "MONDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "MONDAY from 09:00-10:00 at LM 159 in session S\n"
+                        + "TUESDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "TUESDAY from 09:00-10:00 at LM 159 in session S\n"
+                        + "THURSDAY from 09:00-10:00 at LM 159 in session F\n"
+                        + "THURSDAY from 09:00-10:00 at LM 159 in session S\n"
+                        + "\n"
+                        + "\n"
+                        + "Tutorials\n"
+                        + "TST102 TUT-0101 Y meets at:\n"
+                        + "TUESDAY from 13:00-14:00 at WB 119 in session F\n"
+                        + "TUESDAY from 13:00-14:00 at WB 119 in session S\n"
+                        + "\n";
         assertEquals(expected, schedule.toString());
     }
 }
