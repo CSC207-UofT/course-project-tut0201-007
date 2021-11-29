@@ -7,20 +7,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import util.InvalidSessionException;
 
 public class CSVExporter extends Exporter {
-
-    private int num = 0;
-    private final ZoneId zoneId = ZoneId.of("-4");
-    private final LocalDate now = LocalDate.now(zoneId);
-    private final int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
-    private final int endYear = startYear + 1;
-    private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
-    private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
-    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(endYear, 1, 10);
-    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(endYear, 4, 11);
 
     @Override
     public void outputSchedule(Schedule schedule) {
