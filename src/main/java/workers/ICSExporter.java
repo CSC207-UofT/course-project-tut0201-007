@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Date;
@@ -20,19 +19,13 @@ import net.fortuna.ical4j.model.property.*;
 import net.fortuna.ical4j.util.RandomUidGenerator;
 import net.fortuna.ical4j.util.UidGenerator;
 import net.fortuna.ical4j.validate.ValidationException;
+import util.DateConstants;
 import util.InvalidSessionException;
 
 /** Use Case class for exporting a Schedule into an ICS file */
 public class ICSExporter extends Exporter {
 
     private int numFiles = 0;
-    private ZoneId zoneId = ZoneId.of("-4");
-    private LocalDate now = LocalDate.now(zoneId);
-    private int startYear = now.getMonthValue() < 9 ? now.getYear() - 1 : now.getYear();
-    private final LocalDate FALL_SEMESTER_START_DATE = LocalDate.of(startYear, 9, 9);
-    private final LocalDate FALL_SEMESTER_END_DATE = LocalDate.of(startYear, 12, 10);
-    private final LocalDate WINTER_SEMESTER_START_DATE = LocalDate.of(startYear + 1, 1, 10);
-    private final LocalDate WINTER_SEMESTER_END_DATE = LocalDate.of(startYear + 1, 4, 11);
     private Calendar calendar;
     private String baseDir;
     private File outputDirectory;
@@ -69,6 +62,11 @@ public class ICSExporter extends Exporter {
         }
     }
 
+    @Override
+    public void outputSchedule(Schedule schedule, String name) {
+        outputSchedule(schedule);
+    }
+
     /**
      * Converts all Timeslots within a Schedule into Events in .ics format, for use in a Calendar.
      * Allows for use of any Writer to allow exporting as a file, or storing as a string for
@@ -82,7 +80,7 @@ public class ICSExporter extends Exporter {
         for (Section tutorial : schedule.getTutorials()) {
             for (Timeslot timeslot : tutorial.getTimes()) {
                 try {
-                    addTimeslotToCalendar(tutorial.getName(), tutorial.getSession(), timeslot);
+                    addTimeslotToCalendar(tutorial.getName(), timeslot.getSession(), timeslot);
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -91,7 +89,7 @@ public class ICSExporter extends Exporter {
         for (Section lecture : schedule.getLectures()) {
             for (Timeslot timeslot : lecture.getTimes()) {
                 try {
-                    addTimeslotToCalendar(lecture.getName(), lecture.getSession(), timeslot);
+                    addTimeslotToCalendar(lecture.getName(), timeslot.getSession(), timeslot);
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -122,22 +120,22 @@ public class ICSExporter extends Exporter {
      * @param session The session the Timeslot occurs in (F/S/Y)
      * @param timeslot Timeslot to create VEvent from
      */
-    private void addTimeslotToCalendar(String name, String session, Timeslot timeslot)
+    private void addTimeslotToCalendar(String name, char session, Timeslot timeslot)
             throws InvalidSessionException {
-        LocalDate termStartDate = FALL_SEMESTER_START_DATE;
-        LocalDate termEndDate = FALL_SEMESTER_END_DATE;
+        LocalDate termStartDate = DateConstants.FALL_SEMESTER_START_DATE;
+        LocalDate termEndDate = DateConstants.FALL_SEMESTER_END_DATE;
         switch (session) {
-            case "F":
-                termStartDate = FALL_SEMESTER_START_DATE;
-                termEndDate = FALL_SEMESTER_END_DATE;
+            case 'F':
+                termStartDate = DateConstants.FALL_SEMESTER_START_DATE;
+                termEndDate = DateConstants.FALL_SEMESTER_END_DATE;
                 break;
-            case "S":
-                termStartDate = WINTER_SEMESTER_START_DATE;
-                termEndDate = WINTER_SEMESTER_END_DATE;
+            case 'S':
+                termStartDate = DateConstants.WINTER_SEMESTER_START_DATE;
+                termEndDate = DateConstants.WINTER_SEMESTER_END_DATE;
                 break;
-            case "Y":
-                termStartDate = FALL_SEMESTER_START_DATE;
-                termEndDate = WINTER_SEMESTER_END_DATE;
+            case 'Y':
+                termStartDate = DateConstants.FALL_SEMESTER_START_DATE;
+                termEndDate = DateConstants.WINTER_SEMESTER_END_DATE;
                 break;
             default:
                 throw new InvalidSessionException(
@@ -145,7 +143,10 @@ public class ICSExporter extends Exporter {
                                 "%s has invalid session %s. It should be either F, Y, or S",
                                 name, session));
         }
-        Date finalDay = new Date(java.util.Date.from(termEndDate.atStartOfDay(zoneId).toInstant()));
+        Date finalDay =
+                new Date(
+                        java.util.Date.from(
+                                termEndDate.atStartOfDay(DateConstants.zoneId).toInstant()));
 
         UidGenerator ug = new RandomUidGenerator();
         Uid uid = ug.generateUid();
@@ -154,10 +155,18 @@ public class ICSExporter extends Exporter {
 
         LocalDate startDay = getStartingWeekDate(termStartDate, timeslot.getDay());
         LocalDateTime start = startDay.atTime(timeslot.getStart());
-        Date timeslotStart = new DateTime(java.util.Date.from(start.atZone(zoneId).toInstant()));
-
         LocalDateTime end = startDay.atTime(timeslot.getEnd());
-        Date timeslotEnd = new DateTime(java.util.Date.from(end.atZone(zoneId).toInstant()));
+
+        if (session == 'S') {
+            // Account for Eastern Time zone's time change
+            start = start.plusHours(1);
+            end = end.plusHours(1);
+        }
+
+        Date timeslotStart =
+                new DateTime(java.util.Date.from(start.atZone(DateConstants.zoneId).toInstant()));
+        Date timeslotEnd =
+                new DateTime(java.util.Date.from(end.atZone(DateConstants.zoneId).toInstant()));
 
         Location location = new Location(timeslot.getRoom());
 

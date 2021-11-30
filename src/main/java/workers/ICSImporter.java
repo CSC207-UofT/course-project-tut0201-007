@@ -4,6 +4,7 @@ import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -14,6 +15,8 @@ import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.util.MapTimeZoneCache;
+import util.DateConstants;
+import util.InvalidSessionException;
 
 /** Use Case class for importing a Schedule from an ICS file */
 public class ICSImporter implements Importer {
@@ -53,9 +56,21 @@ public class ICSImporter implements Importer {
             LocalDateTime start = LocalDateTime.parse(startTimeString, dateFormatter);
             LocalDateTime end = LocalDateTime.parse(endTimeString, dateFormatter);
 
+            char timeslotSession;
+            try {
+                timeslotSession = getEventSession(title, end);
+            } catch (InvalidSessionException e) {
+                e.printStackTrace();
+                continue;
+            }
+
             Timeslot timeslot =
                     new Timeslot(
-                            start.toLocalTime(), end.toLocalTime(), start.getDayOfWeek(), location);
+                            start.toLocalTime(),
+                            end.toLocalTime(),
+                            start.getDayOfWeek(),
+                            location,
+                            timeslotSession);
             sectionsByName.putIfAbsent(title, new Section(title));
             sectionsByName.get(title).addTime(timeslot);
         }
@@ -68,5 +83,18 @@ public class ICSImporter implements Importer {
             }
         }
         return schedule;
+    }
+
+    private static char getEventSession(String title, LocalDateTime end)
+            throws InvalidSessionException {
+        LocalDate endDate = end.toLocalDate();
+        if (DateConstants.FALL_SEMESTER_END_DATE.isAfter(endDate)) {
+            return 'F';
+        } else if (DateConstants.FALL_SEMESTER_START_DATE.isBefore(endDate)) {
+            return 'S';
+        } else {
+            throw new InvalidSessionException(
+                    String.format("Event %s does not fit within a valid session (F,S)", title));
+        }
     }
 }

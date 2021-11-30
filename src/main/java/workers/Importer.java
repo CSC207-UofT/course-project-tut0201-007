@@ -1,10 +1,12 @@
 package workers;
 
 import entities.Schedule;
-
 import java.io.Reader;
 
-/** An abstract class that provides a template for importing schedules with different file types (i.e. ICS, CSV, etc.) */
+/**
+ * An abstract class that provides a template for importing schedules with different file types
+ * (i.e. ICS, CSV, etc.)
+ */
 public interface Importer {
 
     /**
@@ -14,5 +16,4 @@ public interface Importer {
      * @return A Schedule object that contains all the Sections from the file
      */
     Schedule importSchedule(Reader reader);
-
 }

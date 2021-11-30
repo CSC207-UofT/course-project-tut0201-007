@@ -31,7 +31,7 @@ public class Schedule implements Cloneable {
         this.courses = new ArrayList<>();
 
         for (Section sec : this.lectures) {
-            String courseCode = sec.getName().substring(0,6);
+            String courseCode = sec.getName().substring(0, 6);
             if (!this.courses.contains(courseCode)) {
                 courses.add(courseCode);
             }
@@ -58,7 +58,7 @@ public class Schedule implements Cloneable {
     public void addLecture(Section lecture) {
         lectures.add(lecture);
 
-        String courseCode = lecture.getName().substring(0,6);
+        String courseCode = lecture.getName().substring(0, 6);
         if (!this.courses.contains(courseCode)) {
             this.courses.add(courseCode);
         }
@@ -96,11 +96,14 @@ public class Schedule implements Cloneable {
         return false;
     }
 
+    public boolean isEmpty() {
+        return lectures.isEmpty();
+    }
+
     @Override
     public Schedule clone() {
         return new Schedule(
                 (ArrayList<Section>) this.lectures.clone(),
-                (ArrayList<Section>) this.tutorials.clone()
-        );
+                (ArrayList<Section>) this.tutorials.clone());
     }
 }

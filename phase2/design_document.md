@@ -143,6 +143,8 @@ A Facade is a design pattern that this program uses to simplify the complexity o
 The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
 
 added in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/57)
+and used [here](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/62).
+
 Further used in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/69)
 
 ## Progress Report
