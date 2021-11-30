@@ -49,8 +49,6 @@ public class Controller {
 
         /**
          * ask user if they want one by one schedule generation.
-         *  1 - yes
-         *  0 - no
          */
         CLI.confirmOneByOneGeneration();
 

@@ -23,8 +23,6 @@ public class CommandLineInterface {
     /** Constructor.
      *
      * @param mode represents one by one generation for the Controller
-     * 0 -> creates all permutations
-     * 1 -> one by one generation
      *
      * if one by one generation is used in controller, displayUserSchedule will take input to return a schedule
      */
