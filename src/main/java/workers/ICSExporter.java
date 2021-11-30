@@ -43,8 +43,7 @@ public class ICSExporter extends Exporter {
     }
 
     /**
-     * {@code writer} defaults to {@link FileWriter}
-     * {@code name} defaults schedule#.ics
+     * {@code writer} defaults to {@link FileWriter} {@code name} defaults schedule#.ics
      *
      * @see ICSExporter#outputSchedule(Schedule, Writer)
      */
@@ -58,7 +57,6 @@ public class ICSExporter extends Exporter {
      * {@code writer} defaults to {@link FileWriter}
      *
      * @see ICSExporter#outputSchedule(Schedule, Writer)
-     *
      * @param schedule The Schedule object to output as some file
      * @param name The desired name of the file
      */
@@ -66,10 +64,7 @@ public class ICSExporter extends Exporter {
     public void outputSchedule(Schedule schedule, String name) {
         try {
             Writer writer =
-                    new FileWriter(
-                            outputDirectory
-                                    .getAbsolutePath()
-                                    .concat("/" + name + ".ics"));
+                    new FileWriter(outputDirectory.getAbsolutePath().concat("/" + name + ".ics"));
             outputSchedule(schedule, writer);
             numFiles += 1;
         } catch (IOException e) {
