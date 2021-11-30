@@ -204,7 +204,7 @@ public class CommandLineInterface {
     /**
      * Confirms whether user wants to generate all schedules or use one by one generation.
      */
-    public void confirmOneByOneGeneration() {
+    public void selectGenerationMode() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
                 "Would you like to generate schedules one by one?\n"

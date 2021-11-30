@@ -50,7 +50,7 @@ public class Controller {
         /**
          * ask user if they want one by one schedule generation.
          */
-        CLI.confirmOneByOneGeneration();
+        CLI.selectGenerationMode();
 
         /**
          * while the user wants one by one generation, keep repeating
