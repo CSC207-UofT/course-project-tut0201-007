@@ -404,7 +404,26 @@ public class CSVExporterTest {
 
         String expected = dummyCSV;
         try {
-            assertEquals(expected, c.toString(0));
+            assertEquals(expected, c.toString("CSVSchedule_2021-2022_0"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test(timeout = 1000)
+    public void testExportWithCustomName() {
+        sr = new Scheduler();
+        courseCodes = new ArrayList<>();
+        courseCodes.add("TST102Y");
+        courseCodes.add("TST103Y");
+        courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
+        s = sr.createBasicSchedule(courses);
+        c = new CSVExporter();
+        c.outputSchedule(s, "Schedule");
+
+        String expected = dummyCSV;
+        try {
+            assertEquals(expected, c.toString("Schedule"));
         } catch (IOException e) {
             e.printStackTrace();
         }

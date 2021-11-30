@@ -44,7 +44,7 @@ public class CSVExporter extends Exporter {
             outputDir.mkdir();
         }
         try {
-            Writer writer = new FileWriter(outputDir.getAbsolutePath().concat(name + ".csv"));
+            Writer writer = new FileWriter(outputDir.getAbsolutePath().concat("/" + name + ".csv"));
             generateCSVSchedule(schedule, writer);
             num += 1;
         } catch (IOException e) {
@@ -151,22 +151,16 @@ public class CSVExporter extends Exporter {
     /**
      * A method to return a raw String representation of the .csv file, for testing.
      *
-     * @param id The id of the file (CSVSchedule_2021-2022_0.csv has id 0)
+     * @param fileName The name of the file (CSVSchedule_2021-2022_0.csv has name CSVSchedule_2021-2022_0)
      */
-    public String toString(int id) throws IOException {
+    public String toString(String fileName) throws IOException {
         File file =
                 new File(
                         new File("")
                                 .getAbsolutePath()
                                 .concat("/output")
                                 .concat(
-                                        "/CSVSchedule_"
-                                                + startYear
-                                                + "-"
-                                                + endYear
-                                                + "_"
-                                                + id
-                                                + ".csv"));
+                                        "/" + fileName + ".csv"));
         return Files.readString(Path.of(file.getPath()));
     }
 }
