@@ -65,7 +65,7 @@ public class CSVExporter extends Exporter {
             for (Timeslot timeslot : tutorial.getTimes()) {
                 try {
                     rawSchedule.append(
-                            scheduleTimeslot(tutorial.getName(), tutorial.getSession(), timeslot));
+                            scheduleTimeslot(tutorial.getName(), timeslot.getSession(), timeslot));
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -75,7 +75,7 @@ public class CSVExporter extends Exporter {
             for (Timeslot timeslot : lecture.getTimes()) {
                 try {
                     rawSchedule.append(
-                            scheduleTimeslot(lecture.getName(), lecture.getSession(), timeslot));
+                            scheduleTimeslot(lecture.getName(), timeslot.getSession(), timeslot));
                 } catch (InvalidSessionException e) {
                     e.printStackTrace();
                 }
@@ -104,19 +104,19 @@ public class CSVExporter extends Exporter {
      * @param session The session the Timeslot object (F/S/Y)
      * @param timeslot The Timeslot to schedule
      */
-    private String scheduleTimeslot(String name, String session, Timeslot timeslot)
+    private String scheduleTimeslot(String name, char session, Timeslot timeslot)
             throws InvalidSessionException {
         LocalDate termStartDate, termEndDate;
         switch (session) {
-            case "F":
+            case 'F':
                 termStartDate = FALL_SEMESTER_START_DATE;
                 termEndDate = FALL_SEMESTER_END_DATE;
                 break;
-            case "S":
+            case 'S':
                 termStartDate = WINTER_SEMESTER_START_DATE;
                 termEndDate = WINTER_SEMESTER_END_DATE;
                 break;
-            case "Y":
+            case 'Y':
                 termStartDate = FALL_SEMESTER_START_DATE;
                 termEndDate = WINTER_SEMESTER_END_DATE;
                 break;

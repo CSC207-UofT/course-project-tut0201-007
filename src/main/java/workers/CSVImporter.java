@@ -32,7 +32,8 @@ public class CSVImporter implements Importer{
                                     LocalDateTime.parse(contents.get(1)).getDayOfWeek(),
                                     contents.get(5),
                                     contents.get(5).charAt(-1));
-                    sectionsByName.put(contents.get(0), timeslot);
+                    sectionsByName.put(contents.get(0), new Section(contents.get(0)));
+                    sectionsByName.get(contents.get(0)).addTime(timeslot);
                 }
             }
         }
@@ -40,5 +41,6 @@ public class CSVImporter implements Importer{
         {
             e.printStackTrace();
         }
+        return null;
     }
 }
