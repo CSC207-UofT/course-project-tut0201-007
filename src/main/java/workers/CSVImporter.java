@@ -3,7 +3,6 @@ package workers;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -11,36 +10,39 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-public class CSVImporter implements Importer{
+public class CSVImporter implements Importer {
 
     @Override
     public Schedule importSchedule(Reader reader) {
         BufferedReader br = new BufferedReader(reader);
         Schedule schedule = new Schedule();
-        Map<String, Section> sectionsByName = new HashMap<>();
+        List<Timeslot> timeslotsOfSection = new ArrayList<>();
+        List<String> lines = new ArrayList<>();
 
         try {
-            String line;
-            while((line=br.readLine())!=null)
-            {
-                List<String> contents = Arrays.asList(line.split(","));
-                if (!contents.get(0).equals("Subject") && !sectionsByName.containsKey(contents.get(0))) {
-                    Timeslot timeslot =
-                            new Timeslot(
-                                    LocalTime.parse(contents.get(2)),
-                                    LocalTime.parse(contents.get(4)),
-                                    LocalDateTime.parse(contents.get(1)).getDayOfWeek(),
-                                    contents.get(5),
-                                    contents.get(5).charAt(-1));
-                    sectionsByName.put(contents.get(0), new Section(contents.get(0)));
-                    sectionsByName.get(contents.get(0)).addTime(timeslot);
+            String line = br.readLine();
+            int count = 0;
+            while ((line = br.readLine()) != null) {
+                count++;
+                if (count == 13) {
+                    lines.add(line);
+                    count = 0;
                 }
             }
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    private Timeslot lineToTimeslot(String line) {
+        List<String> contents = Arrays.asList(line.split(","));
+        return new Timeslot(
+                        LocalTime.parse(contents.get(2)),
+                        LocalTime.parse(contents.get(4)),
+                        LocalDateTime.parse(contents.get(1)).getDayOfWeek(),
+                        contents.get(5),
+                        contents.get(0).charAt(contents.get(0).length() - 1));
+    }
+
 }

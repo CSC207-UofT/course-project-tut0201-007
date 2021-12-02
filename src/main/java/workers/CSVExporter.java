@@ -151,7 +151,8 @@ public class CSVExporter extends Exporter {
     /**
      * A method to return a raw String representation of the .csv file, for testing.
      *
-     * @param fileName The name of the file (CSVSchedule_2021-2022_0.csv has name CSVSchedule_2021-2022_0)
+     * @param fileName The name of the file (CSVSchedule_2021-2022_0.csv has name
+     *     CSVSchedule_2021-2022_0)
      */
     public String toString(String fileName) throws IOException {
         File file =
@@ -159,8 +160,7 @@ public class CSVExporter extends Exporter {
                         new File("")
                                 .getAbsolutePath()
                                 .concat("/output")
-                                .concat(
-                                        "/" + fileName + ".csv"));
+                                .concat("/" + fileName + ".csv"));
         return Files.readString(Path.of(file.getPath()));
     }
 }
