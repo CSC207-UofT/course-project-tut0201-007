@@ -16,8 +16,7 @@ public class CSVImporter implements Importer {
     public Schedule importSchedule(Reader reader) {
         BufferedReader br = new BufferedReader(reader);
         Schedule schedule = new Schedule();
-        List<Timeslot> timeslotsOfSection = new ArrayList<>();
-        List<String> lines = new ArrayList<>();
+        List<Timeslot> timeslots = new ArrayList<>();
 
         try {
             String line = br.readLine();
@@ -25,14 +24,19 @@ public class CSVImporter implements Importer {
             while ((line = br.readLine()) != null) {
                 count++;
                 if (count == 13) {
-                    lines.add(line);
+                    if (line.contains("LEC")) {
+                        List<Timeslot> timeslot = new ArrayList<>();
+                        timeslot.add(lineToTimeslot(line));
+                        schedule.addLecture(new Section(line.split(",")[0], timeslot));
+                    }
+                    timeslots.add(lineToTimeslot(line));
                     count = 0;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return schedule;
     }
 
     private Timeslot lineToTimeslot(String line) {
