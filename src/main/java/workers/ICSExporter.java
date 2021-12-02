@@ -25,7 +25,6 @@ import util.InvalidSessionException;
 /** Use Case class for exporting a Schedule into an ICS file */
 public class ICSExporter extends Exporter {
 
-    private int numFiles = 0;
     private Calendar calendar;
     private String baseDir;
     private File outputDirectory;
@@ -49,7 +48,8 @@ public class ICSExporter extends Exporter {
      */
     @Override
     public void outputSchedule(Schedule schedule) {
-        String defaultName = "/schedule" + numFiles + ".ics";
+        String defaultName = "/schedule" + num + ".ics";
+        num+=1;
         outputSchedule(schedule, defaultName);
     }
 
@@ -66,7 +66,6 @@ public class ICSExporter extends Exporter {
             Writer writer =
                     new FileWriter(outputDirectory.getAbsolutePath().concat("/" + name + ".ics"));
             outputSchedule(schedule, writer);
-            numFiles += 1;
         } catch (IOException e) {
             e.printStackTrace();
         }
