@@ -11,29 +11,31 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import workers.CSVExporter;
 import workers.Exporter;
-import workers.ScheduleExporter;
-import workers.ScheduleImporter;
+import workers.ICSExporter;
+import workers.ICSImporter;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
 
     public CommandLineInterface() {}
+
     private GenerationMode generationMode;
 
-    /** Constructor.
+    /**
+     * Constructor.
      *
      * @param mode represents one by one generation for the Controller
-     *
-     * if one by one generation is used in controller, displayUserSchedule will take input to return a schedule
+     *     <p>if one by one generation is used in controller, displayUserSchedule will take input to
+     *     return a schedule
      */
     public CommandLineInterface(GenerationMode mode) {
         generationMode = mode;
     }
 
-    /** Gets generation mode.
+    /**
+     * Gets generation mode.
      *
      * @return generationMode
      */
@@ -41,9 +43,11 @@ public class CommandLineInterface {
         return generationMode;
     }
 
-    /** Sets generation mode.
+    /**
+     * Sets generation mode.
      *
-     * @param mode must be enum ONE_BY_ONE or ALL_PERMUTATIONS as described in enum class GenerationMode
+     * @param mode must be enum ONE_BY_ONE or ALL_PERMUTATIONS as described in enum class
+     *     GenerationMode
      */
     public void setGenerationMode(GenerationMode mode) {
         generationMode = mode;
@@ -104,8 +108,9 @@ public class CommandLineInterface {
         int a = 0;
         while (a < numCourses) {
             System.out.println(
-                    "Please give the course code and session of one of your courses." +
-                            "\nAn example of expected format is MAT237Y. Accepted Sessions are (F,S,Y)");
+                    "Please give the course code and session of one of your courses.\n"
+                            + "An example of expected format is MAT237Y. Accepted Sessions are"
+                            + " (F,S,Y)");
             String courseInput = scanner.nextLine();
             Matcher matcher = validInput.matcher(courseInput);
             if (matcher.find()) {
@@ -137,7 +142,7 @@ public class CommandLineInterface {
             try {
                 File file = new File(directory);
                 Reader fileReader = new FileReader(file);
-                importedSchedule = ScheduleImporter.importSchedule(fileReader);
+                importedSchedule = new ICSImporter().importSchedule(fileReader);
                 fileReader.close();
                 success = true;
             } catch (IOException exception) {
@@ -204,57 +209,59 @@ public class CommandLineInterface {
         return userFilters;
     }
 
-    /**
-     * Confirms whether user wants to generate all schedules or use one by one generation.
-     */
+    /** Confirms whether user wants to generate all schedules or use one by one generation. */
     public void selectGenerationMode() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
                 "Would you like to generate schedules one by one?\n"
-                + "Your schedule will be populated with only one course at a time to allow for specific time slot"
-                + " selection.\n"
-                + "1/0 for Y/N. \n"
-                + "Non-integer inputs will quit selection."
-        );
+                    + "Your schedule will be populated with only one course at a time to allow for"
+                    + " specific time slot selection.\n"
+                    + "1/0 for Y/N. \n"
+                    + "Non-integer inputs will quit selection.");
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
                 this.generationMode = GenerationMode.ONE_BY_ONE;
                 return;
-            } if (input == 0) {
+            }
+            if (input == 0) {
                 this.generationMode = GenerationMode.ALL_PERMUTATIONS;
                 return;
             }
         }
     }
 
-    /** Asks user to select the next base schedule for permutation in Scheduler.
+    /**
+     * Asks user to select the next base schedule for permutation in Scheduler.
      *
-     * @param userSchedules the schedules meeting previous user specifications with one more course being permuted
+     * @param userSchedules the schedules meeting previous user specifications with one more course
+     *     being permuted
      * @return if the user selects a schedule around
      */
     public Schedule promptUserBaseSchedule(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please select the schedule around which you want other time slots to be populated."
-        );
+        System.out.println(
+                "Please select the schedule around which you want other time slots to be"
+                        + " populated.");
         Schedule nextSchedule = this.displayUserSchedules(userSchedules);
 
         if (nextSchedule == null) {
-            System.out.println("You have not selected a schedule.\n" +
-                    "The scheduler will generate all available schedules meeting previous specifications."
-            );
+            System.out.println(
+                    "You have not selected a schedule.\n"
+                            + "The scheduler will generate all available schedules meeting previous"
+                            + " specifications.");
         }
         System.out.println(
                 "Would you like to continue one-by-one generation?\n"
                         + "1/0 for Y/N. \n"
-                        + "Non-integer inputs will quit selection."
-        );
+                        + "Non-integer inputs will quit selection.");
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
                 this.generationMode = GenerationMode.ONE_BY_ONE;
                 return nextSchedule;
-            } if (input == 0) {
+            }
+            if (input == 0) {
                 this.generationMode = GenerationMode.ALL_PERMUTATIONS;
                 return nextSchedule;
             }
@@ -262,17 +269,13 @@ public class CommandLineInterface {
         return nextSchedule;
     }
 
-
-
     /**
      * Outputs schedules meeting user criteria. User can navigate through schedules and save them.
      *
      * @param userSchedules schedules meeting filter criteria
-     *
-     * attribute 'generationMode' is used in this method with
-     * 0 -> returning a Schedule is not an option
-     * 1 -> returning a Schedule is an option
-     * Note: returning a schedule is required in 1 by 1 generation
+     *     <p>attribute 'generationMode' is used in this method with 0 -> returning a Schedule is
+     *     not an option 1 -> returning a Schedule is an option Note: returning a schedule is
+     *     required in 1 by 1 generation
      */
     public Schedule displayUserSchedules(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
@@ -322,7 +325,7 @@ public class CommandLineInterface {
                     break;
                 case 'S':
                     System.out.println("Saving this schedule in .ics format...");
-                    ScheduleExporter.outputScheduleICS(currSchedule);
+                    new ICSExporter().outputSchedule(currSchedule);
                     break;
                 case 'C':
                     System.out.println("Saving this schedule in .csv format...");

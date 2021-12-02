@@ -77,8 +77,8 @@ public class Scheduler {
     }
 
     /**
-     * An override of permutationScheduler but with one course. Used as a shortcut so no unnecessary ArrayList creation
-     * is needed in other classes
+     * An override of permutationScheduler but with one course. Used as a shortcut so no unnecessary
+     * ArrayList creation is needed in other classes
      *
      * @param course is the course whose lectures and sessions will be used in generation
      * @return a list of all possible Schedules passing the given filters

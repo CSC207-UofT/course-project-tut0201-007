@@ -4,7 +4,6 @@ import entities.*;
 import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import workers.*;
 
@@ -21,15 +20,15 @@ public class Controller {
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
-        CommandLineInterface.GenerationMode oneByOne = CommandLineInterface.GenerationMode.ONE_BY_ONE;
-        CommandLineInterface.GenerationMode allPermutations = CommandLineInterface.GenerationMode.ALL_PERMUTATIONS;
+        CommandLineInterface.GenerationMode oneByOne =
+                CommandLineInterface.GenerationMode.ONE_BY_ONE;
+        CommandLineInterface.GenerationMode allPermutations =
+                CommandLineInterface.GenerationMode.ALL_PERMUTATIONS;
         CommandLineInterface CLI = new CommandLineInterface(oneByOne);
 
         /**
-         * Check if user wants to import or create new schedules.
-         * 1 -> new schedules
-         * 0 -> import
-         * -1 -> do nothing
+         * Check if user wants to import or create new schedules. 1 -> new schedules 0 -> import -1
+         * -> do nothing
          */
         int userStrategy = CLI.promptUser();
         if (userStrategy == -1) {
@@ -47,15 +46,11 @@ public class Controller {
         List<Filter> filters = CLI.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
 
-        /**
-         * ask user if they want one by one schedule generation.
-         */
+        /** ask user if they want one by one schedule generation. */
         CLI.selectGenerationMode();
 
-        /**
-         * while the user wants one by one generation, keep repeating
-         */
-        //final user schedules
+        /** while the user wants one by one generation, keep repeating */
+        // final user schedules
         List<Schedule> schedules = new ArrayList<>();
 
         while (CLI.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
