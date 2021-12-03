@@ -5,14 +5,12 @@ import static org.junit.Assert.*;
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CSVExporter;
 import workers.CSVImporter;
-import workers.ScheduleImporter;
 import workers.Scheduler;
 
 public class CSVImporterTest {
@@ -196,8 +194,8 @@ public class CSVImporterTest {
 
         Scheduler s = new Scheduler();
         ArrayList<String> cc = new ArrayList<>();
-        cc.add("TST102Y");
         cc.add("TST103Y");
+        cc.add("TST102Y");
         ArrayList<Course> cs = (ArrayList<Course>) Controller.courseInstantiator(cc);
         Schedule expected = s.createBasicSchedule(cs);
 
