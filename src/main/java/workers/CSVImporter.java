@@ -15,17 +15,18 @@ public class CSVImporter implements Importer {
 
     @Override
     public Schedule importSchedule(Reader reader) {
+        int semesterWeeks = 13;
+        int currWeek = 1;
         BufferedReader br = new BufferedReader(reader);
         Schedule schedule = new Schedule();
         Map<String, Section> sectionsByName = new HashMap<>();
 
         try {
             String line;
-            int count = 1;
             while ((line = br.readLine()) != null) {
                 String name = line.split(",")[0];
-                count++;
-                if ((count - 1) % 13 == 0) {
+                currWeek++;
+                if ((currWeek - 1) % semesterWeeks == 0) {
                     if (sectionsByName.containsKey(name)) {
                         sectionsByName.get(name).addTime(lineToTimeslot(line));
                     } else {
@@ -33,7 +34,7 @@ public class CSVImporter implements Importer {
                         timeslot.add(lineToTimeslot(line));
                         sectionsByName.put(name, new Section(name, timeslot));
                     }
-                    count = 1;
+                    currWeek = 1;
                 }
             }
         } catch (IOException e) {
