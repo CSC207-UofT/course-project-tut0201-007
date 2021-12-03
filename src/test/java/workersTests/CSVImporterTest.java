@@ -5,14 +5,15 @@ import static org.junit.Assert.*;
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
-import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CSVExporter;
+import workers.CSVImporter;
 import workers.Scheduler;
 
-public class CSVExporterTest {
+public class CSVImporterTest {
 
     String dummyCSV;
     Scheduler sr;
@@ -186,40 +187,18 @@ public class CSVExporterTest {
     }
 
     @Test(timeout = 1000)
-    public void testExport() {
-        sr = new Scheduler();
-        courseCodes = new ArrayList<>();
-        courseCodes.add("TST102Y");
-        courseCodes.add("TST103Y");
-        courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
-        s = sr.createBasicSchedule(courses);
-        c = new CSVExporter();
-        c.outputSchedule(s);
+    public void testImport() {
+        StringReader sr = new StringReader(dummyCSV);
+        CSVImporter i = new CSVImporter();
+        Schedule res = i.importSchedule(sr);
 
-        String expected = dummyCSV;
-        try {
-            assertEquals(expected, c.toString("CSVSchedule_2021-2022_0"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        Scheduler s = new Scheduler();
+        ArrayList<String> cc = new ArrayList<>();
+        cc.add("TST103Y");
+        cc.add("TST102Y");
+        ArrayList<Course> cs = (ArrayList<Course>) Controller.courseInstantiator(cc);
+        Schedule expected = s.createBasicSchedule(cs);
 
-    @Test(timeout = 1000)
-    public void testExportWithCustomName() {
-        sr = new Scheduler();
-        courseCodes = new ArrayList<>();
-        courseCodes.add("TST102Y");
-        courseCodes.add("TST103Y");
-        courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
-        s = sr.createBasicSchedule(courses);
-        c = new CSVExporter();
-        c.outputSchedule(s, "Schedule");
-
-        String expected = dummyCSV;
-        try {
-            assertEquals(expected, c.toString("Schedule"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        assertEquals(res, expected);
     }
 }
