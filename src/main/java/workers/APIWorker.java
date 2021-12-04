@@ -4,6 +4,7 @@ import com.google.gson.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents an API Worker. The class is meant to be used to interact with the API. A
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class APIWorker {
     public JsonObject info;
-    public ArrayList<String> semester;
+    public List<String> semester;
 
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.

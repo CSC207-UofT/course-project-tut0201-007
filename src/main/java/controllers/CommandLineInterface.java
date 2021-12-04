@@ -103,7 +103,7 @@ public class CommandLineInterface {
                 System.out.println("Please give an integer input");
             }
         }
-        ArrayList<String> courses = new ArrayList<>();
+        List<String> courses = new ArrayList<>();
         Pattern validInput = Pattern.compile("^[a-zA-Z0-9]{6}[fsyFSY]");
         int a = 0;
         while (a < numCourses) {
@@ -163,7 +163,7 @@ public class CommandLineInterface {
      * @return a list of filters for their schedules
      */
     public List<Filter> promptUserFilters(List<Course> userCourses) {
-        ArrayList<Filter> userFilters = new ArrayList<>();
+        List<Filter> userFilters = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println(
@@ -355,7 +355,7 @@ public class CommandLineInterface {
      */
     private static List<Filter> promptTimeConflictFilter() {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Filter> newFilters = new ArrayList<>();
+        List<Filter> newFilters = new ArrayList<>();
         System.out.println(
                 "Would you like to allow time conflicts between your courses? \n"
                         + "Enter 1/0 for Y/N. \n"
@@ -382,7 +382,7 @@ public class CommandLineInterface {
      */
     private static List<Filter> promptInPersonFilter() {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Filter> newFilters = new ArrayList<>();
+        List<Filter> newFilters = new ArrayList<>();
         System.out.println(
                 "Would you like all courses online or in-person? \n"
                         + "Enter 1/0 for in-person/online. \n"
@@ -410,7 +410,7 @@ public class CommandLineInterface {
      */
     private static List<Filter> promptSpaceFilter() {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Filter> newFilters = new ArrayList<>();
+        List<Filter> newFilters = new ArrayList<>();
         System.out.println(
                 "Would you like to enforce a time gap between all courses? \n"
                         + "Enter an integer for the number of hours in the time gap. \n"
@@ -434,7 +434,7 @@ public class CommandLineInterface {
      */
     private static List<Filter> promptTimeFilter() {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Filter> newFilters = new ArrayList<>();
+        List<Filter> newFilters = new ArrayList<>();
         TimeFilter.Day[] days = {
             TimeFilter.Day.ALL_DAYS,
             TimeFilter.Day.MONDAY,

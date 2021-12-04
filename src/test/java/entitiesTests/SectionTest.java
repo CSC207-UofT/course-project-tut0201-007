@@ -5,6 +5,7 @@ import entities.Timeslot;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,14 +24,14 @@ public class SectionTest {
         timeslotA = new Timeslot(now, end, today, location, 'F');
         timeslotB = new Timeslot(now, end, today, location, 'F');
 
-        ArrayList<Timeslot> timeslots = new ArrayList<>();
+        List<Timeslot> timeslots = new ArrayList<>();
         ArrayList<Timeslot> differentTimeslots = new ArrayList<>();
 
         timeslots.add(timeslotA);
         timeslots.add(timeslotB);
 
         sectionA = new Section("TST101 LEC0101 F", timeslots);
-        sectionB = new Section("TST101 LEC0101 F", (ArrayList<Timeslot>) timeslots.clone());
+        sectionB = new Section("TST101 LEC0101 F", new ArrayList(timeslots));
 
         different = new Section("TST101 LEC0101 F", differentTimeslots);
     }

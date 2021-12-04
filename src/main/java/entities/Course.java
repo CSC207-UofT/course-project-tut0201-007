@@ -1,17 +1,18 @@
 package entities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /** This class represents a course, which consists of lecture and tutorial sessions */
 public class Course {
     private final String courseId;
     private final char session;
-    private final ArrayList<Section> lectures;
-    private final ArrayList<Section> tutorials;
-    private final ArrayList<String> courseExclusionIds;
+    private final List<Section> lectures;
+    private final List<Section> tutorials;
+    private final List<String> courseExclusionIds;
 
     /**
-     * Constructs a course with an id and list of lecture and tutorial sessions as well as course exclusions.
+     * Constructs a course with an id and list of lecture and tutorial sessions as well as course
+     * exclusions.
      *
      * @param courseId given id
      * @param lectures given lectures
@@ -21,10 +22,10 @@ public class Course {
      */
     public Course(
             String courseId,
-            ArrayList<Section> lectures,
-            ArrayList<Section> tutorials,
+            List<Section> lectures,
+            List<Section> tutorials,
             char session,
-            ArrayList<String> exclusions) {
+            List<String> exclusions) {
         this.courseId = courseId;
         this.lectures = lectures;
         this.tutorials = tutorials;
@@ -36,15 +37,15 @@ public class Course {
         return this.courseId;
     }
 
-    public ArrayList<Section> getLectures() {
+    public List<Section> getLectures() {
         return lectures;
     }
 
-    public ArrayList<Section> getTutorials() {
+    public List<Section> getTutorials() {
         return tutorials;
     }
 
-    public ArrayList<String> getExclusions() {
+    public List<String> getExclusions() {
         return courseExclusionIds;
     }
 

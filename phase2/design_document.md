@@ -123,6 +123,9 @@ put filters into its own package because we have a filter interface and its subc
 
 Expansion of the program will be easy, as we can add each new clean architecture component into its associated package.
 
+## Refactoring
+* Refactored code to better utilize Liskov Substitution Principle by using an abstract class (`List`) rather than `ArrayList` when possible in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/70)
+
 ## Testing
 * TODO: add stuff here. see https://q.utoronto.ca/courses/233945/pages/phases-1+2-marking-criteria?module_item_id=3097996
 

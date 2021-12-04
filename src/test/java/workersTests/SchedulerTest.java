@@ -6,6 +6,7 @@ import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CourseCreator;
@@ -24,9 +25,9 @@ public class SchedulerTest {
 
     @Test(timeout = 1000)
     public void testGenerateTST105Schedule() {
-        ArrayList<String> tst105 = new ArrayList<>();
+        List<String> tst105 = new ArrayList<>();
         tst105.add("TST105F");
-        ArrayList<Course> tst105C = (ArrayList<Course>) Controller.courseInstantiator(tst105);
+        List<Course> tst105C = Controller.courseInstantiator(tst105);
         Schedule schedule = scheduleCreator.createBasicSchedule(tst105C);
 
         String expected =
@@ -48,10 +49,10 @@ public class SchedulerTest {
 
     @Test(timeout = 1500)
     public void testGenerateMultiCourseSchedule() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
         multi.add("TST107F");
         multi.add("TST105F");
-        ArrayList<Course> multiC = (ArrayList<Course>) Controller.courseInstantiator(multi);
+        List<Course> multiC = Controller.courseInstantiator(multi);
         Schedule schedule = scheduleCreator.createBasicSchedule(multiC);
 
         String expected =
@@ -76,9 +77,9 @@ public class SchedulerTest {
 
     @Test(timeout = 1500)
     public void testGenerateNoTutorialSchedule() {
-        ArrayList<String> tst104 = new ArrayList<>();
+        List<String> tst104 = new ArrayList<>();
         tst104.add("TST105F");
-        ArrayList<Course> tst104C = (ArrayList<Course>) Controller.courseInstantiator(tst104);
+        List<Course> tst104C = Controller.courseInstantiator(tst104);
         Schedule schedule = scheduleCreator.createBasicSchedule(tst104C);
         String expected =
                 "Schedule: \n"
@@ -98,10 +99,10 @@ public class SchedulerTest {
 
     @Test(timeout = 1000)
     public void testGenerateYearCourseSchedule() {
-        ArrayList<String> courseIDs = new ArrayList<>();
+        List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST102Y");
 
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         String expected =
                 "Schedule: \n"

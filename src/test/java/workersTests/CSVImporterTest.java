@@ -7,6 +7,7 @@ import entities.Course;
 import entities.Schedule;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CSVExporter;
@@ -18,8 +19,8 @@ public class CSVImporterTest {
     String dummyCSV;
     Scheduler sr;
     Schedule s;
-    ArrayList<String> courseCodes;
-    ArrayList<Course> courses;
+    List<String> courseCodes;
+    List<Course> courses;
     CSVExporter c;
 
     @Before
@@ -193,10 +194,10 @@ public class CSVImporterTest {
         Schedule res = i.importSchedule(sr);
 
         Scheduler s = new Scheduler();
-        ArrayList<String> cc = new ArrayList<>();
+        List<String> cc = new ArrayList<>();
         cc.add("TST103Y");
         cc.add("TST102Y");
-        ArrayList<Course> cs = (ArrayList<Course>) Controller.courseInstantiator(cc);
+        List<Course> cs = Controller.courseInstantiator(cc);
         Schedule expected = s.createBasicSchedule(cs);
 
         assertEquals(res, expected);
