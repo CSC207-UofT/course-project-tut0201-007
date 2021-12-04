@@ -7,7 +7,6 @@ import entities.Section;
 import entities.Timeslot;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,13 +30,13 @@ public class ScheduleTest {
         String tutorialLocation = "MP203";
         DayOfWeek day = DayOfWeek.MONDAY;
 
-        Timeslot lec1 = new Timeslot(startTime1, endTime1, day, lectureLocation);
-        Timeslot lec2 = new Timeslot(startTime2, endTime2, day, lectureLocation);
-        Timeslot lec3 = new Timeslot(startTime3, endTime3, day, lectureLocation);
+        Timeslot lec1 = new Timeslot(startTime1, endTime1, day, lectureLocation, 'F');
+        Timeslot lec2 = new Timeslot(startTime2, endTime2, day, lectureLocation, 'F');
+        Timeslot lec3 = new Timeslot(startTime3, endTime3, day, lectureLocation, 'F');
 
-        Timeslot tut1 = new Timeslot(startTime1, endTime1, day, tutorialLocation);
-        Timeslot tut2 = new Timeslot(startTime2, endTime2, day, tutorialLocation);
-        Timeslot tut3 = new Timeslot(startTime3, endTime3, day, tutorialLocation);
+        Timeslot tut1 = new Timeslot(startTime1, endTime1, day, tutorialLocation, 'F');
+        Timeslot tut2 = new Timeslot(startTime2, endTime2, day, tutorialLocation, 'F');
+        Timeslot tut3 = new Timeslot(startTime3, endTime3, day, tutorialLocation, 'F');
 
         lec1Section = new Section("TST101 LEC0101 F", List.of(lec1));
         lec2Section = new Section("TST101 LEC0201 F", List.of(lec2));
@@ -55,8 +54,7 @@ public class ScheduleTest {
     public void testAddLectures() {
         Schedule schedule = new Schedule();
 
-        ArrayList<Section> expected =
-                new ArrayList<>(List.of(lec1Section, lec2Section, lec3Section));
+        List<Section> expected = List.of(lec1Section, lec2Section, lec3Section);
 
         for (Section lec : lecsToAdd) {
             schedule.addLecture(lec);
@@ -70,7 +68,7 @@ public class ScheduleTest {
         Schedule schedule = new Schedule();
         schedule.addLecture(lec1Section);
 
-        ArrayList<Section> expected = new ArrayList<>(List.of(lec1Section, lec2Section));
+        List<Section> expected = List.of(lec1Section, lec2Section);
 
         schedule.addLecture(lec2Section);
         assertEquals(expected, schedule.getLectures());
@@ -81,7 +79,7 @@ public class ScheduleTest {
 
         Schedule schedule = new Schedule();
         schedule.addLecture(lec1Section);
-        ArrayList<Section> expected = new ArrayList<>(List.of(lec1Section, lec2Section));
+        List<Section> expected = List.of(lec1Section, lec2Section);
         schedule.addLecture(lec2Section);
 
         assertEquals(expected, schedule.getLectures());
@@ -91,8 +89,7 @@ public class ScheduleTest {
     public void testAddTutorials() {
         Schedule schedule = new Schedule();
 
-        ArrayList<Section> expected =
-                new ArrayList<>(List.of(tut1Section, tut2Section, tut3Section));
+        List<Section> expected = List.of(tut1Section, tut2Section, tut3Section);
 
         for (Section tut : tutsToAdd) {
             schedule.addTutorial(tut);

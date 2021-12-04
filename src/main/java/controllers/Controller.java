@@ -20,16 +20,21 @@ public class Controller {
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
+        CommandLineInterface.GenerationMode oneByOne =
+                CommandLineInterface.GenerationMode.ONE_BY_ONE;
+        CommandLineInterface.GenerationMode allPermutations =
+                CommandLineInterface.GenerationMode.ALL_PERMUTATIONS;
+        CommandLineInterface CLI = new CommandLineInterface(oneByOne);
 
         /**
          * Check if user wants to import or create new schedules. 1 -> new schedules 0 -> import -1
          * -> do nothing
          */
-        int userStrategy = CommandLineInterface.promptUser();
+        int userStrategy = CLI.promptUser();
         if (userStrategy == -1) {
             return;
         } else if (userStrategy == 0) {
-            Schedule baseSchedule = CommandLineInterface.promptImportSchedule();
+            Schedule baseSchedule = CLI.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
         }
 
@@ -40,20 +45,45 @@ public class Controller {
         // retrieving courses)
         while (instantiatedCourses.isEmpty()) {
             // ask user for course codes
-            courses = CommandLineInterface.promptCourseCodeNames();
+            courses = CLI.promptCourseCodeNames();
             // course objects are instantiated based on the passed course codes
             instantiatedCourses = Controller.courseInstantiator(courses);
         }
         // get user specified filters, add them as filters to our scheduler object
-        List<Filter> filters = CommandLineInterface.promptUserFilters(instantiatedCourses);
+        List<Filter> filters = CLI.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
+
+        /** ask user if they want one by one schedule generation. */
+        CLI.selectGenerationMode();
+
+        /** while the user wants one by one generation, keep repeating */
+        // final user schedules
+        List<Schedule> schedules = new ArrayList<>();
+
+        while (CLI.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
+            Course nextCourse = instantiatedCourses.get(0);
+            List<Schedule> nextCourseSchedules = scheduler.permutationScheduler(nextCourse);
+            Schedule nextBase = CLI.promptUserBaseSchedule(nextCourseSchedules);
+            if (nextBase == null) {
+                CLI.setGenerationMode(allPermutations);
+            } else {
+                instantiatedCourses.remove(0);
+                scheduler.setBaseSchedule(nextBase);
+            }
+        }
+
+        CLI.setGenerationMode(allPermutations);
 
         // call the scheduler to give us all schedules given these courses, filters, and base
         // schedule
-        List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
+        if (instantiatedCourses.size() != 0) {
+            schedules = scheduler.permutationScheduler(instantiatedCourses);
+        } else {
+            schedules = new ArrayList<>(List.of(scheduler.getBaseSchedule()));
+        }
 
         // user interactive output method
-        CommandLineInterface.displayUserSchedules(schedules);
+        CLI.displayUserSchedules(schedules);
     }
 
     /**
@@ -77,7 +107,7 @@ public class Controller {
                 Course newCourse = CourseCreator.generateCourse(courseCode, session);
                 courses.add(newCourse);
 
-            } catch (IOException exception) {
+            } catch (IOException | IllegalStateException exception) {
                 /**
                  * In case something goes wrong with the API for a specific course code, we print
                  * the code and the exception that is thrown.

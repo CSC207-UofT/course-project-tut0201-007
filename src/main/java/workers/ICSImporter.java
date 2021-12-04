@@ -4,6 +4,7 @@ import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -14,9 +15,11 @@ import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.util.MapTimeZoneCache;
+import util.DateConstants;
+import util.InvalidSessionException;
 
 /** Use Case class for importing a Schedule from an ICS file */
-public class ScheduleImporter {
+public class ICSImporter implements Importer {
 
     /**
      * Parses information written in ICS format using Reader, and converts schedule from the ICS
@@ -25,7 +28,7 @@ public class ScheduleImporter {
      * @param reader The Reader object that parses from the ICS file or ICS formatted data
      * @return A Schedule object that contains all the Sections from the ICS file
      */
-    public static Schedule importSchedule(Reader reader) {
+    public Schedule importSchedule(Reader reader) {
         Schedule schedule = new Schedule();
         Map<String, Section> sectionsByName = new HashMap<>();
         DateTimeFormatter dateFormatter =
@@ -53,9 +56,21 @@ public class ScheduleImporter {
             LocalDateTime start = LocalDateTime.parse(startTimeString, dateFormatter);
             LocalDateTime end = LocalDateTime.parse(endTimeString, dateFormatter);
 
+            char timeslotSession;
+            try {
+                timeslotSession = getEventSession(title, end);
+            } catch (InvalidSessionException e) {
+                e.printStackTrace();
+                continue;
+            }
+
             Timeslot timeslot =
                     new Timeslot(
-                            start.toLocalTime(), end.toLocalTime(), start.getDayOfWeek(), location);
+                            start.toLocalTime(),
+                            end.toLocalTime(),
+                            start.getDayOfWeek(),
+                            location,
+                            timeslotSession);
             sectionsByName.putIfAbsent(title, new Section(title));
             sectionsByName.get(title).addTime(timeslot);
         }
@@ -68,5 +83,18 @@ public class ScheduleImporter {
             }
         }
         return schedule;
+    }
+
+    private static char getEventSession(String title, LocalDateTime end)
+            throws InvalidSessionException {
+        LocalDate endDate = end.toLocalDate();
+        if (DateConstants.FALL_SEMESTER_END_DATE.isAfter(endDate)) {
+            return 'F';
+        } else if (DateConstants.FALL_SEMESTER_START_DATE.isBefore(endDate)) {
+            return 'S';
+        } else {
+            throw new InvalidSessionException(
+                    String.format("Event %s does not fit within a valid session (F,S)", title));
+        }
     }
 }
