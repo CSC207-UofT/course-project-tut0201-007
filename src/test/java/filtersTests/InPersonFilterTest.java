@@ -46,7 +46,7 @@ public class InPersonFilterTest {
     @Test(timeout = 2000)
     public void filterOnlineSucceed() {
         ArrayList<String> tst103 = new ArrayList<>();
-        tst103.add("TST103Y");
+        tst103.add("TST107F");
         List<Course> courses = Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filterOnline.checkSchedule(schedule));

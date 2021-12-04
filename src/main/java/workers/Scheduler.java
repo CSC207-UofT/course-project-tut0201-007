@@ -34,6 +34,10 @@ public class Scheduler {
         this.schedule = schedule;
     }
 
+    public Schedule getBaseSchedule() {
+        return schedule;
+    }
+
     public void addFilters(List<Filter> filters) {
         this.filters.addAll(filters);
     }
@@ -70,6 +74,19 @@ public class Scheduler {
             // return savedSchedules;
             return newSchedules;
         }
+    }
+
+    /**
+     * An override of permutationScheduler but with one course. Used as a shortcut so no unnecessary
+     * ArrayList creation is needed in other classes
+     *
+     * @param course is the course whose lectures and sessions will be used in generation
+     * @return a list of all possible Schedules passing the given filters
+     */
+    public List<Schedule> permutationScheduler(Course course) {
+        ArrayList<Course> courseList = new ArrayList<>();
+        courseList.add(course);
+        return permutationScheduler(courseList);
     }
 
     /**

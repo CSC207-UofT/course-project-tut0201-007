@@ -30,13 +30,13 @@ public class ScheduleTest {
         String tutorialLocation = "MP203";
         DayOfWeek day = DayOfWeek.MONDAY;
 
-        Timeslot lec1 = new Timeslot(startTime1, endTime1, day, lectureLocation);
-        Timeslot lec2 = new Timeslot(startTime2, endTime2, day, lectureLocation);
-        Timeslot lec3 = new Timeslot(startTime3, endTime3, day, lectureLocation);
+        Timeslot lec1 = new Timeslot(startTime1, endTime1, day, lectureLocation, 'F');
+        Timeslot lec2 = new Timeslot(startTime2, endTime2, day, lectureLocation, 'F');
+        Timeslot lec3 = new Timeslot(startTime3, endTime3, day, lectureLocation, 'F');
 
-        Timeslot tut1 = new Timeslot(startTime1, endTime1, day, tutorialLocation);
-        Timeslot tut2 = new Timeslot(startTime2, endTime2, day, tutorialLocation);
-        Timeslot tut3 = new Timeslot(startTime3, endTime3, day, tutorialLocation);
+        Timeslot tut1 = new Timeslot(startTime1, endTime1, day, tutorialLocation, 'F');
+        Timeslot tut2 = new Timeslot(startTime2, endTime2, day, tutorialLocation, 'F');
+        Timeslot tut3 = new Timeslot(startTime3, endTime3, day, tutorialLocation, 'F');
 
         lec1Section = new Section("TST101 LEC0101 F", List.of(lec1));
         lec2Section = new Section("TST101 LEC0201 F", List.of(lec2));

@@ -21,8 +21,8 @@ public class SectionTest {
         DayOfWeek today = DayOfWeek.MONDAY;
         String location = "The Office";
 
-        timeslotA = new Timeslot(now, end, today, location);
-        timeslotB = new Timeslot(now, end, today, location);
+        timeslotA = new Timeslot(now, end, today, location, 'F');
+        timeslotB = new Timeslot(now, end, today, location, 'F');
 
         List<Timeslot> timeslots = new ArrayList<>();
         ArrayList<Timeslot> differentTimeslots = new ArrayList<>();

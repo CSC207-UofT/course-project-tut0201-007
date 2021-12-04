@@ -36,7 +36,7 @@ public class ConflictFilterTest {
     @Test(timeout = 1000)
     public void testFilterRejects() {
         List<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101Y");
+        courseIDs.add("TST106Y");
         courseIDs.add("TST102Y");
         List<Course> courses = Controller.courseInstantiator(courseIDs);
 
@@ -49,7 +49,7 @@ public class ConflictFilterTest {
     public void testFilterRejects2() {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST106Y");
-        courseIDs.add("TST107Y");
+        courseIDs.add("TST107F");
 
         List<Course> courses = Controller.courseInstantiator(courseIDs);
 
