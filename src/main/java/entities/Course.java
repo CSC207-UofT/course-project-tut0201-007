@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /** This class represents a course, which consists of lecture and tutorial sessions */
 public class Course {
@@ -9,7 +10,7 @@ public class Course {
     private final ArrayList<Section> lectures;
     private final ArrayList<Section> tutorials;
     private final ArrayList<String> courseExclusionIds;
-    private final ArrayList<String> courseCorequisiteIds;
+    private final List<String> courseCorequisiteIds;
 
     /**
      * Constructs a course with an id and list of lecture and tutorial sessions as well as course
@@ -27,7 +28,7 @@ public class Course {
             ArrayList<Section> tutorials,
             char session,
             ArrayList<String> exclusions,
-            ArrayList<String> corequisites) {
+            List<String> corequisites) {
         this.courseId = courseId;
         this.lectures = lectures;
         this.tutorials = tutorials;
@@ -52,7 +53,7 @@ public class Course {
         return courseExclusionIds;
     }
 
-    public ArrayList<String> getCorequisites() {
+    public List<String> getCorequisites() {
         return courseCorequisiteIds;
     }
 

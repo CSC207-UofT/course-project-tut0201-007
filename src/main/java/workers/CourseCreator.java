@@ -64,7 +64,7 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("corequisite")
                         .toString();
-        ArrayList<String> corequisites = getCourseCorequisites(corequisitesValue);
+        List<String> corequisites = getCourseCorequisites(corequisitesValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
     }
@@ -113,7 +113,7 @@ public class CourseCreator {
      * @param value a String that corresponds to all the corequisites for a course
      * @return an ArrayList of course names
      */
-    public static ArrayList<String> getCourseCorequisites(String value) {
+    public static List<String> getCourseCorequisites(String value) {
         ArrayList<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
