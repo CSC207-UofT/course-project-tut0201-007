@@ -8,6 +8,7 @@ import entities.Course;
 import entities.Schedule;
 import filters.InPersonFilter;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
@@ -28,7 +29,7 @@ public class InPersonFilterTest {
     public void filterInPersonSucceed() {
         ArrayList<String> tst102 = new ArrayList<>();
         tst102.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst102);
+        List<Course> courses = Controller.courseInstantiator(tst102);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filterInPerson.checkSchedule(schedule));
     }
@@ -37,7 +38,7 @@ public class InPersonFilterTest {
     public void filterInPersonFail() {
         ArrayList<String> tst103 = new ArrayList<>();
         tst103.add("TST103Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst103);
+        List<Course> courses = Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filterInPerson.checkSchedule(schedule));
     }
@@ -45,8 +46,8 @@ public class InPersonFilterTest {
     @Test(timeout = 2000)
     public void filterOnlineSucceed() {
         ArrayList<String> tst103 = new ArrayList<>();
-        tst103.add("TST103Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst103);
+        tst103.add("TST107F");
+        List<Course> courses = Controller.courseInstantiator(tst103);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filterOnline.checkSchedule(schedule));
     }
@@ -55,7 +56,7 @@ public class InPersonFilterTest {
     public void filterOnlineFail() {
         ArrayList<String> tst101 = new ArrayList<>();
         tst101.add("TST101Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(tst101);
+        List<Course> courses = Controller.courseInstantiator(tst101);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filterOnline.checkSchedule(schedule));
     }

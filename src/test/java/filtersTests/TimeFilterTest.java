@@ -21,7 +21,7 @@ public class TimeFilterTest {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST101Y");
         courseIDs.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
 
         Scheduler scheduleCreator = new Scheduler();
         schedule = scheduleCreator.createBasicSchedule(courses);
@@ -29,8 +29,8 @@ public class TimeFilterTest {
 
     @Test(timeout = 1000)
     public void mondayFilterAccept() {
-        LocalTime start = LocalTime.of(12, 0);
-        LocalTime end = LocalTime.of(16, 0);
+        LocalTime start = LocalTime.of(9, 0);
+        LocalTime end = LocalTime.of(13, 0);
         TimeFilter mondayFilter = new TimeFilter(start, end, TimeFilter.Day.MONDAY);
         assert (mondayFilter.checkSchedule(schedule));
     }

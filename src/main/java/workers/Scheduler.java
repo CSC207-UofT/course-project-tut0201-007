@@ -34,6 +34,10 @@ public class Scheduler {
         this.schedule = schedule;
     }
 
+    public Schedule getBaseSchedule() {
+        return schedule;
+    }
+
     public void addFilters(List<Filter> filters) {
         this.filters.addAll(filters);
     }
@@ -73,13 +77,26 @@ public class Scheduler {
     }
 
     /**
+     * An override of permutationScheduler but with one course. Used as a shortcut so no unnecessary
+     * ArrayList creation is needed in other classes
+     *
+     * @param course is the course whose lectures and sessions will be used in generation
+     * @return a list of all possible Schedules passing the given filters
+     */
+    public List<Schedule> permutationScheduler(Course course) {
+        List<Course> courseList = new ArrayList<>();
+        courseList.add(course);
+        return permutationScheduler(courseList);
+    }
+
+    /**
      * Takes a list of courses and outputs a schedule that takes the first lecture section and first
      * tutorial section in each course. Mainly used for testing purposes.
      *
      * @param courses an ArrayList of courses from which a schedule will be generated.
      * @return a schedule that takes the first lecture and first tutorial section in each course.
      */
-    public Schedule createBasicSchedule(ArrayList<Course> courses) {
+    public Schedule createBasicSchedule(List<Course> courses) {
         Schedule schedule = new Schedule();
 
         for (Course newCourse : courses) {

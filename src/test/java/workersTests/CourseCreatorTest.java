@@ -3,7 +3,6 @@ package workersTests;
 import static org.junit.Assert.*;
 
 import entities.Course;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,28 +28,34 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testMockLectureSessions() {
-        String expected = "TST101 LEC-0101 Y meets at:\n" + "MONDAY from 12:00-13:00 at ROOM 07\n";
+        String expected =
+                "TST101 LEC-0101 Y meets at:\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
+                        + "MONDAY from 12:00-13:00 at ROOM 08 in session S\n";
         // Checking that the course has the correct lecture
         assertEquals(expected, mockCourse1.getLectures().get(0).toString());
     }
 
     @Test(timeout = 1000)
     public void testMockTutorialSessions() {
-        String expected = "TST101 TUT-0101 Y meets at:\nFRIDAY from 18:00-21:00 at ROOM 05\n";
+        String expected =
+                "TST101 TUT-0101 Y meets at:\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 05 in session F\n"
+                        + "FRIDAY from 18:00-21:00 at ROOM 06 in session S\n";
         // Checking that the course has the correct tutorial
         assertEquals(expected, mockCourse1.getTutorials().get(0).toString());
     }
 
     @Test(timeout = 1000)
     public void testMockExclusion1() {
-        ArrayList<String> expected = new ArrayList<>(List.of("TST102"));
+        List<String> expected = List.of("TST102");
         // Checking that the course has the correct exclusions
         assertEquals(expected, mockCourse1.getExclusions());
     }
 
     @Test(timeout = 1000)
     public void testMockExclusion2() {
-        ArrayList<String> expected = new ArrayList<>(List.of("TST100", "TST106", "TST105"));
+        List<String> expected = List.of("TST100", "TST106", "TST105");
         // Checking that the course has the correct exclusions
         assertEquals(expected, mockCourse2.getExclusions());
     }
@@ -80,18 +85,4 @@ public class CourseCreatorTest {
         String expected = "TST105";
         assertEquals(expected, sCourse.getCourseId());
     }
-
-    //    @Test(timeout = 1000)
-    //    public void testMockTutorialSessionsSync() {
-    //        String expected = "TUT-0201 meets at:\nTUESDAY from 10:00-11:00 at ONLINE\n";
-    //        // Checking that the course has the correct online tutorial
-    //        assertEquals(expected, mockCourse.getTutorials().get(1).toString());
-    //    }
-
-    //    @Test(timeout = 1000)
-    //    public void testMockTutorialSectionsAsync() {
-    //        String expected = "TUT-0301 is ASYNC";
-    //        // Checking that the course has no scheduled lectures
-    //        assertEquals(expected, mockCourse.getLectures().get(2).toString());
-    //    }
 }

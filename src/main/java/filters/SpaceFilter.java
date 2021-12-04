@@ -4,6 +4,7 @@ import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a filter. It works by checking a given schedule for the given criteria. It
@@ -35,7 +36,7 @@ public class SpaceFilter implements Filter {
         }
 
         // only need timeslots for the checking
-        ArrayList<Timeslot> timeslots = new ArrayList();
+        List<Timeslot> timeslots = new ArrayList();
 
         for (Section lec : s.getLectures()) {
             timeslots.addAll(lec.getTimes());
