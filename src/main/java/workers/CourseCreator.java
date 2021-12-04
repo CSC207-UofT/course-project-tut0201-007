@@ -114,7 +114,7 @@ public class CourseCreator {
      * @return an ArrayList of course names
      */
     public static List<String> getCourseCorequisites(String value) {
-        ArrayList<String> shortenedCodes = new ArrayList<>();
+        List<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
         } catch (Exception IndexOutOfBoundsException) {
@@ -129,7 +129,7 @@ public class CourseCreator {
      * @param value a String that corresponds to all the corequisites for a course
      * @param shortenedCodes an empty arraylist to add the course codes to
      */
-    private static void extractCodes(String value, ArrayList<String> shortenedCodes) {
+    private static void extractCodes(String value, List<String> shortenedCodes) {
         String cleanedValue = value.replace("\"", "").replace(".", "");
         List<String> values = List.of(cleanedValue.split("\\s*,\\s*"));
         for (String s : values) {
