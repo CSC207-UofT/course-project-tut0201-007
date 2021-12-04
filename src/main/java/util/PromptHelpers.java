@@ -1,12 +1,12 @@
 package util;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
 
 class PromptHelpers {
     public static List<String> promptUserStrings(String question, int num) {
-        ArrayList<String> ret = new ArrayList<>();
+        List<String> ret = new ArrayList<>();
         for (int a = 0; a < num; a++) {
             ret.add(promptUserString(question));
         }
@@ -32,7 +32,7 @@ class PromptHelpers {
     }
 
     public static List<Integer> promptUserInts(String question, int num) {
-        ArrayList<Integer> ret = new ArrayList<>();
+        List<Integer> ret = new ArrayList<>();
         for (int a = 0; a < num; a++) {
             ret.add(promptUserInt(question));
         }
