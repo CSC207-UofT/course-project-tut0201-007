@@ -57,14 +57,14 @@ public class CourseCreatorTest {
 
     @Test(timeout = 1000)
     public void testMockCoreq1() {
-        ArrayList<String> expected = new ArrayList<>(List.of("TST103"));
+        List<String> expected = List.of("TST103");
         // Checking that the course has the correct corequisites
         assertEquals(expected, mockCourse1.getCorequisites());
     }
 
     @Test(timeout = 1000)
     public void testMockCoreq2() {
-        ArrayList<String> expected = new ArrayList<>(List.of("TST107", "TST105"));
+        List<String> expected = List.of("TST107", "TST105");
         // Checking that the course has the correct corequisites
         assertEquals(expected, mockCourse2.getCorequisites());
     }

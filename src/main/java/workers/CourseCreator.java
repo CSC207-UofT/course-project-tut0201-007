@@ -131,7 +131,7 @@ public class CourseCreator {
      */
     private static void extractCodes(String value, ArrayList<String> shortenedCodes) {
         String cleanedValue = value.replace("\"", "").replace(".", "");
-        ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+        List<String> values = List.of(cleanedValue.split("\\s*,\\s*"));
         for (String s : values) {
             shortenedCodes.add(s.substring(0, 6));
         }
