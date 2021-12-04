@@ -58,7 +58,7 @@ public class Controller {
 
         /** while the user wants one by one generation, keep repeating */
         // final user schedules
-        List<Schedule> schedules = new ArrayList<>();
+        List<Schedule> schedules;
 
         while (CLI.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
             Course nextCourse = instantiatedCourses.get(0);
@@ -116,7 +116,7 @@ public class Controller {
                         "Exception occurred for course "
                                 + courseInput
                                 + " with the following message: \n"
-                                + exception.toString());
+                                + exception);
             }
         }
         return courses;
