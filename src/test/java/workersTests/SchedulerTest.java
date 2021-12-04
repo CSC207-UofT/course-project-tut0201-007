@@ -99,10 +99,10 @@ public class SchedulerTest {
 
     @Test(timeout = 1000)
     public void testGenerateYearCourseSchedule() {
-        ArrayList<String> courseIDs = new ArrayList<>();
+        List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST102Y");
 
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         String expected =
                 "Schedule: \n"

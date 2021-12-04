@@ -92,7 +92,7 @@ public class CourseCreator {
         List<String> shortenedCodes = new ArrayList<>();
         try {
             String cleanedValue = value.replace("\"", "").replace(".", "");
-            List<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
+            List<String> values = List.of(cleanedValue.split("\\s*,\\s*"));
             for (String s : values) {
                 shortenedCodes.add(s.substring(0, 6));
             }

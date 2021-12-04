@@ -7,6 +7,7 @@ import entities.Course;
 import entities.Schedule;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.CSVExporter;
@@ -17,8 +18,8 @@ public class CSVExporterTest {
     String dummyCSV;
     Scheduler sr;
     Schedule s;
-    ArrayList<String> courseCodes;
-    ArrayList<Course> courses;
+    List<String> courseCodes;
+    List<Course> courses;
     CSVExporter c;
 
     @Before
@@ -191,7 +192,7 @@ public class CSVExporterTest {
         courseCodes = new ArrayList<>();
         courseCodes.add("TST102Y");
         courseCodes.add("TST103Y");
-        courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
+        courses = Controller.courseInstantiator(courseCodes);
         s = sr.createBasicSchedule(courses);
         c = new CSVExporter();
         c.outputSchedule(s);
@@ -210,7 +211,7 @@ public class CSVExporterTest {
         courseCodes = new ArrayList<>();
         courseCodes.add("TST102Y");
         courseCodes.add("TST103Y");
-        courses = (ArrayList<Course>) Controller.courseInstantiator(courseCodes);
+        courses = Controller.courseInstantiator(courseCodes);
         s = sr.createBasicSchedule(courses);
         c = new CSVExporter();
         c.outputSchedule(s, "Schedule");

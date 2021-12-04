@@ -84,7 +84,7 @@ public class Scheduler {
      * @return a list of all possible Schedules passing the given filters
      */
     public List<Schedule> permutationScheduler(Course course) {
-        ArrayList<Course> courseList = new ArrayList<>();
+        List<Course> courseList = new ArrayList<>();
         courseList.add(course);
         return permutationScheduler(courseList);
     }
