@@ -128,12 +128,13 @@ public class CommandLineInterface {
     public Schedule promptImportSchedule() {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
-        boolean success = false;
 
-        System.out.println(
-                "Please enter the relative file path to the schedule you would like to import:");
-        System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
         File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles();
+        if (importableFiles.length == 0) {
+            System.out.println(
+                    "No importable files. Defaulting to generating a schedule from scratch");
+            return importedSchedule;
+        }
         Map<Integer, File> numToFile = new HashMap<>();
         System.out.println(
                 "Choose from the following options for importing by entering the corresponding"
