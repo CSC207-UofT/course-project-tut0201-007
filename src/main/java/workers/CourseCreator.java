@@ -57,7 +57,7 @@ public class CourseCreator {
                         .get("exclusion")
                         .toString();
       
-        List<String> exclusions = getCourseExclusions(exclusionsValue);
+        List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
 
         String corequisitesValue =
                 apiWorker
@@ -66,7 +66,7 @@ public class CourseCreator {
                         .get("corequisite")
                         .toString();
       
-        List<String> corequisites = getCourseCorequisites(corequisitesValue);
+        List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
 
         return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
     }
@@ -98,12 +98,12 @@ public class CourseCreator {
      * @param value a String that corresponds to all the exclusions for a course
      * @return an ArrayList of course names
      */
-    public static List<String> getCourseExclusions(String value) {
+    public static List<String> getCourseExclusions(String value, String courseID) {
         List<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course has no exclusions (empty string)");
+            System.out.println("The course " + courseID + " has no exclusions (empty string)");
         }
         return shortenedCodes;
     }
@@ -115,12 +115,12 @@ public class CourseCreator {
      * @param value a String that corresponds to all the corequisites for a course
      * @return an ArrayList of course names
      */
-    public static List<String> getCourseCorequisites(String value) {
+    public static List<String> getCourseCorequisites(String value, String courseID) {
         List<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course has no corequisites (empty string)");
+            System.out.println("The course " + courseID + " has no corequisites (empty string)");
         }
         return shortenedCodes;
     }
