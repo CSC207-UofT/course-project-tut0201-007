@@ -11,10 +11,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import workers.CSVExporter;
-import workers.Exporter;
-import workers.ICSExporter;
-import workers.ICSImporter;
+import workers.*;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
@@ -136,20 +133,40 @@ public class CommandLineInterface {
         System.out.println(
                 "Please enter the relative file path to the schedule you would like to import:");
         System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
-        String directory = scanner.next();
-
-        while (!success) {
-            try {
-                File file = new File(directory);
-                Reader fileReader = new FileReader(file);
-                importedSchedule = new ICSImporter().importSchedule(fileReader);
-                fileReader.close();
-                success = true;
-            } catch (IOException exception) {
-                System.out.println("Invalid directory. Please try again.");
-                directory = scanner.next();
-            }
+        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles();
+        Map<Integer, File> numToFile = new HashMap<>();
+        System.out.println(
+                "Choose from the following options for importing by entering the corresponding"
+                        + " number.");
+        for (int i = 0; i < importableFiles.length; i++) {
+            int displayNum = i + 1;
+            numToFile.put(i, importableFiles[i]);
+            System.out.println(displayNum + ": " + importableFiles[i].getName());
         }
+        while (!scanner.hasNextInt()) {
+            System.out.println("Input is not an integer. Please try again");
+            scanner.next();
+        }
+        int choice = scanner.nextInt();
+        while (choice >= importableFiles.length || choice < 0) {
+            System.out.println(
+                    "Input was not a valid choice. Make sure to input a number that corresponds"
+                            + " with a file");
+            choice = scanner.nextInt();
+        }
+        File file = numToFile.get(choice - 1);
+        String fileName = file.getName();
+        String fileType = fileName.substring(fileName.indexOf('.') + 1);
+        System.out.println(fileType);
+        Importer importer = fileType.equals("ics") ? new ICSImporter() : new CSVImporter();
+        try {
+            Reader fileReader = new FileReader(file);
+            importedSchedule = importer.importSchedule(fileReader);
+            fileReader.close();
+        } catch (IOException exception) {
+            System.out.println("Invalid File. Cannot import this file.");
+        }
+
         System.out.println("Schedule read successfully:\n");
         System.out.println(importedSchedule);
         System.out.println("Which courses would you like to add to this schedule?");
@@ -324,15 +341,19 @@ public class CommandLineInterface {
                     }
                     break;
                 case 'S':
-                    System.out.println("Please specify the name you'd like to save this Schedule under.");
+                    System.out.println(
+                            "Please specify the name you'd like to save this Schedule under.");
                     String icsFileName = scanner.next();
-                    System.out.println("Saving this schedule in .ics format as " + icsFileName + ".ics ...");
+                    System.out.println(
+                            "Saving this schedule in .ics format as " + icsFileName + ".ics ...");
                     new ICSExporter().outputSchedule(currSchedule, icsFileName);
                     break;
                 case 'C':
-                    System.out.println("Please specify the name you'd like to save this Schedule under.");
+                    System.out.println(
+                            "Please specify the name you'd like to save this Schedule under.");
                     String csvFileName = scanner.next();
-                    System.out.println("Saving this schedule in .csv format as " + csvFileName + ".csv ...");
+                    System.out.println(
+                            "Saving this schedule in .csv format as " + csvFileName + ".csv ...");
                     Exporter exporter = new CSVExporter();
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
