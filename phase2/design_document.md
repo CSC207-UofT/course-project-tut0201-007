@@ -1,6 +1,6 @@
 # Design Document
 
-## Updated Specification
+## Updated Specification `TODO: Update for Phase 2`
 
 ### Overview
 The project domain of our group is a Scheduling App that allows Students to specify courses they'd like to take, as well as criteria for their final schedule. Currently there are some course scheduling applications out there, but we felt that they were:
@@ -72,7 +72,7 @@ The UI of the program. Prompts user to input each of their classes/filters, then
 Our CommandLineInterface class initially violated the single responsibility principle since it took on too many tasks; it would take user input, call Scheduler, and handle outputs. As well, we noticed that our Scheduler class was responsible for the instantiation of course objects. It became evident that our Controller functionality was split between the CommandLineInterface and Scheduler classes. In order to adhere to the single responsibility and open/closed principles of software design, we created the Controller class. This class now holds the main method, calls the CommandLineInterface to prompt for user I/O, and then instantiates Course objects for Scheduler. Scheduler was changed so that it accepts Course objects as paramaters in scheduling methods to avoid instantiation of Courses from String course ID. Overall, this will allow for greater flexibility with extension of our program's UI, control flow, and output.
 
 ### Data Serialization
-For our data serialization functionality, we decided to use ICS files for our Data serialization because ICS files are the standard for storing online calendars. Since we use ICS files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. We created two classes, one for importing schedules from ICS files (**ScheduleImporter**) and one for exporting schedules (**ScheduleExporter**) to ICS files.
+For our data serialization functionality, we decided to use ICS and CSV files for our Data serialization because ICS files are the standard for storing online calendars, and CSV files provide an alternative with spreadsheet functionality. Since we use ICS/CSV files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. Since some parts of the import/export algorithm were similar for the different filetypes, we made an **Exporter** abstract class and an **Importer interface**. Then the classes **CSVExporter**, **CSVImporter**, **ICSExporter**, and **ICSImporter** are concrete implementations for this feature.
 
 We chose to use ICS files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial
 
