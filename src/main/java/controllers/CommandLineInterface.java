@@ -324,13 +324,17 @@ public class CommandLineInterface {
                     }
                     break;
                 case 'S':
-                    System.out.println("Saving this schedule in .ics format...");
-                    new ICSExporter().outputSchedule(currSchedule);
+                    System.out.println("Please specify the name you'd like to save this Schedule under.");
+                    String icsFileName = scanner.next();
+                    System.out.println("Saving this schedule in .ics format as " + icsFileName + ".ics ...");
+                    new ICSExporter().outputSchedule(currSchedule, icsFileName);
                     break;
                 case 'C':
-                    System.out.println("Saving this schedule in .csv format...");
+                    System.out.println("Please specify the name you'd like to save this Schedule under.");
+                    String csvFileName = scanner.next();
+                    System.out.println("Saving this schedule in .csv format as " + csvFileName + ".csv ...");
                     Exporter exporter = new CSVExporter();
-                    exporter.outputSchedule(currSchedule);
+                    exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'X':
                     if (this.generationMode == GenerationMode.ONE_BY_ONE) {
