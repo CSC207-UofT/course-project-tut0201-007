@@ -72,9 +72,9 @@ The UI of the program. Prompts user to input each of their classes/filters, then
 Our CommandLineInterface class initially violated the single responsibility principle since it took on too many tasks; it would take user input, call Scheduler, and handle outputs. As well, we noticed that our Scheduler class was responsible for the instantiation of course objects. It became evident that our Controller functionality was split between the CommandLineInterface and Scheduler classes. In order to adhere to the single responsibility and open/closed principles of software design, we created the Controller class. This class now holds the main method, calls the CommandLineInterface to prompt for user I/O, and then instantiates Course objects for Scheduler. Scheduler was changed so that it accepts Course objects as paramaters in scheduling methods to avoid instantiation of Courses from String course ID. Overall, this will allow for greater flexibility with extension of our program's UI, control flow, and output.
 
 ### Data Serialization
-For our data serialization functionality, we decided to use ICS and CSV files for our Data serialization because ICS files are the standard for storing online calendars, and CSV files provide an alternative with spreadsheet functionality. Since we use ICS/CSV files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. Since some parts of the import/export algorithm were similar for the different filetypes, we made an **Exporter** abstract class and an **Importer interface**. Then the classes **CSVExporter**, **CSVImporter**, **ICSExporter**, and **ICSImporter** are concrete implementations for this feature.
+For our data serialization functionality, we decided to use ICS and CSV files for our Data serialization because ICS files are the standard for storing online calendars, and CSV files provide an alternative with spreadsheet functionality. Since we use ICS/CSV files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. Since some parts of the import/export algorithm were similar for the different filetypes, we made an `Exporter` abstract class and an `Importer` interface. Then the classes `CSVExporter`, `CSVImporter`, `ICSExporter`, and `ICSImporter` are concrete implementations for this feature.
 
-We chose to use ICS files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial
+We chose to use ICS/CSV files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial
 
 ### Scheduler Recursive Base Case
 We had an elegant solution to generating schedules on top of a fixed set of courses. When a `Scheduler` object is instantiated, we set its instance attribute `schedule` to an empty schedule. Given a set of courses, this attribute is used as the base case for the recursive algorithm. The method `setBaseSchedule()` allows for this recursive base case to be changed. This allows for courses to be added to previously existing schedules, improves data serialization, and reduces redundant methods in `Scheduler`. For example, if a user imports a schedule with some preferable sections, this will be set as the recursive base case, and other schedules will be generated around these. This allows for greater flexibility in Phase 2 for selection, i.e. 'one by one' schedule generation.
@@ -112,12 +112,11 @@ Our program applies the Dependency inversion principle to adhere to the Open-clo
 
 ## Packaging Strategies
 
-refactored test packages [https://github.com/CSC207-UofT/course-project-tut0201-007/pull/59](commit)
+We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
+contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers contains all of our use cases.
 
-We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its
-own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
-contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers
-contains all of our use cases.
+We also refactored the tests to follow our packaging strategy, as seen in 
+[this pull request.](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/59)
 
 Since we don't have many classes for each layer, the code is well organized and simple to navigate through. We
 put filters into its own package because we have a filter interface and its subclasses which should be grouped together.
@@ -143,12 +142,9 @@ The Strategy Design Pattern is a collection of encapsulated algorithms, that can
 A Facade is a design pattern that this program uses to simplify the complexity of the system for certain classes. For example, a Facade is used in the `generateCourse()` method of `CourseCreator`. While the actual course generation required the use of the U of T API, the `Timeslot` and `Section` classes, and the `APIWorker` use-case, the methods simply requires a course id (i.e. CSC207) and a session (i.e F for fall semester). This design pattern reduces the required knowledge `CourseCreator` needs to perform its function.
 
 ### Template Method
-The Template Method is a design pattern that could be used to improve the import/export feature of the program. Currently the program is equipped to serialize schedule data in the .ics file format. If support for other formats was a desired feature, the Template Method could be utilized to define a skeleton of an algorithm that would allow file serialization/deserialization in an abstract sense. Then concrete subclasses (such as `ICSExport` or `CSVExport`) can be designed that would override some parts of the algorithm while retaining the main structure of the algorithm. This would also be an application of the Open-closed principle.
+The Template Method is a design pattern that we be used to improve the schedule export feature of the program. Currently the program is equipped to serialize schedule data in an .ics/.csv file format. Because the process of exporting a schedule has similar steps for these file types, the `Exporter` abstract class was created to act as a Template for the algorithm. The concrete subclasses `ICSExporter` and `CSVExporter` are designed to override some parts of the algorithm while retaining the main structure of the algorithm. This is also an application of the Open-closed principle.
 
-added in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/57)
-and used [here](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/62).
-
-Further used in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/69)
+The Template method was introduced in [this pull request](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/57), and was implemented in [this PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/62) and [this PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/69).
 
 ## Progress Report
 
