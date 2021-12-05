@@ -74,7 +74,6 @@ public class ExecutionState {
      * Getters and setters for GenerationMode used in Controller and CommandLineInterface
      * @return the current generation mode
      */
-
     public static GenerationMode getGenerationMode() {
         return generationMode;
     }
