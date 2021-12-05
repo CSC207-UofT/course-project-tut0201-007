@@ -52,7 +52,7 @@ public class ASCIIFormatter {
         return max;
     }
 
-    private String genBorder() {
+    public String genTable() {
         String leftAlignFormat = "| %-15s | %-4d |%n";
         StringBuilder output = new StringBuilder("Schedule: \n\n");
 

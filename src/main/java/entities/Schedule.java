@@ -104,16 +104,19 @@ public class Schedule implements Cloneable {
 
     @Override
     public String toString() {
-        StringBuilder representation = new StringBuilder("Schedule: \n\n");
-        representation.append("Lectures\n");
-        for (Section s : this.lectures) {
-            representation.append(s.toString()).append("\n");
-        }
-        representation.append("\nTutorials\n");
-        for (Section s : this.tutorials) {
-            representation.append(s.toString()).append("\n");
-        }
-        return representation.toString();
+//        StringBuilder representation = new StringBuilder("Schedule: \n\n");
+//        representation.append("Lectures\n");
+//        for (Section s : this.lectures) {
+//            representation.append(s.toString()).append("\n");
+//        }
+//        representation.append("\nTutorials\n");
+//        for (Section s : this.tutorials) {
+//            representation.append(s.toString()).append("\n");
+//        }
+//        return representation.toString();
+
+        ASCIIFormatter ascii = new ASCIIFormatter(this);
+        return ascii.genTable();
     }
 
     @Override
