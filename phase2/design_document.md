@@ -178,7 +178,7 @@ We adhere to principle 3 by consistently using red for any negative responses du
 * Principle 5 (Tolerance for Error):
 We check user input to our CLI, to verify that it is both the correct type of input, and also a reasonable input (for example, bounding possible inputs for number of courses to schedule to be positive). We also provide warnings whenever the user enters invalid input, as well as a repeated description of what type of input should be entered.
 * Principle 6 (Low Physical Effort): We fulfill Principle 6 by providing shortcuts for Users in our CLI. For example, rather than needing to type out "Yes", or moving their moues and clicking a button, users only need to press "1" on their keyboard. This means users don't need to exert much force or physical effort. Also they can stay in their typing position, which is generally a neutral body position.
-* Principle 7 (Size and Space for Approach and Use): We do not fullfill principle 7. However, this principle does not apply to this program, because it doesn't present any UI elements except on the computer screen, and the only required component is the keyboard. Therefore, physical space requirements for the program can't be affected by us.
+* Principle 7 (Size and Space for Approach and Use): We do not fulfill principle 7. However, this principle does not apply to this program, because it doesn't present any UI elements except on the computer screen, and the only required component is the keyboard. Therefore, physical space requirements for the program can't be affected by us.
 
 ### Q2
 
@@ -186,8 +186,7 @@ We would market our program towards U of T students, because it is a tool for sc
 
 ### Q3
 
-Our program is less likely to be used by users who prefer the use of an input device that doesn't support directly inputting text into the CLI. Also, it is less likely to be used by non-students, because it is a course scheduling app, and less likely to be used by non-UoT students, because it can only schedule courses for UoT. It is also less likely to be used by non-technical people, since they may not be comfortable interacting with an application directly through the CLI.
-
+Our program is less likely to be used by users who prefer the use of an input device that doesn't support directly inputting text into the CLI. Also, it is less likely to be used by non-students, because it is a course scheduling app, and less likely to be used by non-UofT students, because it can only schedule courses for UofT. It is also less likely to be used by non-technical people, since they may not be comfortable interacting with an application directly through the CLI.
 
 
 
@@ -226,13 +225,12 @@ Our program is less likely to be used by users who prefer the use of an input de
 
 #### Lorena
 * Worked On:
-  * CourseExclusionFilter implementation
-  * Refactoring - Packaging
-  * Augmenting Schedule class to store exclusions from the API
+  * Redesigning CLI output to be more user-friendly 
+  * Accounting for course corequsites 
+  * Bug fixes 
   * Design Document
 * To Work on:
-  * Check for issues and create tests
-  * Implementing future Filters
+  * Further testing / bug fixing 
 
 
 #### Anton
