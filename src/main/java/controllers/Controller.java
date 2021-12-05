@@ -20,10 +20,10 @@ public class Controller {
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
-        CommandLineInterface.GenerationMode oneByOne =
-                CommandLineInterface.GenerationMode.ONE_BY_ONE;
-        CommandLineInterface.GenerationMode allPermutations =
-                CommandLineInterface.GenerationMode.ALL_PERMUTATIONS;
+        ExecutionState.GenerationMode oneByOne =
+                ExecutionState.GenerationMode.ONE_BY_ONE;
+        ExecutionState.GenerationMode allPermutations =
+                ExecutionState.GenerationMode.ALL_PERMUTATIONS;
         CommandLineInterface CLI = new CommandLineInterface(oneByOne);
 
         /**
