@@ -27,7 +27,7 @@ public class CourseCoreqFilterTest {
     @Test(timeout = 1000)
     public void filterFail() {
         ArrayList<String> multi = new ArrayList<>();
-        // Courses are not coreqs
+        // Courses don't have their coreqs in the schedule 
         multi.add("TST101Y");
         multi.add("TST104Y");
         List<Course> courses = Controller.courseInstantiator(multi);
