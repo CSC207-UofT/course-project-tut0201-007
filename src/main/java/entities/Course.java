@@ -9,6 +9,7 @@ public class Course {
     private final List<Section> lectures;
     private final List<Section> tutorials;
     private final List<String> courseExclusionIds;
+    private final List<String> courseCorequisiteIds;
 
     /**
      * Constructs a course with an id and list of lecture and tutorial sessions as well as course
@@ -25,12 +26,15 @@ public class Course {
             List<Section> lectures,
             List<Section> tutorials,
             char session,
-            List<String> exclusions) {
+            List<String> exclusions,
+            List<String> corequisites) {
+
         this.courseId = courseId;
         this.lectures = lectures;
         this.tutorials = tutorials;
         this.session = session;
         this.courseExclusionIds = exclusions;
+        this.courseCorequisiteIds = corequisites;
     }
 
     public String getCourseId() {
@@ -47,6 +51,10 @@ public class Course {
 
     public List<String> getExclusions() {
         return courseExclusionIds;
+    }
+
+    public List<String> getCorequisites() {
+        return courseCorequisiteIds;
     }
 
     @Override

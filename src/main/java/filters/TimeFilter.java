@@ -3,7 +3,6 @@ package filters;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,25 +82,6 @@ public class TimeFilter implements Filter {
             return filteredDay.getDay() != timeslot.getDay()
                     || (lowerBound.compareTo(timeslot.getStart()) <= 0
                             && upperBound.compareTo(timeslot.getEnd()) >= 0);
-        }
-    }
-
-    public enum Day {
-        MONDAY(DayOfWeek.MONDAY),
-        TUESDAY(DayOfWeek.TUESDAY),
-        WEDNESDAY(DayOfWeek.WEDNESDAY),
-        THURSDAY(DayOfWeek.THURSDAY),
-        FRIDAY(DayOfWeek.FRIDAY),
-        ALL_DAYS(null);
-
-        private final DayOfWeek day;
-
-        Day(DayOfWeek day) {
-            this.day = day;
-        }
-
-        public DayOfWeek getDay() {
-            return day;
         }
     }
 }
