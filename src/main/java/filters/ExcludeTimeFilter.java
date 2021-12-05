@@ -62,7 +62,7 @@ public class ExcludeTimeFilter implements Filter {
         }
 
         for (Timeslot timeslot : timeslots) {
-            if (overlapsBounds(timeslot, filteredDay) || withinBounds(timeslot, filteredDay)) {
+            if (overlapsBounds(timeslot, filteredDay)) {
                 return false;
             }
         }
@@ -76,23 +76,12 @@ public class ExcludeTimeFilter implements Filter {
      */
     private boolean overlapsBounds(Timeslot timeslot, Day filteredDay) {
         if (filteredDay == Day.ALL_DAYS) {
-            return (lowerBound.isAfter(timeslot.getStart()) && lowerBound.isBefore(timeslot.getEnd())) ||
-                    (upperBound.isBefore(timeslot.getEnd()) &&  upperBound.isAfter(timeslot.getStart()));
+            return !(lowerBound.compareTo(timeslot.getEnd()) >= 0
+                    || upperBound.compareTo(timeslot.getStart()) <= 0);
         } else {
             return filteredDay.getDay() == timeslot.getDay()
-                    && ((lowerBound.isAfter(timeslot.getStart()) && lowerBound.isBefore(timeslot.getEnd()))||
-                    (upperBound.isBefore(timeslot.getEnd()) &&  upperBound.isAfter(timeslot.getStart())));
-        }
-    }
-
-    private boolean withinBounds(Timeslot timeslot, Day filteredDay) {
-        if (filteredDay == Day.ALL_DAYS) {
-            return lowerBound.compareTo(timeslot.getStart()) < 0
-                    && upperBound.compareTo(timeslot.getEnd()) > 0;
-        } else {
-            return filteredDay.getDay() != timeslot.getDay()
-                    || (lowerBound.compareTo(timeslot.getStart()) < 0
-                    && upperBound.compareTo(timeslot.getEnd()) > 0);
+                    && !(lowerBound.compareTo(timeslot.getEnd()) >= 0
+                    || upperBound.compareTo(timeslot.getStart()) <= 0);
         }
     }
 }
