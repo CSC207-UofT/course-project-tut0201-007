@@ -435,13 +435,13 @@ public class CommandLineInterface {
     private static List<Filter> promptTimeFilter() {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
-        TimeFilter.Day[] days = {
-            TimeFilter.Day.ALL_DAYS,
-            TimeFilter.Day.MONDAY,
-            TimeFilter.Day.TUESDAY,
-            TimeFilter.Day.WEDNESDAY,
-            TimeFilter.Day.THURSDAY,
-            TimeFilter.Day.FRIDAY
+        Day[] days = {
+            Day.ALL_DAYS,
+            Day.MONDAY,
+            Day.TUESDAY,
+            Day.WEDNESDAY,
+            Day.THURSDAY,
+            Day.FRIDAY
         };
         String[] dayStrings = {
             "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
