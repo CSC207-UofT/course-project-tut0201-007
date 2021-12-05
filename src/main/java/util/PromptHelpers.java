@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-class PromptHelpers {
+public class PromptHelpers {
+
     public static List<String> promptUserStrings(String question, int num) {
         List<String> ret = new ArrayList<>();
         for (int a = 0; a < num; a++) {
@@ -46,4 +47,12 @@ class PromptHelpers {
         scanner.close();
         return input;
     }
+
+    public static void promptYNSelection() {
+        System.out.println(
+                " • Press 1 for " + ConsoleColours.GREEN_BOLD + "YES \n" + ConsoleColours.RESET
+                + " • Press 0 for " + ConsoleColours.RED_BOLD + "NO\n" + ConsoleColours.RESET
+                + "Press 'Q' to quit selection.");
+    }
+
 }

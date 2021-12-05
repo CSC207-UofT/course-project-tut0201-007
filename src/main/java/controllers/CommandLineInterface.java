@@ -12,14 +12,18 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import workers.CSVExporter;
 import workers.Exporter;
 import workers.ICSExporter;
 import workers.ICSImporter;
 import util.ConsoleColours;
+import util.PromptHelpers;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
+
+    PromptHelpers promptHelpers = new PromptHelpers();
 
     public CommandLineInterface() {}
 
@@ -236,10 +240,9 @@ public class CommandLineInterface {
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to generate schedules one by one? ---\n" + ConsoleColours.RESET
                     + "Your schedule will be populated with only one course at a time to allow for"
-                    + " specific time slot selection.\n"
-                    + " • Press 1 for " + ConsoleColours.GREEN_BOLD + "YES \n" + ConsoleColours.RESET
-                    + " • Press 0 for " + ConsoleColours.RED_BOLD + "NO\n" + ConsoleColours.RESET
-                    + "Press 'Q' to quit selection.");
+                    + " specific time slot selection.");
+        PromptHelpers.promptYNSelection();
+
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
@@ -263,20 +266,19 @@ public class CommandLineInterface {
     public Schedule promptUserBaseSchedule(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
-                "Please select the schedule around which you want other time slots to be"
-                        + " populated.");
+                ConsoleColours.WHITE_BOLD_BRIGHT + "--- Please select the schedule around which you want other time slots to be"
+                        + " populated. ---" + ConsoleColours.RESET);
         Schedule nextSchedule = this.displayUserSchedules(userSchedules);
 
         if (nextSchedule == null) {
             System.out.println(
-                    "You have not selected a schedule.\n"
+                    ConsoleColours.RED + "You have not selected a schedule.\n" + ConsoleColours.RESET
                             + "The scheduler will generate all available schedules meeting previous"
                             + " specifications.");
         }
-        System.out.println(
-                "Would you like to continue one-by-one generation?\n"
-                        + "1/0 for Y/N. \n"
-                        + "Non-integer inputs will quit selection.");
+        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to continue one-by-one generation? ---" + ConsoleColours.RESET);
+        PromptHelpers.promptYNSelection();
+
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
@@ -306,24 +308,26 @@ public class CommandLineInterface {
         char userActivity = 'W';
 
         if (numOfSchedules == -1) {
+            System.out.print(ConsoleColours.RED);
             System.out.println("No schedules meeting these criteria could be created.");
+            System.out.print(ConsoleColours.RESET);
             return null;
         }
 
         while (userActivity != 'Q') {
             Schedule currSchedule = userSchedules.get(scheduleNumber);
-            System.out.println("These are schedules meeting your criteria:");
+            System.out.println(ConsoleColours.BLUE_UNDERLINED + "These are schedules meeting your criteria:" + ConsoleColours.RESET);
             System.out.println(
-                    "Schedule No. " + (scheduleNumber + 1) + " / " + (numOfSchedules + 1) + ".");
+                    "Schedule No. " + ConsoleColours.WHITE_BOLD_BRIGHT + (scheduleNumber + 1) + " / " + (numOfSchedules + 1) + ConsoleColours.RESET + ".");
             System.out.println();
             System.out.println(currSchedule);
             System.out.println();
-            System.out.println("Press 'Q' to quit.");
-            System.out.println("Press '>' to go to the next schedule.");
-            System.out.println("Press '<' to go to the previous schedule.");
-            System.out.println("Press 'S/C' to save this schedule as an .ics/.csv file");
+            System.out.println(" • Press 'Q' to" + ConsoleColours.RED + " quit." + ConsoleColours.RESET);
+            System.out.println(" • Press '>' to go to the" + ConsoleColours.BLUE + " next schedule." + ConsoleColours.RESET);
+            System.out.println(" • Press '<' to go to the" + ConsoleColours.BLUE + " previous schedule." + ConsoleColours.RESET);
+            System.out.println(" • Press 'S/C' to" + ConsoleColours.BLUE + " save this schedule as an .ics/.csv file." + ConsoleColours.RESET);
             if (this.generationMode == GenerationMode.ONE_BY_ONE) {
-                System.out.println("Press 'X' to build courses around this schedule");
+                System.out.println(" • Press 'X' to" + ConsoleColours.BLUE +"build courses around this schedule" + ConsoleColours.RESET);
             }
 
             char userInput = scanner.next().charAt(0);
@@ -335,22 +339,30 @@ public class CommandLineInterface {
                     if (scheduleNumber > 0) {
                         scheduleNumber--;
                     } else {
+                        System.out.println(ConsoleColours.RED);
                         System.out.println("No schedule before this one.");
+                        System.out.println(ConsoleColours.RESET);
                     }
                     break;
                 case '>':
                     if (scheduleNumber < numOfSchedules) {
                         scheduleNumber++;
                     } else {
+                        System.out.println(ConsoleColours.RED);
                         System.out.println("No schedules after this one.");
+                        System.out.println(ConsoleColours.RESET);
                     }
                     break;
                 case 'S':
+                    System.out.println(ConsoleColours.GREEN);
                     System.out.println("Saving this schedule in .ics format...");
+                    System.out.println(ConsoleColours.RESET);
                     new ICSExporter().outputSchedule(currSchedule);
                     break;
                 case 'C':
+                    System.out.println(ConsoleColours.GREEN);
                     System.out.println("Saving this schedule in .csv format...");
+                    System.out.println(ConsoleColours.RESET);
                     Exporter exporter = new CSVExporter();
                     exporter.outputSchedule(currSchedule);
                     break;
