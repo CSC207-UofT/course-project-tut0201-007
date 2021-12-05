@@ -13,7 +13,7 @@ The project domain of our group is a Scheduling App that allows Students to spec
 Which is why we decided to make our own.
 
 ### The Project
-A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS files that can be used with most calendar apps.
+A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates .ics/.csv/.jpg files for different purposes, such as for calendar apps.
 
 ### Entities:
 
