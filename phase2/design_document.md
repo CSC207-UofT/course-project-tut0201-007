@@ -68,7 +68,7 @@ The UI of the program. Prompts user to input each of their classes/filters, then
 
 ## UML Diagram
 
-![UML](UML.png?raw=true "UML Diagram")
+![UML](UML.png?raw=true "UML Diagram") `Needs to be updated`
 
 ## Major Design Decisons
 
