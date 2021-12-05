@@ -7,6 +7,7 @@
         "code": "TST106",
         "courseDescription": "",
         "prerequisite": "MAT137Y1\/MAT157Y1\/(MAT135H1\/MAT135H5, MAT136H1(85%)\/MAT136H5 (85%), MAT138H1), MAT223H1\/MAT240H1",
+        "corequisite": "",
         "exclusion": "MAT235Y1, MAT257Y1, MATB41H3, MATB42H3, MATB43H3 & MAT368H5, MAT232H5 & MAT236H5",
         "recommendedPreparation": "",
         "section": "Y",

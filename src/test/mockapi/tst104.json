@@ -6,6 +6,7 @@
     "courseTitle": "Test Json",
     "code": "TST104",
     "courseDescription": "",
+    "corequisite": "TST107, TST105.",
     "exclusion": "TST100, TST106, TST105.",
     "section": "Y",
     "meetings": {

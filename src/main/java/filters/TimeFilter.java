@@ -85,23 +85,4 @@ public class TimeFilter implements Filter {
                             && upperBound.compareTo(timeslot.getEnd()) >= 0);
         }
     }
-
-    public enum Day {
-        MONDAY(DayOfWeek.MONDAY),
-        TUESDAY(DayOfWeek.TUESDAY),
-        WEDNESDAY(DayOfWeek.WEDNESDAY),
-        THURSDAY(DayOfWeek.THURSDAY),
-        FRIDAY(DayOfWeek.FRIDAY),
-        ALL_DAYS(null);
-
-        private final DayOfWeek day;
-
-        Day(DayOfWeek day) {
-            this.day = day;
-        }
-
-        public DayOfWeek getDay() {
-            return day;
-        }
-    }
 }
