@@ -41,11 +41,19 @@ This class takes courses and criteria specified by the user, generates all cours
 #### APIWorker
 APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
-#### ScheduleImporter
-Parses information written in an ICS file and converts it into a Schedule object.
+#### Importer
+An interface that outlines methods and parameters of any importing use-case class.
 
-#### ScheduleExporter
-Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
+#### ICSImporter/CSVImporter
+Parses information written in an .ics/.csv file and converts it into a Schedule object, which can them be modified by the user.
+
+#### Exporter
+An abstract class that contains methods shared across exporting classes.
+
+#### ICSExporter/CSVExporter/ImageExporter
+Export a schedule as a .ics/.csv/.jpg file, depending on what the user wants to get out of their schedule.
+
+#### 
 
 #### Filter Subclasses
 These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
