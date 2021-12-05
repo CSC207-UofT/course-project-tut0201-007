@@ -65,19 +65,23 @@ public class CommandLineInterface {
     public int promptUser() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.print(ConsoleColours.BLUE_BOLD_BRIGHT);
         System.out.println("=== We Do A Little Scheduling :) ===");
+        System.out.print(ConsoleColours.RESET);
         System.out.println(
-                "Would you like to create a new schedule, or import a schedule to configure?\n"
-                        + "1/0 for new/import. \n"
-                        + "Non-integer inputs will quit selection.");
+                ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to create a new schedule, or import a schedule to configure? ---\n" + ConsoleColours.RESET
+                        + " • Press 1 to" + ConsoleColours.BLUE + " create a new schedule. \n" + ConsoleColours.RESET
+                        + " • Press 0 to" + ConsoleColours.BLUE + " import a schedule. \n" + ConsoleColours.RESET
+                        + "Press 'Q' to quit selection.");
+
         int inputInt;
         while (scanner.hasNextInt()) {
             inputInt = scanner.nextInt();
             if (inputInt == 1) {
-                System.out.println("Creating new schedules...");
+                System.out.println(ConsoleColours.GREEN + "Creating new schedules..." + ConsoleColours.RESET);
                 return 1;
             } else if (inputInt == 0) {
-                System.out.println("Importing schedule...");
+                System.out.println(ConsoleColours.GREEN + "Importing schedule..."  + ConsoleColours.RESET);
                 return 0;
             } else {
                 System.out.print(ConsoleColours.RED);
@@ -98,7 +102,7 @@ public class CommandLineInterface {
         boolean input = false;
         int numCourses = 0;
         while (!input) {
-            System.out.println("How many courses would you like to add?");
+            System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- How many courses would you like to add? ---" + ConsoleColours.RESET);
             try {
                 numCourses = Integer.parseInt(scanner.nextLine());
                 input = true;
@@ -114,8 +118,10 @@ public class CommandLineInterface {
         int a = 0;
         while (a < numCourses) {
             System.out.println(
-                    "Please give the course code and session of one of your courses.\n"
-                            + "An example of expected format is MAT237Y. Accepted Sessions are"
+                   ConsoleColours.WHITE_BOLD_BRIGHT + "--- Please give the course code and session of one of your courses. --- \n" + ConsoleColours.RESET
+                            + "An example of expected format is "
+                            + ConsoleColours.BLUE + "MAT237Y. " + ConsoleColours.RESET
+                            + "Accepted Sessions are"
                             + " (F,S,Y)");
             String courseInput = scanner.nextLine();
             Matcher matcher = validInput.matcher(courseInput);
@@ -142,7 +148,9 @@ public class CommandLineInterface {
         boolean success = false;
 
         System.out.println(
-                "Please enter the relative file path to the schedule you would like to import:");
+                ConsoleColours.WHITE_BOLD_BRIGHT +
+                "--- Please enter the relative file path to the schedule you would like to import: ---"
+                        + ConsoleColours.RESET);
         System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
         String directory = scanner.next();
 
@@ -154,13 +162,17 @@ public class CommandLineInterface {
                 fileReader.close();
                 success = true;
             } catch (IOException exception) {
+                System.out.print(ConsoleColours.RED);
                 System.out.println("Invalid directory. Please try again.");
+                System.out.print(ConsoleColours.RESET);
                 directory = scanner.next();
             }
         }
+        System.out.print(ConsoleColours.GREEN);
         System.out.println("Schedule read successfully:\n");
+        System.out.print(ConsoleColours.RESET);
         System.out.println(importedSchedule);
-        System.out.println("Which courses would you like to add to this schedule?");
+        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Which courses would you like to add to this schedule? ---" + ConsoleColours.RESET);
         return importedSchedule;
     }
 
@@ -174,16 +186,15 @@ public class CommandLineInterface {
         List<Filter> userFilters = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
+        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to configure any criteria for your schedules? ---" + ConsoleColours.RESET);
         System.out.println(
-                "Would you like to configure any criteria for your schedules?\n"
-                    + "1 - Time conflicts\n"
-                    + "2 - Delivery method\n"
-                    + "3 - Enforce a time gap between courses\n"
-                    + "4 - Enforce times when you have no courses\n"
-                    + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
-                    + " 3' or '2' or '').\n"
-                    + "A non-integer input will end selection.\n");
-
+                  " 1 - " + ConsoleColours.BLUE + "Time conflicts\n" + ConsoleColours.RESET
+                + " 2 - " + ConsoleColours.BLUE + "Delivery method\n" + ConsoleColours.RESET
+                + " 3 - " + ConsoleColours.BLUE + "Enforce a time gap between courses\n" + ConsoleColours.RESET
+                + " 4 - " + ConsoleColours.BLUE + "Enforce times when you have no courses\n" + ConsoleColours.RESET
+                + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
+                + " 3' or '2' or '').\n"
+                + "Press 'Q' to quit Selection");
         boolean[] filterCodes = new boolean[4];
 
         while (scanner.hasNextInt()) {
@@ -223,11 +234,12 @@ public class CommandLineInterface {
     public void selectGenerationMode() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
-                "Would you like to generate schedules one by one?\n"
+                ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to generate schedules one by one? ---\n" + ConsoleColours.RESET
                     + "Your schedule will be populated with only one course at a time to allow for"
                     + " specific time slot selection.\n"
-                    + "1/0 for Y/N. \n"
-                    + "Non-integer inputs will quit selection.");
+                    + " • Press 1 for " + ConsoleColours.GREEN_BOLD + "YES \n" + ConsoleColours.RESET
+                    + " • Press 0 for " + ConsoleColours.RED_BOLD + "NO\n" + ConsoleColours.RESET
+                    + "Press 'Q' to quit selection.");
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
