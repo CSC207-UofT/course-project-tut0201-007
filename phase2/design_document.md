@@ -30,6 +30,9 @@ A class that represents a distinct time slot (a single lecture/tutorial) for som
 #### Timeslot
 A class that stores the time, day, and location of a lecture or tutorial.
 
+#### ExecutionState
+An entity responsible for representing the execution state of the program. It stores user courses, next course being generated, and user specified base schedule.
+
 ### Use Cases:
 
 #### CourseCreator
@@ -53,10 +56,8 @@ An abstract class that contains methods shared across exporting classes.
 #### ICSExporter/CSVExporter/ImageExporter
 Export a schedule as a .ics/.csv/.jpg file, depending on what the user wants to get out of their schedule.
 
-#### 
-
-#### Filter Subclasses
-These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
+#### Filter Subclasses (ConflictFilter/CourseExclusionFilter/ExcludeTimeFilter/InPersonFilter/SpaceFilter/TimeFilter)
+These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false. 
 
 ### CLI Commands/Controller class:
 
@@ -64,7 +65,7 @@ These classes are instantiated based on the criteria a user provides for their s
 The main method of our program lies in this class. This manages the CommandLineInterface, instantiates courses, added filters, and negotiates output.
 
 #### CommandLineInterface
-The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics.
+The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics/.csv/.jpg.
 
 ## UML Diagram
 
