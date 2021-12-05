@@ -2,12 +2,14 @@ package entities;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ASCIIFormatter {
 
     private final Schedule schedule;
     private final LocalTime start;
     private final LocalTime end;
+    private final LocalTime latest;
 
     /**
      * Constructor that takes schedule to be turned into ASCII output.
@@ -16,8 +18,9 @@ public class ASCIIFormatter {
      */
     public ASCIIFormatter(Schedule sched) {
         this.schedule = sched;
-        this.start = getEarly(sched);
-        this.end = getEnd(sched);
+        this.start = getEarly();
+        this.end = getLate();
+        this.latest = getLatest();
     }
 
     public LocalTime getStart() {
@@ -28,32 +31,120 @@ public class ASCIIFormatter {
         return end;
     }
 
+    public ArrayList<Timeslot> getTimeslots() {
+        ArrayList<Timeslot> timeslots = new ArrayList<>();
+
+        for (Section lec : this.schedule.getLectures()) {
+            timeslots.addAll(lec.getTimes());
+        }
+
+        for (Section tut : this.schedule.getTutorials()) {
+            timeslots.addAll(tut.getTimes());
+        }
+
+        return timeslots;
+    }
+
     /**
-     * Method to grab the earliest start time of a course in a schedule.
+     * Method to turn our timeslots into a nx5 array that can be used to construct our ascii
+     * schedule.
      *
-     * @param s is the schedule we want the earliest time of.
+     * <p>The array needs to have 5 columns, and variable height based on the hours slots we have.
+     * Each element is a Timeslot, which will be used in genTable(). Note that the same timeslot
+     * appears multiple times if the timeslot is longer than an hour.
+     *
+     * <p>Each column is NOT the days, because there is no easy way to get rows in Java. This array
+     * is a transpose of the schedule essentially.
      */
-    private LocalTime getEarly(Schedule s) {
-        ArrayList<Timeslot> timeslots = s.getTimeslots();
+    public String[][] populateMatrix() {
+        Map<String, Integer> days =
+                Map.of(
+                        "Monday", 0,
+                        "Tuesday", 1,
+                        "Wednesday", 2,
+                        "Thursday", 3,
+                        "Friday", 4);
+        ArrayList<Timeslot> timeslots = getTimeslots();
+        String[][] mat = new String[latest.getHour() - start.getHour()][5];
+
+        //        for(int i=0; i<mat.length; i++) {
+        //            for(int j=0; j<mat[i].length; j++) {
+        //                for (Timeslot timeslot: timeslots){
+        //                    if (j == days.get(timeslot.getDay().toString()) &&
+        //                            i == timeslot.getStart().getHour() - start.getHour() &&
+        //                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() ==
+        // 1){
+        //                        mat[i][j] = timeslot.toString();
+        //                    } else if (j == days.get(timeslot.getDay().toString()) &&
+        //                            i == timeslot.getStart().getHour() - start.getHour() &&
+        //                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() >
+        // 1){
+        //                        for (int k=0; k<timeslot.getStart().getHour() -
+        // timeslot.getEnd().getHour(); k++) {
+        //                            mat[i][j+k] = timeslot.toString();
+        //                        }
+        //                    } else {
+        //                        mat[i][j] = "";
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                for (Timeslot timeslot : timeslots) {
+                    if (i == days.get(timeslot.getDay().toString())
+                            && j == timeslot.getStart().getHour() - start.getHour()
+                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() == 1) {
+                        mat[j][i] = timeslot.toString();
+                    } else if (i == days.get(timeslot.getDay().toString())
+                            && j == timeslot.getStart().getHour() - start.getHour()
+                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() > 1) {
+                        for (int k = 0;
+                                k < timeslot.getStart().getHour() - timeslot.getEnd().getHour();
+                                k++) {
+                            mat[j][i + k] = timeslot.toString();
+                        }
+                    } else {
+                        mat[j][i] = "";
+                    }
+                }
+            }
+        }
+
+        return mat;
+    }
+
+    /** Method to grab the earliest start time of a course in a schedule. */
+    private LocalTime getEarly() {
+        ArrayList<Timeslot> timeslots = getTimeslots();
         LocalTime min = LocalTime.parse("23:00:00");
-        for (Timeslot timeslot: timeslots){
-            if(timeslot.getStart().compareTo(min) < 0) {
+        for (Timeslot timeslot : timeslots) {
+            if (timeslot.getStart().compareTo(min) < 0) {
                 min = timeslot.getStart();
             }
         }
         return min;
     }
 
-    /**
-     * Method to grab the latest start time of a course in a schedule.
-     *
-     * @param s is the schedule we want the earliest time of.
-     */
-    private LocalTime getEnd(Schedule s) {
-        ArrayList<Timeslot> timeslots = s.getTimeslots();
+    /** Method to grab the latest start time of a course in a schedule. */
+    private LocalTime getLate() {
+        ArrayList<Timeslot> timeslots = getTimeslots();
         LocalTime max = LocalTime.parse("00:00:00");
-        for (Timeslot timeslot: timeslots){
-            if(timeslot.getEnd().compareTo(max) > 0) {
+        for (Timeslot timeslot : timeslots) {
+            if (timeslot.getStart().compareTo(max) > 0) {
+                max = timeslot.getStart();
+            }
+        }
+        return max;
+    }
+
+    /** Method to grab the latest end time of a course in a schedule. */
+    private LocalTime getLatest() {
+        ArrayList<Timeslot> timeslots = getTimeslots();
+        LocalTime max = LocalTime.parse("00:00:00");
+        for (Timeslot timeslot : timeslots) {
+            if (timeslot.getEnd().compareTo(max) > 0) {
                 max = timeslot.getEnd();
             }
         }
@@ -61,17 +152,26 @@ public class ASCIIFormatter {
     }
 
     public String genTable() {
-        String leftAlignFormat = "| %-15s | %-4d |\n";
+        String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s |\n";
+        String padding =
+                "|                |                |                |                |            "
+                        + "    |";
+        String floor =
+                "+----------------+----------------+----------------+----------------+----------------+\n";
         StringBuilder output = new StringBuilder("Schedule: \n\n");
+        String[][] arr = populateMatrix();
 
         // The header for our schedule
-        output.append("+----------------+----------------+----------------+----------------+----------------+\n" +
-                "|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |     Friday     |\n" +
-                "+----------------+----------------+----------------+----------------+----------------+\n");
-        for (int i = start.getHour(); i < end.getHour(); i++) {
-            output.append(String.format(leftAlignFormat, "PogU", i * i));
+        output.append(floor)
+                .append("|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |    ")
+                .append(" Friday     |\n")
+                .append(floor);
+        for (int i = 0; i < latest.getHour() - start.getHour(); i++) {
+            output.append(padding);
+            output.append(String.format(leftAlignFormat, (Object) arr[i]));
+            output.append(padding);
+            output.append(floor);
         }
-        output.append("+----------------+----------------+----------------+----------------+----------------+\n");
 
         return output.toString();
     }

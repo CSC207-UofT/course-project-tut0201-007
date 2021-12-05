@@ -2,11 +2,10 @@ package entitiesTests;
 
 import static org.junit.Assert.*;
 
+import entities.ASCIIFormatter;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
-import entities.ASCIIFormatter;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,7 +14,7 @@ import org.junit.Test;
 
 public class ASCIIFormatterTest {
     Schedule sched;
-    LocalTime startTime1, endTime2;
+    LocalTime startTime1, startTime2;
 
     @Before
     public void setUp() {
@@ -26,8 +25,8 @@ public class ASCIIFormatterTest {
 
         startTime1 = LocalTime.of(9, 0, 0);
         LocalTime endTime1 = LocalTime.of(10, 0, 0);
-        LocalTime startTime2 = LocalTime.of(16, 0, 0);
-        endTime2 = LocalTime.of(17, 0, 0);
+        startTime2 = LocalTime.of(16, 0, 0);
+        LocalTime endTime2 = LocalTime.of(17, 0, 0);
         LocalTime startTime3 = LocalTime.of(13, 0, 0);
         LocalTime endTime3 = LocalTime.of(14, 0, 0);
 
@@ -75,7 +74,7 @@ public class ASCIIFormatterTest {
     public void testGetLate() {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
 
-        LocalTime expected = endTime2;
+        LocalTime expected = startTime2;
         assertEquals(expected, ascii.getEnd());
     }
 }
