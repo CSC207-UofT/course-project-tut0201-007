@@ -61,6 +61,20 @@ public class CourseCreatorTest {
     }
 
     @Test(timeout = 1000)
+    public void testMockCoreq1() {
+        List<String> expected = List.of("TST103");
+        // Checking that the course has the correct corequisites
+        assertEquals(expected, mockCourse1.getCorequisites());
+    }
+
+    @Test(timeout = 1000)
+    public void testMockCoreq2() {
+        List<String> expected = List.of("TST107", "TST105");
+        // Checking that the course has the correct corequisites
+        assertEquals(expected, mockCourse2.getCorequisites());
+    }
+
+    @Test(timeout = 1000)
     public void testGenerateFCourse() {
         String expected = "TST105";
         assertEquals(expected, fCourse.getCourseId());
