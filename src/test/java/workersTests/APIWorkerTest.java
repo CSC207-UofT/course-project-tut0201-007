@@ -3,6 +3,7 @@ package workersTests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.APIWorker;
@@ -36,7 +37,7 @@ public class APIWorkerTest {
 
     @Test(timeout = 50)
     public void testMultipleStringRep() {
-        ArrayList<String> expected = new ArrayList<>();
+        List<String> expected = new ArrayList<>();
         expected.add("MAT244H1-F-20219");
         expected.add("MAT244H1-S-20219");
         // Just checking that the semester keys in the JSON are good
