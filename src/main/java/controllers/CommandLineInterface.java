@@ -12,9 +12,9 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import workers.*;
 import util.ConsoleColours;
 import util.PromptHelpers;
+import workers.*;
 import workers.CSVExporter;
 import workers.Exporter;
 import workers.ICSExporter;
@@ -176,9 +176,11 @@ public class CommandLineInterface {
             return importedSchedule;
         }
         Map<Integer, File> numToFile = new HashMap<>();
-        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT +
-                "Choose from the following options for importing by entering the corresponding"
-                        + " number." + ConsoleColours.RESET);
+        System.out.println(
+                ConsoleColours.WHITE_BOLD_BRIGHT
+                        + "Choose from the following options for importing by entering the"
+                        + " corresponding number."
+                        + ConsoleColours.RESET);
         for (int i = 0; i < importableFiles.length; i++) {
             int displayNum = i + 1;
             numToFile.put(i, importableFiles[i]);
@@ -760,5 +762,4 @@ public class CommandLineInterface {
             }
         }
     }
-
 }
