@@ -460,9 +460,9 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
         System.out.println(
-                "Would you like to enforce a time gap between all courses? \n"
+                ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to enforce a time gap between all courses? ---\n" + ConsoleColours.RESET
                         + "Enter an integer for the number of hours in the time gap. \n"
-                        + "A non-integer input will quit selection.");
+                        + "Press 'Q' to quit selection.");
 
         if (scanner.hasNextInt()) {
             int gap = scanner.nextInt();
@@ -471,7 +471,7 @@ public class CommandLineInterface {
                     "ONLY schedules with " + gap + " hour gap between classes will be generated.");
             return newFilters;
         }
-        System.out.println("You did not specify a time gap. Quitting selection.");
+        System.out.println(ConsoleColours.RED + "You did not specify a time gap. Quitting selection." + ConsoleColours.RESET);
         return newFilters;
     }
 
@@ -495,10 +495,9 @@ public class CommandLineInterface {
                 "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
         };
 
-        System.out.println(
-                "Would you like to specify times during which you have courses? "
-                        + "(Enter 1/0 for Y/N). "
-                        + "A non-integer input will quit selection.");
+        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to specify times during which you have courses? ---" + ConsoleColours.RESET);
+        PromptHelpers.promptYNSelection();
+
         int input = 0;
         if (scanner.hasNextInt()) {
             input = scanner.nextInt();
@@ -506,26 +505,33 @@ public class CommandLineInterface {
 
         while (input == 1) {
             System.out.println(
-                    "During which day do you want to include times?\n"
-                            + "(0/1/2/3/4/5 for Everyday/Mon./Tue./Wed./Thu./Fri.)");
+                    ConsoleColours.WHITE_BOLD_BRIGHT + "--- During which day do you want to include times? ---\n" + ConsoleColours.RESET
+                            + "Press 0 - " + ConsoleColours.BLUE + "EVERYDAY\n" + ConsoleColours.RESET
+                            + "Press 1 - " + ConsoleColours.BLUE + "MONDAY\n" + ConsoleColours.RESET
+                            + "Press 2 - " + ConsoleColours.BLUE + "TUESDAY\n" + ConsoleColours.RESET
+                            + "Press 3 - " + ConsoleColours.BLUE + "WEDNESDAY\n" + ConsoleColours.RESET
+                            + "Press 4 - " + ConsoleColours.BLUE + "THURSDAY\n" + ConsoleColours.RESET
+                            + "Press 5 - " + ConsoleColours.BLUE + "FRIDAY\n" + ConsoleColours.RESET);
+
             int day = scanner.nextInt();
             while (!(day >= 0 && day <= 5)) {
-                System.out.println("Invalid input. Please enter another integer.");
+                System.out.println(ConsoleColours.RED + "Invalid input. Please enter another integer." + ConsoleColours.RESET);
                 day = scanner.nextInt();
             }
 
-            System.out.println("From what time during these day(s) do you want classes?");
+            System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- From what time during these day(s) do you want classes? ---" + ConsoleColours.RESET);
             LocalTime startTime = CommandLineInterface.timeInputHandler();
-            System.out.println("Until what time during these day(s) do you want classes?");
+            System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Until what time during these day(s) do you want classes? ---" + ConsoleColours.RESET);
             LocalTime endTime = CommandLineInterface.timeInputHandler();
 
             if (startTime.compareTo(endTime) > 0) {
                 System.out.println(
-                        "Your start time is before your end time."
-                                + " Please try again during the next iteration.");
+                        ConsoleColours.RED + "Your start time is before your end time."
+                                + " Please try again during the next iteration." + ConsoleColours.RESET);
             } else {
                 // WHY DOES DAY NOT HAVE TO STRING METHOD???? quick fix for now by hardcoding an
                 // array
+                System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Confirmation: ---" + ConsoleColours.RESET);
                 System.out.println(
                         "You would like classes during "
                                 + dayStrings[day]
@@ -533,43 +539,50 @@ public class CommandLineInterface {
                                 + startTime.toString()
                                 + " until "
                                 + endTime.toString());
-                System.out.println("Is the above correct? (1/0 for Y/N).");
+                System.out.println("Is the above correct?");
+                PromptHelpers.promptYNSelection();
                 int sc = scanner.nextInt();
                 if (sc == 1) {
                     newFilters.add(new TimeFilter(startTime, endTime, days[day]));
                 } else if (sc == 0) {
+                    System.out.print(ConsoleColours.RED);
                     System.out.println("Please try again on the next iteration.");
+                    System.out.print(ConsoleColours.RESET);
                 } else {
-                    System.out.println(ConsoleColours.RED);
+                    System.out.print(ConsoleColours.RED);
                     System.out.println("Invalid input. Please try again on the next iteration.");
-                    System.out.println(ConsoleColours.RESET);
+                    System.out.print(ConsoleColours.RESET);
                 }
             }
-            System.out.println(
-                    "Would you like to restrict your schedule to another block of time? (1/0 for"
-                            + " Y/N). \n"
-                            + "Non-integer input will quit selection, and blocks will NOT be added to"
-                            + " scheduling.");
+            System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to restrict your schedule to another block of time? ---" + ConsoleColours.RESET);
+            PromptHelpers.promptYNSelection();
+            System.out.println("Quitting the selection means blocks will NOT be added to scheduling.");
 
             if (scanner.hasNextInt()) {
                 input = scanner.nextInt();
                 if (input == 1) {
                     System.out.println("Looping...");
                 } else if (input == 0) {
+                    System.out.print(ConsoleColours.RED);
                     System.out.println(
                             "Your selected blocks of time are saved and courses taking place"
                                     + " outside these times will be excluded. Exiting selection.");
+                    System.out.println(ConsoleColours.RESET);
                     return newFilters;
                 } else {
+                    System.out.print(ConsoleColours.RED);
                     System.out.println(
                             "Your selected times will not be included in schedule generation."
                                     + " Exiting selection.");
+                    System.out.println(ConsoleColours.RESET);
                     return new ArrayList<>();
                 }
             } else {
+                System.out.print(ConsoleColours.RED);
                 System.out.println(
                         "Your selected times will not be included in schedule generation. Exiting"
                                 + " selection.");
+                System.out.println(ConsoleColours.RESET);
                 return new ArrayList<>();
             }
         }
