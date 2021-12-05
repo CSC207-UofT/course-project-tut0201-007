@@ -171,7 +171,7 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
 
-        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles();
+        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles(file -> !file.getName().contains(".jpg"));
         if (importableFiles.length == 0) {
             System.out.println(
                     "No importable files. Defaulting to generating a schedule from scratch");
@@ -474,8 +474,11 @@ public class CommandLineInterface {
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'J':
+                    System.out.println(
+                            "Please specify the name you'd like to save this Schedule under.");
+                    String jpgFileName = scanner.next();
                     System.out.printf("Saving this schedule in .jpg format...");
-                    new ImageExporter().outputSchedule(currSchedule);
+                    new ImageExporter().outputSchedule(currSchedule, jpgFileName);
                 case 'X':
                     if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
                         return currSchedule;
