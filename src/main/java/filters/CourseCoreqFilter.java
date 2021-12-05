@@ -2,12 +2,11 @@ package filters;
 
 import entities.Course;
 import entities.Schedule;
-
 import java.util.List;
 
 /**
- * This class represents a filter. It works by checking a given schedule for the given criteria, in this case
- * whether a schedule contains course corequisites or not
+ * This class represents a filter. It works by checking a given schedule for the given criteria, in
+ * this case whether a schedule contains course corequisites or not
  */
 public class CourseCoreqFilter implements Filter {
     private List<Course> courses;
@@ -32,17 +31,15 @@ public class CourseCoreqFilter implements Filter {
             return false;
         }
 
-        for (Course course: this.courses) {
+        for (Course course : this.courses) {
             // check if the given course has its corequisite in the schedule
             List<String> corequisites = course.getCorequisites();
-            for (String courseId: s.getCourses()) {
+            for (String courseId : s.getCourses()) {
                 if (corequisites.contains(courseId)) {
                     return true;
                 }
             }
         }
         return false;
-
     }
-
 }
