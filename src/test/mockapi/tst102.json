@@ -6,7 +6,7 @@
         "orgName": "Test",
         "courseTitle": "Test JSON",
         "code": "TST102",
-        "courseDescription": "<p>Function spaces; Arzela-Ascoli theorem, Weierstrass approximation theorem, Fourier series. Introduction to Banach and Hilbert spaces; contraction mapping principle, fundamental existence and uniqueness theorem for ordinary differential equations. Lebesgue integral; convergence theorems, comparison with Riemann integral, L^p spaces. Applications to probability.<\/p>",
+        "courseDescription": "",
         "corequisite": "",
         "exclusion": "TST101",
         "recommendedPreparation": "",

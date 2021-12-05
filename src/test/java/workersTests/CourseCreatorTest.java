@@ -85,4 +85,16 @@ public class CourseCreatorTest {
         String expected = "TST105";
         assertEquals(expected, sCourse.getCourseId());
     }
+
+    @Test(timeout = 1000)
+    public void testCourseDesc1() {
+        String expected = "Sample Course Description";
+        assertEquals(expected, mockCourse2.getCourseDesc());
+    }
+
+    @Test(timeout = 1000)
+    public void testCourseDesc2() {
+        String expected = "Function spaces; Arzela-Ascoli theorem, Weierstrass approximation theorem, Fourier series. Introduction to Banach and Hilbert spaces; contraction mapping principle, fundamental existence and uniqueness theorem for ordinary differential equations. Lebesgue integral; convergence theorems, comparison with Riemann integral, L^p spaces. Applications to probability.";
+        assertEquals(expected, mockCourse1.getCourseDesc());
+    }
 }

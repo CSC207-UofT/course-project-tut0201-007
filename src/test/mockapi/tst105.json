@@ -6,7 +6,6 @@
         "courseTitle": "TestTitle",
         "code": "TST105",
         "courseDescription": "",
-        "corequisite": "",
         "corequisite": "TST104",
         "exclusion": "",
         "recommendedPreparation": "",

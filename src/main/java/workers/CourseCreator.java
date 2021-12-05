@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This class represents a Course Creator. This class uses APIWorker to generate Course objects.
@@ -71,16 +72,15 @@ public class CourseCreator {
 
         List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
 
-        String courseDescription =
-                cleanDescription(
+        JsonElement courseDescription =
                         apiWorker
                                 .info
                                 .getAsJsonObject(apiWorker.semester.get(w))
-                                .get("courseDescription")
-                                .toString()
-                );
+                                .get("courseDescription");
 
-        return new Course(courseId, lectures, tutorials, session, exclusions, corequisites, courseDescription);
+        String cleanedDesc = cleanDescription(courseDescription);
+
+        return new Course(courseId, lectures, tutorials, session, exclusions, corequisites, cleanedDesc);
     }
 
     /**
@@ -154,12 +154,17 @@ public class CourseCreator {
     /**
      * Removes HTML and unwanted characters in the string that the API returns
      *
-     * @param courseDescription the string representing the course description
+     * @param courseDescription the JSON object representing the course description
      * @return The cleaned course description
      */
-    private static String cleanDescription(String courseDescription) {
-        courseDescription = courseDescription.replace("\"", "").replaceAll("<[^>]*>", "");
-        return courseDescription;
+    private static String cleanDescription(JsonElement courseDescription) {
+        String courseDesc;
+        if (courseDescription != null) {
+            courseDesc = courseDescription.toString().replace("\"", "").replaceAll("<[^>]*>", "");
+        } else {
+            courseDesc = "";
+        }
+        return courseDesc;
     }
 
     /**
