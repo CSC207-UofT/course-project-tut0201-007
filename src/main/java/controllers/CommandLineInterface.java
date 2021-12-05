@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import util.ConsoleColours;
 import util.PromptHelpers;
+import workers.*;
 import workers.CSVExporter;
 import workers.Exporter;
 import workers.ICSExporter;
@@ -167,33 +168,56 @@ public class CommandLineInterface {
     public Schedule promptImportSchedule() {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
-        boolean success = false;
 
+        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles();
+        if (importableFiles.length == 0) {
+            System.out.println(
+                    "No importable files. Defaulting to generating a schedule from scratch");
+            return importedSchedule;
+        }
+        Map<Integer, File> numToFile = new HashMap<>();
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT
-                        + "--- Please enter the relative file path to the schedule you would like"
-                        + " to import: ---"
+                        + "Choose from the following options for importing by entering the"
+                        + " corresponding number."
                         + ConsoleColours.RESET);
-        System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
-        String directory = scanner.next();
-
-        while (!success) {
-            try {
-                File file = new File(directory);
-                Reader fileReader = new FileReader(file);
-                importedSchedule = new ICSImporter().importSchedule(fileReader);
-                fileReader.close();
-                success = true;
-            } catch (IOException exception) {
-                System.out.print(ConsoleColours.RED);
-                System.out.println("Invalid directory. Please try again.");
-                System.out.print(ConsoleColours.RESET);
-                directory = scanner.next();
-            }
+        for (int i = 0; i < importableFiles.length; i++) {
+            int displayNum = i + 1;
+            numToFile.put(i, importableFiles[i]);
+            System.out.println(displayNum + ": " + importableFiles[i].getName());
         }
-        System.out.print(ConsoleColours.GREEN);
+        while (!scanner.hasNextInt()) {
+            System.out.println(ConsoleColours.RED);
+            System.out.println("Input is not an integer. Please try again");
+            System.out.println(ConsoleColours.RESET);
+            scanner.next();
+        }
+        int choice = scanner.nextInt();
+        while (choice >= importableFiles.length || choice < 0) {
+            System.out.println(ConsoleColours.RED);
+            System.out.println(
+                    "Input was not a valid choice. Make sure to input a number that corresponds"
+                            + " with a file");
+            System.out.println(ConsoleColours.RESET);
+            choice = scanner.nextInt();
+        }
+        File file = numToFile.get(choice - 1);
+        String fileName = file.getName();
+        String fileType = fileName.substring(fileName.indexOf('.') + 1);
+        System.out.println(fileType);
+        Importer importer = fileType.equals("ics") ? new ICSImporter() : new CSVImporter();
+        try {
+            Reader fileReader = new FileReader(file);
+            importedSchedule = importer.importSchedule(fileReader);
+            fileReader.close();
+        } catch (IOException exception) {
+            System.out.println(ConsoleColours.RED);
+            System.out.println("Invalid File. Cannot import this file.");
+            System.out.println(ConsoleColours.RESET);
+        }
+        System.out.println(ConsoleColours.GREEN);
         System.out.println("Schedule read successfully:\n");
-        System.out.print(ConsoleColours.RESET);
+        System.out.println(ConsoleColours.RESET);
         System.out.println(importedSchedule);
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT
@@ -427,17 +451,25 @@ public class CommandLineInterface {
                     }
                     break;
                 case 'S':
-                    System.out.print(ConsoleColours.GREEN);
-                    System.out.println("Saving this schedule in .ics format...");
-                    System.out.print(ConsoleColours.RESET);
-                    new ICSExporter().outputSchedule(currSchedule);
+                    System.out.println(
+                            "Please specify the name you'd like to save this Schedule under.");
+                    String icsFileName = scanner.next();
+                    System.out.println(ConsoleColours.GREEN);
+                    System.out.println(
+                            "Saving this schedule in .ics format as " + icsFileName + ".ics ...");
+                    System.out.println(ConsoleColours.RESET);
+                    new ICSExporter().outputSchedule(currSchedule, icsFileName);
                     break;
                 case 'C':
-                    System.out.print(ConsoleColours.GREEN);
-                    System.out.println("Saving this schedule in .csv format...");
-                    System.out.print(ConsoleColours.RESET);
+                    System.out.println(
+                            "Please specify the name you'd like to save this Schedule under.");
+                    String csvFileName = scanner.next();
+                    System.out.println(ConsoleColours.GREEN);
+                    System.out.println(
+                            "Saving this schedule in .csv format as " + csvFileName + ".csv ...");
+                    System.out.println(ConsoleColours.RESET);
                     Exporter exporter = new CSVExporter();
-                    exporter.outputSchedule(currSchedule);
+                    exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'X':
                     if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
@@ -730,5 +762,4 @@ public class CommandLineInterface {
             }
         }
     }
-
 }
