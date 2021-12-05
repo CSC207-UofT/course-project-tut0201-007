@@ -186,13 +186,11 @@ There are also different options for desired output format, such as ICS or CSV s
 
 #### Rory
 * Worked On:
-  * refactoring the CourseCreator and Section classes
-  * InPersonFilter class
-  * mock API for testing classes
   * design document
+  * testing
+  * CSV data serialization functionality
 * To Work on:
-  * implementing various other Filter subclasses
-  * improved CLI schedule representation
+  * testing
 
 #### Kenneth
 * Worked On:
