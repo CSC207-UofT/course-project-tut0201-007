@@ -169,6 +169,19 @@ The Template method was introduced in [this pull request](https://github.com/CSC
 
 ## Accessibility Report
 
+In order to be accessible to all users, our program makes use of Principle 4 (Perceptive Information) of the Universal Design Principles. 
+
+To display schedules, we use ASCII characters to formulate a pictoral representation of the schedule which is easier for the user to understand. 
+
+When using the CLI, our instructions for program usage are clear and unambigious to maximize the user experience. 
+
+We also consider Principle 2 (Flexibility in Use).
+
+We allow the user to create a schedule through many methods such as through importing a pre existing file or you can choose to generate a schedule from scratch either all at once or through one by one generation. 
+
+There are also different options for desired output format, such as ICS or CSV so that a variety of user needs can be met. 
+
+
 ### Group member contributions & plans
 
 #### Rory
