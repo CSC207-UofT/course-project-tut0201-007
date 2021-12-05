@@ -5,7 +5,6 @@ import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import util.ConsoleColours;
 import workers.*;
 
