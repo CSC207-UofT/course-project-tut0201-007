@@ -5,6 +5,7 @@ import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import util.ConsoleColours;
 import workers.*;
 
 /**
@@ -112,11 +113,14 @@ public class Controller {
                  * In case something goes wrong with the API for a specific course code, we print
                  * the code and the exception that is thrown.
                  */
+                System.out.println(ConsoleColours.RED);
                 System.out.println(
                         "Exception occurred for course "
                                 + courseInput
                                 + " with the following message: \n"
                                 + exception);
+                System.out.println(ConsoleColours.RESET);
+                System.out.println("Please re-enter your courses.");
             }
         }
         return courses;

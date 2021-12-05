@@ -1,20 +1,18 @@
 package filtersTests;
 
+import static org.junit.Assert.assertFalse;
+
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
 import filters.Day;
 import filters.ExcludeTimeFilter;
-import filters.TimeFilter;
-import org.junit.Before;
-import org.junit.Test;
-import workers.Scheduler;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertFalse;
+import org.junit.Before;
+import org.junit.Test;
+import workers.Scheduler;
 
 public class ExcludeTimeFilterTest {
     Schedule schedule;
@@ -43,7 +41,7 @@ public class ExcludeTimeFilterTest {
         LocalTime start = LocalTime.of(10, 0);
         LocalTime end = LocalTime.of(11, 0);
         ExcludeTimeFilter mondayFilter = new ExcludeTimeFilter(start, end, Day.MONDAY);
-        assert(mondayFilter.checkSchedule(schedule));
+        assert (mondayFilter.checkSchedule(schedule));
     }
 
     @Test(timeout = 1000)
@@ -59,6 +57,6 @@ public class ExcludeTimeFilterTest {
         LocalTime start = LocalTime.of(11, 0);
         LocalTime end = LocalTime.of(12, 0);
         ExcludeTimeFilter generalFilter = new ExcludeTimeFilter(start, end, Day.ALL_DAYS);
-        assert(generalFilter.checkSchedule(schedule));
+        assert (generalFilter.checkSchedule(schedule));
     }
 }

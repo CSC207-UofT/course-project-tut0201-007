@@ -3,15 +3,13 @@ package filters;
 import entities.Schedule;
 import entities.Section;
 import entities.Timeslot;
-
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class filter checks whether a course overlaps with a specific time. The schedule does not pass the filter if
- * it overlaps.
+ * This class filter checks whether a course overlaps with a specific time. The schedule does not
+ * pass the filter if it overlaps.
  */
 public class ExcludeTimeFilter implements Filter {
 
@@ -79,7 +77,7 @@ public class ExcludeTimeFilter implements Filter {
         } else {
             return filteredDay.getDay() == timeslot.getDay()
                     && !(lowerBound.compareTo(timeslot.getEnd()) >= 0
-                    || upperBound.compareTo(timeslot.getStart()) <= 0);
+                            || upperBound.compareTo(timeslot.getStart()) <= 0);
         }
     }
 }
