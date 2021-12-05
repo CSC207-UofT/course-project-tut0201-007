@@ -8,8 +8,7 @@ The project domain of our group is a Scheduling App that allows Students to spec
 - Far too large and clunky, requiring numerous installs and setup
 - Did not use the Timetable API
 - Not enough customization
-- Incorrect schedule generation
-- Not accessible to people outside CS
+- Generated schedules incorrectly using outdated information
 
 Which is why we decided to make our own.
 
