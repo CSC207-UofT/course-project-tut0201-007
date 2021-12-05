@@ -19,8 +19,6 @@ public class ExecutionState {
     private static List<Course> remainingUserCourses;
     private static Course currentCourse;
 
-    public ExecutionState(){}
-
     /**
      * Keeps track of list of all courses selected by user. This should be called only ONCE, when the courses are first
      * instantiated. If an empty list is passed, nothing happens.
