@@ -37,11 +37,18 @@ public class Controller {
             Schedule baseSchedule = CLI.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
         }
-        // ask user for course codes
-        List<String> courses = CLI.promptCourseCodeNames();
-        // course objects are instantiated based on the passed course codes
-        List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
 
+        List<String> courses;
+        List<Course> instantiatedCourses = new ArrayList<>();
+
+        // Prompt user for courses until courses are successfully instantiated (no issues with API
+        // retrieving courses)
+        while (instantiatedCourses.isEmpty()) {
+            // ask user for course codes
+            courses = CLI.promptCourseCodeNames();
+            // course objects are instantiated based on the passed course codes
+            instantiatedCourses = Controller.courseInstantiator(courses);
+        }
         // get user specified filters, add them as filters to our scheduler object
         List<Filter> filters = CLI.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
@@ -51,7 +58,7 @@ public class Controller {
 
         /** while the user wants one by one generation, keep repeating */
         // final user schedules
-        List<Schedule> schedules = new ArrayList<>();
+        List<Schedule> schedules;
 
         while (CLI.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
             Course nextCourse = instantiatedCourses.get(0);
@@ -109,7 +116,7 @@ public class Controller {
                         "Exception occurred for course "
                                 + courseInput
                                 + " with the following message: \n"
-                                + exception.toString());
+                                + exception);
             }
         }
         return courses;
