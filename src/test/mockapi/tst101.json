@@ -5,6 +5,7 @@
     "orgName": "Test",
     "courseTitle": "Test Json",
     "code": "TST101",
+    "courseDescription": "",
     "exclusion": "TST102",
     "section": "Y",
     "meetings": {

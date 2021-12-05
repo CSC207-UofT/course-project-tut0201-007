@@ -5,6 +5,7 @@
         "orgName": "Test",
         "courseTitle": "TestTitle",
         "code": "TST105",
+        "courseDescription": "",
         "corequisite": "",
         "exclusion": "",
         "recommendedPreparation": "",
