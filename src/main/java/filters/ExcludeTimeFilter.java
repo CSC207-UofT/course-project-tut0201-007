@@ -30,8 +30,8 @@ public class ExcludeTimeFilter implements Filter {
     }
 
     /**
-     * @param lowerBound inclusive Lower end of time range courses should be excluded from
-     * @param upperBound Inclusive Upper bound of time range courses should be excluded from
+     * @param lowerBound exclusive Lower end of time range courses should be excluded from
+     * @param upperBound exclusive Upper bound of time range courses should be excluded from
      * @param filteredDay Day to which these bounds are applied (Or all of them)
      */
     public ExcludeTimeFilter(LocalTime lowerBound, LocalTime upperBound, Day filteredDay) {
@@ -42,15 +42,13 @@ public class ExcludeTimeFilter implements Filter {
 
     /**
      * @param s Schedule to check
-     * @return Whether some section is inside the time range
+     * @return Whether some section conflicts with the time range
      */
     @Override
     public boolean checkSchedule(Schedule s) {
         if (s == null) {
             return false;
         }
-
-        // only need timeslots for the checking
         List<Timeslot> timeslots = new ArrayList();
 
         for (Section lec : s.getLectures()) {
