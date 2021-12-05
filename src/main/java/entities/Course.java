@@ -10,6 +10,7 @@ public class Course {
     private final List<Section> tutorials;
     private final List<String> courseExclusionIds;
     private final List<String> courseCorequisiteIds;
+    private final String courseDesc;
 
     /**
      * Constructs a course with an id and list of lecture and tutorial sessions as well as course
@@ -20,6 +21,7 @@ public class Course {
      * @param tutorials given tutorials
      * @param session given session
      * @param exclusions given course exclusions
+     * @param courseDesc given course description
      */
     public Course(
             String courseId,
@@ -27,7 +29,8 @@ public class Course {
             List<Section> tutorials,
             char session,
             List<String> exclusions,
-            List<String> corequisites) {
+            List<String> corequisites,
+            String courseDesc) {
 
         this.courseId = courseId;
         this.lectures = lectures;
@@ -35,6 +38,7 @@ public class Course {
         this.session = session;
         this.courseExclusionIds = exclusions;
         this.courseCorequisiteIds = corequisites;
+        this.courseDesc = courseDesc;
     }
 
     public String getCourseId() {
@@ -55,6 +59,10 @@ public class Course {
 
     public List<String> getCorequisites() {
         return courseCorequisiteIds;
+    }
+
+    public String getCourseDesc() {
+        return courseDesc;
     }
 
     @Override

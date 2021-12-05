@@ -4,6 +4,7 @@ import com.google.gson.*;
 import entities.Course;
 import entities.Section;
 import entities.Timeslot;
+
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -11,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
+/**
+ * This class represents a Course Creator. This class uses APIWorker to generate Course objects.
+ */
 public class CourseCreator {
 
     private static final Map<String, DayOfWeek> toDay =
@@ -31,7 +34,7 @@ public class CourseCreator {
      * Generates a course given a courseID and the session of the course
      *
      * @param courseId the identifier for the course
-     * @param session the semester that the course takes place ie S, F, Y
+     * @param session  the semester that the course takes place ie S, F, Y
      * @return a Course object
      * @throws IOException if there is an issue with retrieving the course from the API
      */
@@ -56,7 +59,7 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("exclusion")
                         .toString();
-      
+
         List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
 
         String corequisitesValue =
@@ -65,17 +68,26 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("corequisite")
                         .toString();
-      
+
         List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
 
-        return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
+        String courseDescription =
+                cleanDescription(
+                        apiWorker
+                                .info
+                                .getAsJsonObject(apiWorker.semester.get(w))
+                                .get("courseDescription")
+                                .toString()
+                );
+
+        return new Course(courseId, lectures, tutorials, session, exclusions, corequisites, courseDescription);
     }
 
     /**
      * Reads through a JSON object for a course and returns all of the sections of a given type
      *
      * @param meetings a JsonObject that corresponds to all of the meetings for a course
-     * @param type LEC or TUT
+     * @param type     LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
     private static List<Section> getSessionsByType(
@@ -128,7 +140,7 @@ public class CourseCreator {
     /**
      * Helper method for extracting the course code values from the API contents
      *
-     * @param value a String that corresponds to all the corequisites for a course
+     * @param value          a String that corresponds to all the corequisites for a course
      * @param shortenedCodes an empty arraylist to add the course codes to
      */
     private static void extractCodes(String value, List<String> shortenedCodes) {
@@ -140,10 +152,21 @@ public class CourseCreator {
     }
 
     /**
+     * Removes HTML and unwanted characters in the string that the API returns
+     *
+     * @param courseDescription the string representing the course description
+     * @return The cleaned course description
+     */
+    private static String cleanDescription(String courseDescription) {
+        courseDescription = courseDescription.replace("\"", "").replaceAll("<[^>]*>", "");
+        return courseDescription;
+    }
+
+    /**
      * Creates a section for a given JsonObject
      *
      * @param meeting JsonObject corresponding to a section
-     * @param name the name of the section
+     * @param name    the name of the section
      * @return a Section object representing the JsonObject
      */
     private static Section createSection(
@@ -186,7 +209,7 @@ public class CourseCreator {
      * Checks if a session is cancelled
      *
      * @param meetings a jsonObject of meetings that contains the session
-     * @param meeting the session in question
+     * @param meeting  the session in question
      * @return true if the session is cancelled, otherwise false
      */
     private static boolean isCancelled(JsonObject meetings, String meeting) {
