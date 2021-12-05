@@ -11,10 +11,12 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import workers.CSVExporter;
 import workers.Exporter;
 import workers.ICSExporter;
 import workers.ICSImporter;
+import util.ConsoleColours;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
@@ -78,7 +80,9 @@ public class CommandLineInterface {
                 System.out.println("Importing schedule...");
                 return 0;
             } else {
+                System.out.print(ConsoleColours.RED);
                 System.out.println("Please select a valid integer.");
+                System.out.print(ConsoleColours.RESET);
             }
         }
         return -1;
@@ -100,7 +104,9 @@ public class CommandLineInterface {
                 input = true;
 
             } catch (Exception NumberFormatException) {
+                System.out.print(ConsoleColours.RED);
                 System.out.println("Please give an integer input");
+                System.out.print(ConsoleColours.RESET);
             }
         }
         List<String> courses = new ArrayList<>();
@@ -117,7 +123,9 @@ public class CommandLineInterface {
                 courses.add(courseInput);
                 a++;
             } else {
+                System.out.print(ConsoleColours.RED);
                 System.out.printf("Input of %s did not match expected format \n", courseInput);
+                System.out.print(ConsoleColours.RESET);
             }
         }
         return courses;
@@ -183,7 +191,9 @@ public class CommandLineInterface {
             try {
                 filterCodes[index - 1] = true;
             } catch (ArrayIndexOutOfBoundsException exception) {
+                System.out.print(ConsoleColours.RED);
                 System.out.println("Invalid integer selection. Please enter an valid option:");
+                System.out.print(ConsoleColours.RESET);
             }
         }
 
@@ -365,10 +375,16 @@ public class CommandLineInterface {
             int input = scanner.nextInt();
             if (input == 0) {
                 newFilters.add(new ConflictFilter());
-                System.out.println("Schedules with time conflicts will be REMOVED.");
+                System.out.println("Schedules with time conflicts will be ");
+                System.out.print(ConsoleColours.RED_BOLD);
+                System.out.print("REMOVED.");
+                System.out.print(ConsoleColours.RESET);
                 return newFilters;
             } else if (input == 1) {
-                System.out.println("Schedules with time conflicts will be ALLOWED.");
+                System.out.println("Schedules with time conflicts will be ");
+                System.out.print(ConsoleColours.GREEN_BOLD);
+                System.out.print("ALLOWED.");
+                System.out.print(ConsoleColours.RESET);
                 return newFilters;
             }
         }
@@ -492,7 +508,9 @@ public class CommandLineInterface {
                 } else if (sc == 0) {
                     System.out.println("Please try again on the next iteration.");
                 } else {
+                    System.out.println(ConsoleColours.RED);
                     System.out.println("Invalid input. Please try again on the next iteration.");
+                    System.out.println(ConsoleColours.RESET);
                 }
             }
             System.out.println(
@@ -524,7 +542,9 @@ public class CommandLineInterface {
             }
         }
         if (input == 0) {
+            System.out.print(ConsoleColours.RED);
             System.out.println("Input not selected.");
+            System.out.print(ConsoleColours.RESET);
         }
         return new ArrayList<>();
     }
@@ -544,7 +564,9 @@ public class CommandLineInterface {
                 int mins = Integer.parseInt(input[1]);
                 return LocalTime.of(hours, mins, 0, 0);
             } catch (ArrayIndexOutOfBoundsException exception) {
+                System.out.print(ConsoleColours.RED);
                 System.out.println("Invalid input. PLEASE use HH:MM format in 24 HOUR TIME:");
+                System.out.print(ConsoleColours.RESET);
             }
         }
     }
