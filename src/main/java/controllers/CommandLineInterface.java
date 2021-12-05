@@ -201,7 +201,8 @@ public class CommandLineInterface {
                         + " 4 - " + ConsoleColours.BLUE + "Enforce times when you have no courses\n" + ConsoleColours.RESET
                         + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
                         + " 3' or '2' or '').\n"
-                        + "Press 'Q' to quit Selection");
+                        + "If you do not wish to configure any criteria, quit the selection.\n"
+                        + "Press 'Q' to quit selection.");
         boolean[] filterCodes = new boolean[4];
 
         while (scanner.hasNextInt()) {
@@ -344,30 +345,30 @@ public class CommandLineInterface {
                     if (scheduleNumber > 0) {
                         scheduleNumber--;
                     } else {
-                        System.out.println(ConsoleColours.RED);
+                        System.out.print(ConsoleColours.RED);
                         System.out.println("No schedule before this one.");
-                        System.out.println(ConsoleColours.RESET);
+                        System.out.print(ConsoleColours.RESET);
                     }
                     break;
                 case '>':
                     if (scheduleNumber < numOfSchedules) {
                         scheduleNumber++;
                     } else {
-                        System.out.println(ConsoleColours.RED);
+                        System.out.print(ConsoleColours.RED);
                         System.out.println("No schedules after this one.");
-                        System.out.println(ConsoleColours.RESET);
+                        System.out.print(ConsoleColours.RESET);
                     }
                     break;
                 case 'S':
-                    System.out.println(ConsoleColours.GREEN);
+                    System.out.print(ConsoleColours.GREEN);
                     System.out.println("Saving this schedule in .ics format...");
-                    System.out.println(ConsoleColours.RESET);
+                    System.out.print(ConsoleColours.RESET);
                     new ICSExporter().outputSchedule(currSchedule);
                     break;
                 case 'C':
-                    System.out.println(ConsoleColours.GREEN);
+                    System.out.print(ConsoleColours.GREEN);
                     System.out.println("Saving this schedule in .csv format...");
-                    System.out.println(ConsoleColours.RESET);
+                    System.out.print(ConsoleColours.RESET);
                     Exporter exporter = new CSVExporter();
                     exporter.outputSchedule(currSchedule);
                     break;
@@ -395,24 +396,22 @@ public class CommandLineInterface {
     private static List<Filter> promptTimeConflictFilter() {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
-        System.out.println(
-                "Would you like to allow time conflicts between your courses? \n"
-                        + "Enter 1/0 for Y/N. \n"
-                        + "A non-integer input will quit selection.");
+        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to allow time conflicts between your courses? ---" + ConsoleColours.RESET);
+        PromptHelpers.promptYNSelection();
 
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 0) {
                 newFilters.add(new ConflictFilter());
-                System.out.println("Schedules with time conflicts will be ");
+                System.out.print("Schedules with time conflicts will be ");
                 System.out.print(ConsoleColours.RED_BOLD);
-                System.out.print("REMOVED.");
+                System.out.print("REMOVED.\n");
                 System.out.print(ConsoleColours.RESET);
                 return newFilters;
             } else if (input == 1) {
-                System.out.println("Schedules with time conflicts will be ");
+                System.out.print("Schedules with time conflicts will be ");
                 System.out.print(ConsoleColours.GREEN_BOLD);
-                System.out.print("ALLOWED.");
+                System.out.print("ALLOWED.\n");
                 System.out.print(ConsoleColours.RESET);
                 return newFilters;
             }
@@ -428,20 +427,24 @@ public class CommandLineInterface {
     private static List<Filter> promptInPersonFilter() {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
-        System.out.println(
-                "Would you like all courses online or in-person? \n"
-                        + "Enter 1/0 for in-person/online. \n"
-                        + "A non-integer input will quit selection.");
+        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like all courses IN-PERSON or ONLINE? ---" + ConsoleColours.RESET);
+        PromptHelpers.promptGeneralSelection("IN-PERSON", "ONLINE");
 
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
                 newFilters.add(new InPersonFilter(true));
-                System.out.println("Schedules with ONLINE courses will be REMOVED.");
+                System.out.print("Schedules with ONLINE courses will be ");
+                System.out.print(ConsoleColours.RED_BOLD);
+                System.out.print("REMOVED.\n");
+                System.out.print(ConsoleColours.RESET);
                 return newFilters;
             } else if (input == 0) {
                 newFilters.add(new InPersonFilter(false));
-                System.out.println("Schedules with IN-PERSON will be REMOVED.");
+                System.out.print("Schedules with IN-PERSON will be ");
+                System.out.print(ConsoleColours.RED_BOLD);
+                System.out.print("REMOVED.\n");
+                System.out.print(ConsoleColours.RESET);
                 return newFilters;
             }
         }

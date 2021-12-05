@@ -55,4 +55,11 @@ public class PromptHelpers {
                 + "Press 'Q' to quit selection.");
     }
 
+    public static void promptGeneralSelection(String option1, String option2) {
+        System.out.format(
+                " • Press 1 for " + ConsoleColours.BLUE + "%s\n" + ConsoleColours.RESET
+                        + " • Press 0 for " + ConsoleColours.BLUE + "%s\n" + ConsoleColours.RESET
+                        + "Press 'Q' to quit selection.\n", option1, option2);
+    }
+
 }
