@@ -103,6 +103,8 @@ The Open-closed principle is demonstrated by the `Filter` interface. Along with 
 
 With our `Filter` interface, any usages of its implementing classes can be replaced with each other without changing functionality since they all implement the same interface methods. Other than this, we don't have many usages of inheritance in our program. The Liskov Substitution Principle isn't demonstrated very strongly as a result. In order to strengthen how we demonstrate this principle, we can design a superclass in the future that can be replaced by its subclasses without altering the functionality of the program.
 
+We also make use of the Liskov substitution principle to simplify importing pre-existing files, by using an `Importer` object, which is initialized to a `ICSImporter` or `CSVImporter`, both of which are it's subclasses, depending on what type of file we want to import. Since `Importer` is the superclass, it is substitutable by `ICSImporter` and `CSVImporter`. Implemented in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/74).
+
 ### Interface segregation principle
 
 The Interface Segregation principle is demonstrated by the `Filter` interface and all of the filter classes that implement this interface. All of the fiters implement the `checkSchedule()` interface method which takes in a schedule object. All of our filter classes need to extract relevant information from a given schedule to see if it meets the criteria or not. There are no cases where a filter does not implement this method, hence satisfying the Interface Segregation Principle.
@@ -166,6 +168,19 @@ The Template method was introduced in [this pull request](https://github.com/CSC
 - The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of Filters, without much effort for integrating them with our general program.
 
 ## Accessibility Report
+
+In order to be accessible to all users, our program makes use of Principle 4 (Perceptive Information) of the Universal Design Principles. 
+
+To display schedules, we use ASCII characters to formulate a pictoral representation of the schedule which is easier for the user to understand. 
+
+When using the CLI, our instructions for program usage are clear and unambigious to maximize the user experience. 
+
+We also consider Principle 2 (Flexibility in Use).
+
+We allow the user to create a schedule through many methods such as through importing a pre existing file or you can choose to generate a schedule from scratch either all at once or through one by one generation. 
+
+There are also different options for desired output format, such as ICS or CSV so that a variety of user needs can be met. 
+
 
 ### Group member contributions & plans
 

@@ -37,6 +37,11 @@ public class APIWorker {
             try (java.io.InputStream is =
                     new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
                 String contents = new String(is.readAllBytes());
+                // If the course is not present in the API, an empty list will be returned as the
+                // contents
+                if (contents.equals("[]")) {
+                    throw new IOException("This course does not exist.");
+                }
                 return JsonParser.parseString(contents);
             }
         } else {
