@@ -3,6 +3,7 @@ package controllers;
 import entities.Course;
 import entities.Schedule;
 import filters.*;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import workers.CSVExporter;
 import workers.Exporter;
 import workers.ICSExporter;
@@ -20,12 +20,15 @@ import workers.ICSImporter;
 import util.ConsoleColours;
 import util.PromptHelpers;
 
-/** The user interface of the program. */
+/**
+ * The user interface of the program.
+ */
 public class CommandLineInterface {
 
     PromptHelpers promptHelpers = new PromptHelpers();
 
-    public CommandLineInterface() {}
+    public CommandLineInterface() {
+    }
 
     private GenerationMode generationMode;
 
@@ -33,8 +36,8 @@ public class CommandLineInterface {
      * Constructor.
      *
      * @param mode represents one by one generation for the Controller
-     *     <p>if one by one generation is used in controller, displayUserSchedule will take input to
-     *     return a schedule
+     *             <p>if one by one generation is used in controller, displayUserSchedule will take input to
+     *             return a schedule
      */
     public CommandLineInterface(GenerationMode mode) {
         generationMode = mode;
@@ -53,7 +56,7 @@ public class CommandLineInterface {
      * Sets generation mode.
      *
      * @param mode must be enum ONE_BY_ONE or ALL_PERMUTATIONS as described in enum class
-     *     GenerationMode
+     *             GenerationMode
      */
     public void setGenerationMode(GenerationMode mode) {
         generationMode = mode;
@@ -64,7 +67,7 @@ public class CommandLineInterface {
      * one. Informs Controller how to perform generation.
      *
      * @return an integer representing whether the user wants to import or creates a new schedule 0
-     *     -> import 1 -> new schedule other integer -> exit program
+     * -> import 1 -> new schedule other integer -> exit program
      */
     public int promptUser() {
         Scanner scanner = new Scanner(System.in);
@@ -85,7 +88,7 @@ public class CommandLineInterface {
                 System.out.println(ConsoleColours.GREEN + "Creating new schedules..." + ConsoleColours.RESET);
                 return 1;
             } else if (inputInt == 0) {
-                System.out.println(ConsoleColours.GREEN + "Importing schedule..."  + ConsoleColours.RESET);
+                System.out.println(ConsoleColours.GREEN + "Importing schedule..." + ConsoleColours.RESET);
                 return 0;
             } else {
                 System.out.print(ConsoleColours.RED);
@@ -122,7 +125,7 @@ public class CommandLineInterface {
         int a = 0;
         while (a < numCourses) {
             System.out.println(
-                   ConsoleColours.WHITE_BOLD_BRIGHT + "--- Please give the course code and session of one of your courses. --- \n" + ConsoleColours.RESET
+                    ConsoleColours.WHITE_BOLD_BRIGHT + "--- Please give the course code and session of one of your courses. --- \n" + ConsoleColours.RESET
                             + "An example of expected format is "
                             + ConsoleColours.BLUE + "MAT237Y. " + ConsoleColours.RESET
                             + "Accepted Sessions are"
@@ -153,7 +156,7 @@ public class CommandLineInterface {
 
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT +
-                "--- Please enter the relative file path to the schedule you would like to import: ---"
+                        "--- Please enter the relative file path to the schedule you would like to import: ---"
                         + ConsoleColours.RESET);
         System.out.println("Current directory is: " + System.getProperty("user.dir") + ".");
         String directory = scanner.next();
@@ -192,13 +195,13 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to configure any criteria for your schedules? ---" + ConsoleColours.RESET);
         System.out.println(
-                  " 1 - " + ConsoleColours.BLUE + "Time conflicts\n" + ConsoleColours.RESET
-                + " 2 - " + ConsoleColours.BLUE + "Delivery method\n" + ConsoleColours.RESET
-                + " 3 - " + ConsoleColours.BLUE + "Enforce a time gap between courses\n" + ConsoleColours.RESET
-                + " 4 - " + ConsoleColours.BLUE + "Enforce times when you have no courses\n" + ConsoleColours.RESET
-                + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
-                + " 3' or '2' or '').\n"
-                + "Press 'Q' to quit Selection");
+                " 1 - " + ConsoleColours.BLUE + "Time conflicts\n" + ConsoleColours.RESET
+                        + " 2 - " + ConsoleColours.BLUE + "Delivery method\n" + ConsoleColours.RESET
+                        + " 3 - " + ConsoleColours.BLUE + "Enforce a time gap between courses\n" + ConsoleColours.RESET
+                        + " 4 - " + ConsoleColours.BLUE + "Enforce times when you have no courses\n" + ConsoleColours.RESET
+                        + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
+                        + " 3' or '2' or '').\n"
+                        + "Press 'Q' to quit Selection");
         boolean[] filterCodes = new boolean[4];
 
         while (scanner.hasNextInt()) {
@@ -234,13 +237,15 @@ public class CommandLineInterface {
         return userFilters;
     }
 
-    /** Confirms whether user wants to generate all schedules or use one by one generation. */
+    /**
+     * Confirms whether user wants to generate all schedules or use one by one generation.
+     */
     public void selectGenerationMode() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT + "--- Would you like to generate schedules one by one? ---\n" + ConsoleColours.RESET
-                    + "Your schedule will be populated with only one course at a time to allow for"
-                    + " specific time slot selection.");
+                        + "Your schedule will be populated with only one course at a time to allow for"
+                        + " specific time slot selection.");
         PromptHelpers.promptYNSelection();
 
         while (scanner.hasNextInt()) {
@@ -260,7 +265,7 @@ public class CommandLineInterface {
      * Asks user to select the next base schedule for permutation in Scheduler.
      *
      * @param userSchedules the schedules meeting previous user specifications with one more course
-     *     being permuted
+     *                      being permuted
      * @return if the user selects a schedule around
      */
     public Schedule promptUserBaseSchedule(List<Schedule> userSchedules) {
@@ -297,9 +302,9 @@ public class CommandLineInterface {
      * Outputs schedules meeting user criteria. User can navigate through schedules and save them.
      *
      * @param userSchedules schedules meeting filter criteria
-     *     <p>attribute 'generationMode' is used in this method with 0 -> returning a Schedule is
-     *     not an option 1 -> returning a Schedule is an option Note: returning a schedule is
-     *     required in 1 by 1 generation
+     *                      <p>attribute 'generationMode' is used in this method with 0 -> returning a Schedule is
+     *                      not an option 1 -> returning a Schedule is an option Note: returning a schedule is
+     *                      required in 1 by 1 generation
      */
     public Schedule displayUserSchedules(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
@@ -327,7 +332,7 @@ public class CommandLineInterface {
             System.out.println(" • Press '<' to go to the" + ConsoleColours.BLUE + " previous schedule." + ConsoleColours.RESET);
             System.out.println(" • Press 'S/C' to" + ConsoleColours.BLUE + " save this schedule as an .ics/.csv file." + ConsoleColours.RESET);
             if (this.generationMode == GenerationMode.ONE_BY_ONE) {
-                System.out.println(" • Press 'X' to" + ConsoleColours.BLUE +"build courses around this schedule" + ConsoleColours.RESET);
+                System.out.println(" • Press 'X' to" + ConsoleColours.BLUE + "build courses around this schedule" + ConsoleColours.RESET);
             }
 
             char userInput = scanner.next().charAt(0);
@@ -476,15 +481,15 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
         TimeFilter.Day[] days = {
-            TimeFilter.Day.ALL_DAYS,
-            TimeFilter.Day.MONDAY,
-            TimeFilter.Day.TUESDAY,
-            TimeFilter.Day.WEDNESDAY,
-            TimeFilter.Day.THURSDAY,
-            TimeFilter.Day.FRIDAY
+                TimeFilter.Day.ALL_DAYS,
+                TimeFilter.Day.MONDAY,
+                TimeFilter.Day.TUESDAY,
+                TimeFilter.Day.WEDNESDAY,
+                TimeFilter.Day.THURSDAY,
+                TimeFilter.Day.FRIDAY
         };
         String[] dayStrings = {
-            "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
         };
 
         System.out.println(
@@ -539,9 +544,9 @@ public class CommandLineInterface {
             }
             System.out.println(
                     "Would you like to restrict your schedule to another block of time? (1/0 for"
-                        + " Y/N). \n"
-                        + "Non-integer input will quit selection, and blocks will NOT be added to"
-                        + " scheduling.");
+                            + " Y/N). \n"
+                            + "Non-integer input will quit selection, and blocks will NOT be added to"
+                            + " scheduling.");
 
             if (scanner.hasNextInt()) {
                 input = scanner.nextInt();
