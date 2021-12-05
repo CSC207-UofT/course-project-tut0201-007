@@ -1,10 +1,12 @@
 package filtersTests;
 
+import static org.junit.Assert.assertFalse;
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
 import filters.Day;
 import filters.ExcludeTimeFilter;
+
 import filters.TimeFilter;
 import org.junit.Before;
 import org.junit.Test;
