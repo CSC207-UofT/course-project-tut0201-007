@@ -117,7 +117,7 @@ Our program applies the Dependency inversion principle to adhere to the Open-clo
 We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
 contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers contains all of our use cases.
 
-We also refactored the tests to follow our packaging strategy, as seen in 
+We also refactored the tests to follow our packaging strategy, as seen in
 [this pull request.](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/59)
 
 Since we don't have many classes for each layer, the code is well organized and simple to navigate through. We
@@ -168,18 +168,28 @@ The Template method was introduced in [this pull request](https://github.com/CSC
 - Use of the Template design pattern for exporters and importers of Schedules has made it frictionless to implement and integrate alternate options for exporting/importing
 
 ## Accessibility Report
+### Question 1
+* Principle 1: Our program does not currently adhere to principle 1, mostly because we only have a CLI. In the future, we can allow user customization of the CLI shortcuts, so users can select the keyboard inputs that are easiest for them. We can also allow the user to customize colors used in the CLI, to accomodate color blindness. Beyond this, we could add a GUI to allow alternate input like am mouse or joystick.
+* Principle 2 (Flexibility in Use):
+We allow the user to create a schedule through many methods such as through importing a pre existing file or you can choose to generate a schedule from scratch either all at once or through one by one generation. There are also different options for desired output format, such as ICS, CSV or JPG so that a variety of user needs can be met.
+* Principle 3 (Simple and Intuitive Use):
+We adhere to principle 3 by consistently using red for any negative responses during the scheduling creating prompt sequence. We also ensure that our CLI responses, especially for cases where there are errors, are as simple and easy to understand as possible.
+* Principle 4 (Perceptive Information): In order to be accessible to all users, our program makes use of Principle 4 (Perceptive Information) of the Universal Design Principles. To display schedules, we use ASCII characters to formulate a pictoral representation of the schedule which is easier for the user to understand. When using the CLI, our instructions for program usage are clear and unambigious to maximize the user experience. We also bold and color code key words within the CLI to maximize legibility of essential information.
+* Principle 5 (Tolerance for Error):
+We check user input to our CLI, to verify that it is both the correct type of input, and also a reasonable input (for example, bounding possible inputs for number of courses to schedule to be positive). We also provide warnings whenever the user enters invalid input, as well as a repeated description of what type of input should be entered.
+* Principle 6 (Low Physical Effort): We fulfill Principle 6 by providing shortcuts for Users in our CLI. For example, rather than needing to type out "Yes", or moving their moues and clicking a button, users only need to press "1" on their keyboard. This means users don't need to exert much force or physical effort. Also they can stay in their typing position, which is generally a neutral body position.
+* Principle 7 (Size and Space for Approach and Use): We do not fullfill principle 7. However, this principle does not apply to this program, because it doesn't present any UI elements except on the computer screen, and the only required component is the keyboard. Therefore, physical space requirements for the program can't be affected by us.
 
-In order to be accessible to all users, our program makes use of Principle 4 (Perceptive Information) of the Universal Design Principles. 
+### Q2
 
-To display schedules, we use ASCII characters to formulate a pictoral representation of the schedule which is easier for the user to understand. 
+We would market our program towards U of T students, because it is a tool for scheduling courses at U of T. Specifically, since our program works through a CLI, which is a positive for users who prefer the command line over a GUI, we'd market towards U of T students who prefer a CLI experience. Since our program is automatically up to date, as it uses data directly from the U of T timestable, we can market this program towards students now, as well as in the future.
 
-When using the CLI, our instructions for program usage are clear and unambigious to maximize the user experience. 
+### Q3
 
-We also consider Principle 2 (Flexibility in Use).
+Our program is less likely to be used by users who prefer the use of an input device that doesn't support directly inputting text into the CLI. Also, it is less likely to be used by non-students, because it is a course scheduling app, and less likely to be used by non-UoT students, because it can only schedule courses for UoT. It is also less likely to be used by non-technical people, since they may not be comfortable interacting with an application directly through the CLI.
 
-We allow the user to create a schedule through many methods such as through importing a pre existing file or you can choose to generate a schedule from scratch either all at once or through one by one generation. 
 
-There are also different options for desired output format, such as ICS or CSV so that a variety of user needs can be met. 
+
 
 
 ### Group member contributions & plans
@@ -198,8 +208,9 @@ There are also different options for desired output format, such as ICS or CSV s
   * Export Schedule to an image
   * Fix bug regarding year long courses that change location
   * Changed CLI File import dialogue to show all importable files
+  * Accessibility report
  * Significant [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/21):
-  * This PR is a significant contribution because it allows our application to serialize schedules and export schedules to calendar applications. It also laid the groundwork for later exporters and importers.  
+  * This PR is a significant contribution because it allows our application to serialize schedules and export schedules to calendar applications. It also laid the groundwork for later exporters and importers.
 
 #### Siddarth
 * Worked On:
