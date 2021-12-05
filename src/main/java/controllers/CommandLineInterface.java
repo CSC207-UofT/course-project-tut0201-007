@@ -11,10 +11,8 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import workers.CSVExporter;
-import workers.Exporter;
-import workers.ICSExporter;
-import workers.ICSImporter;
+
+import workers.*;
 
 /** The user interface of the program. */
 public class CommandLineInterface {
@@ -299,7 +297,7 @@ public class CommandLineInterface {
             System.out.println("Press 'Q' to quit.");
             System.out.println("Press '>' to go to the next schedule.");
             System.out.println("Press '<' to go to the previous schedule.");
-            System.out.println("Press 'S/C' to save this schedule as an .ics/.csv file");
+            System.out.println("Press 'S/C/J' to save this schedule as an .ics/.csv/.jpg file");
             if (this.generationMode == GenerationMode.ONE_BY_ONE) {
                 System.out.println("Press 'X' to build courses around this schedule");
             }
@@ -332,6 +330,9 @@ public class CommandLineInterface {
                     Exporter exporter = new CSVExporter();
                     exporter.outputSchedule(currSchedule);
                     break;
+                case 'J':
+                    System.out.printf("Saving this schedule in .jpg format...");
+                    new ImageExporter().outputSchedule(currSchedule);
                 case 'X':
                     if (this.generationMode == GenerationMode.ONE_BY_ONE) {
                         return currSchedule;
