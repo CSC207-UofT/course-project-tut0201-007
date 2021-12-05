@@ -511,7 +511,7 @@ public class CommandLineInterface {
                             + "Press 2 - " + ConsoleColours.BLUE + "TUESDAY\n" + ConsoleColours.RESET
                             + "Press 3 - " + ConsoleColours.BLUE + "WEDNESDAY\n" + ConsoleColours.RESET
                             + "Press 4 - " + ConsoleColours.BLUE + "THURSDAY\n" + ConsoleColours.RESET
-                            + "Press 5 - " + ConsoleColours.BLUE + "FRIDAY\n" + ConsoleColours.RESET);
+                            + "Press 5 - " + ConsoleColours.BLUE + "FRIDAY" + ConsoleColours.RESET);
 
             int day = scanner.nextInt();
             while (!(day >= 0 && day <= 5)) {
@@ -531,7 +531,7 @@ public class CommandLineInterface {
             } else {
                 // WHY DOES DAY NOT HAVE TO STRING METHOD???? quick fix for now by hardcoding an
                 // array
-                System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Confirmation: ---" + ConsoleColours.RESET);
+                System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "--- Confirmation ---" + ConsoleColours.RESET);
                 System.out.println(
                         "You would like classes during "
                                 + dayStrings[day]
@@ -561,16 +561,16 @@ public class CommandLineInterface {
             if (scanner.hasNextInt()) {
                 input = scanner.nextInt();
                 if (input == 1) {
-                    System.out.println("Looping...");
+                    System.out.println(ConsoleColours.GREEN + "Looping..." + ConsoleColours.RESET);
                 } else if (input == 0) {
-                    System.out.print(ConsoleColours.RED);
+                    System.out.print(ConsoleColours.GREEN);
                     System.out.println(
                             "Your selected blocks of time are saved and courses taking place"
                                     + " outside these times will be excluded. Exiting selection.");
                     System.out.println(ConsoleColours.RESET);
                     return newFilters;
                 } else {
-                    System.out.print(ConsoleColours.RED);
+                    System.out.print(ConsoleColours.GREEN);
                     System.out.println(
                             "Your selected times will not be included in schedule generation."
                                     + " Exiting selection.");
@@ -601,7 +601,7 @@ public class CommandLineInterface {
      */
     private static LocalTime timeInputHandler() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please use hh:mm format in 24 hour time.");
+        System.out.println("Please use HH:MM format in 24 hour time.");
         while (true) {
             String[] input = scanner.next().split(":| +");
             try {
