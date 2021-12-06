@@ -137,7 +137,7 @@ Expansion of the program will be easy, as we can add each new clean architecture
 * Refactored code to better utilize Liskov Substitution Principle by using an abstract class (`List`) rather than `ArrayList` when possible in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/70)
 
 ## Testing
-* TODO: add stuff here. see https://q.utoronto.ca/courses/233945/pages/phases-1+2-marking-criteria?module_item_id=3097996
+At the moment, our test coverage is *insert percent here*. There are not very many components that are difficult to test based on our design. Our general testing workflow is to check correctness, accuracy and at the very least display. In this context, correctness is whether the code does what it is meant to do and is generally defined by an ```expect()``` statement. Accuracy is the performance of our code in niche cases, and making sure that we aren't just testing basic, surface cases. For certain classes, like `ASCIIFormatter` neither of these really hold because you cannot test how "nice" something looks. Instead we simply make sure that the final string being printed to console is correct.
 
 ## Design Pattern Summary
 
