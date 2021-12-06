@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a distinct collection of sessions. Class workers.Scheduler stores these in
@@ -8,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Schedule implements Cloneable {
 
-    private final ArrayList<Section> lectures;
-    private final ArrayList<Section> tutorials;
-    private final ArrayList<String> courses;
+    private final List<Section> lectures;
+    private final List<Section> tutorials;
+    private final List<String> courses;
 
     /** No parameter constructor that creates empty ArrayLists of lecture and tutorial sessions. */
     public Schedule() {
@@ -25,7 +26,7 @@ public class Schedule implements Cloneable {
      * @param lectures is the set of lecture sessions in this schedule
      * @param tutorials is the set of tutorial sessions in this schedule
      */
-    public Schedule(ArrayList<Section> lectures, ArrayList<Section> tutorials) {
+    public Schedule(List<Section> lectures, List<Section> tutorials) {
         this.lectures = lectures;
         this.tutorials = tutorials;
         this.courses = new ArrayList<>();
@@ -38,15 +39,15 @@ public class Schedule implements Cloneable {
         }
     }
 
-    public ArrayList<Section> getLectures() {
+    public List<Section> getLectures() {
         return lectures;
     }
 
-    public ArrayList<Section> getTutorials() {
+    public List<Section> getTutorials() {
         return tutorials;
     }
 
-    public ArrayList<String> getCourses() {
+    public List<String> getCourses() {
         return courses;
     }
 
@@ -98,10 +99,12 @@ public class Schedule implements Cloneable {
         return false;
     }
 
+    public boolean isEmpty() {
+        return lectures.isEmpty();
+    }
+
     @Override
     public Schedule clone() {
-        return new Schedule(
-                (ArrayList<Section>) this.lectures.clone(),
-                (ArrayList<Section>) this.tutorials.clone());
+        return new Schedule(new ArrayList(lectures), new ArrayList(tutorials));
     }
 }

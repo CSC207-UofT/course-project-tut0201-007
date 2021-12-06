@@ -7,7 +7,7 @@ Fixes # (issue)
 
 ## Type of change
 
-Please delete options that are not relevant.
+<!-- Please delete options that are not relevant. -->
 
 - [ ] Bug fix <!--(non-breaking change which fixes an issue)-->
 - [ ] New feature <!--(non-breaking change which adds functionality)-->
@@ -22,7 +22,7 @@ Please cite/describe the tests that you ran to verify your changes. Provide inst
 
 # Does this PR follow the rubric?
 
-Please describe any SOLID principle, design pattern, etc. used in the PR that will be added to the design document.
+Please describe any SOLID principle, design pattern, etc. used in the PR that will be added to the design document. If it does, **please link in design doc!!!**
 
 # Checklist:
 

@@ -2,7 +2,6 @@ package entities;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class ASCIIFormatter {
 
@@ -49,37 +48,28 @@ public class ASCIIFormatter {
      * Method to turn our timeslots into a nx5 array that can be used to construct our ascii
      * schedule.
      *
-     * The array needs to have 5 columns, and variable height based on the hours slots we have.
+     * <p>The array needs to have 5 columns, and variable height based on the hours slots we have.
      * Each element is a Timeslot, which will be used in genTable(). Note that the same timeslot
      * appears multiple times if the timeslot is longer than an hour.
-     *
      */
     public String[][] populateMatrix() {
-        Map<String, Integer> days =
-                Map.of(
-                        "MONDAY", 0,
-                        "TUESDAY", 1,
-                        "WEDNESDAY", 2,
-                        "THURSDAY", 3,
-                        "FRIDAY", 4);
         ArrayList<Timeslot> timeslots = getTimeslots();
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
 
-        for(int i=0; i<mat.length; i++) {
-            for(int j=0; j<mat[i].length; j++) {
-                for (Timeslot timeslot: timeslots){
-                    if (j == days.get(timeslot.getDay().toString()) &&
-                            i == timeslot.getStart().getHour() - start.getHour() &&
-                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() ==
-                                    1){
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                for (Timeslot timeslot : timeslots) {
+                    if (j == timeslot.getDay().getValue() - 1
+                            && i == timeslot.getStart().getHour() - start.getHour()
+                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() == 1) {
                         mat[i][j] = timeslot.toString();
-                    } else if (j == days.get(timeslot.getDay().toString()) &&
-                            i == timeslot.getStart().getHour() - start.getHour() &&
-                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() >
-                                    1){
-                        for (int k=0; k<timeslot.getStart().getHour() -
-                                timeslot.getEnd().getHour(); k++) {
-                            mat[i][j+k] = timeslot.toString();
+                    } else if (j == timeslot.getDay().getValue() - 1
+                            && i == timeslot.getStart().getHour() - start.getHour()
+                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() > 1) {
+                        for (int k = 0;
+                                k < timeslot.getStart().getHour() - timeslot.getEnd().getHour();
+                                k++) {
+                            mat[i][j + k] = timeslot.toString();
                         }
                     } else {
                         mat[i][j] = "";
@@ -91,9 +81,9 @@ public class ASCIIFormatter {
         return mat;
     }
 
-    public static String[] getColumn(String[][] arr, int index){
+    public static String[] getColumn(String[][] arr, int index) {
         String[] col = new String[arr[0].length];
-        for(int i=0; i<col.length; i++){
+        for (int i = 0; i < col.length; i++) {
             col[i] = arr[i][index];
         }
         return col;
@@ -138,7 +128,8 @@ public class ASCIIFormatter {
     public String genTable() {
         String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s |\n";
         String padding =
-                "|                |                |                |                |                |";
+                "|                |                |                |                |            "
+                        + "    |";
         String floor =
                 "+----------------+----------------+----------------+----------------+----------------+\n";
         StringBuilder output = new StringBuilder("Schedule: \n\n");
@@ -146,7 +137,9 @@ public class ASCIIFormatter {
 
         // The header for our schedule
         output.append(floor)
-                .append("|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |     Friday     |\n")
+                .append(
+                        "|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |    "
+                                + " Friday     |\n")
                 .append(floor);
         for (int i = 0; i < end.getHour() - start.getHour(); i++) {
             String[] col = getColumn(arr, i);

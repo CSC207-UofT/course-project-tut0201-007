@@ -94,6 +94,7 @@ public class ASCIIFormatterTest {
     public void testPopulateMatrixContent() {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
         String[][] expected = new String[8][5];
+        String[][] matrix = ascii.populateMatrix();
 
         for (String[] strings : expected) {
             Arrays.fill(strings, "");
@@ -106,6 +107,13 @@ public class ASCIIFormatterTest {
         expected[5][0] = lec3.toString();
         expected[5][2] = tut3.toString();
 
-        assertArrayEquals(expected, ascii.populateMatrix());
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        assertArrayEquals(expected, matrix);
     }
 }
