@@ -22,14 +22,29 @@ public class ASCIIFormatter {
         this.latest = getLatest();
     }
 
+    /**
+     * getter method for start
+     *
+     * @return earliest time in the schedule
+     */
     public LocalTime getStart() {
         return start;
     }
 
+    /**
+     * getter method for end
+     *
+     * @return latest start time in the schedule
+     */
     public LocalTime getEnd() {
         return end;
     }
 
+    /**
+     * getter method for timeslots
+     *
+     * @return array list of all timeslots in the schedule (in no particular order)
+     */
     public ArrayList<Timeslot> getTimeslots() {
         ArrayList<Timeslot> timeslots = new ArrayList<>();
 
@@ -51,28 +66,24 @@ public class ASCIIFormatter {
      * <p>The array needs to have 5 columns, and variable height based on the hours slots we have.
      * Each element is a Timeslot, which will be used in genTable(). Note that the same timeslot
      * appears multiple times if the timeslot is longer than an hour.
+     *
+     * @return nx5 matrix of either empty strings or timeslots for wherever they are in the schedule (relatively)
      */
     public String[][] populateMatrix() {
         ArrayList<Timeslot> timeslots = getTimeslots();
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
 
         for (int i = 0; i < mat.length; i++) {
-            for (int j = 0; j < mat[i].length; j++) {
+            for (int j = 0; j < mat[0].length; j++) {
                 for (Timeslot timeslot : timeslots) {
-                    if (j == timeslot.getDay().getValue() - 1
-                            && i == timeslot.getStart().getHour() - start.getHour()
-                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() == 1) {
+                    if (j == (timeslot.getDay().getValue() - 1)
+                            && i == (timeslot.getStart().getHour() - start.getHour())) {
+//                        for (int k = 0; k < timeslot.getStart().getHour() - timeslot.getEnd().getHour(); k++) {
+//                            mat[i][j + k] = timeslot.toString();
+//                        }
                         mat[i][j] = timeslot.toString();
-                    } else if (j == timeslot.getDay().getValue() - 1
-                            && i == timeslot.getStart().getHour() - start.getHour()
-                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() > 1) {
-                        for (int k = 0;
-                                k < timeslot.getStart().getHour() - timeslot.getEnd().getHour();
-                                k++) {
-                            mat[i][j + k] = timeslot.toString();
-                        }
                     } else {
-                        mat[i][j] = "";
+                        mat[i][j] = "n";
                     }
                 }
             }

@@ -8,6 +8,7 @@ import entities.Section;
 import entities.Timeslot;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -81,6 +82,21 @@ public class ASCIIFormatterTest {
         assertEquals(expected, ascii.getEnd());
     }
 
+    @Test(timeout = 50)
+    public void testGetTimeslots() {
+        ASCIIFormatter ascii = new ASCIIFormatter(sched);
+
+        ArrayList<Timeslot> expected = new ArrayList<>();
+        expected.add(lec1);
+        expected.add(lec2);
+        expected.add(lec3);
+        expected.add(tut1);
+        expected.add(tut2);
+        expected.add(tut3);
+
+        assertEquals(expected, ascii.getTimeslots());
+    }
+
     @Test(timeout = 100)
     public void testPopulateMatrixShape() {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
@@ -104,8 +120,8 @@ public class ASCIIFormatterTest {
         expected[0][2] = tut1.toString();
         expected[7][0] = lec2.toString();
         expected[7][2] = tut2.toString();
-        expected[5][0] = lec3.toString();
-        expected[5][2] = tut3.toString();
+        expected[4][0] = lec3.toString();
+        expected[4][2] = tut3.toString();
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
