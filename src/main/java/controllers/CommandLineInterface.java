@@ -20,6 +20,8 @@ import workers.Exporter;
 import workers.ICSExporter;
 import workers.ICSImporter;
 
+import workers.*;
+
 /** The user interface of the program. */
 public class CommandLineInterface {
 
@@ -169,7 +171,7 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
 
-        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles();
+        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles(file -> !file.getName().contains(".jpg"));
         if (importableFiles.length == 0) {
             System.out.println(
                     "No importable files. Defaulting to generating a schedule from scratch");
@@ -415,9 +417,9 @@ public class CommandLineInterface {
                             + " previous schedule."
                             + ConsoleColours.RESET);
             System.out.println(
-                    " • Press 'S/C' to"
+                    " • Press 'S/C/J' to"
                             + ConsoleColours.BLUE
-                            + " save this schedule as an .ics/.csv file."
+                            + " save this schedule as an .ics/.csv/.jpg file."
                             + ConsoleColours.RESET);
             if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
                 System.out.println(
@@ -471,6 +473,12 @@ public class CommandLineInterface {
                     Exporter exporter = new CSVExporter();
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
+                case 'J':
+                    System.out.println(ConsoleColours.WHITE_BOLD +
+                            "Please specify the name you'd like to save this Schedule under." + ConsoleColours.RESET);
+                    String jpgFileName = scanner.next();
+                    System.out.println(ConsoleColours.GREEN + "Saving this schedule in .jpg format..." + ConsoleColours.RESET);
+                    new ImageExporter().outputSchedule(currSchedule, jpgFileName);
                 case 'X':
                     if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
                         return currSchedule;
