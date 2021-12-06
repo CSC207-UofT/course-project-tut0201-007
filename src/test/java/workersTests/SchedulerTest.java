@@ -47,7 +47,7 @@ public class SchedulerTest {
         assertEquals(expected, schedule.toString());
     }
 
-    @Test(timeout = 1500)
+    @Test(timeout = 6000)
     public void testGenerateMultiCourseSchedule() {
         List<String> multi = new ArrayList<>();
         multi.add("TST107F");
@@ -75,7 +75,7 @@ public class SchedulerTest {
         assertEquals(expected, schedule.toString());
     }
 
-    @Test(timeout = 1500)
+    @Test(timeout = 3000)
     public void testGenerateNoTutorialSchedule() {
         List<String> tst104 = new ArrayList<>();
         tst104.add("TST105F");
@@ -97,7 +97,7 @@ public class SchedulerTest {
         assertEquals(expected, schedule.toString());
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 4000)
     public void testGenerateYearCourseSchedule() {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST102Y");

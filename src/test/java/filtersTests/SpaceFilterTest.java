@@ -21,7 +21,7 @@ public class SpaceFilterTest {
         filter = new SpaceFilter(1);
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 4000)
     public void filterFail() {
         ArrayList<String> multi = new ArrayList<>();
         multi.add("TST101Y");
