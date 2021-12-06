@@ -207,9 +207,8 @@ Our program is less likely to be used by users who prefer the use of an input de
   * design document
   * testing
   * CSV data serialization functionality
-  * CSVExporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007)
-* To Work on:
-  * testing
+  * CSVExporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/62) and CSVImporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/73)
+   * These PRs were a significant contribution to the project because it improved our support for data serialization and introduced design patterns that would make extending this functionality a much easier task.
 
 #### Kenneth
 * Worked On since Phase 2:
