@@ -93,14 +93,12 @@ public class CourseCreator {
         try {
             profs = lecture.getAsJsonObject("instructors");
         } catch (Exception e) {
-            System.out.println("a");
             return 2.5;
         }
         Set<String> p;
         try {
             p = profs.keySet();
         } catch (Exception NullPointerException) {
-            System.out.println("b");
             return 2.5;
         }
         String firstProf = p.iterator().next();
@@ -112,7 +110,6 @@ public class CourseCreator {
                             professorInfo.get("firstName").getAsString(),
                             professorInfo.get("lastName").getAsString());
         } catch (RateMyProfessorException e) {
-            System.out.println("c");
             rating = 2.5;
         }
         System.out.println(
