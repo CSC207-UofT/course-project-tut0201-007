@@ -207,6 +207,7 @@ Our program is less likely to be used by users who prefer the use of an input de
   * design document
   * testing
   * CSV data serialization functionality
+  * CSVExporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007)
 * To Work on:
   * testing
 
