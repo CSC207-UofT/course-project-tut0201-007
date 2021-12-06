@@ -16,7 +16,7 @@ public class CourseExclusionFilterTest {
     CourseExclusionFilter filter1;
     CourseExclusionFilter filter2;
     Scheduler scheduleCreator;
-    ArrayList<Course> courses;
+    List<Course> courses;
 
     @Before
     public void setUp() {
@@ -26,7 +26,7 @@ public class CourseExclusionFilterTest {
 
     @Test(timeout = 1000)
     public void filterFail() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
         // Courses are not exclusions
         multi.add("TST101Y");
         multi.add("TST104Y");
@@ -38,7 +38,7 @@ public class CourseExclusionFilterTest {
 
     @Test(timeout = 1000)
     public void filterSucceed() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
         // Courses are exclusions
         multi.add("TST101Y");
         multi.add("TST102Y");

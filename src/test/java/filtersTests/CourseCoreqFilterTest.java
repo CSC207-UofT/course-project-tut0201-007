@@ -16,7 +16,7 @@ public class CourseCoreqFilterTest {
     CourseCoreqFilter filter1;
     CourseCoreqFilter filter2;
     Scheduler scheduleCreator;
-    ArrayList<Course> courses;
+    List<Course> courses;
 
     @Before
     public void setUp() {
@@ -26,7 +26,7 @@ public class CourseCoreqFilterTest {
 
     @Test(timeout = 1000)
     public void filterFail() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
         // Courses don't have their coreqs in the schedule
         multi.add("TST101Y");
         multi.add("TST104Y");
@@ -38,7 +38,7 @@ public class CourseCoreqFilterTest {
 
     @Test(timeout = 1000)
     public void filterSucceed() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
         // Courses are coreqs
         multi.add("TST101Y");
         multi.add("TST103Y");
