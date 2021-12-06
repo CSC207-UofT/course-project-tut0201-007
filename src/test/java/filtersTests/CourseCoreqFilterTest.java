@@ -5,16 +5,16 @@ import static org.junit.Assert.*;
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
-import filters.CourseExclusionFilter;
+import filters.CourseCoreqFilter;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
 
-public class CourseExclusionFilterTest {
-    CourseExclusionFilter filter1;
-    CourseExclusionFilter filter2;
+public class CourseCoreqFilterTest {
+    CourseCoreqFilter filter1;
+    CourseCoreqFilter filter2;
     Scheduler scheduleCreator;
     List<Course> courses;
 
@@ -27,11 +27,11 @@ public class CourseExclusionFilterTest {
     @Test(timeout = 1000)
     public void filterFail() {
         List<String> multi = new ArrayList<>();
-        // Courses are not exclusions
+        // Courses don't have their coreqs in the schedule
         multi.add("TST101Y");
         multi.add("TST104Y");
         List<Course> courses = Controller.courseInstantiator(multi);
-        filter1 = new CourseExclusionFilter(courses);
+        filter1 = new CourseCoreqFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertFalse(filter1.checkSchedule(schedule));
     }
@@ -39,11 +39,11 @@ public class CourseExclusionFilterTest {
     @Test(timeout = 1000)
     public void filterSucceed() {
         List<String> multi = new ArrayList<>();
-        // Courses are exclusions
+        // Courses are coreqs
         multi.add("TST101Y");
-        multi.add("TST102Y");
+        multi.add("TST103Y");
         List<Course> courses = Controller.courseInstantiator(multi);
-        filter2 = new CourseExclusionFilter(courses);
+        filter2 = new CourseCoreqFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
         assertTrue(filter2.checkSchedule(schedule));
     }
