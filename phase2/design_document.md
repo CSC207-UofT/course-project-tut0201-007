@@ -1,6 +1,6 @@
 # Design Document
 
-## Updated Specification `TODO: Update for Phase 2`
+## Updated Specification
 
 ### Overview
 The project domain of our group is a Scheduling App that allows Students to specify courses they'd like to take, as well as criteria for their final schedule. Currently there are some course scheduling applications out there, but we felt that they were:
