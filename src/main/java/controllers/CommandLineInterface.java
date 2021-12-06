@@ -234,13 +234,17 @@ public class CommandLineInterface {
                         + ConsoleColours.RESET
                         + " 4 - "
                         + ConsoleColours.BLUE
+                        + "Restrict to times when you have courses\n"
+                        + ConsoleColours.RESET
+                        + " 5 - "
+                        + ConsoleColours.BLUE
                         + "Enforce times when you have no courses\n"
                         + ConsoleColours.RESET
                         + "Please enter your choices as valid integer inputs with spaces. (i.e. '1"
                         + " 2 3' or '2' or '').\n"
                         + "If you do not wish to configure any criteria, quit the selection.\n"
                         + "Press 'Q' to quit selection.");
-        boolean[] filterCodes = new boolean[4];
+        boolean[] filterCodes = new boolean[5];
 
         while (scanner.hasNextInt()) {
             int index = scanner.nextInt();
@@ -267,6 +271,9 @@ public class CommandLineInterface {
                         break;
                     case 3:
                         userFilters.addAll(CommandLineInterface.promptTimeFilter());
+                        break;
+                    case 4:
+                        userFilters.addAll(CommandLineInterface.promptExcludeTimeFilter());
                         break;
                 }
             }
@@ -683,6 +690,161 @@ public class CommandLineInterface {
             PromptHelpers.promptYNSelection();
             System.out.println(
                     "Quitting the selection means blocks will NOT be added to scheduling.");
+
+            if (scanner.hasNextInt()) {
+                input = scanner.nextInt();
+                if (input == 1) {
+                    System.out.println(ConsoleColours.GREEN + "Looping..." + ConsoleColours.RESET);
+                } else if (input == 0) {
+                    System.out.print(ConsoleColours.GREEN);
+                    System.out.println(
+                            "Your selected blocks of time are saved and courses taking place"
+                                    + " outside these times will be excluded. Exiting selection.");
+                    System.out.println(ConsoleColours.RESET);
+                    return newFilters;
+                } else {
+                    System.out.print(ConsoleColours.GREEN);
+                    System.out.println(
+                            "Your selected times will not be included in schedule generation."
+                                    + " Exiting selection.");
+                    System.out.println(ConsoleColours.RESET);
+                    return new ArrayList<>();
+                }
+            } else {
+                System.out.print(ConsoleColours.RED);
+                System.out.println(
+                        "Your selected times will not be included in schedule generation. Exiting"
+                                + " selection.");
+                System.out.println(ConsoleColours.RESET);
+                return new ArrayList<>();
+            }
+        }
+        if (input == 0) {
+            System.out.print(ConsoleColours.RED);
+            System.out.println("Input not selected.");
+            System.out.print(ConsoleColours.RESET);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Handles I/O request for filter that schedules courses during specific times.
+     *
+     * @return list of filters meeting user specification
+     */
+    private static List<Filter> promptExcludeTimeFilter() {
+        Scanner scanner = new Scanner(System.in);
+        List<Filter> newFilters = new ArrayList<>();
+        Day[] days = {
+                Day.ALL_DAYS, Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY
+        };
+        String[] dayStrings = {
+                "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+        };
+
+        System.out.println(
+                ConsoleColours.WHITE_BOLD_BRIGHT
+                        + "--- Would you like to specify times during which you do not have courses? ---"
+                        + ConsoleColours.RESET);
+        PromptHelpers.promptYNSelection();
+
+        int input = 0;
+        if (scanner.hasNextInt()) {
+            input = scanner.nextInt();
+        }
+
+        while (input == 1) {
+            System.out.println(
+                    ConsoleColours.WHITE_BOLD_BRIGHT
+                            + "--- On which day do you want to exclude times? ---\n"
+                            + ConsoleColours.RESET
+                            + "Press 0 - "
+                            + ConsoleColours.BLUE
+                            + "EVERYDAY\n"
+                            + ConsoleColours.RESET
+                            + "Press 1 - "
+                            + ConsoleColours.BLUE
+                            + "MONDAY\n"
+                            + ConsoleColours.RESET
+                            + "Press 2 - "
+                            + ConsoleColours.BLUE
+                            + "TUESDAY\n"
+                            + ConsoleColours.RESET
+                            + "Press 3 - "
+                            + ConsoleColours.BLUE
+                            + "WEDNESDAY\n"
+                            + ConsoleColours.RESET
+                            + "Press 4 - "
+                            + ConsoleColours.BLUE
+                            + "THURSDAY\n"
+                            + ConsoleColours.RESET
+                            + "Press 5 - "
+                            + ConsoleColours.BLUE
+                            + "FRIDAY"
+                            + ConsoleColours.RESET);
+
+            int day = scanner.nextInt();
+            while (!(day >= 0 && day <= 5)) {
+                System.out.println(
+                        ConsoleColours.RED
+                                + "Invalid input. Please enter another integer."
+                                + ConsoleColours.RESET);
+                day = scanner.nextInt();
+            }
+
+            System.out.println(
+                    ConsoleColours.WHITE_BOLD_BRIGHT
+                            + "--- From what time during these day(s) do you want no classes? ---"
+                            + ConsoleColours.RESET);
+            LocalTime startTime = CommandLineInterface.timeInputHandler();
+            System.out.println(
+                    ConsoleColours.WHITE_BOLD_BRIGHT
+                            + "--- Until what time during these day(s) do you want no classes? ---"
+                            + ConsoleColours.RESET);
+            LocalTime endTime = CommandLineInterface.timeInputHandler();
+
+            if (startTime.compareTo(endTime) > 0) {
+                System.out.println(
+                        ConsoleColours.RED
+                                + "Your start time is before your end time."
+                                + " Please try again during the next iteration."
+                                + ConsoleColours.RESET);
+            } else {
+                // WHY DOES DAY NOT HAVE TO STRING METHOD???? quick fix for now by hardcoding an
+                // array
+                System.out.println(
+                        ConsoleColours.WHITE_BOLD_BRIGHT
+                                + "--- Confirmation ---"
+                                + ConsoleColours.RESET);
+                System.out.println(
+                        "You would not like classes during "
+                                + dayStrings[day]
+                                + " from "
+                                + startTime.toString()
+                                + " until "
+                                + endTime.toString());
+                System.out.println("Is the above correct?");
+                PromptHelpers.promptYNSelection();
+                int sc = scanner.nextInt();
+                if (sc == 1) {
+                    newFilters.add(new ExcludeTimeFilter(startTime, endTime, days[day]));
+                } else if (sc == 0) {
+                    System.out.print(ConsoleColours.RED);
+                    System.out.println("Please try again on the next iteration.");
+                    System.out.print(ConsoleColours.RESET);
+                } else {
+                    System.out.print(ConsoleColours.RED);
+                    System.out.println("Invalid input. Please try again on the next iteration.");
+                    System.out.print(ConsoleColours.RESET);
+                }
+            }
+            System.out.println(
+                    ConsoleColours.WHITE_BOLD_BRIGHT
+                            + "--- Would you like to exclude another block of time? ---"
+                            + ConsoleColours.RESET);
+            PromptHelpers.promptYNSelection();
+            System.out.println(
+                    "Quitting the selection means blocks will NOT be excluded from scheduling.");
 
             if (scanner.hasNextInt()) {
                 input = scanner.nextInt();
