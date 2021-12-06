@@ -329,7 +329,7 @@ public class CommandLineInterface {
             input = scanner.nextDouble();
         }
         newFilters.add(new ProfessorRatingFilter(input));
-        scanner.close();
+        System.out.println(input);
         return newFilters;
     }
 

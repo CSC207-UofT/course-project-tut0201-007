@@ -1,16 +1,16 @@
-//package workersTests;
+// package workersTests;
 //
-//import static org.junit.jupiter.api.Assertions.assertThrows;
+// import static org.junit.jupiter.api.Assertions.assertThrows;
 //
-//import java.io.BufferedReader;
-//import java.io.FileReader;
-//import java.io.IOException;
-//import org.junit.Before;
-//import org.junit.Test;
-//import util.RateMyProfessorException;
-//import workers.ProfessorRatingScraper;
+// import java.io.BufferedReader;
+// import java.io.FileReader;
+// import java.io.IOException;
+// import org.junit.Before;
+// import org.junit.Test;
+// import util.RateMyProfessorException;
+// import workers.ProfessorRatingScraper;
 //
-//public class ProfessorRatingScraperTest {
+// public class ProfessorRatingScraperTest {
 //    String html1, html2;
 //
 //    @Before
@@ -45,4 +45,4 @@
 //                () -> ProfessorRatingScraper.getRatingFromHTML(html2),
 //                "Professor not found");
 //    }
-//}
+// }
