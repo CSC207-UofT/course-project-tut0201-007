@@ -112,12 +112,12 @@ public class CourseCreator {
         } catch (RateMyProfessorException e) {
             rating = 2.5;
         }
-        System.out.println(
+        /* System.out.println(
                 professorInfo.get("firstName").getAsString()
                         + " "
                         + professorInfo.get("lastName").getAsString()
                         + " "
-                        + rating);
+                        + rating); */
         return rating;
     }
 
