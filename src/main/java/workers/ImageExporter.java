@@ -211,17 +211,4 @@ public class ImageExporter extends Exporter {
 
 
 
-    public static void main(String arg[]) throws IOException {
-        List<String> courseIDs = new ArrayList<>();
-        courseIDs.add("TST101Y");
-        courseIDs.add("TST104Y");
-        courseIDs.add("CSC236F");
-        courseIDs.add("CSC258S");
-        List<Course> courses = Controller.courseInstantiator(courseIDs);
-
-        Schedule schedule = new Scheduler().createBasicSchedule(courses);
-        System.out.println(schedule);
-        new ImageExporter().outputSchedule(schedule, "custom name");
-
-    }
 }

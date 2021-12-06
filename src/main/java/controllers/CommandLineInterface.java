@@ -474,10 +474,10 @@ public class CommandLineInterface {
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'J':
-                    System.out.println(
-                            "Please specify the name you'd like to save this Schedule under.");
+                    System.out.println(ConsoleColours.WHITE_BOLD +
+                            "Please specify the name you'd like to save this Schedule under." + ConsoleColours.RESET);
                     String jpgFileName = scanner.next();
-                    System.out.printf("Saving this schedule in .jpg format...");
+                    System.out.println(ConsoleColours.GREEN + "Saving this schedule in .jpg format..." + ConsoleColours.RESET);
                     new ImageExporter().outputSchedule(currSchedule, jpgFileName);
                 case 'X':
                     if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
