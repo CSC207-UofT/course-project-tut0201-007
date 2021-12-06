@@ -37,13 +37,13 @@ public class ASCIIFormatterTest {
         DayOfWeek day0 = DayOfWeek.MONDAY;
         DayOfWeek day2 = DayOfWeek.WEDNESDAY;
 
-        lec1 = new Timeslot(startTime1, endTime1, day0, lectureLocation);
-        lec2 = new Timeslot(startTime2, endTime2, day2, lectureLocation);
-        lec3 = new Timeslot(startTime3, endTime3, day0, lectureLocation);
+        lec1 = new Timeslot(startTime1, endTime1, day0, lectureLocation, 'F');
+        lec2 = new Timeslot(startTime2, endTime2, day2, lectureLocation, 'F');
+        lec3 = new Timeslot(startTime3, endTime3, day0, lectureLocation, 'F');
 
-        tut1 = new Timeslot(startTime1, endTime1, day2, tutorialLocation);
-        tut2 = new Timeslot(startTime2, endTime2, day0, tutorialLocation);
-        tut3 = new Timeslot(startTime3, endTime3, day2, tutorialLocation);
+        tut1 = new Timeslot(startTime1, endTime1, day2, tutorialLocation, 'F');
+        tut2 = new Timeslot(startTime2, endTime2, day0, tutorialLocation, 'F');
+        tut3 = new Timeslot(startTime3, endTime3, day2, tutorialLocation, 'F');
 
         lec1Section = new Section("TST101 LEC0101 F", List.of(lec1));
         lec2Section = new Section("TST101 LEC0201 F", List.of(lec2));
