@@ -25,6 +25,8 @@ public class Controller {
                 ExecutionState.GenerationMode.ONE_BY_ONE;
         ExecutionState.GenerationMode allPermutations =
                 ExecutionState.GenerationMode.ALL_PERMUTATIONS;
+
+        ExecutionState.setGenerationMode(oneByOne);
         CommandLineInterface CLI = new CommandLineInterface(oneByOne);
 
         /**
@@ -44,12 +46,15 @@ public class Controller {
 
         // Prompt user for courses until courses are successfully instantiated (no issues with API
         // retrieving courses)
-        while (instantiatedCourses.isEmpty()) {
+        while (!ExecutionState.isSetUp()) {
             // ask user for course codes
             courses = CLI.promptCourseCodeNames();
             // course objects are instantiated based on the passed course codes
             instantiatedCourses = Controller.courseInstantiator(courses);
+            //declare these as the courses for user
+            ExecutionState.setUserCourses(instantiatedCourses);
         }
+
         // get user specified filters, add them as filters to our scheduler object
         List<Filter> filters = CLI.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
@@ -61,19 +66,20 @@ public class Controller {
         // final user schedules
         List<Schedule> schedules;
 
-        while (CLI.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
+        while (ExecutionState.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
             Course nextCourse = instantiatedCourses.get(0);
+            ExecutionState.setCurrentCourse(nextCourse);
             List<Schedule> nextCourseSchedules = scheduler.permutationScheduler(nextCourse);
             Schedule nextBase = CLI.promptUserBaseSchedule(nextCourseSchedules);
             if (nextBase == null) {
-                CLI.setGenerationMode(allPermutations);
+                ExecutionState.setGenerationMode(allPermutations);
             } else {
                 instantiatedCourses.remove(0);
                 scheduler.setBaseSchedule(nextBase);
             }
         }
 
-        CLI.setGenerationMode(allPermutations);
+        ExecutionState.setGenerationMode(allPermutations);
 
         // call the scheduler to give us all schedules given these courses, filters, and base
         // schedule

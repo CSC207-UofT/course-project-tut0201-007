@@ -13,7 +13,7 @@ public class ExecutionState {
      * @variable allUserCourses represents all Courses initially instantiated by the user
      * @variable remainingUserCourses represents all courses the user
      */
-    private static boolean stateIsSetup;
+    private static boolean stateIsSetUp = false;
     private static GenerationMode generationMode;
     private static List<Course> allUserCourses;
     private static List<Course> remainingUserCourses;
@@ -32,7 +32,7 @@ public class ExecutionState {
         allUserCourses = userCourses;
         remainingUserCourses = new ArrayList<>(allUserCourses);
         currentCourse = remainingUserCourses.remove(0);
-        stateIsSetup = true;
+        stateIsSetUp = true;
     }
 
     /**
@@ -51,6 +51,10 @@ public class ExecutionState {
         return currentCourse;
     }
 
+    public static void setCurrentCourse(Course course) {
+        currentCourse = course;
+    }
+
     /**
      * Gets courses that still need to be included in schedule.
      *
@@ -58,16 +62,6 @@ public class ExecutionState {
      */
     public static List<Course> getRemainingCourses() {
         return new ArrayList<>(remainingUserCourses);
-    }
-
-    /**
-     * Moves to the next course in the courses being scheduled.
-     */
-    public static void moveToNextCourse() {
-        if (remainingUserCourses.size() == 0) {
-            return;
-        }
-        currentCourse = remainingUserCourses.remove(0);
     }
 
     /**
@@ -80,6 +74,10 @@ public class ExecutionState {
 
     public static void setGenerationMode(GenerationMode mode) {
         generationMode = mode;
+    }
+
+    public static boolean isSetUp() {
+        return stateIsSetUp;
     }
 
     public enum GenerationMode {
