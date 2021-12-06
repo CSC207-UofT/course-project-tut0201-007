@@ -163,11 +163,10 @@ The Template method was introduced in [this pull request](https://github.com/CSC
 ## Progress Report
 
 ### Open questions
-- Can we further optimize our schedule generation? Given some criteria, are there more efficient algorithms to generate schedules instead of using filters?
 - How do we improve the worst case runtime of our filters?
 - What other factors impact course making decision and how can we make filters to address these factors?
-- Can we alter our CLI input to make it more intuitive?
-
+- Are there any other ways we can make our UI more intuitve to use? Make it more accessable to people who are less familiar with the command line?
+- Do we want to consider expanding the functionality to include browsing courses for selection?
 
 ### What has worked well so far
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
