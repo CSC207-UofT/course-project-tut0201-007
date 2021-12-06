@@ -148,6 +148,7 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [CourseExclusionFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/CourseExclusionFilter.java)
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
+- [ExcludeTimeFilter] (https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ExcludeTimeFilter.java)
 
 The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
@@ -242,17 +243,15 @@ Our program is less likely to be used by users who prefer the use of an input de
 
 
 #### Anton
-* Worked On:
+* Phase 1 -Worked On:
   * Creating Controller class, decoupling from CommandLineInterface
   * Scheduler with permutation implementation using filters and serialization
   * User input and output
-  * ExcludeTimeFilter
   * Design Document/Specification
-* To Work on:
-  * elegant User Input/Output experience
-  * optimizing Scheduling
-  * cleaner architecture
-  * 'one by one' scheduling feature
+* Phase 2 - Worked On:
+  * Creating ExecutionState class, improving communication between Controller/CLI barrier
+  * Creating ExcludeTimeFilter class, writing test cases
+  * Cleaning up CLI class
 
 #### Baker
 * Worked On:
