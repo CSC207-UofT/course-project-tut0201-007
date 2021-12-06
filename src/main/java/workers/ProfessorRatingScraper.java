@@ -3,13 +3,16 @@ package workers;
 import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
+
+import util.RateMyProfessorException;
+
 import java.util.HashMap;
 import java.util.Map;
 
-class ProfessorRatingScraper {
+public class ProfessorRatingScraper {
     private static Map<String, Double> previousScores = new HashMap<String, Double>();
 
-    public static double getRating(String firstName, String lastName) {
+    public static Double getProfessorRating(String firstName, String lastName) throws RateMyProfessorException {
         if (previousScores.containsKey(firstName + lastName)) {
             return previousScores.get(firstName + lastName);
         }
@@ -24,15 +27,19 @@ class ProfessorRatingScraper {
                     .get()
                     .html();
         } catch (IOException e) {
-            return 2.5;
+            throw new RateMyProfessorException("RateMyProfessors webpage cannot be reached");
         }
+        double rating = getRatingFromHTML(html);
+        return rating;
+    }
+
+    public static double getRatingFromHTML(String html) throws RateMyProfessorException {
         Document doc = Jsoup.parse(html);
         Element teacher = doc.getElementsByClass("TeacherCard__StyledTeacherCard-syjs0d-0 dLJIlx").first();
         Double ret = -1.0;
         Boolean correctSchool = false;
         if (teacher == null) {
-            previousScores.put(firstName + lastName, 2.5);
-            return 2.5;
+            throw new RateMyProfessorException("Professor not found");
         }
         for (Element e : teacher.getElementsByTag("div")) {
             if (e.className().contains("CardNumRatingNumber")) {
@@ -44,11 +51,9 @@ class ProfessorRatingScraper {
                 }
             }
             if (correctSchool && ret != -1.0) {
-                previousScores.put(firstName + lastName, ret);
                 return ret;
             }
         }
-        previousScores.put(firstName + lastName, 2.5);
-        return 2.5;
+        throw new RateMyProfessorException("Professor not found");
     }
 }
