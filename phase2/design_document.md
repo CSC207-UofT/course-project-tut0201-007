@@ -1,6 +1,6 @@
 # Design Document
 
-## Updated Specification `TODO: Update for Phase 2`
+## Updated Specification
 
 ### Overview
 The project domain of our group is a Scheduling App that allows Students to specify courses they'd like to take, as well as criteria for their final schedule. Currently there are some course scheduling applications out there, but we felt that they were:
@@ -8,13 +8,12 @@ The project domain of our group is a Scheduling App that allows Students to spec
 - Far too large and clunky, requiring numerous installs and setup
 - Did not use the Timetable API
 - Not enough customization
-- Incorrect schedule generation
-- Not accessible to people outside CS
+- Generated schedules incorrectly using outdated information
 
 Which is why we decided to make our own.
 
 ### The Project
-A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS files that can be used with most calendar apps.
+A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates .ics/.csv/.jpg files for different purposes, such as for calendar apps.
 
 ### Entities:
 
@@ -30,6 +29,9 @@ A class that represents a distinct time slot (a single lecture/tutorial) for som
 #### Timeslot
 A class that stores the time, day, and location of a lecture or tutorial.
 
+#### ExecutionState
+An entity responsible for representing the execution state of the program. It stores user courses, next course being generated, and user specified base schedule.
+
 ### Use Cases:
 
 #### CourseCreator
@@ -41,14 +43,20 @@ This class takes courses and criteria specified by the user, generates all cours
 #### APIWorker
 APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
-#### ScheduleImporter
-Parses information written in an ICS file and converts it into a Schedule object.
+#### Importer
+An interface that outlines methods and parameters of any importing use-case class.
 
-#### ScheduleExporter
-Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
+#### ICSImporter/CSVImporter
+Parses information written in an .ics/.csv file and converts it into a Schedule object, which can them be modified by the user.
 
-#### Filter Subclasses
-These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
+#### Exporter
+An abstract class that contains methods shared across exporting classes.
+
+#### ICSExporter/CSVExporter/ImageExporter
+Export a schedule as a .ics/.csv/.jpg file, depending on what the user wants to get out of their schedule.
+
+#### Filter Subclasses (ConflictFilter/CourseExclusionFilter/ExcludeTimeFilter/InPersonFilter/SpaceFilter/TimeFilter)
+These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false. 
 
 ### CLI Commands/Controller class:
 
@@ -56,11 +64,11 @@ These classes are instantiated based on the criteria a user provides for their s
 The main method of our program lies in this class. This manages the CommandLineInterface, instantiates courses, added filters, and negotiates output.
 
 #### CommandLineInterface
-The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics.
+The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics/.csv/.jpg.
 
 ## UML Diagram
 
-![UML](UML.png?raw=true "UML Diagram")
+![UML](UML.png?raw=true "UML Diagram") `Needs to be updated`
 
 ## Major Design Decisons
 
@@ -74,7 +82,7 @@ Our CommandLineInterface class initially violated the single responsibility prin
 ### Data Serialization
 For our data serialization functionality, we decided to use ICS and CSV files for our Data serialization because ICS files are the standard for storing online calendars, and CSV files provide an alternative with spreadsheet functionality. Since we use ICS/CSV files to store our own schedules, that means that we can directly import schedules from Google Calendar, or other scheduling apps, and use them to apply filters to them to create new schedules. Since some parts of the import/export algorithm were similar for the different filetypes, we made an `Exporter` abstract class and an `Importer` interface. Then the classes `CSVExporter`, `CSVImporter`, `ICSExporter`, and `ICSImporter` are concrete implementations for this feature.
 
-We chose to use ICS/CSV files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial
+We chose to use ICS/CSV files over a database because we don't expect to be storing much information. Under our specification, we expect that users will, at most, import a few schedules that they generated earlier, and that the users will not save that many final schedules. Also, since we only need to serialize our data when importing or exporting schedules, both of which happen infrequently, reduced speed from not using a database is trivial. We also included CSV as a serialization option in order to support users who wanted to be able to manipulate their schedules in Excel.
 
 ### Scheduler Recursive Base Case
 We had an elegant solution to generating schedules on top of a fixed set of courses. When a `Scheduler` object is instantiated, we set its instance attribute `schedule` to an empty schedule. Given a set of courses, this attribute is used as the base case for the recursive algorithm. The method `setBaseSchedule()` allows for this recursive base case to be changed. This allows for courses to be added to previously existing schedules, improves data serialization, and reduces redundant methods in `Scheduler`. For example, if a user imports a schedule with some preferable sections, this will be set as the recursive base case, and other schedules will be generated around these. This allows for greater flexibility in Phase 2 for selection, i.e. 'one by one' schedule generation.
@@ -87,7 +95,7 @@ The program is run through the Controller class. Controller interacts with the C
 
 Following this, Controller generates Schedule entities using Scheduler. Controller then uses the ScheduleExporter use-case to generate an .ics file that provides data serialization for schedules that the user selects. Since the only data that passes between the layers of the program architecture are simple arguments, function calls, and maps, the Dependency Rule remains unbroken.
 
-Alternatively, at the beginning of the CommandLineInterface, the user can choose to import an existing .ics file for further modification. The steps the program takes to do this is essentially identical to that described above.
+Alternatively, at the beginning of the CommandLineInterface, the user can choose to import an existing schedule from an .ics/.csv file for further modification. The steps the program takes to do this is essentially identical to that described above.
 
 ## SOLID Design Principles
 
@@ -117,7 +125,7 @@ Our program applies the Dependency inversion principle to adhere to the Open-clo
 We packaged our code using the packaging by layers strategy. This way we organized each clean architecture component into its own package, such as controllers, entities, filters, and Controllers contains our command line interface, entities
 contains all objects (`Course`, `Schedule`, `Session`), filters contains all implementations of the Filter interface, and workers contains all of our use cases.
 
-We also refactored the tests to follow our packaging strategy, as seen in 
+We also refactored the tests to follow our packaging strategy, as seen in
 [this pull request.](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/59)
 
 Since we don't have many classes for each layer, the code is well organized and simple to navigate through. We
@@ -129,7 +137,7 @@ Expansion of the program will be easy, as we can add each new clean architecture
 * Refactored code to better utilize Liskov Substitution Principle by using an abstract class (`List`) rather than `ArrayList` when possible in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/70)
 
 ## Testing
-* TODO: add stuff here. see https://q.utoronto.ca/courses/233945/pages/phases-1+2-marking-criteria?module_item_id=3097996
+At the moment, our test coverage is *insert percent here*. There are not very many components that are difficult to test based on our design. Our general testing workflow is to check correctness, accuracy and at the very least display. In this context, correctness is whether the code does what it is meant to do and is generally defined by an ```expect()``` statement. Accuracy is the performance of our code in niche cases, and making sure that we aren't just testing basic, surface cases. For certain classes, like `ASCIIFormatter` neither of these really hold because you cannot test how "nice" something looks. Instead we simply make sure that the final string being printed to console is correct.
 
 ## Design Pattern Summary
 
@@ -140,6 +148,7 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [CourseExclusionFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/CourseExclusionFilter.java)
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
+- [ExcludeTimeFilter] (https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ExcludeTimeFilter.java)
 
 The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
@@ -154,57 +163,61 @@ The Template method was introduced in [this pull request](https://github.com/CSC
 ## Progress Report
 
 ### Open questions
-- Can we further optimize our schedule generation? Given some criteria, are there more efficient algorithms to generate schedules instead of using filters?
 - How do we improve the worst case runtime of our filters?
-- Can we make CLI schedule output more visual, to better convey information to the user in a clear and concise manner? (i.e. ASCII)
 - What other factors impact course making decision and how can we make filters to address these factors?
-* Can we alter our CLI input to make it more intuitive?
-
+- Are there any other ways we can make our UI more intuitve to use? Make it more accessable to people who are less familiar with the command line?
+- Do we want to consider expanding the functionality to include browsing courses for selection?
 
 ### What has worked well so far
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
 - Pull Request reviews have been an efficient and concise way to communicate each group member's thoughts on design decisions, code formatting, and any other miscellaneous questions about the commits.
 - Our choice of entities, once we switched to using Sections to represent lecture or tutorial sections, made implementing schedule generation and ICS export/import much easier
 - The choice to use the Strategy design pattern for Filter allowed us to develop a wide range of Filters, without much effort for integrating them with our general program.
+- Use of the Template design pattern for exporters and importers of Schedules has made it frictionless to implement and integrate alternate options for exporting/importing
 
 ## Accessibility Report
+### Question 1
+* Principle 1: Our program does not currently adhere to principle 1, mostly because we only have a CLI. In the future, we can allow user customization of the CLI shortcuts, so users can select the keyboard inputs that are easiest for them. We can also allow the user to customize colors used in the CLI, to accomodate color blindness. Beyond this, we could add a GUI to allow alternate input like am mouse or joystick.
+* Principle 2 (Flexibility in Use):
+We allow the user to create a schedule through many methods such as through importing a pre existing file or you can choose to generate a schedule from scratch either all at once or through one by one generation. There are also different options for desired output format, such as ICS, CSV or JPG so that a variety of user needs can be met.
+* Principle 3 (Simple and Intuitive Use):
+We adhere to principle 3 by consistently using red for any negative responses during the scheduling creating prompt sequence. We also ensure that our CLI responses, especially for cases where there are errors, are as simple and easy to understand as possible.
+* Principle 4 (Perceptive Information): In order to be accessible to all users, our program makes use of Principle 4 (Perceptive Information) of the Universal Design Principles. To display schedules, we use ASCII characters to formulate a pictoral representation of the schedule which is easier for the user to understand. When using the CLI, our instructions for program usage are clear and unambigious to maximize the user experience. We also bold and color code key words within the CLI to maximize legibility of essential information.
+* Principle 5 (Tolerance for Error):
+We check user input to our CLI, to verify that it is both the correct type of input, and also a reasonable input (for example, bounding possible inputs for number of courses to schedule to be positive). We also provide warnings whenever the user enters invalid input, as well as a repeated description of what type of input should be entered.
+* Principle 6 (Low Physical Effort): We fulfill Principle 6 by providing shortcuts for Users in our CLI. For example, rather than needing to type out "Yes", or moving their moues and clicking a button, users only need to press "1" on their keyboard. This means users don't need to exert much force or physical effort. Also they can stay in their typing position, which is generally a neutral body position.
+* Principle 7 (Size and Space for Approach and Use): We do not fulfill principle 7. However, this principle does not apply to this program, because it doesn't present any UI elements except on the computer screen, and the only required component is the keyboard. Therefore, physical space requirements for the program can't be affected by us.
 
-In order to be accessible to all users, our program makes use of Principle 4 (Perceptive Information) of the Universal Design Principles. 
+### Q2
 
-To display schedules, we use ASCII characters to formulate a pictoral representation of the schedule which is easier for the user to understand. 
+We would market our program towards U of T students, because it is a tool for scheduling courses at U of T. Specifically, since our program works through a CLI, which is a positive for users who prefer the command line over a GUI, we'd market towards U of T students who prefer a CLI experience. Since our program is automatically up to date, as it uses data directly from the U of T timestable, we can market this program towards students now, as well as in the future.
 
-When using the CLI, our instructions for program usage are clear and unambigious to maximize the user experience. 
+### Q3
 
-We also consider Principle 2 (Flexibility in Use).
+Our program is less likely to be used by users who prefer the use of an input device that doesn't support directly inputting text into the CLI. Also, it is less likely to be used by non-students, because it is a course scheduling app, and less likely to be used by non-UofT students, because it can only schedule courses for UofT. It is also less likely to be used by non-technical people, since they may not be comfortable interacting with an application directly through the CLI.
 
-We allow the user to create a schedule through many methods such as through importing a pre existing file or you can choose to generate a schedule from scratch either all at once or through one by one generation. 
 
-There are also different options for desired output format, such as ICS or CSV so that a variety of user needs can be met. 
 
 
 ### Group member contributions & plans
 
 #### Rory
 * Worked On:
-  * refactoring the CourseCreator and Section classes
-  * InPersonFilter class
-  * mock API for testing classes
   * design document
-* To Work on:
-  * implementing various other Filter subclasses
-  * improved CLI schedule representation
+  * testing
+  * CSV data serialization functionality
+* Signifigant contributions: CSVExporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/62) and CSVImporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/73)
+   * These PRs were a significant contribution to the project because it improved our support for data serialization and introduced design patterns that would make extending this functionality a much easier task.
 
 #### Kenneth
-* Worked On:
-  * Implementing importing and exporting Schedules
-  * ConflictFilter
-  * Implemented TimeFilter
-  * Bug Fixes on bugs surrounding schedule generation
-  * Design Doc
-* To Work on:
-  * Filter for allowing courses only if their corequisites are filled
-  * Provide option to export schedule to human-readable format as well as ICS
-  * Look into generating PDF for a schedule
+* Worked On since Phase 2:
+  * Design Document
+  * Export Schedule to an image
+  * Fix bug regarding year long courses that change location
+  * Changed CLI File import dialogue to show all importable files
+  * Accessibility report
+ * Significant [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/21):
+  * This PR is a significant contribution because it allows our application to serialize schedules and export schedules to calendar applications. It also laid the groundwork for later exporters and importers.
 
 #### Siddarth
 * Worked On:
@@ -220,27 +233,26 @@ There are also different options for desired output format, such as ICS or CSV s
 
 #### Lorena
 * Worked On:
-  * CourseExclusionFilter implementation
-  * Refactoring - Packaging
-  * Augmenting Schedule class to store exclusions from the API
+  * Redesigning CLI output to be more user-friendly 
+  * Accounting for course corequsites 
+  * Bug fixes 
   * Design Document
 * To Work on:
-  * Check for issues and create tests
-  * Implementing future Filters
+  * Further testing / bug fixing 
 
 
 #### Anton
-* Worked On:
+* Phase 1 -Worked On:
   * Creating Controller class, decoupling from CommandLineInterface
   * Scheduler with permutation implementation using filters and serialization
   * User input and output
-  * ExcludeTimeFilter
   * Design Document/Specification
-* To Work on:
-  * elegant User Input/Output experience
-  * optimizing Scheduling
-  * cleaner architecture
-  * 'one by one' scheduling feature
+* Phase 2 - Worked On:
+[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/63
+[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/75
+  * Creating ExecutionState class, improving communication between Controller/CLI barrier
+  * Creating ExcludeTimeFilter class, writing test cases. This was significant because it was easy: our design allowed us to extend the way Schedules are generated with no changes to Scheduler, and minimal additions to the CLI class. This demonstrated the importance of SOLID principles.
+  * Implementing one-by-one course generation. This improves functionality of the program since the user can choose course sections while Schedules are being generated. This minimizes the user having to scroll through all possibiliies at the end of generation.
 
 #### Baker
 * Worked On:
