@@ -5,39 +5,46 @@ import static org.junit.Assert.*;
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
-import filters.SpaceFilter;
+import filters.CourseCoreqFilter;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import workers.Scheduler;
 
-public class SpaceFilterTest {
-    SpaceFilter filter;
-    Scheduler scheduleCreator = new Scheduler();
+public class CourseCoreqFilterTest {
+    CourseCoreqFilter filter1;
+    CourseCoreqFilter filter2;
+    Scheduler scheduleCreator;
+    List<Course> courses;
 
     @Before
     public void setUp() {
-        filter = new SpaceFilter(1);
+        scheduleCreator = new Scheduler();
+        courses = new ArrayList<>();
     }
 
-    @Test(timeout = 4000)
+    @Test(timeout = 1000)
     public void filterFail() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
+        // Courses don't have their coreqs in the schedule
         multi.add("TST101Y");
-        multi.add("TST102Y");
+        multi.add("TST104Y");
         List<Course> courses = Controller.courseInstantiator(multi);
+        filter1 = new CourseCoreqFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertFalse(filter.checkSchedule(schedule));
+        assertFalse(filter1.checkSchedule(schedule));
     }
 
     @Test(timeout = 1000)
     public void filterSucceed() {
-        ArrayList<String> multi = new ArrayList<>();
+        List<String> multi = new ArrayList<>();
+        // Courses are coreqs
         multi.add("TST101Y");
-        multi.add("TST104Y");
+        multi.add("TST103Y");
         List<Course> courses = Controller.courseInstantiator(multi);
+        filter2 = new CourseCoreqFilter(courses);
         Schedule schedule = scheduleCreator.createBasicSchedule(courses);
-        assertTrue(filter.checkSchedule(schedule));
+        assertTrue(filter2.checkSchedule(schedule));
     }
 }

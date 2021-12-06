@@ -25,8 +25,6 @@ public class Timeslot implements Comparable<Timeslot> {
         this.day = day;
         this.room = room;
         this.session = session;
-        // TODO: Kind of weird that this session means something else from the Section's session.
-        // Not sure how to resolve. Better naming? See javadoc for explanation.
     }
 
     /**

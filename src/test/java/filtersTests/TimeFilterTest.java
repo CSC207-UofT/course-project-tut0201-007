@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import controllers.Controller;
 import entities.Course;
 import entities.Schedule;
+import filters.Day;
 import filters.TimeFilter;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class TimeFilterTest {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST101Y");
         courseIDs.add("TST102Y");
-        ArrayList<Course> courses = (ArrayList<Course>) Controller.courseInstantiator(courseIDs);
+        List<Course> courses = Controller.courseInstantiator(courseIDs);
 
         Scheduler scheduleCreator = new Scheduler();
         schedule = scheduleCreator.createBasicSchedule(courses);
@@ -31,7 +32,7 @@ public class TimeFilterTest {
     public void mondayFilterAccept() {
         LocalTime start = LocalTime.of(9, 0);
         LocalTime end = LocalTime.of(13, 0);
-        TimeFilter mondayFilter = new TimeFilter(start, end, TimeFilter.Day.MONDAY);
+        TimeFilter mondayFilter = new TimeFilter(start, end, Day.MONDAY);
         assert (mondayFilter.checkSchedule(schedule));
     }
 
@@ -40,7 +41,7 @@ public class TimeFilterTest {
 
         LocalTime start = LocalTime.of(16, 0);
         LocalTime end = LocalTime.of(20, 0);
-        TimeFilter mondayFilter = new TimeFilter(start, end, TimeFilter.Day.MONDAY);
+        TimeFilter mondayFilter = new TimeFilter(start, end, Day.MONDAY);
         assertFalse(mondayFilter.checkSchedule(schedule));
     }
 
@@ -48,7 +49,7 @@ public class TimeFilterTest {
     public void generalFilterAccept() {
         LocalTime start = LocalTime.of(9, 0);
         LocalTime end = LocalTime.of(21, 0);
-        TimeFilter generalFilter = new TimeFilter(start, end, TimeFilter.Day.ALL_DAYS);
+        TimeFilter generalFilter = new TimeFilter(start, end, Day.ALL_DAYS);
         assert (generalFilter.checkSchedule(schedule));
     }
 
@@ -56,7 +57,7 @@ public class TimeFilterTest {
     public void generalFilterReject() {
         LocalTime start = LocalTime.of(9, 0);
         LocalTime end = LocalTime.of(17, 0);
-        TimeFilter generalFilter = new TimeFilter(start, end, TimeFilter.Day.ALL_DAYS);
+        TimeFilter generalFilter = new TimeFilter(start, end, Day.ALL_DAYS);
         assertFalse(generalFilter.checkSchedule(schedule));
     }
 }

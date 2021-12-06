@@ -49,8 +49,8 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .getAsJsonObject("meetings");
 
-        ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
-        ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
+        List<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
+        List<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
         String exclusionsValue =
                 apiWorker
@@ -58,9 +58,19 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("exclusion")
                         .toString();
-        ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
+      
+        List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
 
-        return new Course(courseId, lectures, tutorials, session, exclusions);
+        String corequisitesValue =
+                apiWorker
+                        .info
+                        .getAsJsonObject(apiWorker.semester.get(w))
+                        .get("corequisite")
+                        .toString();
+      
+        List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
+
+        return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
     }
 
     /**
@@ -70,9 +80,9 @@ public class CourseCreator {
      * @param type LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
-    private static ArrayList<Section> getSessionsByType(
+    private static List<Section> getSessionsByType(
             JsonObject meetings, String type, String courseId, char session) {
-        ArrayList<Section> specifiedSessions = new ArrayList<>();
+        List<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
                 Double professorRating = getProfessorRating(meetings.getAsJsonObject(meeting));
@@ -125,21 +135,48 @@ public class CourseCreator {
      * Extracts all course names from a string containing the course exclusions and puts it into an
      * ArrayList
      *
-     * @param value a String that corresponds to all of the exclusions for a course
+     * @param value a String that corresponds to all the exclusions for a course
      * @return an ArrayList of course names
      */
-    public static ArrayList<String> getCourseExclusions(String value) {
-        ArrayList<String> shortenedCodes = new ArrayList<>();
+    public static List<String> getCourseExclusions(String value, String courseID) {
+        List<String> shortenedCodes = new ArrayList<>();
         try {
-            String cleanedValue = value.replace("\"", "").replace(".", "");
-            ArrayList<String> values = new ArrayList<>(List.of(cleanedValue.split("\\s*,\\s*")));
-            for (String s : values) {
-                shortenedCodes.add(s.substring(0, 6));
-            }
+            extractCodes(value, shortenedCodes);
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course has no exclusions (empty string)");
+            System.out.println("The course " + courseID + " has no exclusions (empty string)");
         }
         return shortenedCodes;
+    }
+
+    /**
+     * Extracts all course names from a string containing the course corequisites and puts it into
+     * an ArrayList
+     *
+     * @param value a String that corresponds to all the corequisites for a course
+     * @return an ArrayList of course names
+     */
+    public static List<String> getCourseCorequisites(String value, String courseID) {
+        List<String> shortenedCodes = new ArrayList<>();
+        try {
+            extractCodes(value, shortenedCodes);
+        } catch (Exception IndexOutOfBoundsException) {
+            System.out.println("The course " + courseID + " has no corequisites (empty string)");
+        }
+        return shortenedCodes;
+    }
+
+    /**
+     * Helper method for extracting the course code values from the API contents
+     *
+     * @param value a String that corresponds to all the corequisites for a course
+     * @param shortenedCodes an empty arraylist to add the course codes to
+     */
+    private static void extractCodes(String value, List<String> shortenedCodes) {
+        String cleanedValue = value.replace("\"", "").replace(".", "");
+        List<String> values = List.of(cleanedValue.split("\\s*,\\s*"));
+        for (String s : values) {
+            shortenedCodes.add(s.substring(0, 6));
+        }
     }
 
     /**

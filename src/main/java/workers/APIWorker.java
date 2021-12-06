@@ -4,6 +4,7 @@ import com.google.gson.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents an API Worker. The class is meant to be used to interact with the API. A
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class APIWorker {
     public JsonObject info;
-    public ArrayList<String> semester;
+    public List<String> semester;
 
     /**
      * Constructor that assigns ArrayLists of lecture and tutorial sessions.
@@ -36,6 +37,11 @@ public class APIWorker {
             try (java.io.InputStream is =
                     new java.net.URL(api_template.replace("COURSENAME", courseId)).openStream()) {
                 String contents = new String(is.readAllBytes());
+                // If the course is not present in the API, an empty list will be returned as the
+                // contents
+                if (contents.equals("[]")) {
+                    throw new IOException("This course does not exist.");
+                }
                 return JsonParser.parseString(contents);
             }
         } else {

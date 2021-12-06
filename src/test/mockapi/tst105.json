@@ -5,7 +5,7 @@
         "orgName": "Test",
         "courseTitle": "TestTitle",
         "code": "TST105",
-        "corequisite": "",
+        "corequisite": "TST104",
         "exclusion": "",
         "recommendedPreparation": "",
         "section": "F",

@@ -5,6 +5,7 @@ import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import util.ConsoleColours;
 import workers.*;
 
 /**
@@ -20,34 +21,76 @@ public class Controller {
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
+        ExecutionState.GenerationMode oneByOne =
+                ExecutionState.GenerationMode.ONE_BY_ONE;
+        ExecutionState.GenerationMode allPermutations =
+                ExecutionState.GenerationMode.ALL_PERMUTATIONS;
+
+        ExecutionState.setGenerationMode(oneByOne);
+        CommandLineInterface CLI = new CommandLineInterface(oneByOne);
 
         /**
          * Check if user wants to import or create new schedules. 1 -> new schedules 0 -> import -1
          * -> do nothing
          */
-        int userStrategy = CommandLineInterface.promptUser();
+        int userStrategy = CLI.promptUser();
         if (userStrategy == -1) {
             return;
         } else if (userStrategy == 0) {
-            Schedule baseSchedule = CommandLineInterface.promptImportSchedule();
+            Schedule baseSchedule = CLI.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
         }
-        // ask user for course codes
-        List<String> courses = CommandLineInterface.promptCourseCodeNames();
 
-        // course objects are instantiated based on the passed course codes
-        List<Course> instantiatedCourses = Controller.courseInstantiator(courses);
+        List<String> courses;
+        List<Course> instantiatedCourses = new ArrayList<>();
+
+        // Prompt user for courses until courses are successfully instantiated (no issues with API
+        // retrieving courses)
+        while (!ExecutionState.isSetUp()) {
+            // ask user for course codes
+            courses = CLI.promptCourseCodeNames();
+            // course objects are instantiated based on the passed course codes
+            instantiatedCourses = Controller.courseInstantiator(courses);
+            //declare these as the courses for user
+            ExecutionState.setUserCourses(instantiatedCourses);
+        }
 
         // get user specified filters, add them as filters to our scheduler object
-        List<Filter> filters = CommandLineInterface.promptUserFilters(instantiatedCourses);
+        List<Filter> filters = CLI.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
+
+        /** ask user if they want one by one schedule generation. */
+        CLI.selectGenerationMode();
+
+        /** while the user wants one by one generation, keep repeating */
+        // final user schedules
+        List<Schedule> schedules;
+
+        while (ExecutionState.getGenerationMode() == oneByOne && instantiatedCourses.size() > 0) {
+            Course nextCourse = instantiatedCourses.get(0);
+            ExecutionState.setCurrentCourse(nextCourse);
+            List<Schedule> nextCourseSchedules = scheduler.permutationScheduler(nextCourse);
+            Schedule nextBase = CLI.promptUserBaseSchedule(nextCourseSchedules);
+            if (nextBase == null) {
+                ExecutionState.setGenerationMode(allPermutations);
+            } else {
+                instantiatedCourses.remove(0);
+                scheduler.setBaseSchedule(nextBase);
+            }
+        }
+
+        ExecutionState.setGenerationMode(allPermutations);
 
         // call the scheduler to give us all schedules given these courses, filters, and base
         // schedule
-        List<Schedule> schedules = scheduler.permutationScheduler(instantiatedCourses);
+        if (instantiatedCourses.size() != 0) {
+            schedules = scheduler.permutationScheduler(instantiatedCourses);
+        } else {
+            schedules = new ArrayList<>(List.of(scheduler.getBaseSchedule()));
+        }
 
         // user interactive output method
-        CommandLineInterface.displayUserSchedules(schedules);
+        CLI.displayUserSchedules(schedules);
     }
 
     /**
@@ -71,16 +114,19 @@ public class Controller {
                 Course newCourse = CourseCreator.generateCourse(courseCode, session);
                 courses.add(newCourse);
 
-            } catch (IOException exception) {
+            } catch (IOException | IllegalStateException exception) {
                 /**
                  * In case something goes wrong with the API for a specific course code, we print
                  * the code and the exception that is thrown.
                  */
+                System.out.println(ConsoleColours.RED);
                 System.out.println(
                         "Exception occurred for course "
                                 + courseInput
                                 + " with the following message: \n"
-                                + exception.toString());
+                                + exception);
+                System.out.println(ConsoleColours.RESET);
+                System.out.println("Please re-enter your courses.");
             }
         }
         return courses;

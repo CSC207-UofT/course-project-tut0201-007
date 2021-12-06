@@ -19,7 +19,7 @@ import util.DateConstants;
 import util.InvalidSessionException;
 
 /** Use Case class for importing a Schedule from an ICS file */
-public class ScheduleImporter {
+public class ICSImporter implements Importer {
 
     /**
      * Parses information written in ICS format using Reader, and converts schedule from the ICS
@@ -28,7 +28,7 @@ public class ScheduleImporter {
      * @param reader The Reader object that parses from the ICS file or ICS formatted data
      * @return A Schedule object that contains all the Sections from the ICS file
      */
-    public static Schedule importSchedule(Reader reader) {
+    public Schedule importSchedule(Reader reader) {
         Schedule schedule = new Schedule();
         Map<String, Section> sectionsByName = new HashMap<>();
         DateTimeFormatter dateFormatter =
