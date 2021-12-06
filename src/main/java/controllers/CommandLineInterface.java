@@ -27,8 +27,6 @@ public class CommandLineInterface {
 
     public CommandLineInterface() {}
 
-    private ExecutionState.GenerationMode generationMode;
-
     /**
      * Constructor.
      *
@@ -37,26 +35,7 @@ public class CommandLineInterface {
      *     return a schedule
      */
     public CommandLineInterface(ExecutionState.GenerationMode mode) {
-        generationMode = mode;
-    }
-
-    /**
-     * Gets generation mode.
-     *
-     * @return generationMode
-     */
-    public ExecutionState.GenerationMode getGenerationMode() {
-        return generationMode;
-    }
-
-    /**
-     * Sets generation mode.
-     *
-     * @param mode must be enum ONE_BY_ONE or ALL_PERMUTATIONS as described in enum class
-     *     GenerationMode
-     */
-    public void setGenerationMode(ExecutionState.GenerationMode mode) {
-        generationMode = mode;
+        ExecutionState.setGenerationMode(mode);
     }
 
     /**
@@ -310,11 +289,11 @@ public class CommandLineInterface {
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
-                this.generationMode = ExecutionState.GenerationMode.ONE_BY_ONE;
+                ExecutionState.setGenerationMode(ExecutionState.GenerationMode.ONE_BY_ONE);
                 return;
             }
             if (input == 0) {
-                this.generationMode = ExecutionState.GenerationMode.ALL_PERMUTATIONS;
+                ExecutionState.setGenerationMode(ExecutionState.GenerationMode.ALL_PERMUTATIONS);
                 return;
             }
         }
@@ -353,11 +332,11 @@ public class CommandLineInterface {
         while (scanner.hasNextInt()) {
             int input = scanner.nextInt();
             if (input == 1) {
-                this.generationMode = ExecutionState.GenerationMode.ONE_BY_ONE;
+                ExecutionState.setGenerationMode(ExecutionState.GenerationMode.ONE_BY_ONE);
                 return nextSchedule;
             }
             if (input == 0) {
-                this.generationMode = ExecutionState.GenerationMode.ALL_PERMUTATIONS;
+                ExecutionState.setGenerationMode(ExecutionState.GenerationMode.ALL_PERMUTATIONS);
                 return nextSchedule;
             }
         }
@@ -419,11 +398,11 @@ public class CommandLineInterface {
                             + ConsoleColours.BLUE
                             + " save this schedule as an .ics/.csv file."
                             + ConsoleColours.RESET);
-            if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
+            if (ExecutionState.getGenerationMode() == ExecutionState.GenerationMode.ONE_BY_ONE) {
                 System.out.println(
                         " • Press 'X' to"
                                 + ConsoleColours.BLUE
-                                + "build courses around this schedule"
+                                + " build courses around this schedule"
                                 + ConsoleColours.RESET);
             }
 
@@ -472,7 +451,7 @@ public class CommandLineInterface {
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'X':
-                    if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {
+                    if (ExecutionState.getGenerationMode() == ExecutionState.GenerationMode.ONE_BY_ONE) {
                         return currSchedule;
                     }
                     break;
