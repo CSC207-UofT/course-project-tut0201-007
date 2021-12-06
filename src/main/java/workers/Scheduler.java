@@ -1,108 +1,165 @@
-package entities;
+package workers;
 
+import entities.*;
+import entities.Course;
+import entities.Schedule;
+import filters.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents a distinct collection of sessions. Class workers.Scheduler stores these in
- * order to keep track of possible schedules.
+ * Class responsible for scheduling courses with different criteria.
+ *
+ * <p>Key method is permutationScheduler() which creates all permutations passing filters.
  */
-public class Schedule implements Cloneable {
+public class Scheduler {
+    private Schedule schedule;
+    private final List<Filter> filters = new ArrayList<Filter>();
 
-    private final List<Section> lectures;
-    private final List<Section> tutorials;
-    private final List<String> courses;
-
-    /** No parameter constructor that creates empty ArrayLists of lecture and tutorial sessions. */
-    public Schedule() {
-        this.lectures = new ArrayList<>();
-        this.tutorials = new ArrayList<>();
-        this.courses = new ArrayList<>();
+    /** Constructs a workers.Scheduler with empty courses and schedules */
+    public Scheduler() {
+        this.schedule = new Schedule();
     }
 
     /**
-     * Constructor that assigns ArrayLists of lecture and tutorial sessions.
+     * Constructs a workers.Scheduler with the given courses and schedules
      *
-     * @param lectures is the set of lecture sessions in this schedule
-     * @param tutorials is the set of tutorial sessions in this schedule
+     * @param schedule list of schedules
      */
-    public Schedule(List<Section> lectures, List<Section> tutorials) {
-        this.lectures = lectures;
-        this.tutorials = tutorials;
-        this.courses = new ArrayList<>();
+    public Scheduler(Schedule schedule) {
+        this.schedule = schedule;
+    }
 
-        for (Section sec : this.lectures) {
-            String courseCode = sec.getName().substring(0, 6);
-            if (!this.courses.contains(courseCode)) {
-                courses.add(courseCode);
+    public void setBaseSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Schedule getBaseSchedule() {
+        return schedule;
+    }
+
+    public void addFilters(List<Filter> filters) {
+        this.filters.addAll(filters);
+    }
+
+    /**
+     * Scheduler used to create courses all course permutations recursively. During generation,
+     * schedulers not passing filters are removed in the populatePermutations and
+     * extendPermutations().
+     *
+     * @param newCourses courses sorted by priority to be scheduled.
+     * @return a list of all possible Schedules passing the given filters
+     */
+    public List<Schedule> permutationScheduler(List<Course> newCourses) {
+        if (newCourses.isEmpty()) {
+            return new ArrayList<>();
+        }
+        int numOfCourses = newCourses.size();
+
+        if (newCourses.size() == 1) {
+            Course newCourse = newCourses.get(0);
+            List<Schedule> newSchedules = extendPermutations(newCourse, this.schedule);
+            return newSchedules;
+        } else {
+            Course newCourse = newCourses.get(numOfCourses - 1);
+            newCourses.remove(numOfCourses - 1);
+            List<Schedule> savedSchedules = permutationScheduler(newCourses);
+            List<Schedule> newSchedules = new ArrayList<>();
+
+            for (Schedule schedule : savedSchedules) {
+                newSchedules.addAll(extendPermutations(newCourse, schedule));
+            }
+
+            // savedSchedules.addAll(newSchedules);
+            // return savedSchedules;
+            return newSchedules;
+        }
+    }
+
+    /**
+     * An override of permutationScheduler but with one course. Used as a shortcut so no unnecessary
+     * ArrayList creation is needed in other classes
+     *
+     * @param course is the course whose lectures and sessions will be used in generation
+     * @return a list of all possible Schedules passing the given filters
+     */
+    public List<Schedule> permutationScheduler(Course course) {
+        List<Course> courseList = new ArrayList<>();
+        courseList.add(course);
+        return permutationScheduler(courseList);
+    }
+
+    /**
+     * Takes a list of courses and outputs a schedule that takes the first lecture section and first
+     * tutorial section in each course. Mainly used for testing purposes.
+     *
+     * @param courses an ArrayList of courses from which a schedule will be generated.
+     * @return a schedule that takes the first lecture and first tutorial section in each course.
+     */
+    public Schedule createBasicSchedule(List<Course> courses) {
+        Schedule schedule = new Schedule();
+
+        for (Course newCourse : courses) {
+            if (!newCourse.getLectures().isEmpty()) {
+                schedule.addLecture(newCourse.getLectures().get(0));
+            }
+            if (!newCourse.getTutorials().isEmpty()) {
+                schedule.addTutorial(newCourse.getTutorials().get(0));
             }
         }
-    }
-
-    public List<Section> getLectures() {
-        return lectures;
-    }
-
-    public List<Section> getTutorials() {
-        return tutorials;
-    }
-
-    public List<String> getCourses() {
-        return courses;
+        return schedule;
     }
 
     /**
-     * Mutate the lectures list by adding lecture sessions in chronological order
+     * Returns permutations of lectures and tutorials of course c, passing filters, together with
+     * all sections already present in schedule s.
      *
-     * @param lecture is a lecture session
+     * @param c the course whose lecs/tuts will be permuted
+     * @param s the schedule to which the permutations will be added
+     * @return all added permutations to this schedule
      */
-    public void addLecture(Section lecture) {
-        lectures.add(lecture);
+    private List<Schedule> extendPermutations(Course c, Schedule s) {
+        List<Schedule> populatedSchedules = new ArrayList<>();
+        List<Section> courseLectures = c.getLectures();
+        List<Section> courseTutorials = c.getTutorials();
 
-        String courseCode = lecture.getName().substring(0, 6);
-        if (!this.courses.contains(courseCode)) {
-            this.courses.add(courseCode);
+        if (courseTutorials.size() == 0) {
+            for (Section lec : courseLectures) {
+                Schedule tempSchedule = s.clone();
+                tempSchedule.addLecture(lec);
+
+                if (checkFilters(tempSchedule)) {
+                    populatedSchedules.add(tempSchedule);
+                }
+            }
+            return populatedSchedules;
         }
+
+        for (Section lec : courseLectures) {
+            for (Section tut : courseTutorials) {
+                Schedule tempSchedule = s.clone();
+                tempSchedule.addLecture(lec);
+                tempSchedule.addTutorial(tut);
+
+                if (this.checkFilters(tempSchedule)) {
+                    populatedSchedules.add(tempSchedule);
+                }
+            }
+        }
+        return populatedSchedules;
     }
 
     /**
-     * Mutate the tutorials list by adding lecture sessions in chronological order
+     * Checks filters for this scheduler
      *
-     * @param tutorial is a tutorial session
+     * @return true if all filters pass for Schedule given to the method
      */
-    public void addTutorial(Section tutorial) {
-        tutorials.add(tutorial);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder representation = new StringBuilder("Schedule: \n\n");
-        representation.append("Lectures\n");
-        for (Section s : this.lectures) {
-            representation.append(s.toString()).append("\n");
+    private boolean checkFilters(Schedule s) {
+        for (Filter f : this.filters) {
+            if (!f.checkSchedule(s)) {
+                return false;
+            }
         }
-        representation.append("\nTutorials\n");
-        for (Section s : this.tutorials) {
-            representation.append(s.toString()).append("\n");
-        }
-        return representation.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Schedule) {
-            return this.lectures.equals(((Schedule) o).getLectures())
-                    && this.tutorials.equals(((Schedule) o).getTutorials());
-        }
-        return false;
-    }
-
-    public boolean isEmpty() {
-        return lectures.isEmpty();
-    }
-
-    @Override
-    public Schedule clone() {
-        return new Schedule(new ArrayList(lectures), new ArrayList(tutorials));
+        return true;
     }
 }
