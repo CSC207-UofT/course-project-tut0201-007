@@ -8,6 +8,7 @@ import entities.Section;
 import entities.Timeslot;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.junit.Test;
 public class ASCIIFormatterTest {
     Schedule sched;
     LocalTime startTime1, startTime2;
+    Timeslot lec1, lec2, lec3, tut1, tut2, tut3;
 
     @Before
     public void setUp() {
@@ -32,15 +34,16 @@ public class ASCIIFormatterTest {
 
         String lectureLocation = "SS 2135";
         String tutorialLocation = "MP203";
-        DayOfWeek day = DayOfWeek.MONDAY;
+        DayOfWeek day0 = DayOfWeek.MONDAY;
+        DayOfWeek day2 = DayOfWeek.WEDNESDAY;
 
-        Timeslot lec1 = new Timeslot(startTime1, endTime1, day, lectureLocation);
-        Timeslot lec2 = new Timeslot(startTime2, endTime2, day, lectureLocation);
-        Timeslot lec3 = new Timeslot(startTime3, endTime3, day, lectureLocation);
+        lec1 = new Timeslot(startTime1, endTime1, day0, lectureLocation);
+        lec2 = new Timeslot(startTime2, endTime2, day2, lectureLocation);
+        lec3 = new Timeslot(startTime3, endTime3, day0, lectureLocation);
 
-        Timeslot tut1 = new Timeslot(startTime1, endTime1, day, tutorialLocation);
-        Timeslot tut2 = new Timeslot(startTime2, endTime2, day, tutorialLocation);
-        Timeslot tut3 = new Timeslot(startTime3, endTime3, day, tutorialLocation);
+        tut1 = new Timeslot(startTime1, endTime1, day2, tutorialLocation);
+        tut2 = new Timeslot(startTime2, endTime2, day0, tutorialLocation);
+        tut3 = new Timeslot(startTime3, endTime3, day2, tutorialLocation);
 
         lec1Section = new Section("TST101 LEC0101 F", List.of(lec1));
         lec2Section = new Section("TST101 LEC0201 F", List.of(lec2));
@@ -76,5 +79,33 @@ public class ASCIIFormatterTest {
 
         LocalTime expected = startTime2;
         assertEquals(expected, ascii.getEnd());
+    }
+
+    @Test(timeout = 100)
+    public void testPopulateMatrixShape() {
+        ASCIIFormatter ascii = new ASCIIFormatter(sched);
+        String[][] expected = new String[8][5];
+
+        assertEquals(expected.length, ascii.populateMatrix().length);
+        assertEquals(expected[0].length, ascii.populateMatrix()[0].length);
+    }
+
+    @Test(timeout = 100)
+    public void testPopulateMatrixContent() {
+        ASCIIFormatter ascii = new ASCIIFormatter(sched);
+        String[][] expected = new String[8][5];
+
+        for (String[] strings : expected) {
+            Arrays.fill(strings, "");
+        }
+
+        expected[0][0] = lec1.toString();
+        expected[0][2] = tut1.toString();
+        expected[7][0] = lec2.toString();
+        expected[7][2] = tut2.toString();
+        expected[5][0] = lec3.toString();
+        expected[5][2] = tut3.toString();
+
+        assertArrayEquals(expected, ascii.populateMatrix());
     }
 }

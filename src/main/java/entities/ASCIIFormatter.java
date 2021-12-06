@@ -49,70 +49,54 @@ public class ASCIIFormatter {
      * Method to turn our timeslots into a nx5 array that can be used to construct our ascii
      * schedule.
      *
-     * <p>The array needs to have 5 columns, and variable height based on the hours slots we have.
+     * The array needs to have 5 columns, and variable height based on the hours slots we have.
      * Each element is a Timeslot, which will be used in genTable(). Note that the same timeslot
      * appears multiple times if the timeslot is longer than an hour.
      *
-     * <p>Each column is NOT the days, because there is no easy way to get rows in Java. This array
-     * is a transpose of the schedule essentially.
      */
     public String[][] populateMatrix() {
         Map<String, Integer> days =
                 Map.of(
-                        "Monday", 0,
-                        "Tuesday", 1,
-                        "Wednesday", 2,
-                        "Thursday", 3,
-                        "Friday", 4);
+                        "MONDAY", 0,
+                        "TUESDAY", 1,
+                        "WEDNESDAY", 2,
+                        "THURSDAY", 3,
+                        "FRIDAY", 4);
         ArrayList<Timeslot> timeslots = getTimeslots();
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
 
-        //        for(int i=0; i<mat.length; i++) {
-        //            for(int j=0; j<mat[i].length; j++) {
-        //                for (Timeslot timeslot: timeslots){
-        //                    if (j == days.get(timeslot.getDay().toString()) &&
-        //                            i == timeslot.getStart().getHour() - start.getHour() &&
-        //                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() ==
-        // 1){
-        //                        mat[i][j] = timeslot.toString();
-        //                    } else if (j == days.get(timeslot.getDay().toString()) &&
-        //                            i == timeslot.getStart().getHour() - start.getHour() &&
-        //                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() >
-        // 1){
-        //                        for (int k=0; k<timeslot.getStart().getHour() -
-        // timeslot.getEnd().getHour(); k++) {
-        //                            mat[i][j+k] = timeslot.toString();
-        //                        }
-        //                    } else {
-        //                        mat[i][j] = "";
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        for (int i = 0; i < mat.length; i++) {
-            for (int j = 0; j < mat[i].length; j++) {
-                for (Timeslot timeslot : timeslots) {
-                    if (i == days.get(timeslot.getDay().toString())
-                            && j == timeslot.getStart().getHour() - start.getHour()
-                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() == 1) {
-                        mat[j][i] = timeslot.toString();
-                    } else if (i == days.get(timeslot.getDay().toString())
-                            && j == timeslot.getStart().getHour() - start.getHour()
-                            && timeslot.getStart().getHour() - timeslot.getEnd().getHour() > 1) {
-                        for (int k = 0;
-                                k < timeslot.getStart().getHour() - timeslot.getEnd().getHour();
-                                k++) {
-                            mat[j][i + k] = timeslot.toString();
+        for(int i=0; i<mat.length; i++) {
+            for(int j=0; j<mat[i].length; j++) {
+                for (Timeslot timeslot: timeslots){
+                    if (j == days.get(timeslot.getDay().toString()) &&
+                            i == timeslot.getStart().getHour() - start.getHour() &&
+                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() ==
+                                    1){
+                        mat[i][j] = timeslot.toString();
+                    } else if (j == days.get(timeslot.getDay().toString()) &&
+                            i == timeslot.getStart().getHour() - start.getHour() &&
+                            timeslot.getStart().getHour() - timeslot.getEnd().getHour() >
+                                    1){
+                        for (int k=0; k<timeslot.getStart().getHour() -
+                                timeslot.getEnd().getHour(); k++) {
+                            mat[i][j+k] = timeslot.toString();
                         }
                     } else {
-                        mat[j][i] = "";
+                        mat[i][j] = "";
                     }
                 }
             }
         }
 
         return mat;
+    }
+
+    public static String[] getColumn(String[][] arr, int index){
+        String[] col = new String[arr[0].length];
+        for(int i=0; i<col.length; i++){
+            col[i] = arr[i][index];
+        }
+        return col;
     }
 
     /** Method to grab the earliest start time of a course in a schedule. */
@@ -154,8 +138,7 @@ public class ASCIIFormatter {
     public String genTable() {
         String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s |\n";
         String padding =
-                "|                |                |                |                |            "
-                        + "    |";
+                "|                |                |                |                |                |";
         String floor =
                 "+----------------+----------------+----------------+----------------+----------------+\n";
         StringBuilder output = new StringBuilder("Schedule: \n\n");
@@ -163,12 +146,12 @@ public class ASCIIFormatter {
 
         // The header for our schedule
         output.append(floor)
-                .append("|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |    ")
-                .append(" Friday     |\n")
+                .append("|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |     Friday     |\n")
                 .append(floor);
-        for (int i = 0; i < latest.getHour() - start.getHour(); i++) {
+        for (int i = 0; i < end.getHour() - start.getHour(); i++) {
+            String[] col = getColumn(arr, i);
             output.append(padding);
-            output.append(String.format(leftAlignFormat, (Object) arr[i]));
+            output.append(String.format(leftAlignFormat, col[0], col[1], col[2], col[3], col[4]));
             output.append(padding);
             output.append(floor);
         }
