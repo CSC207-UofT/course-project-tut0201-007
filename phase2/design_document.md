@@ -8,13 +8,12 @@ The project domain of our group is a Scheduling App that allows Students to spec
 - Far too large and clunky, requiring numerous installs and setup
 - Did not use the Timetable API
 - Not enough customization
-- Incorrect schedule generation
-- Not accessible to people outside CS
+- Generated schedules incorrectly using outdated information
 
 Which is why we decided to make our own.
 
 ### The Project
-A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates ICS files that can be used with most calendar apps.
+A user specifies which courses they want to take, and also specify filters, like "No classes after 5 PM", or to find sections with no conflicts, through the CLI. The program queries the U of T Academic Calendar for the Tutorial & Lecture Sections of each requested course, and creates all schedules that meet the given criteria. This can be navigated either directly in the CLI. The user selects a generated schedule, and the program generates .ics/.csv/.jpg files for different purposes, such as for calendar apps.
 
 ### Entities:
 
@@ -30,6 +29,9 @@ A class that represents a distinct time slot (a single lecture/tutorial) for som
 #### Timeslot
 A class that stores the time, day, and location of a lecture or tutorial.
 
+#### ExecutionState
+An entity responsible for representing the execution state of the program. It stores user courses, next course being generated, and user specified base schedule.
+
 ### Use Cases:
 
 #### CourseCreator
@@ -41,14 +43,20 @@ This class takes courses and criteria specified by the user, generates all cours
 #### APIWorker
 APIWorker takes course codes and gets their information from the U of T API. This allows CourseCreator to create representations of the courses that is useful to our software.
 
-#### ScheduleImporter
-Parses information written in an ICS file and converts it into a Schedule object.
+#### Importer
+An interface that outlines methods and parameters of any importing use-case class.
 
-#### ScheduleExporter
-Export schedule as a .ics file, that can be interpreted by the vast majority of calendar apps.
+#### ICSImporter/CSVImporter
+Parses information written in an .ics/.csv file and converts it into a Schedule object, which can them be modified by the user.
 
-#### Filter Subclasses
-These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false.
+#### Exporter
+An abstract class that contains methods shared across exporting classes.
+
+#### ICSExporter/CSVExporter/ImageExporter
+Export a schedule as a .ics/.csv/.jpg file, depending on what the user wants to get out of their schedule.
+
+#### Filter Subclasses (ConflictFilter/CourseExclusionFilter/ExcludeTimeFilter/InPersonFilter/SpaceFilter/TimeFilter)
+These classes are instantiated based on the criteria a user provides for their scheduler. Filter subclasses are called during schedule generation in order to verify whether a particular schedule meets a user criterion. It main purpose is to check a schedule and return true/false. 
 
 ### CLI Commands/Controller class:
 
@@ -56,11 +64,11 @@ These classes are instantiated based on the criteria a user provides for their s
 The main method of our program lies in this class. This manages the CommandLineInterface, instantiates courses, added filters, and negotiates output.
 
 #### CommandLineInterface
-The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics.
+The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics/.csv/.jpg.
 
 ## UML Diagram
 
-![UML](UML.png?raw=true "UML Diagram")
+![UML](UML.png?raw=true "UML Diagram") `Needs to be updated`
 
 ## Major Design Decisons
 
@@ -129,7 +137,7 @@ Expansion of the program will be easy, as we can add each new clean architecture
 * Refactored code to better utilize Liskov Substitution Principle by using an abstract class (`List`) rather than `ArrayList` when possible in [this pr](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/70)
 
 ## Testing
-* TODO: add stuff here. see https://q.utoronto.ca/courses/233945/pages/phases-1+2-marking-criteria?module_item_id=3097996
+At the moment, our test coverage is *insert percent here*. There are not very many components that are difficult to test based on our design. Our general testing workflow is to check correctness, accuracy and at the very least display. In this context, correctness is whether the code does what it is meant to do and is generally defined by an ```expect()``` statement. Accuracy is the performance of our code in niche cases, and making sure that we aren't just testing basic, surface cases. For certain classes, like `ASCIIFormatter` neither of these really hold because you cannot test how "nice" something looks. Instead we simply make sure that the final string being printed to console is correct.
 
 ## Design Pattern Summary
 
