@@ -1,16 +1,13 @@
 package workersTests;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import util.RateMyProfessorException;
-
-import java.io.IOException;
-import java.io.FileReader;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import org.junit.Before;
+import org.junit.Test;
+import util.RateMyProfessorException;
 import workers.ProfessorRatingScraper;
 
 public class ProfessorRatingScraperTest {
@@ -43,6 +40,9 @@ public class ProfessorRatingScraperTest {
 
     @Test(timeout = 2000)
     public void testGetRatingFailure() {
-        assertThrows(RateMyProfessorException.class, () -> ProfessorRatingScraper.getRatingFromHTML(html2), "Professor not found");
+        assertThrows(
+                RateMyProfessorException.class,
+                () -> ProfessorRatingScraper.getRatingFromHTML(html2),
+                "Professor not found");
     }
 }

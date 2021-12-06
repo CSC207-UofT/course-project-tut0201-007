@@ -137,10 +137,11 @@ public class CommandLineInterface {
                     + "2 - Delivery method\n"
                     + "3 - Enforce a time gap between courses\n"
                     + "4 - Enforce times when you have no courses\n"
+                    + "5 - Add minimum rate my professor score for your lectures\n"
                     + "Please enter your choices as valid integer inputs with spaces. (i.e. '1 2"
                     + " 3' or '2' or '').A non-integer input will end selection.\n");
 
-        boolean[] filterCodes = new boolean[4];
+        boolean[] filterCodes = new boolean[5];
 
         while (scanner.hasNextInt()) {
             int index = scanner.nextInt();
@@ -165,6 +166,9 @@ public class CommandLineInterface {
                         break;
                     case 3:
                         userFilters.addAll(CommandLineInterface.promptTimeFilter());
+                        break;
+                    case 4:
+                        userFilters.addAll(CommandLineInterface.promptProfessorRatingFilter());
                         break;
                 }
             }
@@ -311,6 +315,21 @@ public class CommandLineInterface {
             return newFilters;
         }
         System.out.println("You did not specify a time gap. Quitting selection.");
+        return newFilters;
+    }
+
+    private static List<Filter> promptProfessorRatingFilter() {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Filter> newFilters = new ArrayList<>();
+        System.out.println(
+                "What is the minimum RateMyProfessor rating that your schedule can contain? Enter"
+                        + " a decimal between 0.1 and 5.0:");
+        double input = 5.0;
+        if (scanner.hasNextDouble()) {
+            input = scanner.nextDouble();
+        }
+        newFilters.add(new ProfessorRatingFilter(input));
+        scanner.close();
         return newFilters;
     }
 

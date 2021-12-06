@@ -3,10 +3,10 @@ package filters;
 import entities.Schedule;
 import entities.Section;
 
-class ProfessorRatingFilter implements Filter {
-    Double minimumScore;
+public class ProfessorRatingFilter implements Filter {
+    double minimumScore;
 
-    public ProfessorRatingFilter(Double minimumScore) {
+    public ProfessorRatingFilter(double minimumScore) {
         this.minimumScore = minimumScore;
     }
 

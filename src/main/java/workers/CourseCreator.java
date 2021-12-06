@@ -4,8 +4,6 @@ import com.google.gson.*;
 import entities.Course;
 import entities.Section;
 import entities.Timeslot;
-import util.RateMyProfessorException;
-
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -13,33 +11,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import util.RateMyProfessorException;
 
-/**
- * This class represents a Course Creator. This class uses APIWorker to generate
- * Course objects.
- */
+/** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
 
-    private static final Map<String, DayOfWeek> toDay = Map.of(
-            "MO",
-            DayOfWeek.of(1),
-            "TU",
-            DayOfWeek.of(2),
-            "WE",
-            DayOfWeek.of(3),
-            "TH",
-            DayOfWeek.of(4),
-            "FR",
-            DayOfWeek.of(5));
+    private static final Map<String, DayOfWeek> toDay =
+            Map.of(
+                    "MO",
+                    DayOfWeek.of(1),
+                    "TU",
+                    DayOfWeek.of(2),
+                    "WE",
+                    DayOfWeek.of(3),
+                    "TH",
+                    DayOfWeek.of(4),
+                    "FR",
+                    DayOfWeek.of(5));
 
     /**
      * Generates a course given a courseID and the session of the course
      *
      * @param courseId the identifier for the course
-     * @param session  the semester that the course takes place ie S, F, Y
+     * @param session the semester that the course takes place ie S, F, Y
      * @return a Course object
-     * @throws IOException if there is an issue with retrieving the course from the
-     *                     API
+     * @throws IOException if there is an issue with retrieving the course from the API
      */
     public static Course generateCourse(String courseId, char session) throws IOException {
         APIWorker apiWorker = new APIWorker(courseId);
@@ -47,29 +43,31 @@ public class CourseCreator {
         if (session == 'S' && apiWorker.semester.size() == 2) {
             w = 1;
         }
-        JsonObject meetings = apiWorker.info
-                .getAsJsonObject(apiWorker.semester.get(w))
-                .getAsJsonObject("meetings");
+        JsonObject meetings =
+                apiWorker
+                        .info
+                        .getAsJsonObject(apiWorker.semester.get(w))
+                        .getAsJsonObject("meetings");
 
         ArrayList<Section> lectures = getSessionsByType(meetings, "LEC", courseId, session);
         ArrayList<Section> tutorials = getSessionsByType(meetings, "TUT", courseId, session);
 
-        String exclusionsValue = apiWorker.info
-                .getAsJsonObject(apiWorker.semester.get(w))
-                .get("exclusion")
-                .toString();
+        String exclusionsValue =
+                apiWorker
+                        .info
+                        .getAsJsonObject(apiWorker.semester.get(w))
+                        .get("exclusion")
+                        .toString();
         ArrayList<String> exclusions = getCourseExclusions(exclusionsValue);
 
         return new Course(courseId, lectures, tutorials, session, exclusions);
     }
 
     /**
-     * Reads through a JSON object for a course and returns all of the sections of a
-     * given type
+     * Reads through a JSON object for a course and returns all of the sections of a given type
      *
-     * @param meetings a JsonObject that corresponds to all of the meetings for a
-     *                 course
-     * @param type     LEC or TUT
+     * @param meetings a JsonObject that corresponds to all of the meetings for a course
+     * @param type LEC or TUT
      * @return an ArrayList of Section objects, each representing a given meeting
      */
     private static ArrayList<Section> getSessionsByType(
@@ -95,30 +93,39 @@ public class CourseCreator {
         try {
             profs = lecture.getAsJsonObject("instructors");
         } catch (Exception e) {
+            System.out.println("a");
             return 2.5;
         }
         Set<String> p;
         try {
             p = profs.keySet();
         } catch (Exception NullPointerException) {
+            System.out.println("b");
             return 2.5;
         }
         String firstProf = p.iterator().next();
         JsonObject professorInfo = profs.getAsJsonObject(firstProf);
         double rating;
         try {
-            rating = ProfessorRatingScraper.getProfessorRating(
-                    professorInfo.get("firstName").getAsString(),
-                    professorInfo.get("lastName").getAsString());
+            rating =
+                    ProfessorRatingScraper.getProfessorRating(
+                            professorInfo.get("firstName").getAsString(),
+                            professorInfo.get("lastName").getAsString());
         } catch (RateMyProfessorException e) {
+            System.out.println("c");
             rating = 2.5;
         }
+        System.out.println(
+                professorInfo.get("firstName").getAsString()
+                        + " "
+                        + professorInfo.get("lastName").getAsString()
+                        + " "
+                        + rating);
         return rating;
     }
 
     /**
-     * Extracts all course names from a string containing the course exclusions and
-     * puts it into an
+     * Extracts all course names from a string containing the course exclusions and puts it into an
      * ArrayList
      *
      * @param value a String that corresponds to all of the exclusions for a course
@@ -142,7 +149,7 @@ public class CourseCreator {
      * Creates a section for a given JsonObject
      *
      * @param meeting JsonObject corresponding to a section
-     * @param name    the name of the section
+     * @param name the name of the section
      * @return a Section object representing the JsonObject
      */
     private static Section createSection(
@@ -158,8 +165,7 @@ public class CourseCreator {
         String winterRoomKey = "assignedRoom2";
 
         for (String time : schedule.keySet()) {
-            if (time.equals("-"))
-                continue;
+            if (time.equals("-")) continue;
             JsonObject slot = schedule.getAsJsonObject(time);
             DayOfWeek day = toDay.get(slot.get("meetingDay").getAsString());
             LocalTime start = LocalTime.parse(slot.get("meetingStartTime").getAsString());
@@ -167,8 +173,7 @@ public class CourseCreator {
             if (session == 'F' || session == 'S') {
                 String roomKey = session == 'S' ? winterRoomKey : fallRoomKey;
                 String room = slot.get(roomKey).getAsString();
-                if (room.equals(""))
-                    room = "ONLINE";
+                if (room.equals("")) room = "ONLINE";
                 ret.addTime(new Timeslot(start, end, day, room, session));
             } else if (session == 'Y') {
                 String fallRoom = slot.get(fallRoomKey).getAsString();
@@ -191,7 +196,7 @@ public class CourseCreator {
      * Checks if a session is cancelled
      *
      * @param meetings a jsonObject of meetings that contains the session
-     * @param meeting  the session in question
+     * @param meeting the session in question
      * @return true if the session is cancelled, otherwise false
      */
     private static boolean isCancelled(JsonObject meetings, String meeting) {
