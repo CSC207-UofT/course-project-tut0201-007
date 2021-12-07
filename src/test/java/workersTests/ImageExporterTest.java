@@ -10,14 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 import workers.*;
 
-public class ICSExporterTest {
-    Importer importer;
-    ICSExporter exporter;
+public class ImageExporterTest {
+    Exporter exporter;
 
     @Before
     public void setUp() {
-        importer = new ICSImporter();
-        exporter = new ICSExporter();
+        exporter = new ImageExporter();
     }
 
     @Test(timeout = 5000)
@@ -28,15 +26,21 @@ public class ICSExporterTest {
         courseCodes.add("TST103Y");
         List<Course> courses = Controller.courseInstantiator(courseCodes);
         Schedule s = sr.createBasicSchedule(courses);
-        String fileName = "schedule0";
+        String fileName = "schedule_image0";
         exporter.outputSchedule(s);
-        File file =
+        File winterSchedule =
                 new File(
                         new File("")
                                 .getAbsolutePath()
                                 .concat("/output")
-                                .concat("/" + fileName + ".ics"));
-        assert (file.exists());
+                                .concat("/" + fileName + "_winter.jpg"));
+        File fallSchedule =
+                new File(
+                        new File("")
+                                .getAbsolutePath()
+                                .concat("/output")
+                                .concat("/" + fileName + "_fall.jpg"));
+        assert (fallSchedule.exists() && winterSchedule.exists());
     }
 
     @Test(timeout = 5000)
@@ -49,12 +53,18 @@ public class ICSExporterTest {
         Schedule s = sr.createBasicSchedule(courses);
         String fileName = "custom_schedule_for_testing";
         exporter.outputSchedule(s, fileName);
-        File file =
+        File winterSchedule =
                 new File(
                         new File("")
                                 .getAbsolutePath()
                                 .concat("/output")
-                                .concat("/" + fileName + ".ics"));
-        assert (file.exists());
+                                .concat("/" + fileName + "_winter.jpg"));
+        File fallSchedule =
+                new File(
+                        new File("")
+                                .getAbsolutePath()
+                                .concat("/output")
+                                .concat("/" + fileName + "_fall.jpg"));
+        assert (fallSchedule.exists() && winterSchedule.exists());
     }
 }

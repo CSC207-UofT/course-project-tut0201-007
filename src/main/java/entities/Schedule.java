@@ -92,8 +92,14 @@ public class Schedule implements Cloneable {
     public boolean equals(Object o) {
         if (o instanceof Schedule) {
             Schedule that = (Schedule) o;
-            boolean lecturesEquivalent = this.lectures.size() == that.getLectures().size() && this.lectures.containsAll(that.getLectures()) && that.getLectures().containsAll(this.lectures);
-            boolean tutorialsEquivalent = this.tutorials.size() == that.getTutorials().size() && this.tutorials.containsAll(that.getTutorials()) && that.getTutorials().containsAll(this.tutorials);
+            boolean lecturesEquivalent =
+                    this.lectures.size() == that.getLectures().size()
+                            && this.lectures.containsAll(that.getLectures())
+                            && that.getLectures().containsAll(this.lectures);
+            boolean tutorialsEquivalent =
+                    this.tutorials.size() == that.getTutorials().size()
+                            && this.tutorials.containsAll(that.getTutorials())
+                            && that.getTutorials().containsAll(this.tutorials);
             return tutorialsEquivalent && lecturesEquivalent;
         }
         return false;
