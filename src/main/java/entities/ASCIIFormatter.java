@@ -2,6 +2,7 @@ package entities;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ASCIIFormatter {
 
@@ -83,6 +84,11 @@ public class ASCIIFormatter {
     public String[][] populateMatrix() {
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
 
+        // pre populate matrix
+        for (String[] strings : mat) {
+            Arrays.fill(strings, "");
+        }
+
         for (int i = 0; i < mat.length; i++) {
             for (int j = 0; j < mat[0].length; j++) {
                 for (Timeslot timeslot : timeslots) {
@@ -90,10 +96,8 @@ public class ASCIIFormatter {
                             && i == (timeslot.getStart().getHour() - start.getHour())) {
                         // ie if 2 hour long lec then curr cell and cell below should get filled w/ same timeslot
                         for (int l = 0; l < timeslot.getEnd().getHour() - timeslot.getStart().getHour(); l++) {
-                            mat[i][j + l] = timeslot.toString();
+                            mat[i+l][j] = timeslot.toString();
                         }
-                    } else {
-                        mat[i][j] = "";
                     }
                 }
             }

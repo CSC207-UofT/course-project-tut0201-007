@@ -28,7 +28,7 @@ public class ASCIIFormatterTest {
 
         startTime1 = LocalTime.of(9, 0, 0);
         LocalTime endTime1 = LocalTime.of(10, 0, 0);
-        startTime2 = LocalTime.of(16, 0, 0);
+        startTime2 = LocalTime.of(15, 0, 0);
         LocalTime endTime2 = LocalTime.of(17, 0, 0);
         LocalTime startTime3 = LocalTime.of(13, 0, 0);
         LocalTime endTime3 = LocalTime.of(14, 0, 0);
@@ -106,7 +106,7 @@ public class ASCIIFormatterTest {
         assertEquals(expected[0].length, ascii.populateMatrix()[0].length);
     }
 
-    @Test(timeout = 100)
+    @Test(timeout = 200)
     public void testPopulateMatrixContent() {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
         String[][] expected = new String[8][5];
@@ -118,18 +118,12 @@ public class ASCIIFormatterTest {
 
         expected[0][0] = lec1.toString();
         expected[0][2] = tut1.toString();
-        expected[7][0] = lec2.toString();
-        expected[7][2] = tut2.toString();
+        expected[6][2] = lec2.toString();
+        expected[7][2] = lec2.toString();
+        expected[6][0] = tut2.toString();
+        expected[7][0] = tut2.toString();
         expected[4][0] = lec3.toString();
         expected[4][2] = tut3.toString();
-
-        System.out.println(ascii.getTimeslots());
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println();
-        }
 
         assertArrayEquals(expected, matrix);
     }
