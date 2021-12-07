@@ -67,8 +67,8 @@ The main method of our program lies in this class. This manages the CommandLineI
 The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics/.csv/.jpg.
 
 ## UML Diagram
+![image](https://user-images.githubusercontent.com/22108651/144903389-b0de8406-6564-41c8-8c42-7f648018c21a.png)
 
-![UML](UML.png?raw=true "UML Diagram") `Needs to be updated`
 
 ## Major Design Decisons
 

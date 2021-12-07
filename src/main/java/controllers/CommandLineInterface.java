@@ -27,25 +27,30 @@ public class CommandLineInterface {
 
     PromptHelpers promptHelpers = new PromptHelpers();
 
-    public CommandLineInterface() {}
+    public CommandLineInterface() {
+    }
 
     /**
      * Constructor.
      *
      * @param mode represents one by one generation for the Controller
-     *     <p>if one by one generation is used in controller, displayUserSchedule will take input to
-     *     return a schedule
+     *             <p>
+     *             if one by one generation is used in controller,
+     *             displayUserSchedule will take input to
+     *             return a schedule
      */
     public CommandLineInterface(ExecutionState.GenerationMode mode) {
         ExecutionState.setGenerationMode(mode);
     }
 
     /**
-     * Prompts user for input, asking whether they would like to import a schedule or make a new
+     * Prompts user for input, asking whether they would like to import a schedule
+     * or make a new
      * one. Informs Controller how to perform generation.
      *
-     * @return an integer representing whether the user wants to import or creates a new schedule 0
-     *     -> import 1 -> new schedule other integer -> exit program
+     * @return an integer representing whether the user wants to import or creates a
+     *         new schedule 0
+     *         -> import 1 -> new schedule other integer -> exit program
      */
     public int promptUser() {
         Scanner scanner = new Scanner(System.in);
@@ -89,7 +94,8 @@ public class CommandLineInterface {
     }
 
     /**
-     * Asks the user to enter the course codes they would like to include in schedule generation.
+     * Asks the user to enter the course codes they would like to include in
+     * schedule generation.
      *
      * @return a String list of course codes
      */
@@ -150,7 +156,8 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
 
-        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles(file -> !file.getName().contains(".jpg"));
+        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/")
+                .listFiles(file -> !file.getName().contains(".jpg"));
         if (importableFiles.length == 0) {
             System.out.println(
                     "No importable files. Defaulting to generating a schedule from scratch");
@@ -242,11 +249,15 @@ public class CommandLineInterface {
                         + ConsoleColours.BLUE
                         + "Enforce times when you have no courses\n"
                         + ConsoleColours.RESET
+                        + " 6 - "
+                        + ConsoleColours.BLUE
+                        + "Restrict professor's RateMyProfessor score\n"
+                        + ConsoleColours.RESET
                         + "Please enter your choices as valid integer inputs with spaces. (i.e. '1"
                         + " 2 3' or '2' or '').\n"
                         + "If you do not wish to configure any criteria, quit the selection.\n"
                         + "Press 'Q' to quit selection.");
-        boolean[] filterCodes = new boolean[5];
+        boolean[] filterCodes = new boolean[6];
 
         while (scanner.hasNextInt()) {
             int index = scanner.nextInt();
@@ -277,6 +288,8 @@ public class CommandLineInterface {
                     case 4:
                         userFilters.addAll(CommandLineInterface.promptExcludeTimeFilter());
                         break;
+                    case 5:
+                        userFilters.addAll(CommandLineInterface.promptProfessorRatingFilter());
                 }
             }
         }
@@ -284,7 +297,10 @@ public class CommandLineInterface {
         return userFilters;
     }
 
-    /** Confirms whether user wants to generate all schedules or use one by one generation. */
+    /**
+     * Confirms whether user wants to generate all schedules or use one by one
+     * generation.
+     */
     public void selectGenerationMode() {
         Scanner scanner = new Scanner(System.in);
         System.out.println(
@@ -311,8 +327,9 @@ public class CommandLineInterface {
     /**
      * Asks user to select the next base schedule for permutation in Scheduler.
      *
-     * @param userSchedules the schedules meeting previous user specifications with one more course
-     *     being permuted
+     * @param userSchedules the schedules meeting previous user specifications with
+     *                      one more course
+     *                      being permuted
      * @return if the user selects a schedule around
      */
     public Schedule promptUserBaseSchedule(List<Schedule> userSchedules) {
@@ -353,12 +370,16 @@ public class CommandLineInterface {
     }
 
     /**
-     * Outputs schedules meeting user criteria. User can navigate through schedules and save them.
+     * Outputs schedules meeting user criteria. User can navigate through schedules
+     * and save them.
      *
      * @param userSchedules schedules meeting filter criteria
-     *     <p>attribute 'generationMode' is used in this method with 0 -> returning a Schedule is
-     *     not an option 1 -> returning a Schedule is an option Note: returning a schedule is
-     *     required in 1 by 1 generation
+     *                      <p>
+     *                      attribute 'generationMode' is used in this method with 0
+     *                      -> returning a Schedule is
+     *                      not an option 1 -> returning a Schedule is an option
+     *                      Note: returning a schedule is
+     *                      required in 1 by 1 generation
      */
     public Schedule displayUserSchedules(List<Schedule> userSchedules) {
         Scanner scanner = new Scanner(System.in);
@@ -463,7 +484,8 @@ public class CommandLineInterface {
                     System.out.println(ConsoleColours.WHITE_BOLD +
                             "Please specify the name you'd like to save this Schedule under." + ConsoleColours.RESET);
                     String jpgFileName = scanner.next();
-                    System.out.println(ConsoleColours.GREEN + "Saving this schedule in .jpg format..." + ConsoleColours.RESET);
+                    System.out.println(
+                            ConsoleColours.GREEN + "Saving this schedule in .jpg format..." + ConsoleColours.RESET);
                     new ImageExporter().outputSchedule(currSchedule, jpgFileName);
                 case 'X':
                     if (ExecutionState.getGenerationMode() == ExecutionState.GenerationMode.ONE_BY_ONE) {
@@ -478,7 +500,8 @@ public class CommandLineInterface {
     /**
      * PRIVATE METHODS BELOW
      *
-     * <p>These guys are used to simplify I/O methods above.
+     * <p>
+     * These guys are used to simplify I/O methods above.
      */
 
     /**
@@ -579,6 +602,21 @@ public class CommandLineInterface {
         return newFilters;
     }
 
+    private static List<Filter> promptProfessorRatingFilter() {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Filter> newFilters = new ArrayList<>();
+        System.out.println(
+                "What is the minimum RateMyProfessor rating that your schedule can contain? Enter"
+                        + " a decimal between 0.1 and 5.0:");
+        double input = 5.0;
+        if (scanner.hasNextDouble()) {
+            input = scanner.nextDouble();
+        }
+        newFilters.add(new ProfessorRatingFilter(input));
+        System.out.println(input);
+        return newFilters;
+    }
+
     /**
      * Handles I/O request for filter that schedules courses during specific times.
      *
@@ -588,10 +626,10 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
         Day[] days = {
-            Day.ALL_DAYS, Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY
+                Day.ALL_DAYS, Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY
         };
         String[] dayStrings = {
-            "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
         };
 
         System.out.println(
