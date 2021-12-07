@@ -98,6 +98,12 @@ public class CourseCreator {
         return specifiedSessions;
     }
 
+    /**
+     * Gets professor name from JSON and returns RateMyProfessor score
+     *
+     * @param lecture JSON of lecture information
+     * @return RateMyProfessor score for the prof of the given lecture
+     */
     private static Double getProfessorRating(JsonObject lecture) {
         JsonObject profs;
         try {
@@ -122,12 +128,6 @@ public class CourseCreator {
         } catch (RateMyProfessorException e) {
             rating = 2.5;
         }
-        /* System.out.println(
-        professorInfo.get("firstName").getAsString()
-                + " "
-                + professorInfo.get("lastName").getAsString()
-                + " "
-                + rating); */
         return rating;
     }
 

@@ -2,7 +2,6 @@ package workers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -16,6 +15,14 @@ import util.RateMyProfessorException;
 public class ProfessorRatingScraper {
     private static Map<String, Double> previousScores = new HashMap<String, Double>();
 
+    /**
+     * Takes professor name and returns rating from RateMyProfessor
+     *
+     * @param firstName the first name / initial of the prof
+     * @param lastName the last name / initial of the prof
+     * @return the RateMyProfessor rating of the ProfessorRatingScraper
+     * @throws RateMyProfessorException if score cannot be retrieved
+     */
     public static Double getProfessorRating(String firstName, String lastName)
             throws RateMyProfessorException {
         String fullName = firstName + " " + lastName;
@@ -130,15 +137,22 @@ public class ProfessorRatingScraper {
                 json = EntityUtils.toString(response.getEntity());
             }
         } catch (Exception e) {
-            return 2.5;
+            throw new RateMyProfessorException("No response from RateMyProfessors");
         }
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
-        double rating = getRatingFromHTML(jsonObject);
+        double rating = getRatingFromJSON(jsonObject);
         previousScores.put(fullName, rating);
         return rating;
     }
 
-    public static double getRatingFromHTML(JsonObject json) throws RateMyProfessorException {
+    /**
+     * Takes RateMyProfessor response and returns the average rating for a professor
+     *
+     * @param json response object from the RateMyProfessor api
+     * @return the average rating for the prof
+     * @throws RateMyProfessorException if no professor at UofT was found
+     */
+    public static double getRatingFromJSON(JsonObject json) throws RateMyProfessorException {
         String foundTeacher =
                 json.getAsJsonObject("data")
                         .getAsJsonObject("search")
@@ -157,13 +171,5 @@ public class ProfessorRatingScraper {
                 .getAsJsonObject("node")
                 .get("avgRating")
                 .getAsDouble();
-    }
-
-    public static void main(String[] args) {
-        try {
-            System.out.println(getProfessorRating("a", "zaman"));
-        } catch (Exception e) {
-            System.out.println("sadge");
-        }
     }
 }

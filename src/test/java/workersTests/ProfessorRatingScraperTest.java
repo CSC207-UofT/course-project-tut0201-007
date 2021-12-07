@@ -1,48 +1,48 @@
-// package workersTests;
-//
-// import static org.junit.jupiter.api.Assertions.assertThrows;
-//
-// import java.io.BufferedReader;
-// import java.io.FileReader;
-// import java.io.IOException;
-// import org.junit.Before;
-// import org.junit.Test;
-// import util.RateMyProfessorException;
-// import workers.ProfessorRatingScraper;
-//
-// public class ProfessorRatingScraperTest {
-//    String html1, html2;
-//
-//    @Before
-//    public void setUp() throws Exception {
-//        html1 = parseHTMLFile("./src/test/mockhtml/test1.html");
-//        html2 = parseHTMLFile("./src.test/mockhtml/test2.html");
-//    }
-//
-//    private String parseHTMLFile(String filepath) {
-//        StringBuilder contentBuilder = new StringBuilder();
-//        try {
-//            BufferedReader in = new BufferedReader(new FileReader(filepath));
-//            String str;
-//            while ((str = in.readLine()) != null) {
-//                contentBuilder.append(str);
-//            }
-//            in.close();
-//        } catch (IOException e) {
-//        }
-//        return contentBuilder.toString();
-//    }
-//
-//    @Test(timeout = 2000)
-//    public void testGetRatingSuccess() throws RateMyProfessorException {
-//        assert ProfessorRatingScraper.getRatingFromHTML(html1) == 4.1;
-//    }
-//
-//    @Test(timeout = 2000)
-//    public void testGetRatingFailure() {
-//        assertThrows(
-//                RateMyProfessorException.class,
-//                () -> ProfessorRatingScraper.getRatingFromHTML(html2),
-//                "Professor not found");
-//    }
-// }
+package workersTests;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import org.junit.Before;
+import org.junit.Test;
+import util.RateMyProfessorException;
+import workers.ProfessorRatingScraper;
+
+public class ProfessorRatingScraperTest {
+    JsonObject test1, test2;
+
+    private JsonObject readJSON(String filename) {
+        JsonObject jsonObject = new JsonObject();
+        try {
+            JsonElement jsonElement = JsonParser.parseReader(new FileReader(filename));
+            jsonObject = jsonElement.getAsJsonObject();
+        } catch (FileNotFoundException e) {
+
+        }
+        return jsonObject;
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        test1 = readJSON("./src/test/mockapi/rmptest01.json");
+        test2 = readJSON("./src/test/mockapi/rmptest02.json");
+        System.out.println(test1.toString());
+    }
+
+    @Test(timeout = 1000)
+    public void testProfessorRatingSuccess() throws RateMyProfessorException {
+        assert ProfessorRatingScraper.getRatingFromJSON(test1) == 5.0;
+    }
+
+    @Test(timeout = 1000)
+    public void testProfessorRatingFailure() {
+        assertThrows(
+                RateMyProfessorException.class,
+                () -> ProfessorRatingScraper.getRatingFromJSON(test2),
+                "Professor not found");
+    }
+}

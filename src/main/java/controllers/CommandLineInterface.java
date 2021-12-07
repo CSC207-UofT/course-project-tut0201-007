@@ -592,6 +592,11 @@ public class CommandLineInterface {
         return newFilters;
     }
 
+    /**
+     * Prompts user on preffered RateMyProfessor ScopeParser
+     *
+     * @return a list of ProfessorRatingFilter
+     */
     private static List<Filter> promptProfessorRatingFilter() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Filter> newFilters = new ArrayList<>();
