@@ -89,8 +89,8 @@ public class ASCIIFormatter {
                     if (j == (timeslot.getDay().getValue() - 1)
                             && i == (timeslot.getStart().getHour() - start.getHour())) {
                         // ie if 2 hour long lec then curr cell and cell below should get filled w/ same timeslot
-                        for (int k = 0; k < timeslot.getEnd().getHour() - timeslot.getStart().getHour(); k++) {
-                            mat[i][j + k] = timeslot.toString();
+                        for (int l = 0; l < timeslot.getEnd().getHour() - timeslot.getStart().getHour(); l++) {
+                            mat[i][j + l] = timeslot.toString();
                         }
                     } else {
                         mat[i][j] = "";
@@ -101,14 +101,6 @@ public class ASCIIFormatter {
 
         return mat;
     }
-//
-//    public static String[] getColumn(String[][] arr, int index) {
-//        String[] col = new String[arr[0].length];
-//        for (int i = 0; i < col.length; i++) {
-//            col[i] = arr[i][index];
-//        }
-//        return col;
-//    }
 
     /** Method to grab the earliest start time of a course in a schedule. */
     private LocalTime getEarly() {
