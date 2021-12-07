@@ -58,7 +58,7 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("exclusion")
                         .toString();
-      
+
         List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
 
         String corequisitesValue =
@@ -67,7 +67,7 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("corequisite")
                         .toString();
-      
+
         List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
 
         return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
@@ -123,11 +123,11 @@ public class CourseCreator {
             rating = 2.5;
         }
         /* System.out.println(
-                professorInfo.get("firstName").getAsString()
-                        + " "
-                        + professorInfo.get("lastName").getAsString()
-                        + " "
-                        + rating); */
+        professorInfo.get("firstName").getAsString()
+                + " "
+                + professorInfo.get("lastName").getAsString()
+                + " "
+                + rating); */
         return rating;
     }
 

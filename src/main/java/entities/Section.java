@@ -6,9 +6,9 @@ import java.util.List;
 /** This class represents a section, such as a single lecture or tutorial */
 public class Section {
 
-    private String name;
-    private String session;
-    private List<Timeslot> times;
+    private final String name;
+    private final String session;
+    private final List<Timeslot> times;
     private Double professorRating;
 
     public Section(String name) {

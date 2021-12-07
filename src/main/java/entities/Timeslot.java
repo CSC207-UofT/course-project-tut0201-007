@@ -30,7 +30,7 @@ public class Timeslot implements Comparable<Timeslot> {
     /**
      * getter method for room
      *
-     * @return room that the session is held in
+     * @return room that the section is held in
      */
     public String getRoom() {
         return room;
@@ -39,7 +39,7 @@ public class Timeslot implements Comparable<Timeslot> {
     /**
      * getter method for day
      *
-     * @return the day that a session is held
+     * @return the day that a section is held
      */
     public DayOfWeek getDay() {
         return day;
@@ -48,7 +48,7 @@ public class Timeslot implements Comparable<Timeslot> {
     /**
      * getter method for start
      *
-     * @return start time for a given session
+     * @return start time for a given section
      */
     public LocalTime getStart() {
         return start;
@@ -57,7 +57,7 @@ public class Timeslot implements Comparable<Timeslot> {
     /**
      * getter method for end
      *
-     * @return end time for a given session
+     * @return end time for a given section
      */
     public LocalTime getEnd() {
         return end;
@@ -98,6 +98,10 @@ public class Timeslot implements Comparable<Timeslot> {
         }
         // might be a no no, idk
         return -1;
+    }
+
+    public String quickString() {
+        return start.toString() + "-" + end.toString();
     }
 
     @Override
