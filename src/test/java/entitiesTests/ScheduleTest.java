@@ -96,4 +96,19 @@ public class ScheduleTest {
         }
         assertEquals(expected, schedule.getTutorials());
     }
+
+    @Test(timeout=50)
+    public void testEquality(){
+        Schedule schedule = new Schedule();
+        Schedule schedule2 = new Schedule();
+
+
+        for (Section tut : tutsToAdd) {
+            schedule.addTutorial(tut);
+            schedule2.addTutorial(tut);
+        }
+        assertEquals(schedule, schedule2);
+
+
+    }
 }
