@@ -116,14 +116,14 @@ public class ASCIIFormatterTest {
             Arrays.fill(strings, "");
         }
 
-        expected[0][0] = lec1.toString();
-        expected[0][2] = tut1.toString();
-        expected[6][2] = lec2.toString();
-        expected[7][2] = lec2.toString();
-        expected[6][0] = tut2.toString();
-        expected[7][0] = tut2.toString();
-        expected[4][0] = lec3.toString();
-        expected[4][2] = tut3.toString();
+        expected[0][0] = lec1.quickString();
+        expected[0][2] = tut1.quickString();
+        expected[6][2] = lec2.quickString();
+        expected[7][2] = lec2.quickString();
+        expected[6][0] = tut2.quickString();
+        expected[7][0] = tut2.quickString();
+        expected[4][0] = lec3.quickString();
+        expected[4][2] = tut3.quickString();
 
         assertArrayEquals(expected, matrix);
     }

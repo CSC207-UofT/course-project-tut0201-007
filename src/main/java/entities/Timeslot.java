@@ -99,13 +99,21 @@ public class Timeslot implements Comparable<Timeslot> {
         return -1;
     }
 
+    public String quickString() {
+        return start.toString() + "-" + end.toString() + ", " + room;
+    }
+
     @Override
     public String toString() {
-        return start.toString()
+        return day.toString()
+                + " from "
+                + start.toString()
                 + "-"
                 + end.toString()
-                + ", "
-                + room;
+                + " at "
+                + room
+                + " in session "
+                + session;
     }
 
     @Override

@@ -3,7 +3,6 @@ package entities;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class ASCIIFormatter {
 
@@ -62,8 +61,8 @@ public class ASCIIFormatter {
      */
     public Boolean[] checkSession() {
         Boolean[] temp = new Boolean[2];
-        for( Timeslot timeslot : timeslots) {
-            if (timeslot.getSession() == 'F'){
+        for (Timeslot timeslot : timeslots) {
+            if (timeslot.getSession() == 'F') {
                 temp[0] = true;
             } else if (timeslot.getSession() == 'S') {
                 temp[1] = true;
@@ -101,7 +100,8 @@ public class ASCIIFormatter {
      * appears multiple times if the timeslot is longer than an hour.
      *
      * @param session this is the specific session we are rendering the schedule for
-     * @return nx5 matrix of either empty strings or timeslots for wherever they are in the schedule (relatively)
+     * @return nx5 matrix of either empty strings or timeslots for wherever they are in the schedule
+     *     (relatively)
      */
     public String[][] populateMatrix(char session) {
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
@@ -117,9 +117,12 @@ public class ASCIIFormatter {
                     if (j == (timeslot.getDay().getValue() - 1)
                             && i == (timeslot.getStart().getHour() - start.getHour())
                             && timeslot.getSession() == session) {
-                        // ie if 2 hour long lec then curr cell and cell below should get filled w/ same timeslot
-                        for (int l = 0; l < timeslot.getEnd().getHour() - timeslot.getStart().getHour(); l++) {
-                            mat[i+l][j] = timeslot.toString();
+                        // ie if 2 hour long lec then curr cell and cell below should get filled w/
+                        // same timeslot
+                        for (int l = 0;
+                                l < timeslot.getEnd().getHour() - timeslot.getStart().getHour();
+                                l++) {
+                            mat[i + l][j] = timeslot.quickString();
                         }
                     }
                 }
@@ -165,8 +168,8 @@ public class ASCIIFormatter {
     public String genTable() {
         String leftAlignFormat = "| %-24s | %-24s | %-24s | %-24s | %-24s |\n";
         String padding =
-                "|                          |                          |                          |                          |                  "
-                        + "        |\n";
+                "|                          |                          |                         "
+                        + " |                          |                          |\n";
         String floor =
                 "+--------------------------+--------------------------+--------------------------+--------------------------+--------------------------+\n";
 
@@ -176,12 +179,20 @@ public class ASCIIFormatter {
             String[][] arrF = populateMatrix('F');
             output.append(floor)
                     .append(
-                            "|          Monday          |          Tuesday         |         Wednesday        |         Thursday         |        "
-                                    + "  Friday          |\n")
+                            "|          Monday          |          Tuesday         |        "
+                                + " Wednesday        |         Thursday         |          Friday "
+                                + "         |\n")
                     .append(floor);
             for (int i = 0; i < latest.getHour() - start.getHour(); i++) {
                 output.append(padding);
-                output.append(String.format(leftAlignFormat, arrF[i][0], arrF[i][1], arrF[i][2], arrF[i][3], arrF[i][4]));
+                output.append(
+                        String.format(
+                                leftAlignFormat,
+                                arrF[i][0],
+                                arrF[i][1],
+                                arrF[i][2],
+                                arrF[i][3],
+                                arrF[i][4]));
                 output.append(padding);
                 output.append(floor);
             }
@@ -192,12 +203,20 @@ public class ASCIIFormatter {
             String[][] arrS = populateMatrix('S');
             output.append(floor)
                     .append(
-                            "|          Monday          |          Tuesday         |         Wednesday        |         Thursday         |        "
-                                    + "  Friday          |\n")
+                            "|          Monday          |          Tuesday         |        "
+                                + " Wednesday        |         Thursday         |          Friday "
+                                + "         |\n")
                     .append(floor);
             for (int i = 0; i < latest.getHour() - start.getHour(); i++) {
                 output.append(padding);
-                output.append(String.format(leftAlignFormat, arrS[i][0], arrS[i][1], arrS[i][2], arrS[i][3], arrS[i][4]));
+                output.append(
+                        String.format(
+                                leftAlignFormat,
+                                arrS[i][0],
+                                arrS[i][1],
+                                arrS[i][2],
+                                arrS[i][3],
+                                arrS[i][4]));
                 output.append(padding);
                 output.append(floor);
             }
