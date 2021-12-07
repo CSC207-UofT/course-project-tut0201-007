@@ -242,11 +242,15 @@ public class CommandLineInterface {
                         + ConsoleColours.BLUE
                         + "Enforce times when you have no courses\n"
                         + ConsoleColours.RESET
+                        + " 6 - "
+                        + ConsoleColours.BLUE
+                        + "Restrict professor's RateMyProfessor score\n"
+                        + ConsoleColours.RESET
                         + "Please enter your choices as valid integer inputs with spaces. (i.e. '1"
                         + " 2 3' or '2' or '').\n"
                         + "If you do not wish to configure any criteria, quit the selection.\n"
                         + "Press 'Q' to quit selection.");
-        boolean[] filterCodes = new boolean[5];
+        boolean[] filterCodes = new boolean[6];
 
         while (scanner.hasNextInt()) {
             int index = scanner.nextInt();
@@ -277,6 +281,8 @@ public class CommandLineInterface {
                     case 4:
                         userFilters.addAll(CommandLineInterface.promptExcludeTimeFilter());
                         break;
+                    case 5:
+                        userFilters.addAll(CommandLineInterface.promptProfessorRatingFilter());
                 }
             }
         }
@@ -583,6 +589,21 @@ public class CommandLineInterface {
                 ConsoleColours.RED
                         + "You did not specify a time gap. Quitting selection."
                         + ConsoleColours.RESET);
+        return newFilters;
+    }
+
+    private static List<Filter> promptProfessorRatingFilter() {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Filter> newFilters = new ArrayList<>();
+        System.out.println(
+                "What is the minimum RateMyProfessor rating that your schedule can contain? Enter"
+                        + " a decimal between 0.1 and 5.0:");
+        double input = 5.0;
+        if (scanner.hasNextDouble()) {
+            input = scanner.nextDouble();
+        }
+        newFilters.add(new ProfessorRatingFilter(input));
+        System.out.println(input);
         return newFilters;
     }
 

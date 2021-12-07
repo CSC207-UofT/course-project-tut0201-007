@@ -25,7 +25,7 @@ public class InPersonFilterTest {
         scheduleCreator = new Scheduler();
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 5000)
     public void filterInPersonSucceed() {
         ArrayList<String> tst102 = new ArrayList<>();
         tst102.add("TST102Y");
@@ -43,7 +43,7 @@ public class InPersonFilterTest {
         assertFalse(filterInPerson.checkSchedule(schedule));
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 6000)
     public void filterOnlineSucceed() {
         ArrayList<String> tst103 = new ArrayList<>();
         tst103.add("TST107F");
