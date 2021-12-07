@@ -8,9 +8,7 @@ import entities.Section;
 import entities.Timeslot;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,12 +16,12 @@ public class ASCIIFormatterTest {
     Schedule sched;
     LocalTime startTime1, startTime2, endTime2;
     Timeslot lec1, lec2, lec3, tut1, tut2, tut3;
+    Section lec1Section, lec2Section, lec3Section;
+    Section tut1Section, tut2Section, tut3Section;
 
     @Before
     public void setUp() {
         sched = new Schedule();
-        Section lec1Section, lec2Section, lec3Section;
-        Section tut1Section, tut2Section, tut3Section;
         List<Section> lecsToAdd, tutsToAdd;
 
         startTime1 = LocalTime.of(9, 0, 0);
@@ -94,7 +92,7 @@ public class ASCIIFormatterTest {
     public void testGetTimeslots() {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
 
-        ArrayList<Timeslot> expected = new ArrayList<>();
+        Set<Timeslot> expected = new HashSet<>();
         expected.add(lec1);
         expected.add(lec2);
         expected.add(lec3);
@@ -102,7 +100,7 @@ public class ASCIIFormatterTest {
         expected.add(tut2);
         expected.add(tut3);
 
-        assertEquals(expected, ascii.getTimeslots());
+        assert expected.equals(ascii.getTimeslots());
     }
 
     @Test(timeout = 100)
@@ -124,14 +122,14 @@ public class ASCIIFormatterTest {
             Arrays.fill(strings, "");
         }
 
-        expected[0][0] = lec1.quickString();
-        expected[0][2] = tut1.quickString();
-        expected[6][2] = lec2.quickString();
-        expected[7][2] = lec2.quickString();
-        expected[6][0] = tut2.quickString();
-        expected[7][0] = tut2.quickString();
-        expected[4][0] = lec3.quickString();
-        expected[4][2] = tut3.quickString();
+        expected[0][0] = lec1Section.getName().split(" ")[0] + " " + lec1.quickString();
+        expected[0][2] = tut1Section.getName().split(" ")[0] + " " + tut1.quickString();
+        expected[6][2] = lec2Section.getName().split(" ")[0] + " " + lec2.quickString();
+        expected[7][2] = lec2Section.getName().split(" ")[0] + " " + lec2.quickString();
+        expected[6][0] = tut2Section.getName().split(" ")[0] + " " + tut2.quickString();
+        expected[7][0] = tut2Section.getName().split(" ")[0] + " " + tut2.quickString();
+        expected[4][0] = lec3Section.getName().split(" ")[0] + " " + lec3.quickString();
+        expected[4][2] = tut3Section.getName().split(" ")[0] + " " + tut3.quickString();
 
         assertArrayEquals(expected, matrix);
     }

@@ -100,7 +100,7 @@ public class Timeslot implements Comparable<Timeslot> {
     }
 
     public String quickString() {
-        return start.toString() + "-" + end.toString() + ", " + room;
+        return start.toString() + "-" + end.toString();
     }
 
     @Override

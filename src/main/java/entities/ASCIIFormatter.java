@@ -1,8 +1,7 @@
 package entities;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class ASCIIFormatter {
 
@@ -10,8 +9,9 @@ public class ASCIIFormatter {
     private final LocalTime start;
     private final LocalTime end;
     private final LocalTime latest;
-    private final ArrayList<Timeslot> timeslots;
+    private final Set<Timeslot> timeslots;
     private final boolean[] session;
+    private final HashMap<Timeslot, String> courses;
 
     /**
      * Constructor that takes schedule to be turned into ASCII output.
@@ -20,7 +20,8 @@ public class ASCIIFormatter {
      */
     public ASCIIFormatter(Schedule sched) {
         this.schedule = sched;
-        this.timeslots = populateTimeslots();
+        this.courses = populateTimeslots();
+        this.timeslots = populateTimeslots().keySet();
         this.start = getEarly();
         this.end = getLate();
         this.latest = getLatest();
@@ -59,7 +60,7 @@ public class ASCIIFormatter {
      *
      * @returnlist of timeslots
      */
-    public ArrayList<Timeslot> getTimeslots() {
+    public Set<Timeslot> getTimeslots() {
         return timeslots;
     }
 
@@ -82,24 +83,32 @@ public class ASCIIFormatter {
     }
 
     /**
-     * getter method for timeslots
+     * getter method for timeslots, while making a mapping for each timeslot's course code
      *
      * @return array list of all timeslots in the schedule (in no particular order)
      */
-    public ArrayList<Timeslot> populateTimeslots() {
-        ArrayList<Timeslot> timeslots = new ArrayList<>();
+    public HashMap<Timeslot, String> populateTimeslots() {
+        HashMap<Timeslot, String> courseCodes = new HashMap<>();
 
         for (Section lec : this.schedule.getLectures()) {
-            timeslots.addAll(lec.getTimes());
+            for (Timeslot timeslot : lec.getTimes()) {
+                String name = lec.getName();
+                // map the timeslot w/ the name i.e. MAT237
+                courseCodes.put(timeslot, name.split(" ")[0]);
+            }
         }
         // you can have empty tutorials
         if (!this.schedule.getTutorials().isEmpty()) {
             for (Section tut : this.schedule.getTutorials()) {
-                timeslots.addAll(tut.getTimes());
+                for (Timeslot timeslot : tut.getTimes()) {
+                    String name = tut.getName();
+                    // map the timeslot w/ the name i.e. MAT237
+                    courseCodes.put(timeslot, name.split(" ")[0]);
+                }
             }
         }
 
-        return timeslots;
+        return courseCodes;
     }
 
     /**
@@ -135,7 +144,7 @@ public class ASCIIFormatter {
                         for (int l = 0;
                                 l < timeslot.getEnd().getHour() - timeslot.getStart().getHour();
                                 l++) {
-                            mat[i + l][j] = timeslot.quickString();
+                            mat[i + l][j] = courses.get(timeslot) + " " + timeslot.quickString();
                         }
                     }
                 }
