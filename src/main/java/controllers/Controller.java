@@ -14,15 +14,14 @@ import workers.*;
  */
 public class Controller {
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) {
         /**
          * We create the input getter, and scheduler. Note that scheduler has addFilters() method,
          * which we use according to User Input later in this method
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
-        ExecutionState.GenerationMode oneByOne =
-                ExecutionState.GenerationMode.ONE_BY_ONE;
+        ExecutionState.GenerationMode oneByOne = ExecutionState.GenerationMode.ONE_BY_ONE;
         ExecutionState.GenerationMode allPermutations =
                 ExecutionState.GenerationMode.ALL_PERMUTATIONS;
 
@@ -51,7 +50,7 @@ public class Controller {
             courses = CLI.promptCourseCodeNames();
             // course objects are instantiated based on the passed course codes
             instantiatedCourses = Controller.courseInstantiator(courses);
-            //declare these as the courses for user
+            // declare these as the courses for user
             ExecutionState.setUserCourses(instantiatedCourses);
         }
 

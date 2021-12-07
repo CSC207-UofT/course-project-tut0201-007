@@ -1,6 +1,7 @@
 /**
-* From: https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
-*/
+ * From:
+ * https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+ */
 package util;
 
 public class ConsoleColours {
