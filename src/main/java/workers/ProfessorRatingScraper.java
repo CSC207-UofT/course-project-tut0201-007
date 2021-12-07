@@ -159,6 +159,7 @@ public class ProfessorRatingScraper {
                         .getAsJsonObject("teachers")
                         .get("didFallback")
                         .toString();
+
         if (foundTeacher.equals("true")) {
             throw new RateMyProfessorException("Professor not found");
         }
