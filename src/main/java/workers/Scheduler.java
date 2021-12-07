@@ -50,8 +50,7 @@ public class Scheduler {
      * @param newCourses courses sorted by priority to be scheduled.
      * @return a list of all possible Schedules passing the given filters
      */
-    public List<Schedule> permutationScheduler(List<Course> newCourses)
-            throws CloneNotSupportedException {
+    public List<Schedule> permutationScheduler(List<Course> newCourses) {
         if (newCourses.isEmpty()) {
             return new ArrayList<>();
         }
@@ -119,8 +118,7 @@ public class Scheduler {
      * @param s the schedule to which the permutations will be added
      * @return all added permutations to this schedule
      */
-    private List<Schedule> extendPermutations(Course c, Schedule s)
-            throws CloneNotSupportedException {
+    private List<Schedule> extendPermutations(Course c, Schedule s) {
         List<Schedule> populatedSchedules = new ArrayList<>();
         List<Section> courseLectures = c.getLectures();
         List<Section> courseTutorials = c.getTutorials();
