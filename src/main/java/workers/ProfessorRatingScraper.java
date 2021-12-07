@@ -2,7 +2,6 @@ package workers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -16,6 +15,14 @@ import util.RateMyProfessorException;
 public class ProfessorRatingScraper {
     private static Map<String, Double> previousScores = new HashMap<String, Double>();
 
+    /**
+     * Takes professor name and returns rating from RateMyProfessor
+     *
+     * @param firstName the first name / initial of the prof
+     * @param lastName the last name / initial of the prof
+     * @return the RateMyProfessor rating of the ProfessorRatingScraper
+     * @throws RateMyProfessorException if score cannot be retrieved
+     */
     public static Double getProfessorRating(String firstName, String lastName)
             throws RateMyProfessorException {
         String fullName = firstName + " " + lastName;
@@ -24,82 +31,83 @@ public class ProfessorRatingScraper {
         }
         String json = "";
         try {
-            String data = "{\"query\":\"query TeacherSearchResultsPageQuery(\\n"
-                    + "  $query: TeacherSearchQuery!\\n"
-                    + "  $schoolID: ID\\n"
-                    + ") {\\n"
-                    + "  search: newSearch {\\n"
-                    + "    ...TeacherSearchPagination_search_1ZLmLD\\n"
-                    + "  }\\n"
-                    + "  school: node(id: $schoolID) {\\n"
-                    + "    __typename\\n"
-                    + "    ... on School {\\n"
-                    + "      name\\n"
-                    + "    }\\n"
-                    + "    id\\n"
-                    + "  }\\n"
-                    + "}\\n"
-                    + "\\n"
-                    + "fragment TeacherSearchPagination_search_1ZLmLD on newSearch {\\n"
-                    + "  teachers(query: $query, first: 8, after: \\\"\\\") {\\n"
-                    + "    didFallback\\n"
-                    + "    edges {\\n"
-                    + "      cursor\\n"
-                    + "      node {\\n"
-                    + "        ...TeacherCard_teacher\\n"
-                    + "        id\\n"
-                    + "        __typename\\n"
-                    + "      }\\n"
-                    + "    }\\n"
-                    + "    pageInfo {\\n"
-                    + "      hasNextPage\\n"
-                    + "      endCursor\\n"
-                    + "    }\\n"
-                    + "    resultCount\\n"
-                    + "    filters {\\n"
-                    + "      field\\n"
-                    + "      options {\\n"
-                    + "        value\\n"
-                    + "        id\\n"
-                    + "      }\\n"
-                    + "    }\\n"
-                    + "  }\\n"
-                    + "}\\n"
-                    + "\\n"
-                    + "fragment TeacherCard_teacher on Teacher {\\n"
-                    + "  id\\n"
-                    + "  legacyId\\n"
-                    + "  avgRating\\n"
-                    + "  numRatings\\n"
-                    + "  ...CardFeedback_teacher\\n"
-                    + "  ...CardSchool_teacher\\n"
-                    + "  ...CardName_teacher\\n"
-                    + "  ...TeacherBookmark_teacher\\n"
-                    + "}\\n"
-                    + "\\n"
-                    + "fragment CardFeedback_teacher on Teacher {\\n"
-                    + "  wouldTakeAgainPercent\\n"
-                    + "  avgDifficulty\\n"
-                    + "}\\n"
-                    + "\\n"
-                    + "fragment CardSchool_teacher on Teacher {\\n"
-                    + "  department\\n"
-                    + "  school {\\n"
-                    + "    name\\n"
-                    + "    id\\n"
-                    + "  }\\n"
-                    + "}\\n"
-                    + "\\n"
-                    + "fragment CardName_teacher on Teacher {\\n"
-                    + "  firstName\\n"
-                    + "  lastName\\n"
-                    + "}\\n"
-                    + "\\n"
-                    + "fragment TeacherBookmark_teacher on Teacher {\\n"
-                    + "  id\\n"
-                    + "  isSaved\\n"
-                    + "}\\n"
-                    + "\",\"variables\":{\"query\":{\"text\":\"TEACHER_NAME\",\"schoolID\":\"U2Nob29sLTE0ODQ=\",\"fallback\":true,\"departmentID\":null},\"schoolID\":\"U2Nob29sLTE0ODQ=\"}}";
+            String data =
+                    "{\"query\":\"query TeacherSearchResultsPageQuery(\\n"
+                        + "  $query: TeacherSearchQuery!\\n"
+                        + "  $schoolID: ID\\n"
+                        + ") {\\n"
+                        + "  search: newSearch {\\n"
+                        + "    ...TeacherSearchPagination_search_1ZLmLD\\n"
+                        + "  }\\n"
+                        + "  school: node(id: $schoolID) {\\n"
+                        + "    __typename\\n"
+                        + "    ... on School {\\n"
+                        + "      name\\n"
+                        + "    }\\n"
+                        + "    id\\n"
+                        + "  }\\n"
+                        + "}\\n"
+                        + "\\n"
+                        + "fragment TeacherSearchPagination_search_1ZLmLD on newSearch {\\n"
+                        + "  teachers(query: $query, first: 8, after: \\\"\\\") {\\n"
+                        + "    didFallback\\n"
+                        + "    edges {\\n"
+                        + "      cursor\\n"
+                        + "      node {\\n"
+                        + "        ...TeacherCard_teacher\\n"
+                        + "        id\\n"
+                        + "        __typename\\n"
+                        + "      }\\n"
+                        + "    }\\n"
+                        + "    pageInfo {\\n"
+                        + "      hasNextPage\\n"
+                        + "      endCursor\\n"
+                        + "    }\\n"
+                        + "    resultCount\\n"
+                        + "    filters {\\n"
+                        + "      field\\n"
+                        + "      options {\\n"
+                        + "        value\\n"
+                        + "        id\\n"
+                        + "      }\\n"
+                        + "    }\\n"
+                        + "  }\\n"
+                        + "}\\n"
+                        + "\\n"
+                        + "fragment TeacherCard_teacher on Teacher {\\n"
+                        + "  id\\n"
+                        + "  legacyId\\n"
+                        + "  avgRating\\n"
+                        + "  numRatings\\n"
+                        + "  ...CardFeedback_teacher\\n"
+                        + "  ...CardSchool_teacher\\n"
+                        + "  ...CardName_teacher\\n"
+                        + "  ...TeacherBookmark_teacher\\n"
+                        + "}\\n"
+                        + "\\n"
+                        + "fragment CardFeedback_teacher on Teacher {\\n"
+                        + "  wouldTakeAgainPercent\\n"
+                        + "  avgDifficulty\\n"
+                        + "}\\n"
+                        + "\\n"
+                        + "fragment CardSchool_teacher on Teacher {\\n"
+                        + "  department\\n"
+                        + "  school {\\n"
+                        + "    name\\n"
+                        + "    id\\n"
+                        + "  }\\n"
+                        + "}\\n"
+                        + "\\n"
+                        + "fragment CardName_teacher on Teacher {\\n"
+                        + "  firstName\\n"
+                        + "  lastName\\n"
+                        + "}\\n"
+                        + "\\n"
+                        + "fragment TeacherBookmark_teacher on Teacher {\\n"
+                        + "  id\\n"
+                        + "  isSaved\\n"
+                        + "}\\n"
+                        + "\",\"variables\":{\"query\":{\"text\":\"TEACHER_NAME\",\"schoolID\":\"U2Nob29sLTE0ODQ=\",\"fallback\":true,\"departmentID\":null},\"schoolID\":\"U2Nob29sLTE0ODQ=\"}}";
             data = data.replace("TEACHER_NAME", fullName);
             HttpPost post = new HttpPost("https://www.ratemyprofessors.com/graphql");
 
@@ -129,21 +137,28 @@ public class ProfessorRatingScraper {
                 json = EntityUtils.toString(response.getEntity());
             }
         } catch (Exception e) {
-            return 2.5;
+            throw new RateMyProfessorException("No response from RateMyProfessors");
         }
         JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
-        double rating = getRatingFromHTML(jsonObject);
+        double rating = getRatingFromJSON(jsonObject);
         previousScores.put(fullName, rating);
-        System.out.println(fullName + " " + rating);
         return rating;
     }
 
-    public static double getRatingFromHTML(JsonObject json) throws RateMyProfessorException {
-        String foundTeacher = json.getAsJsonObject("data")
-                .getAsJsonObject("search")
-                .getAsJsonObject("teachers")
-                .get("didFallback")
-                .toString();
+    /**
+     * Takes RateMyProfessor response and returns the average rating for a professor
+     *
+     * @param json response object from the RateMyProfessor api
+     * @return the average rating for the prof
+     * @throws RateMyProfessorException if no professor at UofT was found
+     */
+    public static double getRatingFromJSON(JsonObject json) throws RateMyProfessorException {
+        String foundTeacher =
+                json.getAsJsonObject("data")
+                        .getAsJsonObject("search")
+                        .getAsJsonObject("teachers")
+                        .get("didFallback")
+                        .toString();
         if (foundTeacher.equals("true")) {
             throw new RateMyProfessorException("Professor not found");
         }
@@ -156,13 +171,5 @@ public class ProfessorRatingScraper {
                 .getAsJsonObject("node")
                 .get("avgRating")
                 .getAsDouble();
-    }
-
-    public static void main(String[] args) {
-        try {
-            System.out.println(getProfessorRating("a", "zaman"));
-        } catch (Exception e) {
-            System.out.println("sadge");
-        }
     }
 }
