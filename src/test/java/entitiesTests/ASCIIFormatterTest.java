@@ -102,15 +102,15 @@ public class ASCIIFormatterTest {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
         String[][] expected = new String[8][5];
 
-        assertEquals(expected.length, ascii.populateMatrix().length);
-        assertEquals(expected[0].length, ascii.populateMatrix()[0].length);
+        assertEquals(expected.length, ascii.populateMatrix('F').length);
+        assertEquals(expected[0].length, ascii.populateMatrix('F')[0].length);
     }
 
     @Test(timeout = 200)
     public void testPopulateMatrixContent() {
         ASCIIFormatter ascii = new ASCIIFormatter(sched);
         String[][] expected = new String[8][5];
-        String[][] matrix = ascii.populateMatrix();
+        String[][] matrix = ascii.populateMatrix('F');
 
         for (String[] strings : expected) {
             Arrays.fill(strings, "");
