@@ -3,7 +3,7 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This class represents a session, such as a single lecture or tutorial */
+/** This class represents a section, such as a single lecture or tutorial */
 public class Section {
 
     private String name;

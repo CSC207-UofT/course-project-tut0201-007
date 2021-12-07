@@ -79,6 +79,7 @@ public class Timeslot implements Comparable<Timeslot> {
      */
     public Boolean conflictsWith(Timeslot other) {
         return this.day == other.day
+                && this.session == other.session
                 && !(this.start.isAfter(other.end) || other.start.isAfter(this.end));
     }
 
