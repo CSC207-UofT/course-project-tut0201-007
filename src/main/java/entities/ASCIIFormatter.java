@@ -67,7 +67,7 @@ public class ASCIIFormatter {
     /**
      * Check which sessions we need for however many schedules
      *
-     * @return list of Booleans (0 is for F, 1 is for F)
+     * @return list of Booleans (0 is for F, 1 is for S)
      */
     public boolean[] checkSession() {
         boolean[] temp = new boolean[2];
