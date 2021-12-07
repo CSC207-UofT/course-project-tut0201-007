@@ -1,17 +1,14 @@
 package workersTests;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import org.junit.Before;
-
 import org.junit.Test;
-
 import util.RateMyProfessorException;
 import workers.ProfessorRatingScraper;
 
@@ -36,13 +33,16 @@ public class ProfessorRatingScraperTest {
         System.out.println(test1.toString());
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void testProfessorRatingSuccess() throws RateMyProfessorException {
         assert ProfessorRatingScraper.getRatingFromJSON(test1) == 5.0;
     }
 
-    @Test(timeout=1000)
+    @Test(timeout = 1000)
     public void testProfessorRatingFailure() {
-        assertThrows(RateMyProfessorException.class, () -> ProfessorRatingScraper.getRatingFromJSON(test2), "Professor not found");
+        assertThrows(
+                RateMyProfessorException.class,
+                () -> ProfessorRatingScraper.getRatingFromJSON(test2),
+                "Professor not found");
     }
 }
