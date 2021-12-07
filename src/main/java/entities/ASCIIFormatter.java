@@ -11,7 +11,7 @@ public class ASCIIFormatter {
     private final LocalTime end;
     private final LocalTime latest;
     private final ArrayList<Timeslot> timeslots;
-    private final Boolean[] session;
+    private final boolean[] session;
 
     /**
      * Constructor that takes schedule to be turned into ASCII output.
@@ -68,8 +68,8 @@ public class ASCIIFormatter {
      *
      * @return list of Booleans (0 is for F, 1 is for F)
      */
-    public Boolean[] checkSession() {
-        Boolean[] temp = new Boolean[2];
+    public boolean[] checkSession() {
+        boolean[] temp = new boolean[2];
         for (Timeslot timeslot : timeslots) {
             if (timeslot.getSession() == 'F') {
                 temp[0] = true;
@@ -92,9 +92,11 @@ public class ASCIIFormatter {
         for (Section lec : this.schedule.getLectures()) {
             timeslots.addAll(lec.getTimes());
         }
-
-        for (Section tut : this.schedule.getTutorials()) {
-            timeslots.addAll(tut.getTimes());
+        // you can have empty tutorials
+        if (!this.schedule.getTutorials().isEmpty()) {
+            for (Section tut : this.schedule.getTutorials()) {
+                timeslots.addAll(tut.getTimes());
+            }
         }
 
         return timeslots;
