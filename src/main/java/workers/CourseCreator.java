@@ -98,39 +98,6 @@ public class CourseCreator {
         return specifiedSessions;
     }
 
-    private static Double getProfessorRating(JsonObject lecture) {
-        JsonObject profs;
-        try {
-            profs = lecture.getAsJsonObject("instructors");
-        } catch (Exception e) {
-            return 2.5;
-        }
-        Set<String> p;
-        try {
-            p = profs.keySet();
-        } catch (Exception NullPointerException) {
-            return 2.5;
-        }
-        String firstProf = p.iterator().next();
-        JsonObject professorInfo = profs.getAsJsonObject(firstProf);
-        double rating;
-        try {
-            rating =
-                    ProfessorRatingScraper.getProfessorRating(
-                            professorInfo.get("firstName").getAsString(),
-                            professorInfo.get("lastName").getAsString());
-        } catch (RateMyProfessorException e) {
-            rating = 2.5;
-        }
-        /* System.out.println(
-                professorInfo.get("firstName").getAsString()
-                        + " "
-                        + professorInfo.get("lastName").getAsString()
-                        + " "
-                        + rating); */
-        return rating;
-    }
-
     /**
      * Gets professor name from JSON and returns RateMyProfessor score
      *
