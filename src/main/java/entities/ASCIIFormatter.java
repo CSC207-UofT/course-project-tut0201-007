@@ -46,6 +46,15 @@ public class ASCIIFormatter {
     }
 
     /**
+     * getter method for latest
+     *
+     * @return latest end time in the schedule
+     */
+    public LocalTime getEndLate() {
+        return latest;
+    }
+
+    /**
      * getter method for timeslots
      *
      * @returnlist of timeslots
@@ -104,6 +113,7 @@ public class ASCIIFormatter {
      *     (relatively)
      */
     public String[][] populateMatrix(char session) {
+        // height is bounded by the latest time and earliest time
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
 
         // pre populate matrix
@@ -114,6 +124,7 @@ public class ASCIIFormatter {
         for (int i = 0; i < mat.length; i++) {
             for (int j = 0; j < mat[0].length; j++) {
                 for (Timeslot timeslot : timeslots) {
+                    // day - 1 because Monday needs to be 0 not 1
                     if (j == (timeslot.getDay().getValue() - 1)
                             && i == (timeslot.getStart().getHour() - start.getHour())
                             && timeslot.getSession() == session) {
@@ -166,10 +177,13 @@ public class ASCIIFormatter {
     }
 
     public String genTable() {
+        // regex for our variable row
         String leftAlignFormat = "| %-24s | %-24s | %-24s | %-24s | %-24s |\n";
+        // padding for top and bottom of cells
         String padding =
                 "|                          |                          |                         "
                         + " |                          |                          |\n";
+        // divide for each row
         String floor =
                 "+--------------------------+--------------------------+--------------------------+--------------------------+--------------------------+\n";
 

@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class ASCIIFormatterTest {
     Schedule sched;
-    LocalTime startTime1, startTime2;
+    LocalTime startTime1, startTime2, endTime2;
     Timeslot lec1, lec2, lec3, tut1, tut2, tut3;
 
     @Before
@@ -29,7 +29,7 @@ public class ASCIIFormatterTest {
         startTime1 = LocalTime.of(9, 0, 0);
         LocalTime endTime1 = LocalTime.of(10, 0, 0);
         startTime2 = LocalTime.of(15, 0, 0);
-        LocalTime endTime2 = LocalTime.of(17, 0, 0);
+        endTime2 = LocalTime.of(17, 0, 0);
         LocalTime startTime3 = LocalTime.of(13, 0, 0);
         LocalTime endTime3 = LocalTime.of(14, 0, 0);
 
@@ -80,6 +80,14 @@ public class ASCIIFormatterTest {
 
         LocalTime expected = startTime2;
         assertEquals(expected, ascii.getEnd());
+    }
+
+    @Test(timeout = 50)
+    public void testGetLatest() {
+        ASCIIFormatter ascii = new ASCIIFormatter(sched);
+
+        LocalTime expected = endTime2;
+        assertEquals(expected, ascii.getEndLate());
     }
 
     @Test(timeout = 50)
