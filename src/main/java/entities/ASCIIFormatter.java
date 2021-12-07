@@ -9,6 +9,7 @@ public class ASCIIFormatter {
     private final LocalTime start;
     private final LocalTime end;
     private final LocalTime latest;
+    private final ArrayList<Timeslot> timeslots;
 
     /**
      * Constructor that takes schedule to be turned into ASCII output.
@@ -17,6 +18,7 @@ public class ASCIIFormatter {
      */
     public ASCIIFormatter(Schedule sched) {
         this.schedule = sched;
+        this.timeslots = populateTimeslots();
         this.start = getEarly();
         this.end = getLate();
         this.latest = getLatest();
@@ -43,9 +45,18 @@ public class ASCIIFormatter {
     /**
      * getter method for timeslots
      *
-     * @return array list of all timeslots in the schedule (in no particular order)
+     * @returnlist of timeslots
      */
     public ArrayList<Timeslot> getTimeslots() {
+        return timeslots;
+    }
+
+    /**
+     * getter method for timeslots
+     *
+     * @return array list of all timeslots in the schedule (in no particular order)
+     */
+    public ArrayList<Timeslot> populateTimeslots() {
         ArrayList<Timeslot> timeslots = new ArrayList<>();
 
         for (Section lec : this.schedule.getLectures()) {
@@ -70,7 +81,6 @@ public class ASCIIFormatter {
      * @return nx5 matrix of either empty strings or timeslots for wherever they are in the schedule (relatively)
      */
     public String[][] populateMatrix() {
-        ArrayList<Timeslot> timeslots = getTimeslots();
         String[][] mat = new String[latest.getHour() - start.getHour()][5];
 
         for (int i = 0; i < mat.length; i++) {
@@ -78,12 +88,12 @@ public class ASCIIFormatter {
                 for (Timeslot timeslot : timeslots) {
                     if (j == (timeslot.getDay().getValue() - 1)
                             && i == (timeslot.getStart().getHour() - start.getHour())) {
-//                        for (int k = 0; k < timeslot.getStart().getHour() - timeslot.getEnd().getHour(); k++) {
-//                            mat[i][j + k] = timeslot.toString();
-//                        }
-                        mat[i][j] = timeslot.toString();
+                        // ie if 2 hour long lec then curr cell and cell below should get filled w/ same timeslot
+                        for (int k = 0; k < timeslot.getEnd().getHour() - timeslot.getStart().getHour(); k++) {
+                            mat[i][j + k] = timeslot.toString();
+                        }
                     } else {
-                        mat[i][j] = "n";
+                        mat[i][j] = "";
                     }
                 }
             }
@@ -91,18 +101,17 @@ public class ASCIIFormatter {
 
         return mat;
     }
-
-    public static String[] getColumn(String[][] arr, int index) {
-        String[] col = new String[arr[0].length];
-        for (int i = 0; i < col.length; i++) {
-            col[i] = arr[i][index];
-        }
-        return col;
-    }
+//
+//    public static String[] getColumn(String[][] arr, int index) {
+//        String[] col = new String[arr[0].length];
+//        for (int i = 0; i < col.length; i++) {
+//            col[i] = arr[i][index];
+//        }
+//        return col;
+//    }
 
     /** Method to grab the earliest start time of a course in a schedule. */
     private LocalTime getEarly() {
-        ArrayList<Timeslot> timeslots = getTimeslots();
         LocalTime min = LocalTime.parse("23:00:00");
         for (Timeslot timeslot : timeslots) {
             if (timeslot.getStart().compareTo(min) < 0) {
@@ -112,9 +121,8 @@ public class ASCIIFormatter {
         return min;
     }
 
-    /** Method to grab the latest start time of a course in a schedule. */
+    /** Method to grab the latest START time of a course in a schedule. */
     private LocalTime getLate() {
-        ArrayList<Timeslot> timeslots = getTimeslots();
         LocalTime max = LocalTime.parse("00:00:00");
         for (Timeslot timeslot : timeslots) {
             if (timeslot.getStart().compareTo(max) > 0) {
@@ -124,9 +132,8 @@ public class ASCIIFormatter {
         return max;
     }
 
-    /** Method to grab the latest end time of a course in a schedule. */
+    /** Method to grab the latest END time of a course in a schedule. */
     private LocalTime getLatest() {
-        ArrayList<Timeslot> timeslots = getTimeslots();
         LocalTime max = LocalTime.parse("00:00:00");
         for (Timeslot timeslot : timeslots) {
             if (timeslot.getEnd().compareTo(max) > 0) {
@@ -137,25 +144,24 @@ public class ASCIIFormatter {
     }
 
     public String genTable() {
-        String leftAlignFormat = "| %-15s | %-15s | %-15s | %-15s | %-15s |\n";
+        String leftAlignFormat = "| %-24s | %-24s | %-24s | %-24s | %-24s |\n";
         String padding =
-                "|                |                |                |                |            "
-                        + "    |";
+                "|                          |                          |                          |                          |                  "
+                        + "        |\n";
         String floor =
-                "+----------------+----------------+----------------+----------------+----------------+\n";
+                "+--------------------------+--------------------------+--------------------------+--------------------------+--------------------------+\n";
         StringBuilder output = new StringBuilder("Schedule: \n\n");
         String[][] arr = populateMatrix();
 
         // The header for our schedule
         output.append(floor)
                 .append(
-                        "|     Monday     |     Tuesday    |    Wednesday   |    Thursday    |    "
-                                + " Friday     |\n")
+                        "|          Monday          |          Tuesday         |         Wednesday        |         Thursday         |        "
+                                + "  Friday          |\n")
                 .append(floor);
-        for (int i = 0; i < end.getHour() - start.getHour(); i++) {
-            String[] col = getColumn(arr, i);
+        for (int i = 0; i < latest.getHour() - start.getHour(); i++) {
             output.append(padding);
-            output.append(String.format(leftAlignFormat, col[0], col[1], col[2], col[3], col[4]));
+            output.append(String.format(leftAlignFormat, arr[i][0], arr[i][1], arr[i][2], arr[i][3], arr[i][4]));
             output.append(padding);
             output.append(floor);
         }

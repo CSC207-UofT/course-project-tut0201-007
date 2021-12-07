@@ -3,12 +3,12 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This class represents a session, such as a single lecture or tutorial */
+/** This class represents a section, such as a single lecture or tutorial */
 public class Section {
 
-    private String name;
-    private String session;
-    private List<Timeslot> times;
+    private final String name;
+    private final String session;
+    private final List<Timeslot> times;
 
     public Section(String name) {
         this(name, new ArrayList<Timeslot>());

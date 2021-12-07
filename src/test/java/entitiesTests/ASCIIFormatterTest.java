@@ -62,7 +62,7 @@ public class ASCIIFormatterTest {
         }
 
         for (Section tut : tutsToAdd) {
-            sched.addLecture(tut);
+            sched.addTutorial(tut);
         }
     }
 
@@ -123,6 +123,7 @@ public class ASCIIFormatterTest {
         expected[4][0] = lec3.toString();
         expected[4][2] = tut3.toString();
 
+        System.out.println(ascii.getTimeslots());
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 System.out.print(matrix[i][j] + " ");

@@ -59,4 +59,9 @@ public class TimeslotTest {
         Timeslot[] expected = {timeslotA, timeslotB, laterStart, latestStart};
         assert (Arrays.equals(postSort, expected));
     }
+
+    @Test(timeout = 100)
+    public void testGetEnd() {
+        assert timeslotA.getEnd().getHour() == 6;
+    }
 }
