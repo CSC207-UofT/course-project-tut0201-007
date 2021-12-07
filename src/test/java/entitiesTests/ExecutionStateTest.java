@@ -73,27 +73,4 @@ public class ExecutionStateTest {
         schedule.addLecture(lec2Section);
         assertEquals(expected, schedule.getLectures());
     }
-
-    @Test(timeout = 50)
-    public void testAddLecturesSingleAfter() {
-
-        Schedule schedule = new Schedule();
-        schedule.addLecture(lec1Section);
-        List<Section> expected = List.of(lec1Section, lec2Section);
-        schedule.addLecture(lec2Section);
-
-        assertEquals(expected, schedule.getLectures());
-    }
-
-    @Test(timeout = 50)
-    public void testAddTutorials() {
-        Schedule schedule = new Schedule();
-
-        List<Section> expected = List.of(tut1Section, tut2Section, tut3Section);
-
-        for (Section tut : tutsToAdd) {
-            schedule.addTutorial(tut);
-        }
-        assertEquals(expected, schedule.getTutorials());
-    }
 }

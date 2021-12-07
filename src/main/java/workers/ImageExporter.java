@@ -20,15 +20,15 @@ import java.util.Map;
 
 public class ImageExporter extends Exporter {
 
-    private int height = 1195;
-    private int dayRowHeight = 70;
-    private int width = 1915;
-    private int timeColWidth = 100;
-    private int startHour = 7;
-    private int blockHeight;
-    private int blockWidth;
-    private Map<LocalTime, Integer> timeToRow;
-    private File outputDirectory;
+    private final int height = 1195;
+    private final int dayRowHeight = 70;
+    private final int width = 1915;
+    private final int timeColWidth = 100;
+    private final int startHour = 7;
+    private final int blockHeight;
+    private final int blockWidth;
+    private final Map<LocalTime, Integer> timeToRow;
+    private final File outputDirectory;
 
     public ImageExporter(){
         blockHeight  = (height - dayRowHeight) / 15;
