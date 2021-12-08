@@ -238,9 +238,12 @@ Our program is less likely to be used by users who prefer the use of an input de
 #### Lorena
 * Worked On:
   * Redesigning CLI output to be more user-friendly 
+  * Implementing the course information display feature 
   * Accounting for course corequsites 
   * Bug fixes 
   * Design Document
+* Significant Contribution: [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/85)
+  * This PR is significant because it adds additional functionality to the application and enhances the user experience by giving them an option to view course information before creating a schedule with them.    
 * To Work on:
   * Further testing / bug fixing 
 
