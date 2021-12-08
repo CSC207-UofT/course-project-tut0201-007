@@ -1,13 +1,10 @@
 package util;
 
 import entities.Course;
-
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * A class that allows course information to be displayed to the user
- */
+/** A class that allows course information to be displayed to the user */
 public class CourseInfoDisplay {
     List<Course> courses;
 
@@ -26,8 +23,14 @@ public class CourseInfoDisplay {
             System.out.println();
             System.out.println(
                     "Showing information for course "
-                    + ConsoleColours.WHITE_BOLD_BRIGHT
-                            + "(" + (courseNumber + 1) + "/" + (numberOfCourses + 1) + ")" + ConsoleColours.RESET + ":");
+                            + ConsoleColours.WHITE_BOLD_BRIGHT
+                            + "("
+                            + (courseNumber + 1)
+                            + "/"
+                            + (numberOfCourses + 1)
+                            + ")"
+                            + ConsoleColours.RESET
+                            + ":");
             printDisplay(currentCourse);
             System.out.println(
                     " • Press 'Q' to" + ConsoleColours.RED + " quit." + ConsoleColours.RESET);
@@ -66,19 +69,32 @@ public class CourseInfoDisplay {
                     }
                     break;
             }
-
         }
-
     }
 
     private void printDisplay(Course course) {
-        System.out.println(ConsoleColours.BLUE_BOLD_BRIGHT + "-+- " + course.getCourseId() + " -+-" + ConsoleColours.RESET);
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.println(ConsoleColours.WHITE_BOLD_BRIGHT + "Course Description:" + ConsoleColours.RESET);
+        System.out.println(
+                ConsoleColours.BLUE_BOLD_BRIGHT
+                        + "-+- "
+                        + course.getCourseId()
+                        + " -+-"
+                        + ConsoleColours.RESET);
+        System.out.println(
+                "---------------------------------------------------------------------------------------------");
+        System.out.println(
+                ConsoleColours.WHITE_BOLD_BRIGHT + "Course Description:" + ConsoleColours.RESET);
         System.out.println(course.getCourseDesc());
-        System.out.println("---------------------------------------------------------------------------------------------");
-        System.out.println("Exclusions: " + ConsoleColours.BLUE + course.getExclusions().toString() + ConsoleColours.RESET);
-        System.out.println("Corequisites: " + ConsoleColours.BLUE + course.getCorequisites().toString() + ConsoleColours.RESET);
+        System.out.println(
+                "---------------------------------------------------------------------------------------------");
+        System.out.println(
+                "Exclusions: "
+                        + ConsoleColours.BLUE
+                        + course.getExclusions().toString()
+                        + ConsoleColours.RESET);
+        System.out.println(
+                "Corequisites: "
+                        + ConsoleColours.BLUE
+                        + course.getCorequisites().toString()
+                        + ConsoleColours.RESET);
     }
-
 }

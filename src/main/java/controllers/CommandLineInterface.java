@@ -21,8 +21,6 @@ import workers.Exporter;
 import workers.ICSExporter;
 import workers.ICSImporter;
 
-import workers.*;
-
 /** The user interface of the program. */
 public class CommandLineInterface {
 
@@ -77,8 +75,8 @@ public class CommandLineInterface {
         System.out.print(ConsoleColours.RESET);
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT
-                        + "--- Would you like to view course information, create a new schedule, import a schedule to"
-                        + " configure? ---\n"
+                        + "--- Would you like to view course information, create a new schedule,"
+                        + " import a schedule to configure? ---\n"
                         + ConsoleColours.RESET
                         + " • Press 2 to"
                         + ConsoleColours.BLUE
@@ -105,9 +103,11 @@ public class CommandLineInterface {
                 System.out.println(
                         ConsoleColours.GREEN + "Importing schedule..." + ConsoleColours.RESET);
                 return 0;
-            } else if (inputInt == 2){
+            } else if (inputInt == 2) {
                 System.out.println(
-                        ConsoleColours.GREEN + "Displaying course information..." + ConsoleColours.RESET);
+                        ConsoleColours.GREEN
+                                + "Displaying course information..."
+                                + ConsoleColours.RESET);
                 return 2;
             } else {
                 System.out.print(ConsoleColours.RED);
@@ -180,7 +180,9 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
 
-        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles(file -> !file.getName().contains(".jpg"));
+        File[] importableFiles =
+                new File(System.getProperty("user.dir") + "/output/")
+                        .listFiles(file -> !file.getName().contains(".jpg"));
         if (importableFiles.length == 0) {
             System.out.println(
                     "No importable files. Defaulting to generating a schedule from scratch");
@@ -493,10 +495,16 @@ public class CommandLineInterface {
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'J':
-                    System.out.println(ConsoleColours.WHITE_BOLD +
-                            "Please specify the name you'd like to save this Schedule under." + ConsoleColours.RESET);
+                    System.out.println(
+                            ConsoleColours.WHITE_BOLD
+                                    + "Please specify the name you'd like to save this Schedule"
+                                    + " under."
+                                    + ConsoleColours.RESET);
                     String jpgFileName = scanner.next();
-                    System.out.println(ConsoleColours.GREEN + "Saving this schedule in .jpg format..." + ConsoleColours.RESET);
+                    System.out.println(
+                            ConsoleColours.GREEN
+                                    + "Saving this schedule in .jpg format..."
+                                    + ConsoleColours.RESET);
                     new ImageExporter().outputSchedule(currSchedule, jpgFileName);
                 case 'X':
                     if (this.generationMode == ExecutionState.GenerationMode.ONE_BY_ONE) {

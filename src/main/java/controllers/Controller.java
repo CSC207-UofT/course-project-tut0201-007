@@ -21,8 +21,7 @@ public class Controller {
          */
         // create our scheduler object
         Scheduler scheduler = new Scheduler();
-        ExecutionState.GenerationMode oneByOne =
-                ExecutionState.GenerationMode.ONE_BY_ONE;
+        ExecutionState.GenerationMode oneByOne = ExecutionState.GenerationMode.ONE_BY_ONE;
         ExecutionState.GenerationMode allPermutations =
                 ExecutionState.GenerationMode.ALL_PERMUTATIONS;
         CommandLineInterface CLI = new CommandLineInterface(oneByOne);
@@ -33,7 +32,7 @@ public class Controller {
          */
         int userStrategy = CLI.promptUser();
         if (userStrategy == -1) {
-           return;
+            return;
         } else if (userStrategy == 0) {
             Schedule baseSchedule = CLI.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
@@ -51,8 +50,9 @@ public class Controller {
             instantiatedCourses = Controller.courseInstantiator(courses);
         }
 
-        // Since we don't need the rest of the controller to execute after getting the courses to display
-        if (userStrategy == 2){
+        // Since we don't need the rest of the controller to execute after getting the courses to
+        // display
+        if (userStrategy == 2) {
             CLI.promptCourseInfoDisplay(instantiatedCourses);
             return;
         }
