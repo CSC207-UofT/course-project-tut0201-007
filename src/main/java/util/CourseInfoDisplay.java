@@ -73,6 +73,7 @@ public class CourseInfoDisplay {
     }
 
     private void printDisplay(Course course) {
+        String description = course.getCourseDesc();
         System.out.println(
                 ConsoleColours.BLUE_BOLD_BRIGHT
                         + "-+- "
@@ -83,7 +84,9 @@ public class CourseInfoDisplay {
                 "---------------------------------------------------------------------------------------------");
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT + "Course Description:" + ConsoleColours.RESET);
-        System.out.println(course.getCourseDesc());
+        for (String s : description.split("(?<=\\.) (?=[A-Z])")) {
+            System.out.println(s);
+        }
         System.out.println(
                 "---------------------------------------------------------------------------------------------");
         System.out.println(
