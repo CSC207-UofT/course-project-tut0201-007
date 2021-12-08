@@ -54,11 +54,9 @@ public class Controller {
             ExecutionState.setUserCourses(instantiatedCourses);
         }
 
-        // Since we don't need the rest of the controller to execute after getting the courses to
-        // display
+       // Display course information
         if (userStrategy == 2) {
             CLI.promptCourseInfoDisplay(instantiatedCourses);
-            return;
         }
 
         // get user specified filters, add them as filters to our scheduler object

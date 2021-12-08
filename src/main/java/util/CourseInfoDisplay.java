@@ -1,6 +1,8 @@
 package util;
 
 import entities.Course;
+import workers.CourseCreator;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +20,7 @@ public class CourseInfoDisplay {
         int courseNumber = 0;
         char userActivity = 'W';
 
-        while (userActivity != 'Q') {
+        while (userActivity != 'X') {
             Course currentCourse = courses.get(courseNumber);
             System.out.println();
             System.out.println(
@@ -44,12 +46,17 @@ public class CourseInfoDisplay {
                             + ConsoleColours.BLUE
                             + " previous course."
                             + ConsoleColours.RESET);
+            System.out.println(
+                    " • Press 'X' to "
+                            + ConsoleColours.BLUE
+                            + "create a schedule with these courses."
+                            + ConsoleColours.RESET);
 
             char userInput = input.next().charAt(0);
             switch (userInput) {
                 case 'Q':
-                    userActivity = 'Q';
-                    break;
+                    System.out.println("Quitting program...");
+                    System.exit(0);
                 case '<':
                     if (courseNumber > 0) {
                         courseNumber--;
@@ -67,6 +74,15 @@ public class CourseInfoDisplay {
                         System.out.println("No course after this one.");
                         System.out.print(ConsoleColours.RESET);
                     }
+                    break;
+                case 'X':
+                    StringBuilder coursesString = new StringBuilder();
+                    for (Course course: courses) {
+                        coursesString.append(course.getCourseId()).append(" ");
+                    }
+                    System.out.println(ConsoleColours.GREEN + "Creating a Schedule with the courses: " + ConsoleColours.RESET
+                    + coursesString);
+                    userActivity = 'X';
                     break;
             }
         }

@@ -59,7 +59,7 @@ public class CourseCreator {
                         .get("exclusion")
                         .toString();
 
-        List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
+        List<String> exclusions = getCourseExclusions(exclusionsValue);
 
         String corequisitesValue =
                 apiWorker
@@ -68,7 +68,7 @@ public class CourseCreator {
                         .get("corequisite")
                         .toString();
 
-        List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
+        List<String> corequisites = getCourseCorequisites(corequisitesValue);
 
         JsonElement courseDescription =
                 apiWorker.info.getAsJsonObject(apiWorker.semester.get(w)).get("courseDescription");
@@ -144,12 +144,12 @@ public class CourseCreator {
      * @param value a String that corresponds to all the exclusions for a course
      * @return an ArrayList of course names
      */
-    public static List<String> getCourseExclusions(String value, String courseID) {
+    public static List<String> getCourseExclusions(String value) {
         List<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course " + courseID + " has no exclusions (empty string)");
+            return shortenedCodes;
         }
         return shortenedCodes;
     }
@@ -161,12 +161,16 @@ public class CourseCreator {
      * @param value a String that corresponds to all the corequisites for a course
      * @return an ArrayList of course names
      */
-    public static List<String> getCourseCorequisites(String value, String courseID) {
+    public static List<String> getCourseCorequisites(String value) {
         List<String> shortenedCodes = new ArrayList<>();
         try {
-            extractCodes(value, shortenedCodes);
+            if (value.contains("Recommended")) {
+                shortenedCodes.add(value.replace("\"", ""));
+            } else {
+                extractCodes(value, shortenedCodes);
+            }
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course " + courseID + " has no corequisites (empty string)");
+            return shortenedCodes;
         }
         return shortenedCodes;
     }
