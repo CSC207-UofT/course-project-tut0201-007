@@ -30,14 +30,11 @@ public class SchedulerTest {
         List<Course> tst105C = Controller.courseInstantiator(tst105);
         Schedule schedule = scheduleCreator.createBasicSchedule(tst105C);
 
-        System.out.println(schedule.getLectures());
-        System.out.println(schedule.getTutorials());
-
         String expected =
                 "Schedule: \n"
                     + "\n"
                     + "Lectures\n"
-                    + "TST105 LEC-0101 F meets at:\n"
+                    + "TST105 LEC-0101 F has a professor rating of 2.5 and meets at:\n"
                     + "MONDAY from 10:00-11:00 at WI 1016 in session F\n"
                     + "TUESDAY from 18:00-21:00 at Contact DEPT in session F\n"
                     + "WEDNESDAY from 10:00-11:00 at WI 1016 in session F\n"
@@ -128,7 +125,6 @@ public class SchedulerTest {
                     + "|                          |                          |                    "
                     + "      |                          |                          |\n"
                     + "+--------------------------+--------------------------+--------------------------+--------------------------+--------------------------+\n";
-
         // Checking that the course has the correct code
         assertEquals(expected, schedule.toString());
     }
@@ -145,11 +141,11 @@ public class SchedulerTest {
                 "Schedule: \n"
                     + "\n"
                     + "Lectures\n"
-                    + "TST107 LEC-9901 F meets at:\n"
+                    + "TST107 LEC-9901 F has a professor rating of 2.5 and meets at:\n"
                     + "MONDAY from 09:00-10:00 at ONLINE in session F\n"
                     + "WEDNESDAY from 09:00-11:00 at ONLINE in session F\n"
                     + "\n"
-                    + "TST105 LEC-0101 F meets at:\n"
+                    + "TST105 LEC-0101 F has a professor rating of 2.5 and meets at:\n"
                     + "MONDAY from 10:00-11:00 at WI 1016 in session F\n"
                     + "TUESDAY from 18:00-21:00 at Contact DEPT in session F\n"
                     + "WEDNESDAY from 10:00-11:00 at WI 1016 in session F\n"
@@ -262,7 +258,7 @@ public class SchedulerTest {
                 "Schedule: \n"
                     + "\n"
                     + "Lectures\n"
-                    + "TST105 LEC-0101 F meets at:\n"
+                    + "TST105 LEC-0101 F has a professor rating of 2.5 and meets at:\n"
                     + "MONDAY from 10:00-11:00 at WI 1016 in session F\n"
                     + "TUESDAY from 18:00-21:00 at Contact DEPT in session F\n"
                     + "WEDNESDAY from 10:00-11:00 at WI 1016 in session F\n"
@@ -368,7 +364,7 @@ public class SchedulerTest {
                 "Schedule: \n"
                     + "\n"
                     + "Lectures\n"
-                    + "TST102 LEC-0101 Y meets at:\n"
+                    + "TST102 LEC-0101 Y has a professor rating of 2.5 and meets at:\n"
                     + "MONDAY from 09:00-10:00 at LM 159 in session F\n"
                     + "MONDAY from 09:00-10:00 at LM 159 in session S\n"
                     + "TUESDAY from 09:00-10:00 at LM 159 in session F\n"
@@ -463,7 +459,6 @@ public class SchedulerTest {
                     + "|                          |                          |                    "
                     + "      |                          |                          |\n"
                     + "+--------------------------+--------------------------+--------------------------+--------------------------+--------------------------+\n";
-
         assertEquals(expected, schedule.toString());
     }
 }

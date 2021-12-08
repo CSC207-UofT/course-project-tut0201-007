@@ -70,7 +70,9 @@ public class Section {
     public String toString() {
         if (times.size() == 0) return name + " is ASYNC";
         StringBuilder ret = new StringBuilder();
-        ret.append(name + " meets at:\n");
+        if (name.contains("LEC")) {
+            ret.append(name + " has a professor rating of " + professorRating + " and meets at:\n");
+        } else ret.append(name + " meets at:\n");
         for (Timeslot s : times) {
             ret.append(s.toString() + "\n");
         }

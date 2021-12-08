@@ -29,10 +29,11 @@ public class CourseCreatorTest {
     @Test(timeout = 1000)
     public void testMockLectureSessions() {
         String expected =
-                "TST101 LEC-0101 Y meets at:\n"
+                "TST101 LEC-0101 Y has a professor rating of 2.5 and meets at:\n"
                         + "MONDAY from 12:00-13:00 at ROOM 07 in session F\n"
                         + "MONDAY from 12:00-13:00 at ROOM 08 in session S\n";
         // Checking that the course has the correct lecture
+        System.out.println(mockCourse1.getLectures().get(0).toString());
         assertEquals(expected, mockCourse1.getLectures().get(0).toString());
     }
 

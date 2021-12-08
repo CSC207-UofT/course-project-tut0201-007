@@ -47,8 +47,8 @@
                 "instructors": {
                     "7961569": {
                         "instructorId": "7961569",
-                        "firstName": "D",
-                        "lastName": "Heap"
+                        "firstName": "FAKE",
+                        "lastName": "PROFESSOR"
                     }
                 },
                 "meetingId": "194268",
@@ -151,8 +151,8 @@
                 "instructors": {
                     "7961570": {
                         "instructorId": "7961570",
-                        "firstName": "G",
-                        "lastName": "Baumgartner"
+                        "firstName": "FAKE",
+                        "lastName": "PROFESSOR"
                     }
                 },
                 "meetingId": "194269",
@@ -255,8 +255,8 @@
                 "instructors": {
                     "7961571": {
                         "instructorId": "7961571",
-                        "firstName": "G",
-                        "lastName": "Baumgartner"
+                        "firstName": "FAKE",
+                        "lastName": "PROFESSOR"
                     }
                 },
                 "meetingId": "194270",
@@ -359,8 +359,8 @@
                 "instructors": {
                     "7961572": {
                         "instructorId": "7961572",
-                        "firstName": "D",
-                        "lastName": "Heap"
+                        "firstName": "FAKE",
+                        "lastName": "PROFESSOR"
                     }
                 },
                 "meetingId": "194271",
@@ -455,8 +455,8 @@
                 "instructors": {
                     "7961573": {
                         "instructorId": "7961573",
-                        "firstName": "G",
-                        "lastName": "Baumgartner"
+                        "firstName": "FAKE",
+                        "lastName": "PROFESSOR"
                     }
                 },
                 "meetingId": "194273",

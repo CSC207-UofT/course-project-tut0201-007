@@ -186,7 +186,7 @@ public class CSVExporterTest {
                         + "TST103 LEC-0101 Y,2022-04-07,12:00,2022-04-07,15:00,ONLINE\n";
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void testExport() {
         sr = new Scheduler();
         courseCodes = new ArrayList<>();
@@ -205,7 +205,7 @@ public class CSVExporterTest {
         }
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void testExportWithCustomName() {
         sr = new Scheduler();
         courseCodes = new ArrayList<>();
