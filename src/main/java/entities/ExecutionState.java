@@ -4,24 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A high-level entity responsible for representing the execution state of the program. It stores user courses,
- * next course being generate, user specified base schedule. This class is intended to improve communication between
- * boundaries in the program.
+ * A high-level entity responsible for representing the execution state of the program. It stores
+ * user courses, next course being generate, user specified base schedule. This class is intended to
+ * improve communication between boundaries in the program.
  */
 public class ExecutionState {
     /**
      * @variable allUserCourses represents all Courses initially instantiated by the user
      * @variable remainingUserCourses represents all courses the user
      */
-    private static boolean stateIsSetup;
+    private static boolean stateIsSetUp = false;
+
     private static GenerationMode generationMode;
     private static List<Course> allUserCourses;
     private static List<Course> remainingUserCourses;
     private static Course currentCourse;
 
     /**
-     * Keeps track of list of all courses selected by user. This should be called only ONCE, when the courses are first
-     * instantiated. If an empty list is passed, nothing happens.
+     * Keeps track of list of all courses selected by user. This should be called only ONCE, when
+     * the courses are first instantiated. If an empty list is passed, nothing happens.
      *
      * @param userCourses courses instantiated by user
      */
@@ -32,12 +33,10 @@ public class ExecutionState {
         allUserCourses = userCourses;
         remainingUserCourses = new ArrayList<>(allUserCourses);
         currentCourse = remainingUserCourses.remove(0);
-        stateIsSetup = true;
+        stateIsSetUp = true;
     }
 
-    /**
-     * Returns all courses first instantiated by the user, so user can verify their selection.
-     */
+    /** Returns all courses first instantiated by the user, so user can verify their selection. */
     public static List<Course> getUserCourses() {
         return allUserCourses;
     }
@@ -51,6 +50,10 @@ public class ExecutionState {
         return currentCourse;
     }
 
+    public static void setCurrentCourse(Course course) {
+        currentCourse = course;
+    }
+
     /**
      * Gets courses that still need to be included in schedule.
      *
@@ -61,17 +64,8 @@ public class ExecutionState {
     }
 
     /**
-     * Moves to the next course in the courses being scheduled.
-     */
-    public static void moveToNextCourse() {
-        if (remainingUserCourses.size() == 0) {
-            return;
-        }
-        currentCourse = remainingUserCourses.remove(0);
-    }
-
-    /**
      * Getters and setters for GenerationMode used in Controller and CommandLineInterface
+     *
      * @return the current generation mode
      */
     public static GenerationMode getGenerationMode() {
@@ -80,6 +74,10 @@ public class ExecutionState {
 
     public static void setGenerationMode(GenerationMode mode) {
         generationMode = mode;
+    }
+
+    public static boolean isSetUp() {
+        return stateIsSetUp;
     }
 
     public enum GenerationMode {

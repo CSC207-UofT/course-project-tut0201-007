@@ -36,7 +36,7 @@ public class CourseExclusionFilterTest {
         assertFalse(filter1.checkSchedule(schedule));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void filterSucceed() {
         List<String> multi = new ArrayList<>();
         // Courses are exclusions

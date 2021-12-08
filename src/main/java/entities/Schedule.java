@@ -76,6 +76,7 @@ public class Schedule implements Cloneable {
 
     @Override
     public String toString() {
+        ASCIIFormatter ascii = new ASCIIFormatter(this);
         StringBuilder representation = new StringBuilder("Schedule: \n\n");
         representation.append("Lectures\n");
         for (Section s : this.lectures) {
@@ -85,7 +86,8 @@ public class Schedule implements Cloneable {
         for (Section s : this.tutorials) {
             representation.append(s.toString()).append("\n");
         }
-        return representation.toString();
+
+        return representation + ascii.genTable();
     }
 
     @Override

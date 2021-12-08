@@ -1,0 +1,516 @@
+{
+  "data": {
+    "school": {
+      "__typename": "School",
+      "id": "U2Nob29sLTE0ODQ=",
+      "name": "University of Toronto - St. George Campus"
+    },
+    "search": {
+      "teachers": {
+        "didFallback": true,
+        "edges": [
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 3,
+              "avgRating": 5,
+              "department": "Business",
+              "firstName": "Baker",
+              "id": "VGVhY2hlci0xNDM4MzA4",
+              "isSaved": false,
+              "lastName": "Jeffrey",
+              "legacyId": 1438308,
+              "numRatings": 1,
+              "school": {
+                "id": "U2Nob29sLTQzNDg=",
+                "name": "Franklin University"
+              },
+              "wouldTakeAgainPercent": 100
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 0,
+              "avgRating": 0,
+              "department": "Nursing",
+              "firstName": "Baker",
+              "id": "VGVhY2hlci05NDQ3NTk=",
+              "isSaved": false,
+              "lastName": "Janele",
+              "legacyId": 944759,
+              "numRatings": 0,
+              "school": {
+                "id": "U2Nob29sLTE1MzM=",
+                "name": "Florida Agricultural and Mechanical University"
+              },
+              "wouldTakeAgainPercent": -1
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 3.5,
+              "avgRating": 4.9,
+              "department": "Chemistry",
+              "firstName": "Baker",
+              "id": "VGVhY2hlci0yNTc1NzU5",
+              "isSaved": false,
+              "lastName": "Jawabrah",
+              "legacyId": 2575759,
+              "numRatings": 18,
+              "school": {
+                "id": "U2Nob29sLTMzNQ==",
+                "name": "Embry-Riddle Aeronautical University"
+              },
+              "wouldTakeAgainPercent": 100
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 1.5,
+              "avgRating": 3.4,
+              "department": "English As A Second Language",
+              "firstName": "J",
+              "id": "VGVhY2hlci05MjE5MTQ=",
+              "isSaved": false,
+              "lastName": "Baker",
+              "legacyId": 921914,
+              "numRatings": 8,
+              "school": {
+                "id": "U2Nob29sLTIwODU=",
+                "name": "Fresno City College"
+              },
+              "wouldTakeAgainPercent": -1
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 0,
+              "avgRating": 0,
+              "department": "Chemistry",
+              "firstName": "J. Scott",
+              "id": "VGVhY2hlci0yNjYxNzUx",
+              "isSaved": false,
+              "lastName": "Baker",
+              "legacyId": 2661751,
+              "numRatings": 0,
+              "school": {
+                "id": "U2Nob29sLTI5Mjg=",
+                "name": "Triton College"
+              },
+              "wouldTakeAgainPercent": -1
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 2.5,
+              "avgRating": 4.5,
+              "department": "Education",
+              "firstName": "J. Scott",
+              "id": "VGVhY2hlci0yMDg3MjQz",
+              "isSaved": false,
+              "lastName": "Baker",
+              "legacyId": 2087243,
+              "numRatings": 28,
+              "school": {
+                "id": "U2Nob29sLTM5Nzg=",
+                "name": "University of Wisconsin - La Crosse"
+              },
+              "wouldTakeAgainPercent": 100
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 3.5,
+              "avgRating": 4,
+              "department": "Communication",
+              "firstName": "Sara",
+              "id": "VGVhY2hlci0xOTg2Nzgx",
+              "isSaved": false,
+              "lastName": "Baker",
+              "legacyId": 1986781,
+              "numRatings": 2,
+              "school": {
+                "id": "U2Nob29sLTMxNg==",
+                "name": "Eastern Illinois University"
+              },
+              "wouldTakeAgainPercent": -1
+            }
+          },
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 0,
+              "avgRating": 0,
+              "department": "Geology",
+              "firstName": "Robert",
+              "id": "VGVhY2hlci0yMTA1ODgz",
+              "isSaved": false,
+              "lastName": "Baker",
+              "legacyId": 2105883,
+              "numRatings": 0,
+              "school": {
+                "id": "U2Nob29sLTEzNDM=",
+                "name": "University of Texas at Arlington"
+              },
+              "wouldTakeAgainPercent": -1
+            }
+          }
+        ],
+        "filters": [
+          {
+            "field": "teacherdepartment_s",
+            "options": [
+              {
+                "id": "RGVwYXJ0bWVudC0x",
+                "value": "accounting"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMDE3",
+                "value": "animation"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0z",
+                "value": "anthropology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC04Mjk=",
+                "value": "archaeology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMTM=",
+                "value": "art"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC01",
+                "value": "art history"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zODQ=",
+                "value": "arts \u0026 sciences"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC02",
+                "value": "biology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC03",
+                "value": "business"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNTQ=",
+                "value": "business administration"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC04",
+                "value": "chemistry"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNTUz",
+                "value": "child \u0026 adolescent studies"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMjc=",
+                "value": "child development"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC05",
+                "value": "classics"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNDcw",
+                "value": "college success"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMA==",
+                "value": "communication"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zMDc=",
+                "value": "communication disorders"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC02OTA=",
+                "value": "communication studies"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMzM2",
+                "value": "computer information systems"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMQ==",
+                "value": "computer science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMg==",
+                "value": "criminal justice"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zNDY=",
+                "value": "cultural studies"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNA==",
+                "value": "design"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMzI=",
+                "value": "digital arts"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNQ==",
+                "value": "economics"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNg==",
+                "value": "education"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNw==",
+                "value": "engineering"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xOA==",
+                "value": "english"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNDA2",
+                "value": "english as a second language"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC04MjU=",
+                "value": "environment"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMDg=",
+                "value": "environmental science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xOQ==",
+                "value": "ethnic studies"
+              },
+              {
+                "id": "",
+                "value": "exercise  sport science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yMA==",
+                "value": "film"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNjM5",
+                "value": "film studies"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yMg==",
+                "value": "fine arts"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yMw==",
+                "value": "geography"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yNA==",
+                "value": "geology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yNQ==",
+                "value": "graphic arts"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00MjM=",
+                "value": "graphic design"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC04MDU=",
+                "value": "health"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yNg==",
+                "value": "health science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yNw==",
+                "value": "history"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xODM=",
+                "value": "human services"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yOQ==",
+                "value": "humanities"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zODE=",
+                "value": "information technology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zMg==",
+                "value": "journalism"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zMzM=",
+                "value": "kinesiology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zMw==",
+                "value": "languages"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zNA==",
+                "value": "law"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMDk1",
+                "value": "legal writing"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xOTQ=",
+                "value": "library science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zNQ==",
+                "value": "literature"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zNg==",
+                "value": "management"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC02NTg=",
+                "value": "marine sciences"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zNw==",
+                "value": "marketing"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zOA==",
+                "value": "mathematics"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMzQ=",
+                "value": "microbiology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00NjU=",
+                "value": "modern languages"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00MA==",
+                "value": "music"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00MQ==",
+                "value": "nursing"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00Mg==",
+                "value": "philosophy"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC05Ng==",
+                "value": "photography"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xOTY=",
+                "value": "physical sciences"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00NA==",
+                "value": "physics"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00NQ==",
+                "value": "political science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00Ng==",
+                "value": "psychology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMDE5",
+                "value": "public affairs"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00Nw==",
+                "value": "religion"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0zMzk=",
+                "value": "religious studies"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00OA==",
+                "value": "science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00OQ==",
+                "value": "social science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC01MA==",
+                "value": "social work"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC01MQ==",
+                "value": "sociology"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xMDE2",
+                "value": "software engineering"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC00MzU=",
+                "value": "sound design"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNzY=",
+                "value": "special education"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC02MDg=",
+                "value": "sports science"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0xNDA=",
+                "value": "statistics"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC01Mg==",
+                "value": "theater"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC0yNjA=",
+                "value": "visual arts"
+              },
+              {
+                "id": "RGVwYXJ0bWVudC01NA==",
+                "value": "writing"
+              }
+            ]
+          }
+        ],
+        "pageInfo": {
+          "endCursor": "YXJyYXljb25uZWN0aW9uOjc=",
+          "hasNextPage": true
+        },
+        "resultCount": 352
+      }
+    }
+  }
+}
