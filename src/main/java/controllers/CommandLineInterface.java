@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import util.ConsoleColours;
+import util.CourseInfoDisplay;
 import util.PromptHelpers;
 import workers.*;
 import workers.CSVExporter;
@@ -53,8 +54,12 @@ public class CommandLineInterface {
         System.out.print(ConsoleColours.RESET);
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT
-                        + "--- Would you like to create a new schedule, or import a schedule to"
-                        + " configure? ---\n"
+                        + "--- Would you like to view course information, create a new schedule,"
+                        + " import a schedule to configure? ---\n"
+                        + ConsoleColours.RESET
+                        + " • Press 2 to"
+                        + ConsoleColours.BLUE
+                        + " view course information. \n"
                         + ConsoleColours.RESET
                         + " • Press 1 to"
                         + ConsoleColours.BLUE
@@ -77,6 +82,12 @@ public class CommandLineInterface {
                 System.out.println(
                         ConsoleColours.GREEN + "Importing schedule..." + ConsoleColours.RESET);
                 return 0;
+            } else if (inputInt == 2) {
+                System.out.println(
+                        ConsoleColours.GREEN
+                                + "Displaying course information..."
+                                + ConsoleColours.RESET);
+                return 2;
             } else {
                 System.out.print(ConsoleColours.RED);
                 System.out.println("Please select a valid integer.");
@@ -205,6 +216,16 @@ public class CommandLineInterface {
                         + "--- Which courses would you like to add to this schedule? ---"
                         + ConsoleColours.RESET);
         return importedSchedule;
+    }
+
+    /**
+     * Displays the information for courses given by the user.
+     *
+     * @param userCourses the courses to be displayed
+     */
+    public void promptCourseInfoDisplay(List<Course> userCourses) {
+        CourseInfoDisplay courseInfoDisplay = new CourseInfoDisplay(userCourses);
+        courseInfoDisplay.displayInfo();
     }
 
     /**

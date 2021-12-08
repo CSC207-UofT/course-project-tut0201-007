@@ -5,6 +5,7 @@
         "orgName": "Test",
         "courseTitle": "Test JSON",
         "code": "TST107",
+        "courseDescription": "",
         "prerequisite": "",
         "corequisite": "TST104",
         "exclusion": "CSC110Y1, CSC120H1, CSC121H1, CSC148H1",

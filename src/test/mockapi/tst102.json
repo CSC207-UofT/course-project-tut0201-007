@@ -6,6 +6,7 @@
         "orgName": "Test",
         "courseTitle": "Test JSON",
         "code": "TST102",
+        "courseDescription": "",
         "corequisite": "",
         "exclusion": "TST101",
         "recommendedPreparation": "",

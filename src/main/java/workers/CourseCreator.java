@@ -59,7 +59,7 @@ public class CourseCreator {
                         .get("exclusion")
                         .toString();
 
-        List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
+        List<String> exclusions = getCourseExclusions(exclusionsValue);
 
         String corequisitesValue =
                 apiWorker
@@ -68,9 +68,15 @@ public class CourseCreator {
                         .get("corequisite")
                         .toString();
 
-        List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
+        List<String> corequisites = getCourseCorequisites(corequisitesValue);
 
-        return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
+        JsonElement courseDescription =
+                apiWorker.info.getAsJsonObject(apiWorker.semester.get(w)).get("courseDescription");
+
+        String cleanedDesc = cleanDescription(courseDescription);
+
+        return new Course(
+                courseId, lectures, tutorials, session, exclusions, corequisites, cleanedDesc);
     }
 
     /**
@@ -138,12 +144,12 @@ public class CourseCreator {
      * @param value a String that corresponds to all the exclusions for a course
      * @return an ArrayList of course names
      */
-    public static List<String> getCourseExclusions(String value, String courseID) {
+    public static List<String> getCourseExclusions(String value) {
         List<String> shortenedCodes = new ArrayList<>();
         try {
             extractCodes(value, shortenedCodes);
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course " + courseID + " has no exclusions (empty string)");
+            return shortenedCodes;
         }
         return shortenedCodes;
     }
@@ -155,12 +161,16 @@ public class CourseCreator {
      * @param value a String that corresponds to all the corequisites for a course
      * @return an ArrayList of course names
      */
-    public static List<String> getCourseCorequisites(String value, String courseID) {
+    public static List<String> getCourseCorequisites(String value) {
         List<String> shortenedCodes = new ArrayList<>();
         try {
-            extractCodes(value, shortenedCodes);
+            if (value.contains("Recommended")) {
+                shortenedCodes.add(value.replace("\"", ""));
+            } else {
+                extractCodes(value, shortenedCodes);
+            }
         } catch (Exception IndexOutOfBoundsException) {
-            System.out.println("The course " + courseID + " has no corequisites (empty string)");
+            return shortenedCodes;
         }
         return shortenedCodes;
     }
@@ -177,6 +187,22 @@ public class CourseCreator {
         for (String s : values) {
             shortenedCodes.add(s.substring(0, 6));
         }
+    }
+
+    /**
+     * Removes HTML and unwanted characters in the string that the API returns
+     *
+     * @param courseDescription the JSON object representing the course description
+     * @return The cleaned course description
+     */
+    private static String cleanDescription(JsonElement courseDescription) {
+        String courseDesc;
+        if (courseDescription != null) {
+            courseDesc = courseDescription.toString().replace("\"", "").replaceAll("<[^>]*>", "");
+        } else {
+            courseDesc = "";
+        }
+        return courseDesc;
     }
 
     /**
