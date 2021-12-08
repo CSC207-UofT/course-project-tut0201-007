@@ -49,7 +49,7 @@ public class ExecutionStateTest {
         List<String> prereq = List.of("Intro to Testing 101");
         List<String> coreq = List.of("Beep Boop 101");
 
-        course = new Course("Advanced Testing 200", lecsToAdd, tutsToAdd, 'Y', coreq, prereq);
+        course = new Course("Advanced Testing 200", lecsToAdd, tutsToAdd, 'Y', coreq, prereq, "");
         exe = new ExecutionState();
     }
 
