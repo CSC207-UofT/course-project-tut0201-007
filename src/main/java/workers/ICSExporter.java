@@ -48,7 +48,7 @@ public class ICSExporter extends Exporter {
      */
     @Override
     public void outputSchedule(Schedule schedule) {
-        String defaultName = "/schedule" + num + ".ics";
+        String defaultName = "/schedule" + num;
         num += 1;
         outputSchedule(schedule, defaultName);
     }
