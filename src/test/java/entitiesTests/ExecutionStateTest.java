@@ -3,7 +3,6 @@ package entitiesTests;
 import static org.junit.Assert.*;
 
 import entities.*;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
