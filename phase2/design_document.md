@@ -194,7 +194,7 @@ We check user input to our CLI, to verify that it is both the correct type of in
 
 ### Q2
 
-We would market our program towards U of T students, because it is a tool for scheduling courses at U of T. Specifically, since our program works through a CLI, which is a positive for users who prefer the command line over a GUI, we'd market towards U of T students who prefer a CLI experience. Since our program is automatically up to date, as it uses data directly from the U of T timestable, we can market this program towards students now, as well as in the future.
+We would market our program towards U of T students, because it is a tool for scheduling courses at U of T. Specifically, since our program works through a CLI, which is a positive for users who prefer the command line over a GUI, we'd market towards U of T students who prefer a CLI experience. However, we have gone through great lengths to make our CLI as inviting and accessible as possible, so that people without CLI experience can still use the application. Since our program is automatically up to date, as it uses data directly from the U of T timestable, we can market this program towards students now, as well as in the future.
 
 ### Q3
 
