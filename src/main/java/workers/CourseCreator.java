@@ -88,20 +88,40 @@ public class CourseCreator {
      */
     private static List<Section> getSessionsByType(
             JsonObject meetings, String type, String courseId, char session) {
-        List<Section> specifiedSessions = new ArrayList<>();
+        List<Section> specifiedSections = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
                 Double professorRating = getProfessorRating(meetings.getAsJsonObject(meeting));
-                specifiedSessions.add(
+                Section s =
                         createSection(
                                 meetings.getAsJsonObject(meeting),
                                 meeting,
                                 courseId,
                                 session,
-                                professorRating));
+                                professorRating);
+                // remove duplicates to improve runtime
+                Boolean isDuplicate = false;
+                for (Section o : specifiedSections) {
+                    if (o.getTimes().equals(s.getTimes())
+                            && o.getSession().equals(s.getSession())) {
+                        isDuplicate = true;
+                    }
+                }
+                if (specifiedSections.isEmpty() || !isDuplicate) {
+                    specifiedSections.add(s);
+                }
             }
         }
-        return specifiedSessions;
+        // sort with the courses with the smallest number of sections first
+        // We might use this, but it messes with one by one right now
+        /* Collections.sort(specifiedSections, new Comparator<Section>() {
+            public int compare(Section s1, Section s2) {
+                if(s1.getProfessorRating() > s2.getProfessorRating()) return -1;
+                if (s1.getProfessorRating() < s2.getProfessorRating()) return 1;
+                return 0;
+            }
+        }); */
+        return specifiedSections;
     }
 
     /**

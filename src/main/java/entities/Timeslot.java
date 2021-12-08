@@ -80,7 +80,10 @@ public class Timeslot implements Comparable<Timeslot> {
     public Boolean conflictsWith(Timeslot other) {
         return this.day == other.day
                 && this.session == other.session
-                && !(this.start.isAfter(other.end) || other.start.isAfter(this.end));
+                && !(this.start.isAfter(other.end)
+                        || this.start.equals(other.end)
+                        || other.start.equals(this.end)
+                        || other.start.isAfter(this.end));
     }
 
     /**
@@ -121,8 +124,10 @@ public class Timeslot implements Comparable<Timeslot> {
     public boolean equals(Object o) {
         if (o instanceof Timeslot) {
             Timeslot other = (Timeslot) o;
+            // don't check room, as those are essentially the same
+            // timeslot - we do this to minimize overlap when doing
+            // calculations
             return this.getDay().equals(other.getDay())
-                    && this.getRoom().equals(other.getRoom())
                     && this.getStart().equals(other.getStart())
                     && this.getEnd().equals(other.getEnd())
                     && this.getSession() == other.getSession();
@@ -132,9 +137,7 @@ public class Timeslot implements Comparable<Timeslot> {
 
     @Override
     public int compareTo(Timeslot that) {
-        int sessionCompare;
         if (this.session == that.getSession()) {
-            sessionCompare = 0;
             int dayCompare = this.day.compareTo(that.getDay());
             if (dayCompare == 0) {
                 return this.start.compareTo(that.getStart());

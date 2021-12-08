@@ -70,7 +70,8 @@ public class Section {
     public String toString() {
         if (times.size() == 0) return name + " is ASYNC";
         StringBuilder ret = new StringBuilder();
-        ret.append(name + " meets at:\n");
+        ret.append(
+                name + " has a professor rating of " + getProfessorRating() + " and meets at:\n");
         for (Timeslot s : times) {
             ret.append(s.toString() + "\n");
         }

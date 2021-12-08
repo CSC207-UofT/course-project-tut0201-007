@@ -4,6 +4,8 @@ import entities.*;
 import filters.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import util.ConsoleColours;
 import workers.*;
@@ -43,7 +45,8 @@ public class Controller {
         List<String> courses;
         List<Course> instantiatedCourses = new ArrayList<>();
 
-        // Prompt user for courses until courses are successfully instantiated (no issues with API
+        // Prompt user for courses until courses are successfully instantiated (no
+        // issues with API
         // retrieving courses)
         while (!ExecutionState.isSetUp()) {
             // ask user for course codes
@@ -85,7 +88,8 @@ public class Controller {
 
         ExecutionState.setGenerationMode(allPermutations);
 
-        // call the scheduler to give us all schedules given these courses, filters, and base
+        // call the scheduler to give us all schedules given these courses, filters, and
+        // base
         // schedule
         if (instantiatedCourses.size() != 0) {
             schedules = scheduler.permutationScheduler(instantiatedCourses);
@@ -133,6 +137,17 @@ public class Controller {
                 System.out.println("Please re-enter your courses.");
             }
         }
+        Collections.sort(
+                courses,
+                new Comparator<Course>() {
+                    public int compare(Course c1, Course c2) {
+                        int c1_sections = c1.getLectures().size() + c1.getTutorials().size();
+                        int c2_sections = c2.getLectures().size() + c2.getTutorials().size();
+                        if (c1_sections > c2_sections) return 1;
+                        if (c2_sections > c1_sections) return -1;
+                        return 0;
+                    }
+                });
         return courses;
     }
 }
