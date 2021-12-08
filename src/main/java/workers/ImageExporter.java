@@ -50,7 +50,6 @@ public class ImageExporter extends Exporter {
     public void outputSchedule(Schedule schedule) {
         outputSchedule(schedule, "schedule_image" + num);
         num+=1;
-
     }
 
     @Override

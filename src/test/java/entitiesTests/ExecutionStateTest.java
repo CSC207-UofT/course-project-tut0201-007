@@ -2,9 +2,8 @@ package entitiesTests;
 
 import static org.junit.Assert.*;
 
-import entities.Schedule;
-import entities.Section;
-import entities.Timeslot;
+import entities.*;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
@@ -12,9 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ExecutionStateTest {
-    Section lec1Section, lec2Section, lec3Section;
-    Section tut1Section, tut2Section, tut3Section;
-    List<Section> lecsToAdd, tutsToAdd;
+    ExecutionState exe;
+    Course course;
 
     @Before
     public void setUp() {
@@ -38,39 +36,45 @@ public class ExecutionStateTest {
         Timeslot tut2 = new Timeslot(startTime2, endTime2, day, tutorialLocation, 'F');
         Timeslot tut3 = new Timeslot(startTime3, endTime3, day, tutorialLocation, 'F');
 
-        lec1Section = new Section("TST101 LEC0101 F", List.of(lec1));
-        lec2Section = new Section("TST101 LEC0201 F", List.of(lec2));
-        lec3Section = new Section("TST101 LEC0301 F", List.of(lec3));
+        Section lec1Section = new Section("TST101 LEC0101 F", List.of(lec1));
+        Section lec2Section = new Section("TST101 LEC0201 F", List.of(lec2));
+        Section lec3Section = new Section("TST101 LEC0301 F", List.of(lec3));
 
-        tut1Section = new Section("TST101 TUT0202 F", List.of(tut1));
-        tut2Section = new Section("TST202 TUT0202 F", List.of(tut2));
-        tut3Section = new Section("TST303 TUT0202 F", List.of(tut3));
+        Section tut1Section = new Section("TST101 TUT0202 F", List.of(tut1));
+        Section tut2Section = new Section("TST202 TUT0202 F", List.of(tut2));
+        Section tut3Section = new Section("TST303 TUT0202 F", List.of(tut3));
 
-        lecsToAdd = List.of(lec1Section, lec2Section, lec3Section);
-        tutsToAdd = List.of(tut1Section, tut2Section, tut3Section);
+        List<Section> lecsToAdd = List.of(lec1Section, lec2Section, lec3Section);
+        List<Section> tutsToAdd = List.of(tut1Section, tut2Section, tut3Section);
+
+        List<String> prereq = List.of("Intro to Testing 101");
+        List<String> coreq = List.of("Beep Boop 101");
+
+        course = new Course("Advanced Testing 200", lecsToAdd, tutsToAdd, 'Y', coreq, prereq);
+        exe = new ExecutionState();
     }
 
-    @Test(timeout = 50)
-    public void testAddLectures() {
-        Schedule schedule = new Schedule();
+    @Test(timeout = 100)
+    public void testSetUserCourses() {
+        List<Course> expected = List.of(course);
+        exe.setUserCourses(expected);
 
-        List<Section> expected = List.of(lec1Section, lec2Section, lec3Section);
-
-        for (Section lec : lecsToAdd) {
-            schedule.addLecture(lec);
-        }
-        assertEquals(expected, schedule.getLectures());
+        assert exe.getUserCourses().equals(expected);
     }
 
-    @Test(timeout = 50)
-    public void testAddLecturesSingleBefore() {
+    @Test(timeout = 100)
+    public void testRemainingUserCourses() {
+        List<Course> expected = List.of();
+        exe.setUserCourses(List.of(course));
 
-        Schedule schedule = new Schedule();
-        schedule.addLecture(lec1Section);
+        assert exe.getRemainingCourses().equals(expected);
+    }
 
-        List<Section> expected = List.of(lec1Section, lec2Section);
+    @Test(timeout = 100)
+    public void testCurrentCourse() {
+        Course expected = course;
+        exe.setUserCourses(List.of(course));
 
-        schedule.addLecture(lec2Section);
-        assertEquals(expected, schedule.getLectures());
+        assert exe.getCurrentCourse().equals(expected);
     }
 }
