@@ -28,6 +28,17 @@ In order to format code style for contribution, run below:
 ./gradlew spotlessApply
 ```
 
+## Features
+
+### Data Serialisation
+* Export as PDF
+* Export as JPEG
+* Export/Import into ICS file
+* Export/Import CSV files
+* Render as ASCII schedule directly in the CLI
+
+### Filter Schedules
+
 ## Showcase
 
 CLI:
@@ -94,6 +105,7 @@ F ->
 |                          |                          |                          |                          |                          |
 +--------------------------+--------------------------+--------------------------+--------------------------+--------------------------+
 ```
+
 ![image](https://user-images.githubusercontent.com/22108651/145140448-17dc53fd-34b5-426a-ad86-68ebd8379288.png)
 
 
