@@ -31,6 +31,7 @@ In order to format code style for contribution, run below:
 ## Showcase
 
 CLI:
+
 <img width="666" alt="Screen Shot 2021-12-07 at 9 42 57 PM" src="https://user-images.githubusercontent.com/32244859/145139050-8daa5b74-8b9d-4279-b044-90dceff4d74c.png">
 
 ASCII Schedule:
