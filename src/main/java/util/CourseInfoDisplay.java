@@ -1,8 +1,6 @@
 package util;
 
 import entities.Course;
-import workers.CourseCreator;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -77,11 +75,14 @@ public class CourseInfoDisplay {
                     break;
                 case 'X':
                     StringBuilder coursesString = new StringBuilder();
-                    for (Course course: courses) {
+                    for (Course course : courses) {
                         coursesString.append(course.getCourseId()).append(" ");
                     }
-                    System.out.println(ConsoleColours.GREEN + "Creating a Schedule with the courses: " + ConsoleColours.RESET
-                    + coursesString);
+                    System.out.println(
+                            ConsoleColours.GREEN
+                                    + "Creating a Schedule with the courses: "
+                                    + ConsoleColours.RESET
+                                    + coursesString);
                     userActivity = 'X';
                     break;
             }

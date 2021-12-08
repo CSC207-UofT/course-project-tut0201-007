@@ -54,7 +54,7 @@ public class Controller {
             ExecutionState.setUserCourses(instantiatedCourses);
         }
 
-       // Display course information
+        // Display course information
         if (userStrategy == 2) {
             CLI.promptCourseInfoDisplay(instantiatedCourses);
         }
