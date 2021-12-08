@@ -33,7 +33,7 @@ public class ConflictFilterTest {
         assert (conflictFilter.checkSchedule(schedule));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 3000)
     public void testFilterRejects() {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST106Y");
@@ -45,7 +45,7 @@ public class ConflictFilterTest {
         assertFalse(conflictFilter.checkSchedule(schedule));
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 6000)
     public void testFilterRejects2() {
         List<String> courseIDs = new ArrayList<>();
         courseIDs.add("TST106Y");

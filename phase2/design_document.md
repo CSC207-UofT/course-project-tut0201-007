@@ -1,6 +1,6 @@
 # Design Document
 
-## Updated Specification `TODO: Update for Phase 2`
+## Updated Specification
 
 ### Overview
 The project domain of our group is a Scheduling App that allows Students to specify courses they'd like to take, as well as criteria for their final schedule. Currently there are some course scheduling applications out there, but we felt that they were:
@@ -67,8 +67,8 @@ The main method of our program lies in this class. This manages the CommandLineI
 The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics/.csv/.jpg.
 
 ## UML Diagram
+![image](https://user-images.githubusercontent.com/22108651/144903389-b0de8406-6564-41c8-8c42-7f648018c21a.png)
 
-![UML](UML.png?raw=true "UML Diagram") `Needs to be updated`
 
 ## Major Design Decisons
 
@@ -148,6 +148,7 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [CourseExclusionFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/CourseExclusionFilter.java)
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
+- [ExcludeTimeFilter] (https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ExcludeTimeFilter.java)
 
 The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
@@ -162,11 +163,10 @@ The Template method was introduced in [this pull request](https://github.com/CSC
 ## Progress Report
 
 ### Open questions
-- Can we further optimize our schedule generation? Given some criteria, are there more efficient algorithms to generate schedules instead of using filters?
 - How do we improve the worst case runtime of our filters?
 - What other factors impact course making decision and how can we make filters to address these factors?
-- Can we alter our CLI input to make it more intuitive?
-
+- Are there any other ways we can make our UI more intuitve to use? Make it more accessable to people who are less familiar with the command line?
+- Do we want to consider expanding the functionality to include browsing courses for selection?
 
 ### What has worked well so far
 - Linking Github Issues with Projects has a great automated feature where cue cards are automatically linked with PR's where issues are cited, and automatically get moved to the column they should be in.
@@ -206,8 +206,8 @@ Our program is less likely to be used by users who prefer the use of an input de
   * design document
   * testing
   * CSV data serialization functionality
-* To Work on:
-  * testing
+* Signifigant contributions: CSVExporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/62) and CSVImporter [(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/73)
+   * These PRs were a significant contribution to the project because it improved our support for data serialization and introduced design patterns that would make extending this functionality a much easier task.
 
 #### Kenneth
 * Worked On since Phase 2:
@@ -242,17 +242,17 @@ Our program is less likely to be used by users who prefer the use of an input de
 
 
 #### Anton
-* Worked On:
+* Phase 1 -Worked On:
   * Creating Controller class, decoupling from CommandLineInterface
   * Scheduler with permutation implementation using filters and serialization
   * User input and output
-  * ExcludeTimeFilter
   * Design Document/Specification
-* To Work on:
-  * elegant User Input/Output experience
-  * optimizing Scheduling
-  * cleaner architecture
-  * 'one by one' scheduling feature
+* Phase 2 - Worked On:
+[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/63
+[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/75
+  * Creating ExecutionState class, improving communication between Controller/CLI barrier
+  * Creating ExcludeTimeFilter class, writing test cases. This was significant because it was easy: our design allowed us to extend the way Schedules are generated with no changes to Scheduler, and minimal additions to the CLI class. This demonstrated the importance of SOLID principles.
+  * Implementing one-by-one course generation. This improves functionality of the program since the user can choose course sections while Schedules are being generated. This minimizes the user having to scroll through all possibiliies at the end of generation.
 
 #### Baker
 * Worked On:

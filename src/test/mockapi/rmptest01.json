@@ -1,0 +1,52 @@
+{
+  "data": {
+    "school": {
+      "__typename": "School",
+      "id": "U2Nob29sLTE0ODQ=",
+      "name": "University of Toronto - St. George Campus"
+    },
+    "search": {
+      "teachers": {
+        "didFallback": false,
+        "edges": [
+          {
+            "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
+            "node": {
+              "__typename": "Teacher",
+              "avgDifficulty": 3.7,
+              "avgRating": 5,
+              "department": "Mathematics",
+              "firstName": "Lorem",
+              "id": "VGVhY2hlci0yNjE3MTYz",
+              "isSaved": false,
+              "lastName": "Ipsum",
+              "legacyId": 2617163,
+              "numRatings": 3,
+              "school": {
+                "id": "U2Nob29sLTE0ODQ=",
+                "name": "University of Toronto - St. George Campus"
+              },
+              "wouldTakeAgainPercent": 100
+            }
+          }
+        ],
+        "filters": [
+          {
+            "field": "teacherdepartment_s",
+            "options": [
+              {
+                "id": "RGVwYXJ0bWVudC0zOA==",
+                "value": "mathematics"
+              }
+            ]
+          }
+        ],
+        "pageInfo": {
+          "endCursor": "YXJyYXljb25uZWN0aW9uOjA=",
+          "hasNextPage": false
+        },
+        "resultCount": 1
+      }
+    }
+  }
+}
