@@ -248,8 +248,8 @@ Our program is less likely to be used by users who prefer the use of an input de
   * User input and output
   * Design Document/Specification
 * Phase 2 - Worked On:
-[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/63
-[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/75
+[(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/63)
+[(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/75)
   * Creating ExecutionState class, improving communication between Controller/CLI barrier
   * Creating ExcludeTimeFilter class, writing test cases. This was significant because it was easy: our design allowed us to extend the way Schedules are generated with no changes to Scheduler, and minimal additions to the CLI class. This demonstrated the importance of SOLID principles.
   * Implementing one-by-one course generation. This improves functionality of the program since the user can choose course sections while Schedules are being generated. This minimizes the user having to scroll through all possibiliies at the end of generation.
