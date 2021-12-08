@@ -33,7 +33,7 @@ public class Controller {
          */
         int userStrategy = CLI.promptUser();
         if (userStrategy == -1) {
-            return;
+           return;
         } else if (userStrategy == 0) {
             Schedule baseSchedule = CLI.promptImportSchedule();
             scheduler.setBaseSchedule(baseSchedule);
@@ -50,6 +50,13 @@ public class Controller {
             // course objects are instantiated based on the passed course codes
             instantiatedCourses = Controller.courseInstantiator(courses);
         }
+
+        // Since we don't need the rest of the controller to execute after getting the courses to display
+        if (userStrategy == 2){
+            CLI.promptCourseInfoDisplay(instantiatedCourses);
+            return;
+        }
+
         // get user specified filters, add them as filters to our scheduler object
         List<Filter> filters = CLI.promptUserFilters(instantiatedCourses);
         scheduler.addFilters(filters);
