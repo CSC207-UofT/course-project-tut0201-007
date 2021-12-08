@@ -39,7 +39,7 @@ public class ICSExporterTest {
         assert (file.exists());
     }
 
-    @Test(timeout = 5000)
+    @Test(timeout = 10000)
     public void testExportWithCustomName() {
         Scheduler sr = new Scheduler();
         List<String> courseCodes = new ArrayList<>();
