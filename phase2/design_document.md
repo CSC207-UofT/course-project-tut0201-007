@@ -242,11 +242,10 @@ Our program is less likely to be used by users who prefer the use of an input de
   * Accounting for course corequsites 
   * Bug fixes 
   * Design Document
-* Significant Contribution: [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/85)
+* Significant Contribution 1: ([PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/85))
   * This PR is significant because it adds additional functionality to the application and enhances the user experience by giving them an option to view course information before creating a schedule with them.    
-* To Work on:
-  * Further testing / bug fixing 
-
+* Significant Contribution 2: ([PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/76))
+  * This PR is significant because it redesigns the CLI output so that it is more accessible and intuitive for the user. The use of text colouring and formatting highlights instructions more effectively and minimizes ambiguity. 
 
 #### Anton
 * Phase 1 -Worked On:
