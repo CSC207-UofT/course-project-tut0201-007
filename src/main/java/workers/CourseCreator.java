@@ -10,6 +10,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import util.RateMyProfessorException;
 
 /** This class represents a Course Creator. This class uses APIWorker to generate Course objects. */
 public class CourseCreator {
@@ -56,7 +58,7 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("exclusion")
                         .toString();
-      
+
         List<String> exclusions = getCourseExclusions(exclusionsValue, courseId);
 
         String corequisitesValue =
@@ -65,7 +67,7 @@ public class CourseCreator {
                         .getAsJsonObject(apiWorker.semester.get(w))
                         .get("corequisite")
                         .toString();
-      
+
         List<String> corequisites = getCourseCorequisites(corequisitesValue, courseId);
 
         return new Course(courseId, lectures, tutorials, session, exclusions, corequisites);
@@ -83,12 +85,50 @@ public class CourseCreator {
         List<Section> specifiedSessions = new ArrayList<>();
         for (String meeting : meetings.keySet()) {
             if (meeting.contains(type) && !isCancelled(meetings, meeting)) {
+                Double professorRating = getProfessorRating(meetings.getAsJsonObject(meeting));
                 specifiedSessions.add(
                         createSection(
-                                meetings.getAsJsonObject(meeting), meeting, courseId, session));
+                                meetings.getAsJsonObject(meeting),
+                                meeting,
+                                courseId,
+                                session,
+                                professorRating));
             }
         }
         return specifiedSessions;
+    }
+
+    /**
+     * Gets professor name from JSON and returns RateMyProfessor score
+     *
+     * @param lecture JSON of lecture information
+     * @return RateMyProfessor score for the prof of the given lecture
+     */
+    private static Double getProfessorRating(JsonObject lecture) {
+        JsonObject profs;
+        try {
+            profs = lecture.getAsJsonObject("instructors");
+        } catch (Exception e) {
+            return 2.5;
+        }
+        Set<String> p;
+        try {
+            p = profs.keySet();
+        } catch (Exception NullPointerException) {
+            return 2.5;
+        }
+        String firstProf = p.iterator().next();
+        JsonObject professorInfo = profs.getAsJsonObject(firstProf);
+        double rating;
+        try {
+            rating =
+                    ProfessorRatingScraper.getProfessorRating(
+                            professorInfo.get("firstName").getAsString(),
+                            professorInfo.get("lastName").getAsString());
+        } catch (RateMyProfessorException e) {
+            rating = 2.5;
+        }
+        return rating;
     }
 
     /**
@@ -147,9 +187,13 @@ public class CourseCreator {
      * @return a Section object representing the JsonObject
      */
     private static Section createSection(
-            JsonObject meeting, String name, String courseId, char session) {
+            JsonObject meeting,
+            String name,
+            String courseId,
+            char session,
+            double professorRating) {
         String fullName = String.format("%s %s %c", courseId, name, session);
-        Section ret = new Section(fullName);
+        Section ret = new Section(fullName, professorRating);
         JsonObject schedule = meeting.getAsJsonObject("schedule");
         String fallRoomKey = "assignedRoom1";
         String winterRoomKey = "assignedRoom2";

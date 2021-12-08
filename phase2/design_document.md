@@ -67,8 +67,8 @@ The main method of our program lies in this class. This manages the CommandLineI
 The UI of the program. Prompts user to input each of their classes/filters, then provides an appropriate schedule that may be exported as an .ics/.csv/.jpg.
 
 ## UML Diagram
+![image](https://user-images.githubusercontent.com/22108651/144903389-b0de8406-6564-41c8-8c42-7f648018c21a.png)
 
-![UML](UML.png?raw=true "UML Diagram") `Needs to be updated`
 
 ## Major Design Decisons
 
@@ -148,7 +148,7 @@ This is design pattern is best exemplified by the "Filter" interface and it's su
 - [CourseExclusionFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/CourseExclusionFilter.java)
 - [ConflictFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ConflictFilter.java)
 - [TimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/TimeFilter.java)
-- [ExcludeTimeFilter] (https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ExcludeTimeFilter.java)
+- [ExcludeTimeFilter](https://github.com/CSC207-UofT/course-project-tut0201-007/blob/main/src/main/java/filters/ExcludeTimeFilter.java)
 
 The Strategy Design Pattern is a collection of encapsulated algorithms, that can be slotted in and out with one another. This lets the user use whichever strategy they would like. In order to do so the core abstraction is implemented by some interface, and classes that use this carry the specific implementations. The "core abstraction" is our `Filter` interface, that uses the method `checkSchedule` which is implemented differently in all classes that implement `Filter`. Then, the user can use the UI outlined by `CommandLineInterface` to select which ones they would like to apply to their schedules.
 
@@ -196,9 +196,6 @@ We would market our program towards U of T students, because it is a tool for sc
 
 Our program is less likely to be used by users who prefer the use of an input device that doesn't support directly inputting text into the CLI. Also, it is less likely to be used by non-students, because it is a course scheduling app, and less likely to be used by non-UofT students, because it can only schedule courses for UofT. It is also less likely to be used by non-technical people, since they may not be comfortable interacting with an application directly through the CLI.
 
-
-
-
 ### Group member contributions & plans
 
 #### Rory
@@ -220,16 +217,19 @@ Our program is less likely to be used by users who prefer the use of an input de
   * This PR is a significant contribution because it allows our application to serialize schedules and export schedules to calendar applications. It also laid the groundwork for later exporters and importers.
 
 #### Siddarth
-* Worked On:
-  * General Filter Template (SpaceFilter) + Design Pattern Implementations
-  * Mock API bugs
-  * Filter Testing
-  * Design Document
-* To Work on:
-  * ASCII Visual output in CLI
-  * Further UI reworking + design patterns
-  * Further bug hunting
-
+* Phase 1 Major Contribution ([PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/6)):
+  * Retriving JSON data from the Timetable API through `APIWorker`
+  * Foundation of the app, all our data comes from here
+* Phase 2 Major Contribution ([PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/61)):
+  * ASCII Schedule rendering to console
+  * Accessibility -> Makes it far more convenient for the easier
+  * User is easily able to visualize the schedule, directly in the CLI
+  * Additional functionality for the application
+* Other contributions:
+  * Filter + Strategy implementation in `SpaceFilter`
+  * User Input
+  * Optimization
+  * Test coverage
 
 #### Lorena
 * Worked On:
@@ -248,8 +248,8 @@ Our program is less likely to be used by users who prefer the use of an input de
   * User input and output
   * Design Document/Specification
 * Phase 2 - Worked On:
-[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/63
-[(PR)] https://github.com/CSC207-UofT/course-project-tut0201-007/pull/75
+[(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/63)
+[(PR)](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/75)
   * Creating ExecutionState class, improving communication between Controller/CLI barrier
   * Creating ExcludeTimeFilter class, writing test cases. This was significant because it was easy: our design allowed us to extend the way Schedules are generated with no changes to Scheduler, and minimal additions to the CLI class. This demonstrated the importance of SOLID principles.
   * Implementing one-by-one course generation. This improves functionality of the program since the user can choose course sections while Schedules are being generated. This minimizes the user having to scroll through all possibiliies at the end of generation.

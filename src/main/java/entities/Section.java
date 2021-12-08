@@ -3,21 +3,31 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This class represents a session, such as a single lecture or tutorial */
+/** This class represents a section, such as a single lecture or tutorial */
 public class Section {
 
-    private String name;
-    private String session;
-    private List<Timeslot> times;
+    private final String name;
+    private final String session;
+    private final List<Timeslot> times;
+    private Double professorRating;
 
     public Section(String name) {
-        this(name, new ArrayList<Timeslot>());
+        this(name, new ArrayList<Timeslot>(), 2.5);
+    }
+
+    public Section(String name, Double professorRating) {
+        this(name, new ArrayList<Timeslot>(), professorRating);
     }
 
     public Section(String name, List<Timeslot> times) {
+        this(name, times, 2.5);
+    }
+
+    public Section(String name, List<Timeslot> times, Double professorRating) {
         this.name = name;
         this.session = name.split(" ")[2];
         this.times = times;
+        this.professorRating = professorRating;
     }
 
     /**
@@ -39,6 +49,10 @@ public class Section {
 
     public String getName() {
         return name;
+    }
+
+    public Double getProfessorRating() {
+        return professorRating;
     }
 
     public boolean checkConflict(Section other) {

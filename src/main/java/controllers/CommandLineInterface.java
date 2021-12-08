@@ -20,8 +20,6 @@ import workers.Exporter;
 import workers.ICSExporter;
 import workers.ICSImporter;
 
-import workers.*;
-
 /** The user interface of the program. */
 public class CommandLineInterface {
 
@@ -150,7 +148,9 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         Schedule importedSchedule = new Schedule();
 
-        File[] importableFiles = new File(System.getProperty("user.dir") + "/output/").listFiles(file -> !file.getName().contains(".jpg"));
+        File[] importableFiles =
+                new File(System.getProperty("user.dir") + "/output/")
+                        .listFiles(file -> !file.getName().contains(".jpg"));
         if (importableFiles.length == 0) {
             System.out.println(
                     "No importable files. Defaulting to generating a schedule from scratch");
@@ -242,11 +242,15 @@ public class CommandLineInterface {
                         + ConsoleColours.BLUE
                         + "Enforce times when you have no courses\n"
                         + ConsoleColours.RESET
+                        + " 6 - "
+                        + ConsoleColours.BLUE
+                        + "Restrict professor's RateMyProfessor score\n"
+                        + ConsoleColours.RESET
                         + "Please enter your choices as valid integer inputs with spaces. (i.e. '1"
                         + " 2 3' or '2' or '').\n"
                         + "If you do not wish to configure any criteria, quit the selection.\n"
                         + "Press 'Q' to quit selection.");
-        boolean[] filterCodes = new boolean[5];
+        boolean[] filterCodes = new boolean[6];
 
         while (scanner.hasNextInt()) {
             int index = scanner.nextInt();
@@ -277,6 +281,8 @@ public class CommandLineInterface {
                     case 4:
                         userFilters.addAll(CommandLineInterface.promptExcludeTimeFilter());
                         break;
+                    case 5:
+                        userFilters.addAll(CommandLineInterface.promptProfessorRatingFilter());
                 }
             }
         }
@@ -460,13 +466,20 @@ public class CommandLineInterface {
                     exporter.outputSchedule(currSchedule, csvFileName);
                     break;
                 case 'J':
-                    System.out.println(ConsoleColours.WHITE_BOLD +
-                            "Please specify the name you'd like to save this Schedule under." + ConsoleColours.RESET);
+                    System.out.println(
+                            ConsoleColours.WHITE_BOLD
+                                    + "Please specify the name you'd like to save this Schedule"
+                                    + " under."
+                                    + ConsoleColours.RESET);
                     String jpgFileName = scanner.next();
-                    System.out.println(ConsoleColours.GREEN + "Saving this schedule in .jpg format..." + ConsoleColours.RESET);
+                    System.out.println(
+                            ConsoleColours.GREEN
+                                    + "Saving this schedule in .jpg format..."
+                                    + ConsoleColours.RESET);
                     new ImageExporter().outputSchedule(currSchedule, jpgFileName);
                 case 'X':
-                    if (ExecutionState.getGenerationMode() == ExecutionState.GenerationMode.ONE_BY_ONE) {
+                    if (ExecutionState.getGenerationMode()
+                            == ExecutionState.GenerationMode.ONE_BY_ONE) {
                         return currSchedule;
                     }
                     break;
@@ -576,6 +589,26 @@ public class CommandLineInterface {
                 ConsoleColours.RED
                         + "You did not specify a time gap. Quitting selection."
                         + ConsoleColours.RESET);
+        return newFilters;
+    }
+
+    /**
+     * Prompts user on preffered RateMyProfessor ScopeParser
+     *
+     * @return a list of ProfessorRatingFilter
+     */
+    private static List<Filter> promptProfessorRatingFilter() {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Filter> newFilters = new ArrayList<>();
+        System.out.println(
+                "What is the minimum RateMyProfessor rating that your schedule can contain? Enter"
+                        + " a decimal between 0.1 and 5.0:");
+        double input = 5.0;
+        if (scanner.hasNextDouble()) {
+            input = scanner.nextDouble();
+        }
+        newFilters.add(new ProfessorRatingFilter(input));
+        System.out.println(input);
         return newFilters;
     }
 
@@ -744,15 +777,16 @@ public class CommandLineInterface {
         Scanner scanner = new Scanner(System.in);
         List<Filter> newFilters = new ArrayList<>();
         Day[] days = {
-                Day.ALL_DAYS, Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY
+            Day.ALL_DAYS, Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY
         };
         String[] dayStrings = {
-                "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+            "Everyday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
         };
 
         System.out.println(
                 ConsoleColours.WHITE_BOLD_BRIGHT
-                        + "--- Would you like to specify times during which you do not have courses? ---"
+                        + "--- Would you like to specify times during which you do not have"
+                        + " courses? ---"
                         + ConsoleColours.RESET);
         PromptHelpers.promptYNSelection();
 
