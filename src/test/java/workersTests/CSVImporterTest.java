@@ -187,7 +187,7 @@ public class CSVImporterTest {
                         + "TST103 LEC-0101 Y,2022-04-07,12:00,2022-04-07,15:00,ONLINE\n";
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void testImport() {
         StringReader sr = new StringReader(dummyCSV);
         CSVImporter i = new CSVImporter();
