@@ -262,14 +262,17 @@ Our program is less likely to be used by users who prefer the use of an input de
 
 #### Baker
  * Phase 1 Major Contribution [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/23):
-  * Refactoring the code base
+  * Refactoring code base to properly store Section information
+  * Implementing the Timeslot class and its functions such as conflictWith
+  * Fixing code in the CourseCreator to be more readable and to use the new Section / Timeslot implementations
 * Phase 2 Major Contribution [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/71):
-  * Adding RateMyProfessor functionality web scraping
+  * Adding RateMyProfessor functionality web scraping / qraphql querying
+  * Implemented ProfessorRatingFilter that ensures all courses in a schedule are of a certain quality
   * Prioritize sections taught by highly-graded profs
   * User is easily able to query this info directly in the CLI
+  * Fixed bug with the conflictWith function in Timeslot
 * Other contributions:
-  * Optimizing Runtimes
-  * CLI Foundation
-  * Design Pattern Implementations
-  * Test coverage
+  * Building the original CLI during phase 0
+  * Implementing Factory design pattern in the CourseCreator class
+  * Improved Test coverage of workers, including JSON files to test the RateMyProfessor worker
 
