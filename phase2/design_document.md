@@ -261,9 +261,9 @@ Our program is less likely to be used by users who prefer the use of an input de
   * Implementing one-by-one course generation. This improves functionality of the program since the user can choose course sections while Schedules are being generated. This minimizes the user having to scroll through all possibiliies at the end of generation.
 
 #### Baker
- * Phase 1 Major Contribution ([PR])(https://github.com/CSC207-UofT/course-project-tut0201-007/pull/23):
+ * Phase 1 Major Contribution [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/23):
   * Refactoring the code base
-* Phase 2 Major Contribution ([PR])(https://github.com/CSC207-UofT/course-project-tut0201-007/pull/71):
+* Phase 2 Major Contribution [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/71):
   * Adding RateMyProfessor functionality web scraping
   * Prioritize sections taught by highly-graded profs
   * User is easily able to query this info directly in the CLI
