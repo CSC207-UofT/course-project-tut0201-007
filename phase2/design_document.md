@@ -265,7 +265,7 @@ Our program is less likely to be used by users who prefer the use of an input de
   * Refactoring code base to properly store Section information
   * Implementing the Timeslot class and its functions such as conflictWith
   * Fixing code in the CourseCreator to be more readable and to use the new Section / Timeslot implementations
-* Phase 2 Major Contribution [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/71):
+* Phase 2 Major Contribution [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/71), [PR](https://github.com/CSC207-UofT/course-project-tut0201-007/pull/83):
   * Adding RateMyProfessor functionality web scraping / qraphql querying
   * Implemented ProfessorRatingFilter that ensures all courses in a schedule are of a certain quality
   * Prioritize sections taught by highly-graded profs
